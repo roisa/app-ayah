@@ -136,15 +136,15 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .logo h1 em{font-style:normal;color:var(--gold)}
 .logo p{margin:4px 0 0;font-weight:700;font-size:14px;line-height:1.3;color:#fff;text-shadow:0 2px 6px rgba(28,11,85,.9)}
 .statline{display:flex;justify-content:center;gap:10px}
-.worlds{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 8px;background:rgba(28,11,85,.5);border:2px solid rgba(255,255,255,.18);border-radius:24px;padding:8px 10px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.worlds{display:grid;grid-template-columns:repeat(4,1fr);gap:4px 4px;background:rgba(28,11,85,.5);border:2px solid rgba(255,255,255,.18);border-radius:24px;padding:8px 10px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .world{position:relative;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:2px}
-.world img{width:100%;max-width:86px;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 5px 6px rgba(0,0,0,.35));transition:transform .15s}
+.world img{width:100%;max-width:78px;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 5px 6px rgba(0,0,0,.35));transition:transform .15s}
 .world:active img{transform:scale(.94)}
-.world b{font-family:var(--f-display);font-weight:400;font-size:14px;letter-spacing:.3px;line-height:1.1}
+.world b{font-family:var(--f-display);font-weight:400;font-size:12.5px;letter-spacing:.2px;line-height:1.1;min-height:2.2em;display:flex;align-items:center}
 .world small{font-size:11.5px;font-weight:700;color:var(--muted);line-height:1}
 .world.locked img{filter:grayscale(.9) brightness(.6) drop-shadow(0 5px 6px rgba(0,0,0,.35))}
-.world.locked::after{content:'';position:absolute;top:26%;left:50%;width:30px;height:30px;transform:translateX(-50%);
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='10' width='16' height='12' rx='3' fill='%23FFC93C' stroke='%231C0B55' stroke-width='1.6'/%3E%3Cpath d='M8 10V7a4 4 0 0 1 8 0v3' fill='none' stroke='%231C0B55' stroke-width='2.6'/%3E%3Cpath d='M8 10V7a4 4 0 0 1 8 0v3' fill='none' stroke='%23FFE9A0' stroke-width='1.2'/%3E%3C/svg%3E") center/contain no-repeat}
+.world.locked::after{content:'';position:absolute;top:16%;left:50%;width:34px;height:34px;transform:translateX(-50%);
+  background:url(assets/ui/padlock.webp) center/contain no-repeat;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4))}
 .world.cur img{animation:bob 2.4s ease-in-out infinite}
 .sched-box{background:rgba(28,11,85,.5);border:2px solid rgba(255,255,255,.18);border-radius:20px;padding:10px;display:flex;flex-direction:column;gap:6px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .sched-box label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
@@ -176,7 +176,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 <div id="app">
   <div class="hud">
     <div class="pill" id="lvlPill"><span class="hash">#</span><span id="lvl">1</span></div>
-    <div class="pill timer" id="timerPill"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="12" fill="#FFC93C" stroke="#1C0B55" stroke-width="2"/><circle cx="16" cy="17.5" r="8.6" fill="#FFF7E6"/><rect x="13" y="2" width="6" height="4" rx="1.5" fill="#FF5A5F" stroke="#1C0B55" stroke-width="1.4"/><path d="M16 17.5V11.5M16 17.5l4 2.4" stroke="#1C0B55" stroke-width="2.4" stroke-linecap="round"/></svg><span id="time">0:00</span></div>
+    <div class="pill timer" id="timerPill"><img src="assets/ui/stopwatch.webp" alt=""><span id="time">0:00</span></div>
     <div class="pill"><img src="assets/ui/star.webp" alt=""><span id="stars">0</span></div>
   </div>
   <div class="bar" id="bar"><i id="barFill" style="width:100%"></i></div>
@@ -333,10 +333,12 @@ const pn=p=>T[S.lang].P[p];
    the rest show on the map as "coming soon". To add a world: put icons in assets/icons/<set>/,
    list them in ICONSETS and set open:1. */
 const ICONSETS={
-islamic:['crescent','crescent-silver','incense','lantern','lantern-blue','lantern-red','minaret','miswak','tasbih','tasbih-green','tasbih-rose','zamzam']
+islamic:['crescent','lantern','lantern-blue','lantern-pink','minaret','mosque','green-dome','kaaba','mihrab','quran-open','quran-rehal','tasbih','miswak','incense','zamzam','wudhu-jug','dates','dallah','ketupat','bedug','peci','hijab','qibla-compass','eid-gift'],
+fruits:['apple','banana','watermelon','strawberry','grapes','orange','pineapple','mango','cherry','pear','peach','lemon','kiwi','avocado','coconut','papaya','dragonfruit','durian','mangosteen','rambutan','salak','pomegranate','fig','olive']
 };
 const WORLDS=[
-{id:'mosque',set:'islamic',open:1,name:{en:'Masjid',id:'Masjid'},bgs:['twilight-mosque','garden','sunset-town','desert-city']},
+{id:'mosque',set:'islamic',open:1,name:{en:'Masjid',id:'Masjid'},bgs:['twilight-mosque','sunset-town','desert-city','garden']},
+{id:'fruits',set:'fruits',open:1,name:{en:'Fruit Garden',id:'Kebun Buah'},bgs:['garden']},
 {id:'desert',name:{en:'Desert Oasis',id:'Oasis Gurun'}},
 {id:'farm',name:{en:'Farm Friends',id:'Peternakan'}},
 {id:'jungle',name:{en:'Jungle',id:'Hutan Rimba'}},
@@ -346,10 +348,19 @@ const WORLDS=[
 {id:'space',name:{en:'Space',id:'Luar Angkasa'}},
 {id:'dinosaur',name:{en:'Dinosaurs',id:'Dinosaurus'}}
 ];
-const curWorld=()=>WORLDS[0];
-let IDS=ICONSETS[curWorld().set];
+/* look-alike icons: early levels use at most one from each group, harder levels mix them in */
+const SIMILAR={islamic:[['lantern','lantern-blue','lantern-pink'],['dallah','wudhu-jug','zamzam'],['quran-open','quran-rehal'],['mosque','green-dome','minaret','mihrab'],['crescent','qibla-compass'],['tasbih','miswak']],
+fruits:[['orange','lemon'],['peach','mango','papaya'],['mangosteen','rambutan','salak'],['apple','pomegranate','cherry'],['kiwi','avocado'],['pear','fig']]};
+function pickTypes(n){const set=curWorld().set,grp={};(SIMILAR[set]||[]).forEach((g,i)=>g.forEach(k=>grp[set+'/'+k]=i));
+  const first=[],later=[],used={};shuffleArr([...IDS]).forEach(k=>{const g=grp[k];if(g===undefined||!used[g]){if(g!==undefined)used[g]=1;first.push(k)}else later.push(k)});
+  return first.concat(later).slice(0,n)}
+/* each world keeps its own level; the old single 'level' key becomes the Masjid level */
+let worldIdx=Math.max(0,WORLDS.findIndex(w=>w.id===store.get('world','mosque')&&w.open));
+const curWorld=()=>WORLDS[worldIdx];
+const getLv=id=>store.get('lv:'+id,id==='mosque'?store.get('level',1):1);
+let IDS=[];
 const IMG={};
-function loadIcons(){IDS=ICONSETS[curWorld().set];IDS.forEach(k=>{if(IMG[k])return;const im=new Image();im.decoding='async';im.src=`assets/icons/${curWorld().set}/${k}.webp`;IMG[k]=im})}
+function loadIcons(){const set=curWorld().set;IDS=ICONSETS[set].map(k=>set+'/'+k);IDS.forEach(k=>{if(IMG[k])return;const im=new Image();im.decoding='async';im.src=`assets/icons/${k}.webp`;IMG[k]=im})}
 loadIcons();
 /* background cross-fade */
 let bgCur='',bgFront='A';
@@ -486,7 +497,7 @@ function voice(k,text,vars){if(!S.voice)return;
 
 /* ---------- Game (canvas, touch & drag) ---------- */
 const SIZES=[[6,8],[6,9],[7,8],[6,10],[7,10],[8,10],[8,11],[8,12]];
-let G={level:store.get('level',1),total:store.get('stars',0),stars:0,rows:0,cols:0,grid:[],sel:null,time:0,max:0,hints:3,shuf:2,undo:3,hist:[],combo:0,last:0,running:false,left:0};
+let G={level:getLv(curWorld().id),total:store.get('stars',0),stars:0,rows:0,cols:0,grid:[],sel:null,time:0,max:0,hints:3,shuf:2,undo:3,hist:[],combo:0,last:0,running:false,left:0};
 const cv=$('#cv'),ctx=cv.getContext('2d');let W=0,H=0,DPR=1,tw=40,th=46,ox=0,oy=0;
 const COL={face1:'#FFFDF6',face2:'#FFF1D6',side:'#E9C98F',side2:'#C49A5C',gold:'#FFC93C',ok:'#5BE37D',rose:'#FF5A5F'};
 let anim={},removing=[],particles=[],trails=[],drag=null,hintPair=null,hintUntil=0;
@@ -495,7 +506,7 @@ function buzz(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
 function cfg(n){const [c,r]=SIZES[Math.min(n-1,SIZES.length-1)],pairs=c*r/2;return{c,r,pairs,types:Math.min(IDS.length,8+(n-1)*2,pairs),time:Math.round(pairs*Math.max(5,10-n)+40)}}
 function shuffleArr(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function newLevel(){const C=cfg(G.level);G.cols=C.c;G.rows=C.r;G.max=G.time=C.time;G.hints=3;G.shuf=2;G.undo=3;G.hist=[];G.stars=0;G.combo=0;G.sel=null;G.left=C.pairs*2;drag=null;removing=[];trails=[];particles=[];
-  const pool=shuffleArr([...IDS]).slice(0,C.types),arr=[];for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
+  const pool=pickTypes(C.types),arr=[];for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
   G.grid=[];for(let r=0;r<G.rows+2;r++)G.grid.push(new Array(G.cols+2).fill(null));
   let tries=0;do{shuffleArr(arr);let i=0;for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)G.grid[r][c]=arr[i++]}while(!anyMove()&&++tries<50);
   fit();spawnAll(performance.now()+250,28);setBg(levelBg(G.level));hud()}
@@ -617,7 +628,7 @@ function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id)}
 function anyOv(){return OVS.some(o=>!$('#'+o).hidden)}
 function blocked(){return anyOv()||!$('#ovLock').hidden||document.hidden}
 function goHome(){G.running=false;renderHome();show('ovHome')}
-function gate(){$('#bisLvl').textContent=t('level')+' '+G.level;show('ovBis')}
+function gate(){$('#bisLvl').textContent=t('level')+' '+G.level;$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
 function rating(){const f=G.max?G.time/G.max:0;return f>=.5?3:f>=.25?2:1}
 $('#bStart').onclick=()=>{ensureAudio();if(!G.grid.length||!G.running)newLevel();gate()};
 $('#bHomeSet').onclick=()=>openSettings();
@@ -625,7 +636,7 @@ $('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;hurried=false;pr
 function win(){G.running=false;const bonus=Math.floor(G.time/6),rt=rating(),gift=G.level%5===0?10:0;G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
   $('#winRib').textContent=t('cleared',{n:G.level});$('#rate').innerHTML=[1,2,3].map(i=>`<img src="assets/ui/star.webp" alt="" class="${i<=rt?'':'off'}">`).join('');
   $('#winGift').hidden=!gift;$('#winGiftT').textContent=t('gift',{g:gift});
-  $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB',{s:G.stars,b:bonus});G.level++;store.set('level',G.level);sfx.win();voice('win');show('ovWin');hud()}
+  $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB',{s:G.stars,b:bonus});G.level++;store.set('lv:'+curWorld().id,G.level);sfx.win();voice('win');show('ovWin');hud()}
 $('#bNext').onclick=()=>{newLevel();gate()};
 $('#bWinHome').onclick=()=>{G.grid=[];goHome()};
 function lose(){G.running=false;G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');sfx.lose();voice('lose');show('ovLose')}
@@ -657,9 +668,11 @@ function renderChip(now){const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo
   s+=t('next2',{p:'<b>'+pn(nx.p)+'</b>',t:nx.at?fmtT(nx.at,c.tz):'—',d:nx.at?dur(nx.at-now):'—'});$('#pchip').innerHTML=s+' · '+c.name}
 
 /* ---------- Home ---------- */
-function renderWorlds(){$('#worlds').innerHTML=WORLDS.map((w,i)=>`<button class="world${w.open?' cur':' locked'}" data-i="${i}"><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><small>${w.open?t('worldLvl',{n:G.level}):t('locked')}</small></button>`).join('')}
+function renderWorlds(){$('#worlds').innerHTML=WORLDS.map((w,i)=>`<button class="world${!w.open?' locked':i===worldIdx?' cur':''}" data-i="${i}"><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><small>${w.open?t('worldLvl',{n:getLv(w.id)}):t('locked')}</small></button>`).join('')}
 $('#worlds').onclick=e=>{const b=e.target.closest('.world');if(!b)return;ensureAudio();const w=WORLDS[+b.dataset.i];
-  if(!w.open){sfx.bad();toast(t('soon',{w:w.name[S.lang]}));return}$('#bStart').click()};
+  if(!w.open){sfx.bad();toast(t('soon',{w:w.name[S.lang]}));return}
+  const i=+b.dataset.i;if(i!==worldIdx){worldIdx=i;store.set('world',w.id);G.level=getLv(w.id);G.grid=[];G.running=false;loadIcons();renderHome()}
+  $('#bStart').click()};
 function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePrayer(now);
   $('#tTag').textContent=t('tag');$('#hLvl').textContent=G.level;$('#hStars').textContent=G.total;renderWorlds();if(!G.running)setBg(levelBg(G.level));
   $('#tSched').textContent=t('sched')+' · '+c.name;$('#schedMeta').textContent=t('method');
@@ -686,7 +699,7 @@ $('#segWait').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.wait
 $('#segSound').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.sound=+b.dataset.v;save();segs();ensureAudio();sfx.click()};
 $('#segVoice').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.voice=+b.dataset.v;save();segs();ensureAudio();if(S.voice)voice('masya1',PR.masya1[S.lang][1]);else stopVoice()};
 $('#bPreview').onclick=()=>{ensureAudio();const nx=nextPrayer(Date.now());$('#ovSet').hidden=true;if(returnTo&&returnTo!=='ovSet')$('#'+returnTo).hidden=false;lock={p:nx.p,key:'demo',demo:true,readyAt:Date.now()+8000};openLock()};
-$('#bReset').onclick=()=>{G.level=1;G.total=0;G.grid=[];G.running=false;store.set('level',1);store.set('stars',0);$('#bReset').textContent=t('resetDone');returnTo='ovHome'};
+$('#bReset').onclick=()=>{G.level=1;G.total=0;G.grid=[];G.running=false;store.set('level',1);WORLDS.forEach(w=>store.set('lv:'+w.id,1));store.set('stars',0);$('#bReset').textContent=t('resetDone');returnTo='ovHome'};
 $('#bSetDone').onclick=()=>{renderHome();show(returnTo)};
 
 window.addEventListener('resize',fit);fit();
