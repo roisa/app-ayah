@@ -89,7 +89,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .tool img{width:44px;height:44px}
 .tool svg{width:26px;height:26px;color:var(--v3)}
 .tool.sm{width:50px;height:50px;border-radius:16px;background:linear-gradient(180deg,var(--v1),var(--v2));box-shadow:0 5px 0 var(--v-ink),0 9px 14px rgba(0,0,0,.3)}
-.tool.sm svg{color:#fff;width:24px;height:24px}
+.tool.sm svg{color:#fff;width:28px;height:28px}
 .tool .n{position:absolute;top:-7px;right:-7px;min-width:26px;height:26px;padding:0 6px;border-radius:13px;background:var(--red);border:2px solid #fff;
   font-family:var(--f-display);font-size:15px;line-height:22px;color:#fff;font-variant-numeric:tabular-nums}
 .tool:disabled{filter:grayscale(1);opacity:.55}
@@ -190,7 +190,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
     <button class="tool" id="bUndo" aria-label="Undo"><img src="assets/ui/undo.webp" alt=""><span class="n" id="nUndo">3</span></button>
     <button class="tool" id="bShuf" aria-label="Shuffle"><img src="assets/ui/shuffle.webp" alt=""><span class="n" id="nShuf">2</span></button>
     <button class="tool" id="bHint" aria-label="Hint"><img src="assets/ui/hint.webp" alt=""><span class="n" id="nHint">3</span></button>
-    <button class="tool sm" id="bSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="3.4"/><path d="M12 2.8v2.6M12 18.6v2.6M2.8 12h2.6M18.6 12h2.6M5.5 5.5l1.9 1.9M16.6 16.6l1.9 1.9M5.5 18.5l1.9-1.9M16.6 7.4l1.9-1.9"/></svg></button>
+    <button class="tool sm" id="bSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button>
   </div>
 </div>
 
@@ -200,7 +200,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
     <div class="logo"><div class="ar">نُور</div><h1>Nur <em>Connect</em></h1><p id="tTag"></p></div>
     <div class="statline"><div class="pill"><span class="hash">#</span><span id="hLvl">1</span></div><div class="pill"><img src="assets/ui/star.webp" alt=""><span id="hStars">0</span></div></div>
     <div class="worlds" id="worlds"></div>
-    <div class="homebar"><button class="btn" id="bStart"></button><button class="tool sm" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="3.4"/><path d="M12 2.8v2.6M12 18.6v2.6M2.8 12h2.6M18.6 12h2.6M5.5 5.5l1.9 1.9M16.6 16.6l1.9 1.9M5.5 18.5l1.9-1.9M16.6 7.4l1.9-1.9"/></svg></button></div>
+    <div class="homebar"><button class="btn" id="bStart"></button><button class="tool sm" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button></div>
     <div class="sched-box"><label id="tSched"></label><div class="sched" id="sched"></div><div class="meta" id="schedMeta"></div></div>
   </div>
 </div>
