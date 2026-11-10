@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="description" content="Nur Connect — Islamic pair-matching puzzle for Muslim families. Bismillah to start, pause for prayer, Alhamdulillah to finish.">
 <title>Nur Connect</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0}
@@ -19,9 +19,10 @@ body{margin:0}
   --gold:#E6B450; --gold-deep:#B8892A;
   --ivory:#F7EEDB; --tile-side:#2E7D6B; --tile-side-2:#1F5C55;
   --text:#F3EAD3; --muted:#A9C2B8; --rose:#E07A5F; --ok:#7BD389;
-  --f-display:"Reem Kufi","Plus Jakarta Sans",system-ui,sans-serif;
-  --f-body:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-display:"Lilita One","Baloo 2",system-ui,sans-serif;
+  --f-body:"Baloo 2",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-arab:"Amiri","Traditional Arabic","Geeza Pro",serif;
+  --f-arab-fun:"Baloo Bhaijaan 2","Amiri","Geeza Pro",serif;
   color-scheme:dark;
 }
 html,body{height:100%}
@@ -68,12 +69,12 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 @keyframes fade{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
 
 /* Praise toast */
-#praise{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%) scale(.8);opacity:0;pointer-events:none;text-align:center;
-  background:rgba(11,43,39,.92);border:1px solid var(--gold);border-radius:20px;padding:12px 22px;transition:.25s;min-width:200px;max-width:90%}
-#praise.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
-#praise .ar{font-family:var(--f-arab);font-size:34px;color:var(--gold);line-height:1.5;direction:rtl}
-#praise .tr{font-family:var(--f-display);font-size:18px}
-#praise .mn{font-size:12px;color:var(--muted)}
+#praise{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%) rotate(-3deg) scale(.6);opacity:0;pointer-events:none;text-align:center;transition:transform .35s cubic-bezier(.34,1.7,.64,1),opacity .2s!important;
+  background:rgba(11,43,39,.92);border:1px solid var(--gold);border-radius:20px;padding:12px 22px;transition:.25s;min-width:min(300px,92%);max-width:94%}
+#praise.on{opacity:1;transform:translate(-50%,-50%) rotate(-3deg) scale(1)}
+#praise .ar{font-family:var(--f-arab-fun);font-weight:800;font-size:36px;color:#FFD45C;line-height:1.35;direction:rtl;text-shadow:0 3px 0 #7A4D0F,0 6px 14px rgba(0,0,0,.35)}
+#praise .tr{font-family:var(--f-display);font-size:27px;line-height:1.1;color:#fff;letter-spacing:.4px;-webkit-text-stroke:6px #1E3F2A;paint-order:stroke fill;text-shadow:0 4px 0 rgba(0,0,0,.3)}
+#praise .mn{font-size:13px;font-weight:600;color:var(--muted);margin-top:2px}
 
 /* Dock */
 .dock{display:flex;justify-content:center;gap:10px;padding-block:8px calc(10px + env(safe-area-inset-bottom,0px))}
@@ -86,8 +87,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .ov{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:20px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px));background:rgba(5,22,20,.82);backdrop-filter:blur(4px)}
 .ov.lock{z-index:40;background:radial-gradient(circle at 50% 30%,#1A5149,#071C19 70%)}
 .card{width:100%;max-width:400px;max-height:100%;overflow:auto;background:var(--night-2);border:1px solid var(--night-3);border-radius:24px;padding:24px 20px;text-align:center;display:flex;flex-direction:column;gap:14px}
-.card h1{margin:0;font-family:var(--f-display);font-size:40px;font-weight:700;color:var(--gold);letter-spacing:.5px;line-height:1}
-.card h2{margin:0;font-family:var(--f-display);font-size:24px;font-weight:700;text-wrap:balance}
+.card h1{margin:0;font-family:var(--f-display);font-size:44px;font-weight:400;color:#FFD45C;letter-spacing:1px;line-height:1;text-shadow:0 3px 0 #8A5A12,0 7px 14px rgba(0,0,0,.35)}
+.card h2{margin:0;font-family:var(--f-display);font-size:26px;font-weight:400;letter-spacing:.4px;text-wrap:balance;text-shadow:0 2px 0 rgba(0,0,0,.3)}
 .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.55;text-wrap:balance}
 .ar-big{font-family:var(--f-arab);font-size:32px;line-height:1.7;color:var(--gold);direction:rtl}
 .btn{border:0;border-radius:16px;padding:14px 18px;font-weight:800;font-size:16px;background:var(--gold);color:#2A1E05;box-shadow:0 4px 0 var(--gold-deep)}
@@ -208,6 +209,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     <div class="field"><label id="lLang"></label><div class="seg" id="segLang"><button data-v="en">English</button><button data-v="id">Indonesia</button></div></div>
     <div class="field"><label id="lWait"></label><div class="seg" id="segWait"><button data-v="5">5 min</button><button data-v="10">10 min</button><button data-v="15">15 min</button><button data-v="20">20 min</button></div></div>
     <div class="field"><label id="lSound"></label><div class="seg" id="segSound"><button data-v="1"></button><button data-v="0"></button></div></div>
+    <div class="field"><label id="lVoice"></label><div class="seg" id="segVoice"><button data-v="1"></button><button data-v="0"></button></div></div>
     <button class="btn ghost" id="bPreview"></button>
     <button class="btn ghost" id="bReset"></button>
     <button class="btn" id="bSetDone"></button>
@@ -237,27 +239,33 @@ en:{tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'L
 bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah! Level {n} cleared',winB:'All praise is for Allah. You earned {s} stars, including {b} for time left.',next:'Next level, Bismillah',home:'Home',
 loseT:'Time is up',loseB:'Allah has decreed, and He does what He wills. Take a breath and try again.',retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
 lockT:'It is time for {p}',lockB:'Pause the game and pray {p} first, at the masjid or at home. Your game is saved right where you left it.',lockWait:'The button opens in {m}',lockReady:'Done praying? Tap below.',prayed:'I have prayed {p}',
-accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
+accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound effects',voice:'Voice cheers (MasyaAllah, great!)',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
 next2:'{p} at {t} · in {d}',nowP:'{p} time now',noMove:'No moves left. Shuffling…',hintNone:'Shuffling for a fresh start',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min ihtiyat',resetDone:'Progress reset',
 P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'}},
 id:{tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, mulai',cont:'Bismillah, lanjut level',settings:'Pengaturan',
 bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah! Level {n} selesai',winB:'Segala puji bagi Allah. Kamu dapat {s} bintang, termasuk {b} dari sisa waktu.',next:'Level berikutnya, Bismillah',home:'Beranda',
 loseT:'Waktu habis',loseB:'Allah telah menakdirkan, dan apa yang Dia kehendaki pasti terjadi. Tarik napas, lalu coba lagi.',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
 lockT:'Sudah masuk waktu {p}',lockB:'Jeda dulu, sholat {p} dulu, di masjid atau di rumah. Permainanmu tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk di bawah.',prayed:'Aku sudah sholat {p}',
-accepted:'Taqabbalallahu minna wa minkum',setT:'Pengaturan',city:'Kota',custom:'Lokasi kustom (lat/lng)',lang:'Bahasa',wait:'Jeda sholat minimal',sound:'Suara',on:'Nyala',off:'Mati',preview:'Coba jeda sholat',reset:'Ulang progres',done:'Selesai',
+accepted:'Taqabbalallahu minna wa minkum',setT:'Pengaturan',city:'Kota',custom:'Lokasi kustom (lat/lng)',lang:'Bahasa',wait:'Jeda sholat minimal',sound:'Efek suara',voice:'Suara pujian (MasyaAllah, hebat!)',on:'Nyala',off:'Mati',preview:'Coba jeda sholat',reset:'Ulang progres',done:'Selesai',
 next2:'{p} pukul {t} · {d} lagi',nowP:'Sekarang waktu {p}',noMove:'Tidak ada langkah. Diacak…',hintNone:'Diacak agar bisa lanjut',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',resetDone:'Progres diulang',
 P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'}}
 };
 const PR={
-mashaallah:{ar:'مَا شَاءَ ٱللَّٰهُ',tr:'MashaAllah!',en:'What Allah has willed',id:'Atas kehendak Allah'},
-subhanallah:{ar:'سُبْحَانَ ٱللَّٰهِ',tr:'SubhanAllah!',en:'Glory be to Allah',id:'Maha Suci Allah'},
-barakallah:{ar:'بَارَكَ ٱللَّٰهُ فِيكَ',tr:'Barakallahu fik!',en:'May Allah bless you',id:'Semoga Allah memberkahimu'},
-akbar:{ar:'ٱللَّٰهُ أَكْبَرُ',tr:'Allahu Akbar!',en:'Allah is the Greatest',id:'Allah Maha Besar'},
-bismillah:{ar:'بِسْمِ ٱللَّٰهِ',tr:'Bismillah',en:'In the name of Allah',id:'Dengan nama Allah'},
-taqabbal:{ar:'تَقَبَّلَ ٱللَّٰهُ مِنَّا وَمِنْكُمْ',tr:'Taqabbalallahu minna wa minkum',en:'May Allah accept from us and from you',id:'Semoga Allah menerima amal kita'},
-shuffle:{ar:'تَوَكَّلْتُ عَلَى ٱللَّٰهِ',tr:'Tawakkaltu ʿalallah',en:'',id:''}
+masya1:{ar:'مَا شَاءَ ٱللَّٰهُ',en:['MasyaAllah, great!','Masha Allah! Great!','What Allah has willed'],id:['MasyaAllah, hebat!','Masya Allah! Hebat!','Atas kehendak Allah']},
+masya2:{ar:'مَا شَاءَ ٱللَّٰهُ',en:['MasyaAllah, well done!','Masha Allah! Well done!','What Allah has willed'],id:['MasyaAllah, bagus sekali!','Masya Allah! Bagus sekali!','Atas kehendak Allah']},
+subhan:{ar:'سُبْحَانَ ٱللَّٰهِ',en:['SubhanAllah, amazing!','Subhaan Allah! Amazing!','Glory be to Allah'],id:['SubhanAllah, keren!','Subhanallah! Keren!','Maha Suci Allah']},
+barak:{ar:'بَارَكَ ٱللَّٰهُ فِيكَ',en:['Barakallahu fik, awesome!','Baarakallahu feek! Awesome!','May Allah bless you'],id:['Barakallahu fik, luar biasa!','Barakallahu fik! Luar biasa!','Semoga Allah memberkahimu']},
+akbar:{ar:'ٱللَّٰهُ أَكْبَرُ',en:['Allahu Akbar, unstoppable!','Allahu Akbar! Unstoppable!','Allah is the Greatest'],id:['Allahu Akbar, mantap!','Allahu Akbar! Mantap!','Allah Maha Besar']},
+bismillah:{ar:'بِسْمِ ٱللَّٰهِ',en:["Bismillah, let's go!","Bismillah! Let's go!",'In the name of Allah'],id:['Bismillah, ayo mulai!','Bismillah! Ayo mulai!','Dengan nama Allah']},
+taqabbal:{ar:'تَقَبَّلَ ٱللَّٰهُ مِنَّا وَمِنْكُمْ',en:['Taqabbalallahu minna wa minkum','Taqabbal Allahu minna wa minkum','May Allah accept from us and from you'],id:['Taqabbalallahu minna wa minkum','Taqabbalallahu minna wa minkum','Semoga Allah menerima amal kita']},
+shuffle:{ar:'تَوَكَّلْتُ عَلَى ٱللَّٰهِ',en:['Tawakkaltu ʿalallah','Tawakkaltu alallah','I put my trust in Allah'],id:['Tawakkaltu ʿalallah','Tawakkaltu alallah','Aku bertawakal kepada Allah']}
 };
-const S=Object.assign({city:'malang',lang:'en',wait:10,sound:1,lat:-7.98,lng:112.63},store.get('settings',{}));
+/* Spoken-only lines (no toast) */
+const VO={
+en:{win:'Alhamdulillah! Well done!',lose:'Qaddarallah. Try again!',pray:'It is time to pray {p}.',hurry:'Hurry up!'},
+id:{win:'Alhamdulillah! Berhasil!',lose:'Qadarullah. Ayo coba lagi!',pray:'Waktunya sholat {p}.',hurry:'Ayo, cepat!'}
+};
+const S=Object.assign({city:'malang',lang:'en',wait:10,sound:1,voice:1,lat:-7.98,lng:112.63},store.get('settings',{}));
 const t=(k,v)=>{let s=T[S.lang][k]||k;if(v)for(const x in v)s=s.replace('{'+x+'}',v[x]);return s};
 const pn=p=>T[S.lang].P[p];
 
@@ -339,12 +347,80 @@ let prayed=store.get('prayed',{});
 function markPrayed(key){prayed[key]=1;const keep={};const today=sched(0).key,yest=sched(-1).key;for(const k in prayed)if(k.startsWith(today)||k.startsWith(yest))keep[k]=1;prayed=keep;store.set('prayed',prayed)}
 function dur(ms){const m=Math.max(0,Math.ceil(ms/60000));const h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
 
-/* ---------- Sound ---------- */
-let ac=null;
-function ensureAudio(){if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state==='suspended')ac.resume()}
-function tone(f,d,delay,vol,type){if(!S.sound||!ac)return;const o=ac.createOscillator(),g=ac.createGain(),t0=ac.currentTime+(delay||0);o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol||.12,t0+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+d);o.connect(g).connect(ac.destination);o.start(t0);o.stop(t0+d+.05)}
-const sfx={tap:()=>tone(520,.08,0,.06,'triangle'),match:()=>{tone(660,.15);tone(880,.2,.07)},bad:()=>tone(200,.15,0,.08,'triangle'),
-praise:()=>{tone(587,.2);tone(740,.2,.1);tone(880,.35,.2)},win:()=>{[523,659,784,1047].forEach((f,i)=>tone(f,.4,i*.12,.12))},bell:()=>{tone(660,1.6,0,.15);tone(990,1.4,.02,.06)}};
+/* ---------- Sound ----------
+   All effects are synthesised with Web Audio (no files to download).
+   Voice cheers use recorded clips when listed in VOICE_FILES, otherwise the
+   phone's own text-to-speech voice. To add real recordings later, drop the
+   files in voice/<lang>/ and list them, e.g. 'id/masya1':'voice/id/masya1.mp3'. */
+const VOICE_FILES={};
+let ac=null,master=null,verb=null;
+function impulse(sec,decay){const n=Math.floor(ac.sampleRate*sec),b=ac.createBuffer(2,n,ac.sampleRate);
+  for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,decay)}return b}
+function ensureAudio(){
+  if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();
+    const comp=ac.createDynamicsCompressor();comp.connect(ac.destination);
+    master=ac.createGain();master.gain.value=.9;master.connect(comp);
+    verb=ac.createConvolver();verb.buffer=impulse(1.8,2.6);const vg=ac.createGain();vg.gain.value=.25;verb.connect(vg).connect(comp)}catch(e){ac=null}}
+  if(ac&&ac.state==='suspended')ac.resume();
+  unlockSpeech()}
+/* one oscillator with a quick attack and exponential decay; wet = reverb send */
+function osc(o){if(!S.sound||!ac)return;const {f,f2,type='sine',t=0,a=.005,d=.2,v=.1,wet=0}=o;
+  const t0=ac.currentTime+t,n=ac.createOscillator(),g=ac.createGain();n.type=type;n.frequency.setValueAtTime(f,t0);
+  if(f2)n.frequency.exponentialRampToValueAtTime(f2,t0+a+d);
+  g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+a);g.gain.exponentialRampToValueAtTime(.0001,t0+a+d);
+  n.connect(g);g.connect(master);if(wet&&verb){const w=ac.createGain();w.gain.value=wet;g.connect(w);w.connect(verb)}
+  n.start(t0);n.stop(t0+a+d+.05)}
+/* filtered noise sweep: whooshes and clicks */
+function noise(o){if(!S.sound||!ac)return;const {t=0,d=.3,v=.1,f1=400,f2=3000,q=1.2}=o;
+  const t0=ac.currentTime+t,len=Math.ceil(ac.sampleRate*(d+.05)),b=ac.createBuffer(1,len,ac.sampleRate),x=b.getChannelData(0);
+  for(let i=0;i<len;i++)x[i]=Math.random()*2-1;
+  const src=ac.createBufferSource();src.buffer=b;const bp=ac.createBiquadFilter();bp.type='bandpass';bp.Q.value=q;
+  bp.frequency.setValueAtTime(f1,t0);bp.frequency.exponentialRampToValueAtTime(f2,t0+d);
+  const g=ac.createGain();g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+d*.4);g.gain.exponentialRampToValueAtTime(.0001,t0+d);
+  src.connect(bp);bp.connect(g);g.connect(master);src.start(t0);src.stop(t0+d+.05)}
+/* bell / chime: fundamental plus two inharmonic partials, into the reverb */
+function chime(f,t,v,d){v=v||.08;d=d||.9;osc({f,t,a:.004,d,v,wet:.6});osc({f:f*2.76,t,a:.002,d:d*.35,v:v*.35,wet:.6});osc({f:f*5.4,t,a:.001,d:d*.15,v:v*.15,wet:.6})}
+const PENTA=[523.25,587.33,659.25,783.99,880,1046.5,1174.66,1318.51,1567.98,1760,2093];
+const C=[523.25,659.25,783.99,1046.5];
+const sfx={
+  click:()=>osc({f:1100,f2:700,d:.05,v:.05}),
+  tap:()=>{osc({f:880,f2:520,d:.07,v:.09});noise({d:.03,v:.03,f1:2600,f2:2000,q:.8})},
+  ready:()=>osc({f:1320,type:'triangle',d:.06,v:.045}),
+  /* each match in a combo climbs one step up the pentatonic scale */
+  match:c=>{const i=Math.min(PENTA.length-2,Math.max(0,(c||1)-1));chime(PENTA[i],0,.08,.6);chime(PENTA[i+1],.07,.07,.75);osc({f:PENTA[i]*4,t:.1,d:.08,v:.02,wet:.8})},
+  bad:()=>{osc({f:240,f2:150,type:'triangle',d:.16,v:.09});osc({f:180,f2:120,t:.06,d:.14,v:.06})},
+  praise:()=>[0,4,7,12].forEach((s,i)=>chime(523.25*Math.pow(2,s/12),i*.07,.065,1.1)),
+  shuffle:()=>{noise({d:.45,v:.12,f1:300,f2:3500,q:1.5});noise({t:.18,d:.35,v:.08,f1:2500,f2:500,q:1.5})},
+  hint:()=>[0,1,2,3].forEach(i=>osc({f:1567.98*Math.pow(1.122,i),t:i*.05,d:.18,v:.035,wet:.8})),
+  start:()=>{chime(392,0,.07,1.2);chime(523.25,.12,.07,1.4);chime(783.99,.24,.06,1.6)},
+  win:()=>{C.forEach((f,i)=>{osc({f,type:'triangle',t:i*.11,d:.25,v:.07});chime(f,i*.11,.05,.8)});
+    C.forEach(f=>osc({f,t:.5,a:.03,d:1.6,v:.04,wet:.5}));[2093,2637,3136].forEach((f,i)=>osc({f,t:.6+i*.09,d:.3,v:.025,wet:.9}))},
+  lose:()=>[440,392,329.63].forEach((f,i)=>osc({f,type:'triangle',t:i*.18,d:.35,v:.07,wet:.4})),
+  tick:urgent=>osc({f:urgent?1050:820,type:'triangle',d:.04,v:urgent?.06:.04}),
+  bell:()=>{chime(392,0,.14,3);chime(587.33,.9,.1,3)}
+};
+/* every button gives a soft click (and unlocks audio on the first tap) */
+document.addEventListener('click',e=>{if(e.target.closest('.btn,.tool,.seg button')){ensureAudio();sfx.click()}},true);
+
+/* ---------- Voice cheers ---------- */
+const TTS='speechSynthesis' in window;let voices=[],spoke=false,clip=null;
+function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
+if(TTS){loadVoices();try{speechSynthesis.addEventListener('voiceschanged',loadVoices)}catch(e){}}
+function unlockSpeech(){if(!TTS||spoke)return;spoke=true;try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}
+function pickVoice(lang){const pre=lang==='id'?'id':'en';
+  const L=voices.filter(v=>(v.lang||'').toLowerCase().replace('_','-').startsWith(pre));
+  return L.find(v=>/natural|neural|enhanced|premium|siri|google/i.test(v.name))||L.find(v=>v.localService)||L[0]||null}
+function stopVoice(){try{TTS&&speechSynthesis.cancel()}catch(e){}if(clip){try{clip.pause()}catch(e){}clip=null}}
+/* key: a PR or VO key; text: what to say; vars: {p:...} for VO lines */
+function voice(k,text,vars){if(!S.voice)return;
+  if(text==null){text=VO[S.lang][k]||'';if(vars)for(const x in vars)text=text.replace('{'+x+'}',vars[x])}
+  if(!text)return;stopVoice();
+  const file=VOICE_FILES[S.lang+'/'+k];
+  if(file){try{clip=new Audio(file);clip.play().catch(()=>{})}catch(e){}return}
+  if(!TTS)return;
+  /* let the chime ring first, then speak */
+  setTimeout(()=>{try{const u=new SpeechSynthesisUtterance(text),v=pickVoice(S.lang);if(v)u.voice=v;
+    u.lang=S.lang==='id'?'id-ID':'en-US';u.rate=S.lang==='id'?1:.95;u.pitch=1.15;u.volume=1;speechSynthesis.speak(u)}catch(e){}},220)}
 
 /* ---------- Game (canvas, touch & drag) ---------- */
 const SIZES=[[6,8],[6,9],[7,8],[6,10],[7,10],[8,10],[8,11],[8,12]];
@@ -396,7 +472,7 @@ cv.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(e);drag.x=p.x;d
   const [r,c]=cellAt(p),s=drag.start,tp=G.grid[s[0]][s[1]];drag.path=null;drag.ok=false;
   if(r===s[0]&&c===s[1])return;const v=G.grid[r][c];
   if(v===null||v===tp){const path=findPath(s[0],s[1],r,c);if(path){drag.path=path;drag.ok=v===tp;
-    if(drag.ok&&drag.okKey!==key(r,c)){buzz(12);tone(780,.08,0,.06,'triangle')}}}
+    if(drag.ok&&drag.okKey!==key(r,c)){buzz(12);sfx.ready()}}}
   drag.okKey=drag.ok?key(r,c):''});
 function endDrag(e){if(!drag)return;const d=drag;drag=null;
   if(d.ok){const end=d.path[d.path.length-1];tryMatch(d.start,end);return}
@@ -410,15 +486,15 @@ function wrong(a){const an=anim[key(a[0],a[1])];if(an)an.shake=performance.now()
 function burst(x,y){for(let i=0;i<14;i++){const a=Math.random()*Math.PI*2,v=1.5+Math.random()*3.5;particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2,born:performance.now(),life:550+Math.random()*350,s:2+Math.random()*3.5,col:Math.random()<.65?COL.gold:'#FFF6DE'})}}
 function match(a,b,path){const now=performance.now();trails.push({path,t0:now});
   [a,b].forEach(([r,c])=>{removing.push({r,c,type:G.grid[r][c],t0:now});burst(X(c),Y(r));G.grid[r][c]=null;delete anim[key(r,c)]});
-  G.sel=null;G.left-=2;const n=Date.now();G.combo=(n-G.last<4000)?G.combo+1:1;G.last=n;G.stars+=1;sfx.match();buzz(18);
-  const cmb={3:'mashaallah',5:'subhanallah',7:'barakallah',9:'akbar'}[G.combo]||(G.combo>9&&G.combo%3===0?'akbar':null);if(cmb){G.stars+=Math.floor(G.combo/2);praise(cmb);sfx.praise();buzz([20,40,20])}
+  G.sel=null;G.left-=2;const n=Date.now();G.combo=(n-G.last<4000)?G.combo+1:1;G.last=n;G.stars+=1;sfx.match(G.combo);buzz(18);
+  const cmb={3:'masya1',5:'masya2',7:'subhan',9:'barak'}[G.combo]||(G.combo>9&&G.combo%3===0?'akbar':null);if(cmb){G.stars+=Math.floor(G.combo/2);praise(cmb);sfx.praise();buzz([20,40,20])}
   hud();
   if(G.left===0){setTimeout(win,650);return}
   if(!anyMove()){praise('shuffle',t('noMove'));setTimeout(()=>doShuffle(true),800)}}
 function doShuffle(free){const pos=[],vals=[];for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(G.grid[r][c]){pos.push([r,c]);vals.push(G.grid[r][c])}
   let n=0;do{shuffleArr(vals);pos.forEach(([r,c],i)=>G.grid[r][c]=vals[i])}while(!anyMove()&&++n<60);
-  G.sel=null;drag=null;spawnAll(performance.now(),12);if(!free)G.shuf--;hud();buzz(20)}
-$('#bHint').onclick=()=>{if(!G.running||blocked()||G.hints<=0)return;ensureAudio();const m=findMove();if(!m){doShuffle(true);return}hintPair=m;hintUntil=performance.now()+3200;G.hints--;hud()};
+  G.sel=null;drag=null;spawnAll(performance.now(),12);sfx.shuffle();if(!free)G.shuf--;hud();buzz(20)}
+$('#bHint').onclick=()=>{if(!G.running||blocked()||G.hints<=0)return;ensureAudio();const m=findMove();if(!m){doShuffle(true);return}hintPair=m;hintUntil=performance.now()+3200;G.hints--;sfx.hint();hud()};
 $('#bShuf').onclick=()=>{if(!G.running||blocked()||G.shuf<=0)return;ensureAudio();doShuffle(false);praise('shuffle')};
 $('#bPause').onclick=()=>{if(!G.running)return;drag=null;show('ovPause')};
 $('#bSet').onclick=()=>openSettings();
@@ -469,7 +545,7 @@ requestAnimationFrame(frame);
 function hud(){$('#lvl').textContent=t('level')+' '+G.level;$('#stars').textContent=G.total+G.stars;$('#nHint').textContent=G.hints;$('#nShuf').textContent=G.shuf;
   $('#bHint').disabled=G.hints<=0;$('#bShuf').disabled=G.shuf<=0;const s=Math.max(0,Math.ceil(G.time));$('#time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
   $('#barFill').style.width=(G.max?G.time/G.max*100:100)+'%';$('#bar').classList.toggle('low',G.time<G.max*.2)}
-let praiseT=null;function praise(k,override){const P=PR[k],el=$('#praise');el.querySelector('.ar').textContent=P.ar;el.querySelector('.tr').textContent=override||P.tr;el.querySelector('.mn').textContent=override?'':P[S.lang];el.classList.add('on');clearTimeout(praiseT);praiseT=setTimeout(()=>el.classList.remove('on'),1500)}
+let praiseT=null;function praise(k,override){const P=PR[k],L=P[S.lang],el=$('#praise');el.querySelector('.ar').textContent=P.ar;el.querySelector('.tr').textContent=override||L[0];el.querySelector('.mn').textContent=override?'':L[2];el.classList.remove('on');void el.offsetWidth;el.classList.add('on');clearTimeout(praiseT);praiseT=setTimeout(()=>el.classList.remove('on'),1700);voice(k,L[1])}
 
 /* ---------- Flow ---------- */
 const OVS=['ovHome','ovBis','ovWin','ovLose','ovPause','ovSet'];
@@ -480,20 +556,20 @@ function goHome(){G.running=false;renderHome();show('ovHome')}
 function gate(){$('#bisLvl').textContent=t('level')+' '+G.level;show('ovBis')}
 $('#bStart').onclick=()=>{ensureAudio();if(!G.grid.length||!G.running)newLevel();gate()};
 $('#bHomeSet').onclick=()=>openSettings();
-$('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;praise('bismillah');sfx.praise()};
+$('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;hurried=false;praise('bismillah');sfx.start()};
 function win(){G.running=false;const bonus=Math.floor(G.time/6);G.stars+=bonus;G.total+=G.stars;store.set('stars',G.total);
-  $('#winTitle').textContent=t('winT',{n:G.level});$('#winBody').textContent=t('winB',{s:G.stars,b:bonus});G.level++;store.set('level',G.level);sfx.win();show('ovWin');hud()}
+  $('#winTitle').textContent=t('winT',{n:G.level});$('#winBody').textContent=t('winB',{s:G.stars,b:bonus});G.level++;store.set('level',G.level);sfx.win();voice('win');show('ovWin');hud()}
 $('#bNext').onclick=()=>{newLevel();gate()};
 $('#bWinHome').onclick=()=>{G.grid=[];goHome()};
-function lose(){G.running=false;G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');show('ovLose')}
+function lose(){G.running=false;G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');sfx.lose();voice('lose');show('ovLose')}
 $('#bRetry').onclick=()=>{newLevel();gate()};
 $('#bLoseHome').onclick=()=>{G.grid=[];goHome()};
 $('#bResume').onclick=()=>show(null);
 $('#bPauseHome').onclick=()=>goHome();
 
-let lastTick=Date.now();
+let lastTick=Date.now(),hurried=false;
 setInterval(()=>{const n=Date.now(),dt=(n-lastTick)/1000;lastTick=n;
-  if(G.running&&!blocked()){G.time-=dt;if(G.time<=0){G.time=0;hud();lose();return}hud()}
+  if(G.running&&!blocked()){const before=Math.ceil(G.time);G.time-=dt;if(G.time<=0){G.time=0;hud();lose();return}const sec=Math.ceil(G.time);if(sec<before&&sec<=10){sfx.tick(sec<=3);if(sec===10&&!hurried){hurried=true;voice('hurry')}}hud()}
   tickPrayer(n)},250);
 
 /* ---------- Prayer lock ---------- */
@@ -503,7 +579,7 @@ function tickPrayer(now){
       if(a&&!prayed[a.key]){if(!lock||lock.key!==a.key){lock={...a,demo:false};openLock()}}else if(lock){closeLock(false)}}}
   if(lock)renderLock(now);
   if(now%1000<260)renderChip(now)}
-function openLock(){$('#ovLock').hidden=false;G.sel=null;drag=null;sfx.bell();renderLock(Date.now())}
+function openLock(){$('#ovLock').hidden=false;G.sel=null;drag=null;sfx.bell();voice('pray',null,{p:pn(lock.p)});renderLock(Date.now())}
 function renderLock(now){const p=pn(lock.p);$('#lockTitle').textContent=t('lockT',{p});$('#lockBody').textContent=t('lockB',{p});
   const ready=lock.demo?lock.readyAt:lock.start+S.wait*60000,rem=ready-now,b=$('#bPrayed');b.textContent=t('prayed',{p});
   if(rem>0){b.disabled=true;const s=Math.ceil(rem/1000);$('#lockCount').textContent=t('lockWait',{m:Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})}else{b.disabled=false;$('#lockCount').textContent=t('lockReady')}}
@@ -526,18 +602,19 @@ function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePray
 /* ---------- Settings ---------- */
 let returnTo='ovHome';
 function openSettings(){returnTo=OVS.find(o=>!$('#'+o).hidden)||(G.running?null:'ovHome');
-  $('#setTitle').textContent=t('setT');$('#lCity').textContent=t('city');$('#lLang').textContent=t('lang');$('#lWait').textContent=t('wait');$('#lSound').textContent=t('sound');
+  $('#setTitle').textContent=t('setT');$('#lCity').textContent=t('city');$('#lLang').textContent=t('lang');$('#lWait').textContent=t('wait');$('#lSound').textContent=t('sound');$('#lVoice').textContent=t('voice');
   $('#bPreview').textContent=t('preview');$('#bReset').textContent=t('reset');$('#bSetDone').textContent=t('done');
-  const sb=$('#segSound').children;sb[0].textContent=t('on');sb[1].textContent=t('off');
+  for(const id of ['segSound','segVoice']){const sb=$('#'+id).children;sb[0].textContent=t('on');sb[1].textContent=t('off')}
   $('#city').innerHTML=CITIES.map(c=>`<option value="${c[0]}">${c[0]==='custom'?t('custom'):c[1]}</option>`).join('');$('#city').value=S.city;
   $('#lat').value=S.lat;$('#lng').value=S.lng;$('#customRow').hidden=S.city!=='custom';segs();show('ovSet')}
-function segs(){[['segLang','lang'],['segWait','wait'],['segSound','sound']].forEach(([id,k])=>[...$('#'+id).children].forEach(b=>b.classList.toggle('on',String(S[k])===b.dataset.v)))}
+function segs(){[['segLang','lang'],['segWait','wait'],['segSound','sound'],['segVoice','voice']].forEach(([id,k])=>[...$('#'+id).children].forEach(b=>b.classList.toggle('on',String(S[k])===b.dataset.v)))}
 function save(){store.set('settings',S);cache={};lastCheck=0}
 $('#city').onchange=e=>{S.city=e.target.value;$('#customRow').hidden=S.city!=='custom';save()};
 $('#lat').oninput=e=>{S.lat=parseFloat(e.target.value)||0;save()};$('#lng').oninput=e=>{S.lng=parseFloat(e.target.value)||0;save()};
 $('#segLang').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.lang=b.dataset.v;save();openSettings();renderHome()};
 $('#segWait').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.wait=+b.dataset.v;save();segs()};
-$('#segSound').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.sound=+b.dataset.v;save();segs();ensureAudio()};
+$('#segSound').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.sound=+b.dataset.v;save();segs();ensureAudio();sfx.click()};
+$('#segVoice').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.voice=+b.dataset.v;save();segs();ensureAudio();if(S.voice)voice('masya1',PR.masya1[S.lang][1]);else stopVoice()};
 $('#bPreview').onclick=()=>{ensureAudio();const nx=nextPrayer(Date.now());$('#ovSet').hidden=true;if(returnTo&&returnTo!=='ovSet')$('#'+returnTo).hidden=false;lock={p:nx.p,key:'demo',demo:true,readyAt:Date.now()+8000};openLock()};
 $('#bReset').onclick=()=>{G.level=1;G.total=0;G.grid=[];G.running=false;store.set('level',1);store.set('stars',0);$('#bReset').textContent=t('resetDone');returnTo='ovHome'};
 $('#bSetDone').onclick=()=>{renderHome();show(returnTo)};
