@@ -334,11 +334,13 @@ const pn=p=>T[S.lang].P[p];
    list them in ICONSETS and set open:1. */
 const ICONSETS={
 islamic:['crescent','lantern','lantern-blue','lantern-pink','minaret','mosque','green-dome','kaaba','mihrab','quran-open','quran-rehal','tasbih','miswak','incense','zamzam','wudhu-jug','dates','dallah','ketupat','bedug','peci','hijab','qibla-compass','eid-gift'],
-fruits:['apple','banana','watermelon','strawberry','grapes','orange','pineapple','mango','cherry','pear','peach','lemon','kiwi','avocado','coconut','papaya','dragonfruit','durian','mangosteen','rambutan','salak','pomegranate','fig','olive']
+fruits:['apple','banana','watermelon','strawberry','grapes','orange','pineapple','mango','cherry','pear','peach','lemon','kiwi','avocado','coconut','papaya','dragonfruit','durian','mangosteen','rambutan','salak','pomegranate','fig','olive'],
+pets:['kitten','puppy','rabbit','hamster','guinea-pig','goldfish','budgie','macaw','chick','duckling','turtle','turtle-green','cat-ginger','cat-grey','cat-tuxedo','lamb','cow','horse','camel','elephant','whale','bee','ant','hoopoe']
 };
 const WORLDS=[
 {id:'mosque',set:'islamic',open:1,name:{en:'Masjid',id:'Masjid'},bgs:['twilight-mosque','sunset-town','desert-city','garden']},
 {id:'fruits',set:'fruits',open:1,name:{en:'Fruit Garden',id:'Kebun Buah'},bgs:['garden']},
+{id:'pets',set:'pets',open:1,name:{en:'Animal Friends',id:'Sahabat Hewan'},bgs:['sunset-town','desert-city','garden']},
 {id:'desert',name:{en:'Desert Oasis',id:'Oasis Gurun'}},
 {id:'farm',name:{en:'Farm Friends',id:'Peternakan'}},
 {id:'jungle',name:{en:'Jungle',id:'Hutan Rimba'}},
@@ -350,7 +352,8 @@ const WORLDS=[
 ];
 /* look-alike icons: early levels use at most one from each group, harder levels mix them in */
 const SIMILAR={islamic:[['lantern','lantern-blue','lantern-pink'],['dallah','wudhu-jug','zamzam'],['quran-open','quran-rehal'],['mosque','green-dome','minaret','mihrab'],['crescent','qibla-compass'],['tasbih','miswak']],
-fruits:[['orange','lemon'],['peach','mango','papaya'],['mangosteen','rambutan','salak'],['apple','pomegranate','cherry'],['kiwi','avocado'],['pear','fig']]};
+fruits:[['orange','lemon'],['peach','mango','papaya'],['mangosteen','rambutan','salak'],['apple','pomegranate','cherry'],['kiwi','avocado'],['pear','fig']],
+pets:[['turtle','turtle-green'],['cat-ginger','kitten','cat-grey','cat-tuxedo'],['budgie','macaw','hoopoe'],['chick','duckling'],['hamster','guinea-pig'],['puppy','lamb']]};
 function pickTypes(n){const set=curWorld().set,grp={};(SIMILAR[set]||[]).forEach((g,i)=>g.forEach(k=>grp[set+'/'+k]=i));
   const first=[],later=[],used={};shuffleArr([...IDS]).forEach(k=>{const g=grp[k];if(g===undefined||!used[g]){if(g!==undefined)used[g]=1;first.push(k)}else later.push(k)});
   return first.concat(later).slice(0,n)}
