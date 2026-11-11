@@ -370,7 +370,8 @@ fruits:['apple','banana','watermelon','strawberry','grapes','orange','pineapple'
 pets:['kitten','puppy','rabbit','hamster','guinea-pig','goldfish','budgie','macaw','chick','duckling','turtle','turtle-green','cat-ginger','cat-grey','cat-tuxedo','lamb','cow','horse','camel','elephant','whale','bee','ant','hoopoe'],
 food:['burger','pizza','french-fries','hotdog','taco','chicken-bucket','fried-egg','full-sandwich','sliced-sandwich','noodles','satay','onigiri','sashimi','takoyaki','pancake','donut','ice-cream','popsicle','lollipop','popcorn','drinks','soda','coffee'],
 ancient:['fossil','amphora','column','broken-ancient','manuscript','notebook','explorer-hat','viking-helmet','compass','magnifying-glass','flashlight','pickaxe','caliper','rope','coin','necklace','footprint','broken-bone','sample'],
-treasure:['chest','crown','gemstone','gem-bag','sword','shield','axe','archer','helmet','award','gift','compass','binoculars','barrel','cannon','flask']
+treasure:['chest','crown','gemstone','gem-bag','sword','shield','axe','archer','helmet','award','gift','compass','binoculars','barrel','cannon','flask'],
+balls:['soccer','basketball','tennis','volleyball','baseball','american-football','beach-rainbow','beach-red','beach-clear','beach-black','black-ball','soccer-orange','soccer-green','swirl-orange','swirl-marble']
 };
 const WORLDS=[
 {id:'mosque',set:'islamic',open:1,name:{en:'Masjid',id:'Masjid'},bgs:['twilight-mosque','sunset-town','desert-city','garden']},
@@ -379,6 +380,7 @@ const WORLDS=[
 {id:'food',set:'food',open:1,name:{en:'Yummy Food',id:'Makanan Lezat'},bgs:['sunset-town','twilight-mosque','garden']},
 {id:'ancient',set:'ancient',open:1,name:{en:'Ancient Explorer',id:'Penjelajah Kuno'},bgs:['desert-city','sunset-town']},
 {id:'treasure',set:'treasure',open:1,name:{en:'Treasure Quest',id:'Berburu Harta'},bgs:['twilight-mosque','desert-city','sunset-town']},
+{id:'balls',set:'balls',open:1,name:{en:'Ball Fun',id:'Aneka Bola'},bgs:['sunset-town','garden','twilight-mosque']},
 {id:'desert',name:{en:'Desert Oasis',id:'Oasis Gurun'}},
 {id:'farm',name:{en:'Farm Friends',id:'Peternakan'}},
 {id:'jungle',name:{en:'Jungle',id:'Hutan Rimba'}},
@@ -394,7 +396,8 @@ fruits:[['orange','lemon'],['peach','mango','papaya'],['mangosteen','rambutan','
 pets:[['turtle','turtle-green'],['cat-ginger','kitten','cat-grey','cat-tuxedo'],['budgie','macaw','hoopoe'],['chick','duckling'],['hamster','guinea-pig'],['puppy','lamb']],
 food:[['full-sandwich','sliced-sandwich'],['drinks','soda','coffee'],['popsicle','ice-cream','lollipop'],['sashimi','onigiri'],['burger','taco','hotdog'],['donut','pancake'],['french-fries','popcorn','chicken-bucket']],
 ancient:[['amphora','broken-ancient','column'],['fossil','footprint','notebook','broken-bone'],['manuscript','notebook'],['compass','magnifying-glass'],['viking-helmet','explorer-hat']],
-treasure:[['gemstone','gem-bag'],['gift','chest','barrel'],['helmet','shield'],['sword','axe'],['award','crown'],['compass','binoculars']]};
+treasure:[['gemstone','gem-bag'],['gift','chest','barrel'],['helmet','shield'],['sword','axe'],['award','crown'],['compass','binoculars']],
+balls:[['beach-rainbow','beach-red','beach-clear','beach-black'],['black-ball'],['soccer','soccer-orange','soccer-green'],['swirl-orange','swirl-marble'],['volleyball','baseball'],['basketball']]};
 function pickTypes(n){const set=curWorld().set,grp={};(SIMILAR[set]||[]).forEach((g,i)=>g.forEach(k=>grp[set+'/'+k]=i));
   const first=[],later=[],used={};shuffleArr([...IDS]).forEach(k=>{const g=grp[k];if(g===undefined||!used[g]){if(g!==undefined)used[g]=1;first.push(k)}else later.push(k)});
   return first.concat(later).slice(0,n)}
