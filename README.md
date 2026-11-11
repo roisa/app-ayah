@@ -24,10 +24,10 @@ All images are in `assets/` as WebP:
 
 | Folder | What |
 |---|---|
-| `assets/icons/<set>/` | Tile icons, 256 px, transparent. `islamic`, `fruits` and `pets` have 24 each, `food` has 23, `ancient` 19, `treasure` 16, `balls` 15 |
-| `assets/bg/` | Level backgrounds, rotated each level within a world |
+| `assets/icons/<set>/` | Tile icons, 256 px, transparent: islamic, fruits, veggies, food, pets, animals, sea, balls, camping, space, ancient, treasure |
+| `assets/bg/` | 18 backgrounds; each world lists the ones that match it and a level picks one at random |
 | `assets/badges/` | World badges for the home map |
-| `assets/ui/` | Star, trophy, stopwatch, padlock, coin, hint, shuffle, undo, gift, ribbons |
+| `assets/ui/` | Star, trophy, stopwatch, padlock, hint, shuffle, undo, gift, ribbons |
 | `store/app-icon-1024.png` | App Store / Play Store icon |
 
-Worlds are listed in `WORLDS` in `index.html`. Masjid, Fruit Garden, Animal Friends, Yummy Food, Ancient Explorer, Treasure Quest and Ball Fun are open, and each world keeps its own level. Look-alike icons (for example the three lanterns) are listed in `SIMILAR` so early levels use only one of each group. To open another world, add its icons to `assets/icons/<set>/`, list them in `ICONSETS`, and set `open:1` and its backgrounds on the world.
+Worlds are listed in `WORLDS` in `index.html`: 12 categories, each keeping its own level. Look-alike icons are listed in `SIMILAR` so early levels use only one of each group.

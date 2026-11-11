@@ -11,7 +11,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="preload" as="image" href="assets/bg/twilight-mosque.webp">
+<link rel="preload" as="image" href="assets/bg/madinah.webp">
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -148,11 +148,11 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .logo h1 em{font-style:normal;color:var(--gold)}
 .logo p{margin:4px 0 0;font-weight:700;font-size:14px;line-height:1.3;color:#fff;text-shadow:0 2px 6px rgba(28,11,85,.9)}
 .statline{display:flex;justify-content:center;gap:10px}
-.worlds{display:grid;grid-template-columns:repeat(5,1fr);gap:4px 3px;background:rgba(28,11,85,.5);border:2px solid rgba(255,255,255,.18);border-radius:24px;padding:8px 10px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.worlds{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 4px;background:rgba(28,11,85,.5);border:2px solid rgba(255,255,255,.18);border-radius:24px;padding:8px 10px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .world{position:relative;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:2px}
-.world img{width:100%;max-width:66px;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 5px 6px rgba(0,0,0,.35));transition:transform .15s}
+.world img{width:100%;max-width:80px;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 5px 6px rgba(0,0,0,.35));transition:transform .15s}
 .world:active img{transform:scale(.94)}
-.world b{font-family:var(--f-display);font-weight:400;font-size:11.5px;letter-spacing:.1px;line-height:1.1;min-height:2.2em;display:flex;align-items:center}
+.world b{font-family:var(--f-display);font-weight:400;font-size:12.5px;letter-spacing:.2px;line-height:1.1;min-height:2.2em;display:flex;align-items:center}
 .world small{font-size:11.5px;font-weight:700;color:var(--muted);line-height:1}
 .world.locked img{filter:grayscale(.9) brightness(.6) drop-shadow(0 5px 6px rgba(0,0,0,.35))}
 .world.locked::after{content:'';position:absolute;top:14%;left:50%;width:28px;height:28px;transform:translateX(-50%);
@@ -197,7 +197,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 [data-ic="globe"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.4%22/%3E%3Cpath d=%22M3 12h18M12 3c-2.8 3-2.8 15 0 18M12 3c2.8 3 2.8 15 0 18%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22/%3E%3C/svg%3E")}
 [data-ic="clock"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22/%3E%3Cpath d=%22M12 7v5.3l3.4 2.2%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-height:760px){.hero{width:110px;height:110px}.logo h1{font-size:42px}.logo .ar{font-size:24px}.world img{max-width:56px}.world small{display:none}}
+@media (max-height:760px){.hero{width:110px;height:110px}.logo h1{font-size:42px}.logo .ar{font-size:24px}.world img{max-width:62px}.world small{display:none}}
 </style>
 </head>
 <body>
@@ -371,25 +371,27 @@ pets:['kitten','puppy','rabbit','hamster','guinea-pig','goldfish','budgie','maca
 food:['burger','pizza','french-fries','hotdog','taco','chicken-bucket','fried-egg','full-sandwich','sliced-sandwich','noodles','satay','onigiri','sashimi','takoyaki','pancake','donut','ice-cream','popsicle','lollipop','popcorn','drinks','soda','coffee'],
 ancient:['fossil','amphora','column','broken-ancient','manuscript','notebook','explorer-hat','viking-helmet','compass','magnifying-glass','flashlight','pickaxe','caliper','rope','coin','necklace','footprint','broken-bone','sample'],
 treasure:['chest','crown','gemstone','gem-bag','sword','shield','axe','archer','helmet','award','gift','compass','binoculars','barrel','cannon','flask'],
-balls:['soccer','basketball','tennis','volleyball','baseball','american-football','beach-rainbow','beach-red','beach-clear','beach-black','black-ball','soccer-orange','soccer-green','swirl-orange','swirl-marble']
+balls:['soccer','basketball','tennis','volleyball','baseball','american-football','beach-rainbow','beach-red','beach-clear','beach-black','black-ball','soccer-orange','soccer-green','swirl-orange','swirl-marble'],
+space:['astronaut','astronaut-2','astronaut-3','capsule','earth','observatory','robot','rocket','rocket-2','rover','rover-2','satellite','shooting-star','shuttle','shuttle-2','shuttle-3','shuttle-flying','telescope'],
+camping:['axe','backpack','binoculars','bonfire','camper','camping-hat','canned-food','compass','flashlight','folding-chair','folding-table','headlamp','hiking-shoes','lantern','lumberjack','map','mountain','radio','signpost','sleeping-mat','tent','thermos','trekking-pole'],
+animals:['ant','bear','bee','bug','cat','caterpillar','chick','chicken','cow','dog','dolphin','fox','frog','koala','lion','monkey','owl','panda','snail','snake','tiger','turtle','unicorn','whale'],
+sea:['clownfish','coral','crab','dolphin','fish','fish-2','fish-3','fish-4','jellyfish','jellyfish-2','koi','lobster','manta-ray','octopus','puffer-fish','pufferfish','scallop','sea-horse','sea-lion','sea-snail','sea-turtle','sea-urchin','shell','shell-2','squid','starfish','tropical-fish','turtle','whale'],
+veggies:['apple-carrot','asparagus','beetroot','bell-pepper','bok-choy','broccoli','carrot','chili','corn','eggplant','garlic','green-beans','leek','lettuce','mushroom','olive','onion','peas','potato','pumpkin','red-cabbage','red-onion','red-pepper','spinach','sweet-potato','tomato','veggie-bowl','yellow-carrot','zucchini']
 };
 const WORLDS=[
-{id:'mosque',set:'islamic',open:1,name:{en:'Masjid',id:'Masjid'},bgs:['twilight-mosque','sunset-town','desert-city','garden']},
-{id:'fruits',set:'fruits',open:1,name:{en:'Fruit Garden',id:'Kebun Buah'},bgs:['garden']},
-{id:'pets',set:'pets',open:1,name:{en:'Animal Friends',id:'Sahabat Hewan'},bgs:['sunset-town','desert-city','garden']},
-{id:'food',set:'food',open:1,name:{en:'Yummy Food',id:'Makanan Lezat'},bgs:['sunset-town','twilight-mosque','garden']},
-{id:'ancient',set:'ancient',open:1,name:{en:'Ancient Explorer',id:'Penjelajah Kuno'},bgs:['desert-city','sunset-town']},
-{id:'treasure',set:'treasure',open:1,name:{en:'Treasure Quest',id:'Berburu Harta'},bgs:['twilight-mosque','desert-city','sunset-town']},
-{id:'balls',set:'balls',open:1,name:{en:'Ball Fun',id:'Aneka Bola'},bgs:['sunset-town','garden','twilight-mosque']},
-{id:'desert',name:{en:'Desert Oasis',id:'Oasis Gurun'}},
-{id:'farm',name:{en:'Farm Friends',id:'Peternakan'}},
-{id:'jungle',name:{en:'Jungle',id:'Hutan Rimba'}},
-{id:'beach',name:{en:'Beach',id:'Pantai'}},
-{id:'underwater',name:{en:'Under the Sea',id:'Bawah Laut'}},
-{id:'mountain',name:{en:'Mountains',id:'Pegunungan'}},
-{id:'space',name:{en:'Space',id:'Luar Angkasa'}},
-{id:'dinosaur',name:{en:'Dinosaurs',id:'Dinosaurus'}}
-];
+{id:'mosque',set:'islamic',name:{en:'Masjid',id:'Masjid'},bgs:['madinah','grand-mosque','twilight-mosque','sunset-town','desert-city']},
+{id:'fruits',set:'fruits',name:{en:'Fruit Garden',id:'Kebun Buah'},bgs:['fruit-orchard','garden','picnic']},
+{id:'veggies',set:'veggies',name:{en:'Veggie Garden',id:'Kebun Sayur'},bgs:['veg-garden','fruit-orchard','picnic']},
+{id:'food',set:'food',name:{en:'Yummy Food',id:'Makanan Lezat'},bgs:['picnic','lakeside','fruit-orchard']},
+{id:'pets',set:'pets',name:{en:'Animal Friends',id:'Sahabat Hewan'},bgs:['pet-garden','lakeside','garden']},
+{id:'animals',set:'animals',name:{en:'Cute Animals',id:'Hewan Lucu'},bgs:['mountain-valley','pet-garden','lakeside']},
+{id:'sea',set:'sea',name:{en:'Under the Sea',id:'Dunia Laut'},bgs:['coral-reef']},
+{id:'balls',set:'balls',name:{en:'Ball Fun',id:'Aneka Bola'},bgs:['sports-field','lakeside','pet-garden']},
+{id:'camping',set:'camping',name:{en:'Camping Trip',id:'Berkemah'},bgs:['mountain-valley','lakeside','volcano']},
+{id:'space',set:'space',name:{en:'Space',id:'Luar Angkasa'},bgs:['space-adventure','space-explorer']},
+{id:'ancient',set:'ancient',name:{en:'Ancient Explorer',id:'Penjelajah Kuno'},bgs:['dino-ruins','volcano','desert-city']},
+{id:'treasure',set:'treasure',name:{en:'Treasure Quest',id:'Berburu Harta'},bgs:['volcano','dino-ruins','coral-reef','desert-city']}
+].map(w=>(w.open=1,w));
 /* look-alike icons: early levels use at most one from each group, harder levels mix them in */
 const SIMILAR={islamic:[['lantern','lantern-blue','lantern-pink'],['dallah','wudhu-jug','zamzam'],['quran-open','quran-rehal'],['mosque','green-dome','minaret','mihrab'],['crescent','qibla-compass'],['tasbih','miswak']],
 fruits:[['orange','lemon'],['peach','mango','papaya'],['mangosteen','rambutan','salak'],['apple','pomegranate','cherry'],['kiwi','avocado'],['pear','fig']],
@@ -397,7 +399,12 @@ pets:[['turtle','turtle-green'],['cat-ginger','kitten','cat-grey','cat-tuxedo'],
 food:[['full-sandwich','sliced-sandwich'],['drinks','soda','coffee'],['popsicle','ice-cream','lollipop'],['sashimi','onigiri'],['burger','taco','hotdog'],['donut','pancake'],['french-fries','popcorn','chicken-bucket']],
 ancient:[['amphora','broken-ancient','column'],['fossil','footprint','notebook','broken-bone'],['manuscript','notebook'],['compass','magnifying-glass'],['viking-helmet','explorer-hat']],
 treasure:[['gemstone','gem-bag'],['gift','chest','barrel'],['helmet','shield'],['sword','axe'],['award','crown'],['compass','binoculars']],
-balls:[['beach-rainbow','beach-red','beach-clear','beach-black'],['black-ball'],['soccer','soccer-orange','soccer-green'],['swirl-orange','swirl-marble'],['volleyball','baseball'],['basketball']]};
+balls:[['beach-rainbow','beach-red','beach-clear','beach-black'],['black-ball'],['soccer','soccer-orange','soccer-green'],['swirl-orange','swirl-marble'],['volleyball','baseball'],['basketball']],
+space:[['rocket','rocket-2','shuttle','shuttle-2','shuttle-3','shuttle-flying'],['astronaut','astronaut-2','astronaut-3'],['rover','rover-2','capsule'],['telescope','observatory','satellite']],
+camping:[['camping-hat','camper'],['flashlight','headlamp','lantern'],['folding-chair','folding-table','sleeping-mat'],['axe','lumberjack','trekking-pole'],['compass','map','signpost'],['thermos','canned-food']],
+animals:[['cat','tiger','fox'],['bear','koala','panda','monkey','lion'],['chick','chicken','owl'],['ant','bug','bee','caterpillar'],['snail','snake','turtle'],['whale','dolphin']],
+sea:[['fish','clownfish','fish-4','fish-2','tropical-fish'],['puffer-fish','pufferfish','fish-3'],['jellyfish','jellyfish-2'],['shell','shell-2','scallop','sea-snail'],['octopus','squid'],['turtle','sea-turtle'],['whale','dolphin','sea-lion','manta-ray'],['crab','lobster']],
+veggies:[['carrot','apple-carrot','yellow-carrot'],['red-pepper','chili','bell-pepper','tomato'],['onion','red-onion','garlic'],['lettuce','spinach','bok-choy','red-cabbage','broccoli'],['leek','asparagus','green-beans'],['potato','sweet-potato'],['veggie-bowl','broccoli']]};
 function pickTypes(n){const set=curWorld().set,grp={};(SIMILAR[set]||[]).forEach((g,i)=>g.forEach(k=>grp[set+'/'+k]=i));
   const first=[],later=[],used={};shuffleArr([...IDS]).forEach(k=>{const g=grp[k];if(g===undefined||!used[g]){if(g!==undefined)used[g]=1;first.push(k)}else later.push(k)});
   return first.concat(later).slice(0,n)}
@@ -411,9 +418,12 @@ function loadIcons(){const set=curWorld().set;IDS=ICONSETS[set].map(k=>set+'/'+k
 loadIcons();
 /* background cross-fade */
 let bgCur='',bgFront='A';
-function setBg(name){if(name===bgCur)return;bgCur=name;const url=`url("assets/bg/${name}.webp")`,next=bgFront==='A'?'B':'A',im=new Image();
-  im.onload=im.onerror=()=>{const n=$('#bg'+next),f=$('#bg'+bgFront);n.style.backgroundImage=url;n.style.opacity=1;f.style.opacity=0;bgFront=next};im.src=`assets/bg/${name}.webp`}
-const levelBg=n=>{const w=curWorld();return w.bgs[(n-1)%w.bgs.length]};
+/* cross-fade: only the latest request wins, and the layers are chosen when the image is ready */
+let bgTok=0;
+function setBg(name){if(name===bgCur)return;bgCur=name;const tok=++bgTok,url=`url("assets/bg/${name}.webp")`,im=new Image();
+  im.onload=im.onerror=()=>{if(tok!==bgTok)return;const next=bgFront==='A'?'B':'A',n=$('#bg'+next),f=$('#bg'+bgFront);
+    n.style.backgroundImage=url;n.style.opacity=1;f.style.opacity=0;bgFront=next};im.src=`assets/bg/${name}.webp`}
+const levelBg=()=>{const b=curWorld().bgs,o=b.filter(x=>x!==bgCur);return (o.length?o:b)[Math.floor(Math.random()*(o.length?o.length:b.length))]};
 let toastT=null;function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('on'),2200)}
 
 /* ---------- Prayer times (Kemenag: Fajr 20°, Isha 18°, Asr Shafi'i) ---------- */
@@ -576,7 +586,7 @@ function newLevel(){const C=cfg(G.level);G.cols=C.c;G.rows=C.r;G.max=G.time=C.ti
   const pool=pickTypes(C.types),arr=[];for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
   G.grid=[];for(let r=0;r<G.rows+2;r++)G.grid.push(new Array(G.cols+2).fill(null));
   let tries=0;do{shuffleArr(arr);let i=0;for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)G.grid[r][c]=arr[i++]}while(!anyMove()&&++tries<50);
-  fit();spawnAll(performance.now()+250,28);setBg(levelBg(G.level));hud()}
+  fit();spawnAll(performance.now()+250,28);setBg(levelBg());hud()}
 function spawnAll(t0,step){anim={};for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(G.grid[r][c])anim[key(r,c)]={born:t0+(r+c)*step,shake:0}}
 function findPath(r1,c1,r2,c2){
   const R=G.rows+2,C=G.cols+2,D=[[-1,0],[1,0],[0,-1],[0,1]],best={},q=[];
@@ -773,7 +783,7 @@ $('#worlds').onclick=e=>{const b=e.target.closest('.world');if(!b)return;ensureA
   const i=+b.dataset.i;if(i!==worldIdx){worldIdx=i;store.set('world',w.id);G.level=getLv(w.id);G.grid=[];G.running=false;loadIcons();renderHome()}
   $('#bStart').click()};
 function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePrayer(now);
-  $('#tTag').textContent=t('tag');$('#hLvl').textContent=G.level;$('#hStars').textContent=G.total;renderWorlds();if(!G.running)setBg(levelBg(G.level));
+  $('#tTag').textContent=t('tag');$('#hLvl').textContent=G.level;$('#hStars').textContent=G.total;renderWorlds();if(!G.running)setBg(curWorld().bgs[0]);
   $('#tSched').textContent=t('sched')+' · '+c.name;$('#schedMeta').textContent=t('method');
   $('#sched').innerHTML=FIVE.map(p=>{const k=td.key+':'+p,isNow=a&&a.key===k;return`<div class="${isNow?'now':''}"><small>${pn(p)}</small><b>${td.t[p]?fmtT(td.t[p],c.tz):'—'}</b><span class="ck">${prayed[k]?'✓':''}</span></div>`}).join('');
   $('#bStart').textContent=(G.level>1?t('cont',{n:G.level}):t('start'));
