@@ -134,8 +134,27 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 @keyframes bob{50%{transform:translateY(-6px) rotate(-2deg)}}
 .rate{display:flex;justify-content:center;align-items:flex-end;gap:4px;height:62px}
 .rate img{width:52px;height:52px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.3));transform:scale(0);animation:pop .45s cubic-bezier(.34,1.7,.64,1) forwards}
-.rate img:nth-child(2){width:62px;height:62px;animation-delay:.18s}.rate img:nth-child(3){animation-delay:.36s}
+.rate img{animation-delay:.6s}.rate img:nth-child(2){width:62px;height:62px;animation-delay:.78s}.rate img:nth-child(3){animation-delay:.96s}
 .rate img.off{filter:grayscale(1) brightness(.55);opacity:.6}
+/* level complete: rotating sunburst behind the trophy, a big faint one behind the card, confetti on top */
+#ovWin .card>*:not(.ribbon){position:relative;z-index:1}
+#ovWin .card>.hero-wrap{z-index:0}
+.hero-wrap{width:150px;height:150px;margin:-6px auto -4px}
+.hero-wrap .hero{position:relative;z-index:2;margin:0;animation:heroIn .7s cubic-bezier(.34,1.7,.64,1) .45s both,bob 2.4s ease-in-out 1.2s infinite}
+@keyframes heroIn{0%{transform:scale(0) rotate(-25deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.sunburst,.glow{position:absolute;left:50%;top:50%;pointer-events:none;border-radius:50%}
+.sunburst{width:360px;height:360px;margin:-180px 0 0 -180px;
+  background:repeating-conic-gradient(from 0deg,rgba(255,226,122,.85) 0deg 8deg,rgba(255,226,122,0) 8deg 20deg);
+  -webkit-mask:radial-gradient(circle,#000 14%,rgba(0,0,0,.55) 38%,transparent 66%);mask:radial-gradient(circle,#000 14%,rgba(0,0,0,.55) 38%,transparent 66%);
+  animation:burstIn .6s ease-out .35s both,spin 10s linear infinite}
+.glow{width:230px;height:230px;margin:-115px 0 0 -115px;z-index:1;background:radial-gradient(circle,rgba(255,246,200,.95) 0%,rgba(255,201,60,.45) 35%,rgba(255,201,60,0) 68%);animation:burstIn .6s ease-out .35s both,glowPulse 1.6s ease-in-out infinite alternate}
+@keyframes spin{to{rotate:360deg}}
+@keyframes burstIn{0%{scale:0;opacity:0}100%{scale:1;opacity:1}}
+@keyframes glowPulse{to{transform:scale(1.12);opacity:.8}}
+#ovWin .fx{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#ovWin .bigburst{position:absolute;left:50%;top:40%;width:180vmax;height:180vmax;margin:-90vmax 0 0 -90vmax;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,rgba(255,236,170,.16) 0deg 7deg,rgba(255,236,170,0) 7deg 16deg);animation:spin 45s linear infinite reverse}
+#confetti{position:fixed;inset:0;width:100%;height:100%;z-index:30;pointer-events:none}
 @keyframes pop{to{transform:scale(1)}}
 .gift{display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(28,11,85,.4);border-radius:16px;padding:8px 12px;font-weight:700}
 .gift img{width:46px;height:46px}
@@ -197,7 +216,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 [data-ic="globe"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.4%22/%3E%3Cpath d=%22M3 12h18M12 3c-2.8 3-2.8 15 0 18M12 3c2.8 3 2.8 15 0 18%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22/%3E%3C/svg%3E")}
 [data-ic="clock"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22/%3E%3Cpath d=%22M12 7v5.3l3.4 2.2%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-height:760px){.hero{width:110px;height:110px}.logo h1{font-size:42px}.logo .ar{font-size:24px}.world img{max-width:62px}.world small{display:none}}
+@media (max-height:760px){.hero,.hero-wrap{width:110px;height:110px}.sunburst{width:280px;height:280px;margin:-140px 0 0 -140px}.logo h1{font-size:42px}.logo .ar{font-size:24px}.world img{max-width:62px}.world small{display:none}}
 </style>
 </head>
 <body>
@@ -249,10 +268,11 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 
 <!-- Level clear -->
 <div class="ov" id="ovWin" hidden>
+  <div class="fx"><div class="bigburst"></div></div>
   <div class="card">
     <div class="ribbon green"><img src="assets/ui/ribbon-green.webp" alt=""><span id="winRib"></span></div>
     <div class="rate" id="rate"></div>
-    <img class="hero" src="assets/ui/trophy.webp" alt="">
+    <div class="hero-wrap"><div class="sunburst"></div><div class="glow"></div><img class="hero" src="assets/ui/trophy.webp" alt=""></div>
     <div class="ar-big" style="font-size:40px;line-height:1.4">ٱلْحَمْدُ لِلَّٰهِ</div>
     <h2 id="winTitle"></h2>
     <p id="winBody"></p>
@@ -317,6 +337,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 </div>
 
 <div id="danger"></div>
+<canvas id="confetti" hidden></canvas>
 <div id="toast"></div>
 
 <script>
@@ -511,6 +532,13 @@ function noise(o){if(!S.sound||!ac)return;const {t=0,d=.3,v=.1,f1=400,f2=3000,q=
   const g=ac.createGain();g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+d*.4);g.gain.exponentialRampToValueAtTime(.0001,t0+d);
   src.connect(bp);bp.connect(g);g.connect(master);src.start(t0);src.stop(t0+d+.05)}
 /* bell / chime: fundamental plus two inharmonic partials, into the reverb */
+/* brass-like note: sawtooth through an opening low-pass filter */
+function brass(f,t,d,v){if(!S.sound||!ac)return;const t0=ac.currentTime+t,o=ac.createOscillator(),o2=ac.createOscillator(),lp=ac.createBiquadFilter(),g=ac.createGain();
+  o.type='sawtooth';o2.type='sawtooth';o.frequency.value=f;o2.frequency.value=f*1.006;lp.type='lowpass';lp.Q.value=2;
+  lp.frequency.setValueAtTime(500,t0);lp.frequency.exponentialRampToValueAtTime(Math.min(6000,f*6),t0+.06);lp.frequency.exponentialRampToValueAtTime(f*2.5,t0+d);
+  g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+.03);g.gain.setValueAtTime(v,t0+d*.6);g.gain.exponentialRampToValueAtTime(.0001,t0+d);
+  o.connect(lp);o2.connect(lp);lp.connect(g);g.connect(master);if(verb){const w=ac.createGain();w.gain.value=.35;g.connect(w);w.connect(verb)}
+  o.start(t0);o2.start(t0);o.stop(t0+d+.05);o2.stop(t0+d+.05)}
 function chime(f,t,v,d){v=v||.08;d=d||.9;osc({f,t,a:.004,d,v,wet:.6});osc({f:f*2.76,t,a:.002,d:d*.35,v:v*.35,wet:.6});osc({f:f*5.4,t,a:.001,d:d*.15,v:v*.15,wet:.6})}
 const PENTA=[523.25,587.33,659.25,783.99,880,1046.5,1174.66,1318.51,1567.98,1760,2093];
 const C=[523.25,659.25,783.99,1046.5];
@@ -527,6 +555,15 @@ const sfx={
   start:()=>{chime(392,0,.07,1.2);chime(523.25,.12,.07,1.4);chime(783.99,.24,.06,1.6)},
   win:()=>{C.forEach((f,i)=>{osc({f,type:'triangle',t:i*.11,d:.25,v:.07});chime(f,i*.11,.05,.8)});
     C.forEach(f=>osc({f,t:.5,a:.03,d:1.6,v:.04,wet:.5}));[2093,2637,3136].forEach((f,i)=>osc({f,t:.6+i*.09,d:.3,v:.025,wet:.9}))},
+  /* celebration: drum roll -> brass "ta-da" + timpani -> star pops -> sparkles */
+  drumroll:()=>{for(let i=0;i<16;i++){const k=i/15;noise({t:i*.034,d:.05,v:.05+k*.09,f1:260,f2:200,q:1.4})}noise({t:.56,d:.5,v:.06,f1:7000,f2:4000,q:.7})},
+  fanfare:()=>{brass(392,0,.12,.09);brass(523.25,.13,.12,.09);brass(659.25,.26,.12,.09);
+    [523.25,659.25,783.99,1046.5].forEach(f=>brass(f,.4,1.3,.075));osc({f:98,f2:55,t:.4,d:.7,v:.28});osc({f:82,f2:50,t:0,d:.4,v:.18});
+    noise({t:.4,d:.9,v:.05,f1:9000,f2:5000,q:.6})},
+  starPop:i=>{const f=660*Math.pow(1.26,i);osc({f,f2:f*1.5,d:.12,v:.1});chime(f*1.5,.06,.08,.7);noise({d:.04,v:.06,f1:3000,f2:2500,q:1})},
+  popper:()=>{noise({d:.12,v:.16,f1:1800,f2:600,q:.8});osc({f:140,f2:60,d:.12,v:.12});for(let i=0;i<6;i++)osc({f:2400+Math.random()*2400,t:.05+i*.04,d:.12,v:.02,wet:.9})},
+  sparkleUp:()=>{for(let i=0;i<12;i++)osc({f:1046.5*Math.pow(2,i/12*1.6),t:i*.045,d:.22,v:.03,wet:.9})},
+  coin:()=>{osc({f:987.8,type:'square',d:.08,v:.03});osc({f:1318.5,type:'square',t:.08,d:.35,v:.03});chime(1318.5,.08,.05,.6)},
   lose:()=>[440,392,329.63].forEach((f,i)=>osc({f,type:'triangle',t:i*.18,d:.35,v:.07,wet:.4})),
   /* clock: wooden tick-tock (alternating pitch) */
   tick:odd=>{noise({d:.035,v:.09,f1:odd?3200:2300,f2:odd?2600:1800,q:6});osc({f:odd?1500:1150,type:'triangle',d:.03,v:.035})},
@@ -727,6 +764,28 @@ function anyOv(){return OVS.some(o=>!$('#'+o).hidden)}
 function blocked(){return anyOv()||!$('#ovLock').hidden||document.hidden}
 function goHome(){G.running=false;calm();renderHome();show('ovHome')}
 function gate(){$('#bisLvl').textContent=t('level')+' '+G.level;$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
+/* confetti: paper strips, dots and little stars from two cannons and a shower from the top */
+let cf={parts:[],raf:0};
+function confetti(kind){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=$('#confetti'),x=c.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1);
+  c.hidden=false;c.width=innerWidth*dpr;c.height=innerHeight*dpr;x.setTransform(dpr,0,0,dpr,0,0);
+  const cols=['#FFC93C','#FF5A5F','#4CD964','#2EC4D6','#B37BFF','#FFFFFF','#FF9F1C'],W=innerWidth,H=innerHeight,add=(px,py,vx,vy)=>cf.parts.push({x:px,y:py,vx,vy,
+    r:Math.random()*6.3,vr:(Math.random()-.5)*.3,w:6+Math.random()*7,h:4+Math.random()*5,c:cols[Math.random()*cols.length|0],s:Math.random()<.18?'star':Math.random()<.3?'dot':'rect',fl:Math.random()*6.3,life:0});
+  if(kind==='top')for(let i=0;i<70;i++)add(Math.random()*W,-20-Math.random()*H*.3,(Math.random()-.5)*2,1+Math.random()*2);
+  else for(let i=0;i<60;i++){add(-10,H*.75,4+Math.random()*7,-(9+Math.random()*8));add(W+10,H*.75,-(4+Math.random()*7),-(9+Math.random()*8))}
+  if(!cf.raf){const step=()=>{x.clearRect(0,0,W,H);cf.parts=cf.parts.filter(p=>{p.vy+=.22;p.vx*=.985;p.vy=Math.min(p.vy,3.2+Math.sin(p.fl)*.8);p.x+=p.vx+Math.sin(p.fl)*.6;p.y+=p.vy;p.r+=p.vr;p.fl+=.12;
+      x.save();x.translate(p.x,p.y);x.rotate(p.r);x.scale(1,Math.cos(p.fl));x.fillStyle=p.c;
+      if(p.s==='rect')x.fillRect(-p.w/2,-p.h/2,p.w,p.h);else if(p.s==='dot'){x.beginPath();x.arc(0,0,p.h*.7,0,7);x.fill()}
+      else{x.beginPath();for(let i=0;i<10;i++){const a=Math.PI/5*i,rr=i%2?p.w*.35:p.w*.8;x.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}x.closePath();x.fill()}
+      x.restore();return p.y<H+30});
+      if(cf.parts.length)cf.raf=requestAnimationFrame(step);else{cf.raf=0;c.hidden=true}};cf.raf=requestAnimationFrame(step)}}
+function stopConfetti(){cf.parts=[];}
+let winT=[];const later=(ms,f)=>winT.push(setTimeout(f,ms));
+function celebrate(rt,gift){winT.forEach(clearTimeout);winT=[];
+  sfx.drumroll();later(560,()=>{sfx.fanfare();sfx.popper();confetti('cannons');buzz([30,40,60])});
+  for(let i=0;i<rt;i++)later(600+i*180,()=>sfx.starPop(i));
+  later(1150,()=>{sfx.sparkleUp();confetti('top')});
+  if(gift)later(1500,()=>sfx.coin());
+  later(1700,()=>voice('win'))}
 function rating(){const f=G.max?G.time/G.max:0;return f>=.5?3:f>=.25?2:1}
 $('#bStart').onclick=()=>{ensureAudio();if(!G.grid.length||!G.running)newLevel();gate()};
 $('#bHomeSet').onclick=()=>openSettings();
@@ -734,9 +793,9 @@ $('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;hurried={};calm(
 function win(){G.running=false;calm();const bonus=Math.floor(G.time/6),rt=rating(),gift=G.level%5===0?10:0;G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
   $('#winRib').textContent=t('cleared',{n:G.level});$('#rate').innerHTML=[1,2,3].map(i=>`<img src="assets/ui/star.webp" alt="" class="${i<=rt?'':'off'}">`).join('');
   $('#winGift').hidden=!gift;$('#winGiftT').textContent=t('gift',{g:gift});
-  $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB',{s:G.stars,b:bonus});G.level++;store.set('lv:'+curWorld().id,G.level);sfx.win();voice('win');show('ovWin');hud()}
-$('#bNext').onclick=()=>{newLevel();gate()};
-$('#bWinHome').onclick=()=>{G.grid=[];goHome()};
+  $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB',{s:G.stars,b:bonus});G.level++;store.set('lv:'+curWorld().id,G.level);show('ovWin');celebrate(rt,gift);hud()}
+$('#bNext').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();newLevel();gate()};
+$('#bWinHome').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();G.grid=[];goHome()};
 function lose(){G.running=false;calm();G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');sfx.lose();voice('lose');show('ovLose')}
 $('#bRetry').onclick=()=>{newLevel();gate()};
 $('#bLoseHome').onclick=()=>{G.grid=[];goHome()};
