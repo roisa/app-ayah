@@ -177,6 +177,25 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .seg{display:flex;background:var(--v-ink);border:2px solid rgba(255,255,255,.14);border-radius:14px;padding:3px}
 .seg button{flex:1;border:0;background:transparent;padding:7px;border-radius:10px;font-weight:800;font-size:14px}
 .seg button.on{background:linear-gradient(180deg,#FFE27A,var(--gold));color:#5A3200}
+/* picture icons so children who cannot read yet still know each button (mask, coloured by currentColor) */
+.btn[data-ic],.seg button[data-ic]{display:flex;align-items:center;justify-content:center;gap:10px}
+[data-ic]::before{content:'';flex:none;width:1.3em;height:1.3em;background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+.btn[data-ic]::before{width:1.45em;height:1.45em;filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
+.field label[data-ic]{display:flex;align-items:center;gap:6px}.field label[data-ic]::before{width:18px;height:18px}
+[data-ic="play"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M8 4.8v14.4L19.5 12z%22 fill=%22%23000%22 stroke=%22%23000%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
+[data-ic="next"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M5 5.2v13.6L14.6 12z%22 fill=%22%23000%22 stroke=%22%23000%22 stroke-width=%222.2%22 stroke-linejoin=%22round%22/%3E%3Crect x=%2216%22 y=%224.8%22 width=%223.6%22 height=%2214.4%22 rx=%221.5%22/%3E%3C/svg%3E")}
+[data-ic="home"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M12 3.2 2.6 11.4c-.6.6-.2 1.6.6 1.6H5v6.6c0 .7.5 1.2 1.2 1.2h3.6v-5.6h4.4v5.6h3.6c.7 0 1.2-.5 1.2-1.2V13h1.8c.8 0 1.2-1 .6-1.6z%22/%3E%3C/svg%3E")}
+[data-ic="retry"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M19.2 13A7.3 7.3 0 1 1 16.8 6.4%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%223.2%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M20.4 2.8v6.6h-6.6z%22 stroke=%22%23000%22 stroke-width=%221.6%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
+[data-ic="check"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M4.2 12.6l5.2 5.2L19.8 6.8%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%223.8%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
+[data-ic="trash"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M3.5 6.5h17M9 6.5V4.2c0-.6.5-1 1-1h4c.6 0 1 .4 1 1v2.3%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M5.5 8.5h13l-1.1 11.3c-.1.8-.7 1.4-1.5 1.4H8.1c-.8 0-1.4-.6-1.5-1.4z%22/%3E%3C/svg%3E")}
+[data-ic="bell"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M12 2.8c-3.6 0-6.3 2.8-6.3 6.4v4.2L3.6 17h16.8l-2.1-3.6V9.2c0-3.6-2.7-6.4-6.3-6.4z%22/%3E%3Cpath d=%22M9.3 18.6a2.7 2.7 0 0 0 5.4 0z%22/%3E%3C/svg%3E")}
+[data-ic="sound"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M3.5 9h3.8L12.5 4.6v14.8L7.3 15H3.5z%22/%3E%3Cpath d=%22M15.6 8.6a4.6 4.6 0 0 1 0 6.8M18.3 5.8a8.6 8.6 0 0 1 0 12.4%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/%3E%3C/svg%3E")}
+[data-ic="mute"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M3.5 9h3.8L12.5 4.6v14.8L7.3 15H3.5z%22/%3E%3Cpath d=%22M15.5 9.2l5.6 5.6M21.1 9.2l-5.6 5.6%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22 stroke-linecap=%22round%22/%3E%3C/svg%3E")}
+[data-ic="voice"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%228.6%22 cy=%228%22 r=%224.2%22/%3E%3Cpath d=%22M1.6 21c0-4 3.1-6.7 7-6.7s7 2.7 7 6.7z%22/%3E%3Cpath d=%22M16.6 6.2a4.2 4.2 0 0 1 0 5.6M19.4 3.6a8 8 0 0 1 0 10.8%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.2%22 stroke-linecap=%22round%22/%3E%3C/svg%3E")}
+[data-ic="novoice"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%228.6%22 cy=%228%22 r=%224.2%22/%3E%3Cpath d=%22M1.6 21c0-4 3.1-6.7 7-6.7s7 2.7 7 6.7z%22/%3E%3Cpath d=%22M16 5.5l5.5 5.5M21.5 5.5L16 11%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/%3E%3C/svg%3E")}
+[data-ic="pin"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill-rule=%22evenodd%22 d=%22M12 2.4c-4 0-7.2 3.1-7.2 7.1 0 5.2 7.2 12.1 7.2 12.1s7.2-6.9 7.2-12.1c0-4-3.2-7.1-7.2-7.1zm0 4.2a2.9 2.9 0 1 1 0 5.8 2.9 2.9 0 0 1 0-5.8z%22/%3E%3C/svg%3E")}
+[data-ic="globe"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.4%22/%3E%3Cpath d=%22M3 12h18M12 3c-2.8 3-2.8 15 0 18M12 3c2.8 3 2.8 15 0 18%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22/%3E%3C/svg%3E")}
+[data-ic="clock"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22/%3E%3Cpath d=%22M12 7v5.3l3.4 2.2%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-height:760px){.hero{width:110px;height:110px}.logo h1{font-size:42px}.logo .ar{font-size:24px}.world img{max-width:56px}.world small{display:none}}
 </style>
@@ -212,7 +231,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
     <div class="logo"><div class="ar">نُور</div><h1>Nur <em>Connect</em></h1><p id="tTag"></p></div>
     <div class="statline"><div class="pill"><span class="hash">#</span><span id="hLvl">1</span></div><div class="pill"><img src="assets/ui/star.webp" alt=""><span id="hStars">0</span></div></div>
     <div class="worlds" id="worlds"></div>
-    <div class="homebar"><button class="btn" id="bStart"></button><button class="tool sm" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button></div>
+    <div class="homebar"><button class="btn" data-ic="play" id="bStart"></button><button class="tool sm" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button></div>
     <div class="sched-box"><label id="tSched"></label><div class="sched" id="sched"></div><div class="meta" id="schedMeta"></div></div>
   </div>
 </div>
@@ -224,7 +243,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
     <img class="hero" id="bisArt" src="assets/badges/mosque.webp" alt="">
     <div class="ar-big">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
     <p id="bisMean"></p>
-    <button class="btn" id="bBis">Bismillah</button>
+    <button class="btn" data-ic="play" id="bBis">Bismillah</button>
   </div>
 </div>
 
@@ -238,8 +257,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
     <h2 id="winTitle"></h2>
     <p id="winBody"></p>
     <div class="gift" id="winGift" hidden><img src="assets/ui/gift.webp" alt=""><span id="winGiftT"></span></div>
-    <button class="btn" id="bNext"></button>
-    <button class="btn ghost" id="bWinHome"></button>
+    <button class="btn" data-ic="next" id="bNext"></button>
+    <button class="btn ghost" data-ic="home" id="bWinHome"></button>
   </div>
 </div>
 
@@ -249,8 +268,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
     <div class="ribbon"><img src="assets/ui/ribbon-red.webp" alt=""><span id="loseTitle"></span></div>
     <div class="ar-big" style="font-size:28px;margin-top:6px">قَدَّرَ ٱللَّٰهُ وَمَا شَاءَ فَعَلَ</div>
     <p id="loseBody"></p>
-    <button class="btn" id="bRetry"></button>
-    <button class="btn ghost" id="bLoseHome"></button>
+    <button class="btn" data-ic="retry" id="bRetry"></button>
+    <button class="btn ghost" data-ic="home" id="bLoseHome"></button>
   </div>
 </div>
 
@@ -260,8 +279,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
     <div class="ribbon green"><img src="assets/ui/ribbon-green.webp" alt=""><span id="pauseTitle"></span></div>
     <div class="ar-big" style="font-size:28px;margin-top:6px">سُبْحَانَ ٱللَّٰهِ وَبِحَمْدِهِ</div>
     <p id="pauseBody"></p>
-    <button class="btn" id="bResume"></button>
-    <button class="btn ghost" id="bPauseHome"></button>
+    <button class="btn" data-ic="play" id="bResume"></button>
+    <button class="btn ghost" data-ic="home" id="bPauseHome"></button>
   </div>
 </div>
 
@@ -269,18 +288,18 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 <div class="ov" id="ovSet" hidden>
   <div class="card" style="text-align:left">
     <div class="ribbon green"><img src="assets/ui/ribbon-green.webp" alt=""><span id="setTitle"></span></div>
-    <div class="field"><label id="lCity" for="city"></label><select id="city"></select></div>
+    <div class="field"><label data-ic="pin" id="lCity" for="city"></label><select id="city"></select></div>
     <div class="row" id="customRow" hidden>
       <div class="field"><label for="lat">Lat</label><input id="lat" type="number" step="0.0001"></div>
       <div class="field"><label for="lng">Lng</label><input id="lng" type="number" step="0.0001"></div>
     </div>
-    <div class="field"><label id="lLang"></label><div class="seg" id="segLang"><button data-v="en">English</button><button data-v="id">Indonesia</button></div></div>
-    <div class="field"><label id="lWait"></label><div class="seg" id="segWait"><button data-v="5">5 min</button><button data-v="10">10 min</button><button data-v="15">15 min</button><button data-v="20">20 min</button></div></div>
-    <div class="field"><label id="lSound"></label><div class="seg" id="segSound"><button data-v="1"></button><button data-v="0"></button></div></div>
-    <div class="field"><label id="lVoice"></label><div class="seg" id="segVoice"><button data-v="1"></button><button data-v="0"></button></div></div>
-    <button class="btn ghost" id="bPreview"></button>
-    <button class="btn ghost" id="bReset"></button>
-    <button class="btn" id="bSetDone"></button>
+    <div class="field"><label data-ic="globe" id="lLang"></label><div class="seg" id="segLang"><button data-v="en">🇬🇧 English</button><button data-v="id">🇮🇩 Indonesia</button></div></div>
+    <div class="field"><label data-ic="clock" id="lWait"></label><div class="seg" id="segWait"><button data-v="5">5 min</button><button data-v="10">10 min</button><button data-v="15">15 min</button><button data-v="20">20 min</button></div></div>
+    <div class="field"><label data-ic="sound" id="lSound"></label><div class="seg" id="segSound"><button data-v="1" data-ic="sound"></button><button data-v="0" data-ic="mute"></button></div></div>
+    <div class="field"><label data-ic="voice" id="lVoice"></label><div class="seg" id="segVoice"><button data-v="1" data-ic="voice"></button><button data-v="0" data-ic="novoice"></button></div></div>
+    <button class="btn ghost" data-ic="bell" id="bPreview"></button>
+    <button class="btn ghost" data-ic="trash" id="bReset"></button>
+    <button class="btn" data-ic="check" id="bSetDone"></button>
   </div>
 </div>
 
@@ -293,7 +312,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
     <h2 id="lockTitle"></h2>
     <p id="lockBody"></p>
     <div class="count" id="lockCount"></div>
-    <button class="btn gold" id="bPrayed"></button>
+    <button class="btn gold" data-ic="check" id="bPrayed"></button>
   </div>
 </div>
 
@@ -530,7 +549,7 @@ const SIZES=[[6,8],[6,9],[7,8],[6,10],[7,10],[8,10],[8,11],[8,12]];
 let G={level:getLv(curWorld().id),total:store.get('stars',0),stars:0,rows:0,cols:0,grid:[],sel:null,time:0,max:0,hints:3,shuf:2,undo:3,hist:[],combo:0,last:0,running:false,left:0};
 const cv=$('#cv'),ctx=cv.getContext('2d');let W=0,H=0,DPR=1,tw=40,th=46,ox=0,oy=0;
 const COL={face1:'#FFFDF6',face2:'#FFF1D6',side:'#E9C98F',side2:'#C49A5C',gold:'#FFC93C',ok:'#5BE37D',rose:'#FF5A5F',ink:'#2B1478'};
-let anim={},removing=[],particles=[],trails=[],drag=null,hintPair=null,hintUntil=0;
+let anim={},removing=[],particles=[],trails=[],drag=null,hintPair=null,hintUntil=0,hintPath=null,hintT0=0;
 const key=(r,c)=>r+'_'+c,same=(a,b)=>a&&b&&a[0]===b[0]&&a[1]===b[1];
 function buzz(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
 function cfg(n){const [c,r]=SIZES[Math.min(n-1,SIZES.length-1)],pairs=c*r/2;return{c,r,pairs,types:Math.min(IDS.length,8+(n-1)*2,pairs),time:Math.round(pairs*Math.max(5,10-n)+40)}}
@@ -594,8 +613,8 @@ function match(a,b,path){const now=performance.now();trails.push({path,t0:now});
   if(!anyMove()){praise('shuffle',t('noMove'));setTimeout(()=>doShuffle(true),800)}}
 function doShuffle(free){const pos=[],vals=[];for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(G.grid[r][c]){pos.push([r,c]);vals.push(G.grid[r][c])}
   let n=0;do{shuffleArr(vals);pos.forEach(([r,c],i)=>G.grid[r][c]=vals[i])}while(!anyMove()&&++n<60);
-  G.sel=null;drag=null;spawnAll(performance.now(),12);sfx.shuffle();if(!free)G.shuf--;hud();buzz(20)}
-$('#bHint').onclick=()=>{if(!G.running||blocked()||G.hints<=0)return;ensureAudio();const m=findMove();if(!m){doShuffle(true);return}hintPair=m;hintUntil=performance.now()+3200;G.hints--;sfx.hint();hud()};
+  G.sel=null;drag=null;hintPair=null;spawnAll(performance.now(),12);sfx.shuffle();if(!free)G.shuf--;hud();buzz(20)}
+$('#bHint').onclick=()=>{if(!G.running||blocked()||G.hints<=0)return;ensureAudio();const m=findMove();if(!m){doShuffle(true);return}hintPair=m;hintPath=findPath(m[0][0],m[0][1],m[1][0],m[1][1]);hintT0=performance.now();hintUntil=hintT0+4200;G.hints--;sfx.hint();hud()};
 $('#bShuf').onclick=()=>{if(!G.running||blocked()||G.shuf<=0)return;ensureAudio();doShuffle(false);praise('shuffle')};
 $('#bUndo').onclick=()=>{if(!G.running||blocked()||G.undo<=0||!G.hist.length)return;ensureAudio();const h=G.hist.pop();
   [h.a,h.b].forEach(([r,c])=>{G.grid[r][c]=h.typ;anim[key(r,c)]={born:performance.now(),shake:0}});
@@ -627,8 +646,8 @@ function posAt(pts,d){for(let i=1;i<pts.length;i++){const dx=pts[i][0]-pts[i-1][
 function subPath(pts,f){const L=plen(pts)*f,out=[pts[0]];let d=0;for(let i=1;i<pts.length;i++){const l=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);
     if(d+l>=L){const k=l?(L-d)/l:0;out.push([pts[i-1][0]+(pts[i][0]-pts[i-1][0])*k,pts[i-1][1]+(pts[i][1]-pts[i-1][1])*k]);return out}out.push(pts[i]);d+=l}return out}
 /* connector: wide glowing line with arrows marching from the first tile to the second, arrowhead at the end */
-function connector(pts,now,alpha,reveal){if(pts.length<2)return;const P=reveal<1?subPath(pts,reveal):pts,W=Math.max(9,Math.min(17,tw*.24));
-  line(P,'rgba(28,11,85,.6)',W+5,0,alpha);line(P,COL.gold,W,18,alpha);line(P,'#FFF1B8',W*.4,0,alpha*.9);
+function connector(pts,now,alpha,reveal,green){if(pts.length<2)return;const P=reveal<1?subPath(pts,reveal):pts,W=Math.max(9,Math.min(17,tw*.24));
+  line(P,'rgba(28,11,85,.6)',W+5,0,alpha);line(P,green?'#3DDC6B':COL.gold,W,18,alpha);line(P,green?'#DFFFE5':'#FFF1B8',W*.4,0,alpha*.9);
   const L=plen(P),gap=Math.max(24,W*2.4),off=(now/1000*gap*2.6)%gap,s=W*.42;
   ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle=COL.ink;ctx.lineWidth=Math.max(2.6,W*.26);ctx.lineCap='round';ctx.lineJoin='round';
   for(let d=off;d<L-W*1.6;d+=gap){const [x,y,a]=posAt(P,d);ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.beginPath();ctx.moveTo(-s*.7,-s);ctx.lineTo(s*.5,0);ctx.lineTo(-s*.7,s);ctx.stroke();ctx.restore()}
@@ -646,9 +665,15 @@ function frame(now){const dt=Math.min(50,now-lastF)/16.7;lastF=now;
       if(a.born>now)continue;const e=Math.min(1,(now-a.born)/380),s=e<1?easeBack(e):1;
       const sh=a.shake&&now-a.shake<320?Math.sin((now-a.shake)/22)*5*(1-(now-a.shake)/320):0;
       if(k===sk||k===tk){later.push([r,c,v,s,sh,k]);continue}
-      drawTile(r,c,v,s,0,hk.includes(k)?`rgba(123,211,137,${.4+.6*pulse})`:null,Math.min(1,e*2),sh)}
+      const hint=hk.includes(k);drawTile(r,c,v,s,hint?-Math.abs(Math.sin((now-hintT0)/170))*th*.14:0,hint?`rgba(61,220,107,${.5+.5*pulse})`:null,Math.min(1,e*2),sh)}
     later.forEach(([r,c,v,s,sh,k])=>drawTile(r,c,v,s*1.06,-6,k===tk?COL.ok:COL.gold,1,sh));
     removing=removing.filter(o=>{const e=(now-o.t0)/320;if(e>=1)return false;drawTile(o.r,o.c,o.type,1.12-e*1.1,-6*(1-e),COL.gold,1-e);return true});
+    if(hk.length&&hintPath){const age=now-hintT0,fade=Math.min(1,(hintUntil-now)/400);
+      connector(hintPath.map(([r,c])=>[X(c),Y(r)]),now,fade,Math.min(1,(age%1500)/600),true);
+      hintPair.forEach(([r,c],i)=>{const b=Math.abs(Math.sin(age/170+i*.6))*th*.16,x=X(c),y=Y(r)-th*.62-b,h=Math.max(16,tw*.34);
+        ctx.save();ctx.globalAlpha=fade;ctx.translate(x,y);ctx.beginPath();ctx.moveTo(0,h*.55);ctx.lineTo(-h*.55,-h*.05);ctx.lineTo(-h*.2,-h*.05);ctx.lineTo(-h*.2,-h*.6);
+        ctx.lineTo(h*.2,-h*.6);ctx.lineTo(h*.2,-h*.05);ctx.lineTo(h*.55,-h*.05);ctx.closePath();ctx.fillStyle='#fff';ctx.shadowColor='rgba(28,11,85,.6)';ctx.shadowBlur=6;ctx.fill();
+        ctx.shadowBlur=0;ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.strokeStyle='#1F9A47';ctx.stroke();ctx.restore()})}
     if(drag&&drag.moved){const s=drag.start,sp=[X(s[1]),Y(s[0])];
       if(drag.path){const pts=drag.path.map(([r,c])=>[X(c),Y(r)]);
         if(drag.ok)connector(pts,now,1,1);else{line(pts,'#FFF6DE',3.5,0,.55,[2,9]);line([pts[pts.length-1],[drag.x,drag.y]],'#FFF6DE',3,0,.35,[2,9])}}
