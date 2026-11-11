@@ -57,6 +57,18 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .pill img,.pill svg{width:28px;height:28px;flex:none}
 .pill .hash{color:var(--gold);font-size:22px;padding-left:4px}
 .pill.timer.low{background:rgba(199,46,58,.75)}
+/* last 30 seconds: red glow at the screen edges pulses with the clock; the timer beats, then shakes */
+#danger{position:fixed;inset:0;z-index:6;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse 75% 65% at 50% 50%,rgba(255,40,60,0) 55%,rgba(255,40,60,.45) 85%,rgba(255,30,50,.8) 100%)}
+#danger.beat{animation:dz .9s ease-out forwards}
+@keyframes dz{0%{opacity:var(--dz,.5)}100%{opacity:calc(var(--dz,.5)*.15)}}
+.pill.timer.beat{animation:tbeat .45s ease-out}
+@keyframes tbeat{0%{transform:scale(1.18)}100%{transform:scale(1)}}
+.pill.timer.shake{animation:tshake .45s ease-in-out}
+@keyframes tshake{0%,100%{transform:translateX(0) scale(1.15)}20%{transform:translateX(-4px) rotate(-4deg) scale(1.12)}40%{transform:translateX(4px) rotate(4deg)}60%{transform:translateX(-3px) rotate(-3deg)}80%{transform:translateX(2px)}}
+.bar.low i{animation:barflash .5s ease-in-out infinite alternate}
+@keyframes barflash{to{filter:brightness(1.5)}}
+@media (prefers-reduced-motion:reduce){#danger.on{opacity:.35}}
 .bar{height:7px;border-radius:7px;background:rgba(28,11,85,.55);overflow:hidden;margin:4px 6px 0}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,#FFE27A,var(--gold),var(--gold-deep));border-radius:7px;transition:width .25s linear}
 .bar.low i{background:linear-gradient(90deg,#FF8A8E,var(--red))}
@@ -285,6 +297,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
   </div>
 </div>
 
+<div id="danger"></div>
 <div id="toast"></div>
 
 <script>
@@ -321,8 +334,8 @@ shuffle:{ar:'تَوَكَّلْتُ عَلَى ٱللَّٰهِ',en:['Tawakkaltu
 };
 /* Spoken-only lines (no toast) */
 const VO={
-en:{win:'Alhamdulillah! Well done!',lose:'Qaddarallah. Try again!',pray:'It is time to pray {p}.',hurry:'Hurry up!'},
-id:{win:'Alhamdulillah! Berhasil!',lose:'Qadarullah. Ayo coba lagi!',pray:'Waktunya sholat {p}.',hurry:'Ayo, cepat!'}
+en:{win:'Alhamdulillah! Well done!',lose:'Qaddarallah. Try again!',pray:'It is time to pray {p}.',hurry:'Hurry up!',hurry30:'30 seconds left, hurry!'},
+id:{win:'Alhamdulillah! Berhasil!',lose:'Qadarullah. Ayo coba lagi!',pray:'Waktunya sholat {p}.',hurry:'Ayo, cepat!',hurry30:'30 detik lagi, ayo cepat!'}
 };
 const S=Object.assign({city:'malang',lang:'en',wait:10,sound:1,voice:1,lat:-7.98,lng:112.63},store.get('settings',{}));
 const t=(k,v)=>{let s=T[S.lang][k]||k;if(v)for(const x in v)s=s.replace('{'+x+'}',v[x]);return s};
@@ -481,7 +494,12 @@ const sfx={
   win:()=>{C.forEach((f,i)=>{osc({f,type:'triangle',t:i*.11,d:.25,v:.07});chime(f,i*.11,.05,.8)});
     C.forEach(f=>osc({f,t:.5,a:.03,d:1.6,v:.04,wet:.5}));[2093,2637,3136].forEach((f,i)=>osc({f,t:.6+i*.09,d:.3,v:.025,wet:.9}))},
   lose:()=>[440,392,329.63].forEach((f,i)=>osc({f,type:'triangle',t:i*.18,d:.35,v:.07,wet:.4})),
-  tick:urgent=>osc({f:urgent?1050:820,type:'triangle',d:.04,v:urgent?.06:.04}),
+  /* clock: wooden tick-tock (alternating pitch) */
+  tick:odd=>{noise({d:.035,v:.09,f1:odd?3200:2300,f2:odd?2600:1800,q:6});osc({f:odd?1500:1150,type:'triangle',d:.03,v:.035})},
+  /* heartbeat: lub-dub */
+  heart:()=>{osc({f:70,f2:42,d:.14,v:.22});osc({f:62,f2:38,t:.2,d:.16,v:.17})},
+  /* last seconds: sharp beep */
+  beep:()=>{osc({f:1320,type:'square',d:.07,v:.035});osc({f:1320,type:'triangle',d:.09,v:.05})},
   bell:()=>{chime(392,0,.14,3);chime(587.33,.9,.1,3)}
 };
 /* every button gives a soft click (and unlocks audio on the first tap) */
@@ -645,8 +663,8 @@ function frame(now){const dt=Math.min(50,now-lastF)/16.7;lastF=now;
 requestAnimationFrame(frame);
 
 function hud(){$('#lvl').textContent=G.level;$('#stars').textContent=G.total+G.stars;$('#nHint').textContent=G.hints;$('#nShuf').textContent=G.shuf;$('#nUndo').textContent=G.undo;
-  $('#bHint').disabled=G.hints<=0;$('#bShuf').disabled=G.shuf<=0;$('#bUndo').disabled=G.undo<=0||!G.hist.length;$('#timerPill').classList.toggle('low',G.time<=10&&G.max>0);const s=Math.max(0,Math.ceil(G.time));$('#time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
-  $('#barFill').style.width=(G.max?G.time/G.max*100:100)+'%';$('#bar').classList.toggle('low',G.time<G.max*.2)}
+  $('#bHint').disabled=G.hints<=0;$('#bShuf').disabled=G.shuf<=0;$('#bUndo').disabled=G.undo<=0||!G.hist.length;$('#timerPill').classList.toggle('low',G.time<=30&&G.max>0);const s=Math.max(0,Math.ceil(G.time));$('#time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  $('#barFill').style.width=(G.max?G.time/G.max*100:100)+'%';$('#bar').classList.toggle('low',G.time<=30&&G.max>0)}
 let praiseT=null;function praise(k,override){const P=PR[k],L=P[S.lang],el=$('#praise');el.querySelector('.ar').textContent=P.ar;el.querySelector('.tr').textContent=override||L[0];el.querySelector('.mn').textContent=override?'':L[2];el.classList.remove('on');void el.offsetWidth;el.classList.add('on');clearTimeout(praiseT);praiseT=setTimeout(()=>el.classList.remove('on'),1700);voice(k,L[1])}
 
 /* ---------- Flow ---------- */
@@ -654,27 +672,38 @@ const OVS=['ovHome','ovBis','ovWin','ovLose','ovPause','ovSet'];
 function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id)}
 function anyOv(){return OVS.some(o=>!$('#'+o).hidden)}
 function blocked(){return anyOv()||!$('#ovLock').hidden||document.hidden}
-function goHome(){G.running=false;renderHome();show('ovHome')}
+function goHome(){G.running=false;calm();renderHome();show('ovHome')}
 function gate(){$('#bisLvl').textContent=t('level')+' '+G.level;$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
 function rating(){const f=G.max?G.time/G.max:0;return f>=.5?3:f>=.25?2:1}
 $('#bStart').onclick=()=>{ensureAudio();if(!G.grid.length||!G.running)newLevel();gate()};
 $('#bHomeSet').onclick=()=>openSettings();
-$('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;hurried=false;praise('bismillah');sfx.start()};
-function win(){G.running=false;const bonus=Math.floor(G.time/6),rt=rating(),gift=G.level%5===0?10:0;G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
+$('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;hurried={};calm();praise('bismillah');sfx.start()};
+function win(){G.running=false;calm();const bonus=Math.floor(G.time/6),rt=rating(),gift=G.level%5===0?10:0;G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
   $('#winRib').textContent=t('cleared',{n:G.level});$('#rate').innerHTML=[1,2,3].map(i=>`<img src="assets/ui/star.webp" alt="" class="${i<=rt?'':'off'}">`).join('');
   $('#winGift').hidden=!gift;$('#winGiftT').textContent=t('gift',{g:gift});
   $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB',{s:G.stars,b:bonus});G.level++;store.set('lv:'+curWorld().id,G.level);sfx.win();voice('win');show('ovWin');hud()}
 $('#bNext').onclick=()=>{newLevel();gate()};
 $('#bWinHome').onclick=()=>{G.grid=[];goHome()};
-function lose(){G.running=false;G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');sfx.lose();voice('lose');show('ovLose')}
+function lose(){G.running=false;calm();G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');sfx.lose();voice('lose');show('ovLose')}
 $('#bRetry').onclick=()=>{newLevel();gate()};
 $('#bLoseHome').onclick=()=>{G.grid=[];goHome()};
 $('#bResume').onclick=()=>show(null);
 $('#bPauseHome').onclick=()=>goHome();
 
-let lastTick=Date.now(),hurried=false;
+let lastTick=Date.now(),hurried={};
+/* the last 30 s: tick-tock; from 10 s a heartbeat; from 5 s beeps. The edge glow and timer pulse in step. */
+function tension(sec){const dz=$('#danger'),tp=$('#timerPill');dz.classList.add('on');
+  if(sec===30&&!hurried[30]){hurried[30]=1;voice('hurry30')}
+  if(sec===10&&!hurried[10]){hurried[10]=1;voice('hurry')}
+  if(sec>10)sfx.tick(sec%2);else if(sec>5){sfx.tick(sec%2);sfx.heart()}else{sfx.beep();sfx.heart()}
+  const k=sec>10?.32+(30-sec)*.012:sec>5?.62:.85;dz.style.setProperty('--dz',k);
+  const pulse=()=>{dz.classList.remove('beat');void dz.offsetWidth;dz.classList.add('beat')};pulse();
+  if(sec<=10)setTimeout(()=>{if(G.running&&!blocked())pulse()},200);   /* second beat of the heartbeat */
+  const cls=sec<=5?'shake':'beat';tp.classList.remove('beat','shake');void tp.offsetWidth;tp.classList.add(cls);
+  if(sec<=10)buzz(sec<=5?[30,60,30]:20)}
+function calm(){const dz=$('#danger');dz.classList.remove('on','beat');dz.style.opacity='';$('#timerPill').classList.remove('beat','shake')}
 setInterval(()=>{const n=Date.now(),dt=(n-lastTick)/1000;lastTick=n;
-  if(G.running&&!blocked()){const before=Math.ceil(G.time);G.time-=dt;if(G.time<=0){G.time=0;hud();lose();return}const sec=Math.ceil(G.time);if(sec<before&&sec<=10){sfx.tick(sec<=3);if(sec===10&&!hurried){hurried=true;voice('hurry')}}hud()}
+  if(G.running&&!blocked()){const before=Math.ceil(G.time);G.time-=dt;if(G.time<=0){G.time=0;hud();lose();return}const sec=Math.ceil(G.time);if(sec<before&&sec<=30)tension(sec);hud()}
   tickPrayer(n)},250);
 
 /* ---------- Prayer lock ---------- */
