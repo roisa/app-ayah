@@ -202,6 +202,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 [data-ic]::before{content:'';flex:none;width:1.3em;height:1.3em;background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
 .btn[data-ic]::before{width:1.45em;height:1.45em;filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
 .field label[data-ic]{display:flex;align-items:center;gap:6px}.field label[data-ic]::before{width:18px;height:18px}
+[data-ic="music"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M9 17.5V5.2l11-2.2v11.8%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%226.4%22 cy=%2217.6%22 r=%223.2%22/%3E%3Ccircle cx=%2217.4%22 cy=%2215%22 r=%223.2%22/%3E%3C/svg%3E")}
 [data-ic="play"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M8 4.8v14.4L19.5 12z%22 fill=%22%23000%22 stroke=%22%23000%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
 [data-ic="next"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M5 5.2v13.6L14.6 12z%22 fill=%22%23000%22 stroke=%22%23000%22 stroke-width=%222.2%22 stroke-linejoin=%22round%22/%3E%3Crect x=%2216%22 y=%224.8%22 width=%223.6%22 height=%2214.4%22 rx=%221.5%22/%3E%3C/svg%3E")}
 [data-ic="home"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M12 3.2 2.6 11.4c-.6.6-.2 1.6.6 1.6H5v6.6c0 .7.5 1.2 1.2 1.2h3.6v-5.6h4.4v5.6h3.6c.7 0 1.2-.5 1.2-1.2V13h1.8c.8 0 1.2-1 .6-1.6z%22/%3E%3C/svg%3E")}
@@ -252,50 +253,34 @@ body.menu #app{visibility:hidden}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
 .copy{position:absolute;left:0;right:0;bottom:calc(8px + env(safe-area-inset-bottom,0px));text-align:center;font-size:11.5px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8),0 0 8px rgba(0,60,0,.6);z-index:4;letter-spacing:.2px}
 
-/* ===== Scene 2: choose a world (book page) ===== */
-.book{position:relative;width:100%;max-width:440px;margin-top:8px;background:#F7EAD5;border:3px solid #E6CFA8;border-radius:26px;padding:16px 12px 10px;
-  box-shadow:inset 0 0 0 5px #FBF3E6,0 10px 0 #C7A574,0 24px 44px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:10px;color:#6B4A2B}
-.rbtn{position:absolute;top:-16px;z-index:5;width:48px;height:48px;border-radius:50%;border:3px solid #fff;display:grid;place-items:center;padding:0;box-shadow:0 4px 0 rgba(0,0,0,.25)}
-.rbtn svg{width:26px;height:26px;color:#fff}
-.rbtn.red{right:-6px;background:radial-gradient(circle at 35% 30%,#FF8C82,#E53935 70%)}
-.rbtn.blue{left:-6px;background:radial-gradient(circle at 35% 30%,#7CCBFF,#1E7FE0 70%)}
-.bk-head{display:flex;align-items:center;gap:8px;background:#FBF2E4;border:2px solid #EBD7B7;border-radius:20px;padding:8px 10px;box-shadow:inset 0 2px 0 #fff,0 3px 0 #E3CAA2}
-.bk-badge{flex:none;width:96px;text-align:center;position:relative}
-.bk-badge img{width:86px;height:86px;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25));animation:bob 2.6s ease-in-out infinite}
-.bk-badge b{display:block;margin-top:-10px;font-family:var(--f-display);font-weight:400;font-size:14px;line-height:1.05;color:#fff;-webkit-text-stroke:4px #6B3A12;paint-order:stroke fill}
-.bk-title{flex:1;text-align:center}
-.bk-title h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:min(9.4vw,38px);line-height:1.02;color:#FFC93C;-webkit-text-stroke:7px #8A4B00;paint-order:stroke fill;
-  text-shadow:0 4px 0 #8A4B00,0 8px 10px rgba(0,0,0,.25);transform:rotate(-2deg);text-transform:uppercase}
-.bk-stars{display:inline-flex;align-items:center;gap:4px;margin-top:6px;background:#fff;border:2px solid #EBD7B7;border-radius:999px;padding:2px 10px 2px 4px;font-family:var(--f-display);font-size:16px;color:#8A4B00}
-.bk-stars img{width:22px;height:22px}
-.bk-body{position:relative}
-.bk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 6px;min-height:0;touch-action:pan-y}
-.bk-grid.slide{animation:slideIn .35s ease-out}
-@keyframes slideIn{0%{opacity:0;transform:translateX(var(--dx,30px))}100%{opacity:1;transform:none}}
-.wcard{position:relative;border:3px solid #fff;border-radius:16px;padding:0;overflow:hidden;display:flex;flex-direction:column;background:var(--wc);
-  box-shadow:0 4px 0 #D6BB90,0 8px 14px rgba(107,74,43,.22);transition:transform .1s}
-.wcard:active{transform:scale(.96)}
-.wcard.cur{border-color:#FFC93C;box-shadow:0 0 0 3px #FFC93C,0 4px 0 #D6BB90,0 8px 14px rgba(107,74,43,.22)}
-.wcard img{width:100%;aspect-ratio:1/.92;object-fit:contain;padding:8px 8px 2px;filter:drop-shadow(0 4px 5px rgba(0,0,0,.25))}
-.wcard .st{display:flex;justify-content:center;gap:1px;padding:2px 0 3px;background:linear-gradient(transparent,rgba(0,0,0,.08))}
-.wcard .st img{width:13px;height:13px;aspect-ratio:auto;padding:0;filter:none}
-.wcard .st img.off{filter:grayscale(1) brightness(1.4);opacity:.45}
-.wcard b{display:block;background:linear-gradient(180deg,#FF9F45,#E8661C);color:#fff;font-family:var(--f-display);font-weight:400;font-size:12px;letter-spacing:.2px;
-  padding:5px 2px 6px;line-height:1.05;-webkit-text-stroke:3px #9A3A0A;paint-order:stroke fill;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wcard .lv{position:absolute;top:5px;right:5px;background:#FFF7E9;border:2px solid #E8661C;color:#E8661C;border-radius:9px;padding:1px 5px;font-family:var(--f-display);font-size:12.5px;line-height:1.1;box-shadow:0 2px 0 rgba(0,0,0,.15);transform:rotate(6deg)}
-.pg{position:absolute;top:50%;width:30px;height:46px;margin-top:-23px;border:0;padding:0;background:none;z-index:2}
-.pg::before{content:'';position:absolute;inset:0;background:linear-gradient(#FFB347,#F07C1E);filter:drop-shadow(0 3px 0 #B5520D)}
-.pg.prev{left:-16px}.pg.prev::before{clip-path:polygon(0 50%,100% 0,100% 100%)}
-.pg.next{right:-16px}.pg.next::before{clip-path:polygon(100% 50%,0 0,0 100%)}
-.pg:disabled{opacity:.25}
-.bk-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.praychip{display:flex;align-items:center;gap:6px;border:2px solid #EBD7B7;background:#FFFDF8;border-radius:999px;padding:4px 12px 4px 8px;font-size:12.5px;font-weight:700;color:#6B4A2B;max-width:76%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.praychip b{color:#E8661C;font-weight:800}
-.pgnum{flex:none;width:38px;height:38px;border-radius:50%;background:#FBF2E4;border:2px solid #E3CAA2;display:grid;place-items:center;font-family:var(--f-display);font-size:16px;color:#A07A50}
-.schedpop{position:absolute;left:10px;right:10px;bottom:56px;z-index:6;background:#FFFDF8;border:2px solid #EBD7B7;border-radius:18px;padding:10px;box-shadow:0 10px 24px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:6px}
-.schedpop label{font-size:11px;font-weight:800;color:#A07A50;text-transform:uppercase;letter-spacing:.6px;text-align:center}
-.schedpop .sched div{background:#FBF2E4;color:#6B4A2B}.schedpop .sched small,.schedpop .meta{color:#A07A50}.schedpop .sched .now{border-color:#E8661C;background:#FFE9D2}
-@media (max-height:740px){.bk-badge img{width:64px;height:64px}.bk-badge{width:76px}.wcard img{aspect-ratio:1/.72;padding:5px 5px 0}.bk-title h1{font-size:30px}}
+/* ===== Scene 2: choose a world ===== */
+.pick{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+#ovHome{display:flex;justify-content:center;padding-top:max(14px,env(safe-area-inset-top,0px));padding-bottom:max(10px,env(safe-area-inset-bottom,0px));overflow:hidden}
+#ovHome .pick{height:auto;align-self:stretch;min-height:0}
+.pk-top{width:100%;display:flex;justify-content:space-between;align-items:center}
+.pk-top .tool.sm{width:48px;height:48px}
+.pk-title{margin:2px 0 0;font-family:var(--f-display);font-weight:400;font-size:min(10vw,42px);line-height:1;color:var(--gold);-webkit-text-stroke:8px var(--v-ink);paint-order:stroke fill;
+  text-shadow:0 5px 0 var(--v-ink),0 10px 18px rgba(0,0,0,.35);transform:rotate(-2deg);text-transform:uppercase;text-align:center}
+.pk-scroll{flex:1;min-height:0;width:100%;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;
+  -webkit-mask:linear-gradient(transparent,#000 16px,#000 calc(100% - 26px),transparent);mask:linear-gradient(transparent,#000 16px,#000 calc(100% - 26px),transparent);scrollbar-width:none}
+.pk-scroll::-webkit-scrollbar{display:none}
+.pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 6px;padding:14px 4px 30px}
+.wb{position:relative;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:1px;color:#fff;animation:wbIn .45s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(var(--i)*35ms)}
+@keyframes wbIn{0%{opacity:0;transform:scale(.6) translateY(20px)}100%{opacity:1;transform:none}}
+.wb>img{width:100%;max-width:118px;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(0,0,0,.4));transition:transform .12s}
+.wb:active>img{transform:scale(.92)}
+.wb.cur>img{animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(255,201,60,.9)) drop-shadow(0 6px 8px rgba(0,0,0,.4))}
+.wb b{font-family:var(--f-display);font-weight:400;font-size:13.5px;line-height:1.05;letter-spacing:.3px;-webkit-text-stroke:4px var(--v-ink);paint-order:stroke fill;text-align:center;min-height:2.1em;display:flex;align-items:center}
+.wb .st{display:flex;gap:1px;margin-top:-2px}.wb .st img{width:12px;height:12px}.wb .st img.off{filter:grayscale(1) brightness(.6);opacity:.55}
+.wb .lv{position:absolute;top:2%;right:6%;background:linear-gradient(180deg,#FF8A8E,var(--red));border:2px solid #fff;border-radius:10px;padding:0 6px;font-family:var(--f-display);font-size:13px;line-height:1.4;box-shadow:0 2px 0 rgba(0,0,0,.25);transform:rotate(8deg)}
+.wb.soon{pointer-events:auto}.wb.soon>img{filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));opacity:.9}
+.wb.soon::after{content:'';position:absolute;top:14%;left:50%;width:42%;aspect-ratio:1;translate:-50% 0;background:url(assets/ui/padlock.webp) center/contain no-repeat;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4))}
+.wb.soon b{color:var(--muted)}
+.praychip{display:flex;align-items:center;gap:6px;border:2px solid rgba(255,255,255,.22);background:rgba(28,11,85,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border-radius:999px;padding:5px 14px;font-size:12.5px;font-weight:700;color:#fff;max-width:94%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.praychip b{color:var(--gold);font-weight:800}
+.schedpop{position:absolute;left:8px;right:8px;bottom:46px;z-index:6;background:linear-gradient(180deg,var(--v1),var(--v3));border:3px solid rgba(255,255,255,.28);border-radius:20px;padding:10px;box-shadow:0 8px 0 var(--v-ink),0 16px 30px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:6px}
+.schedpop label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;text-align:center}
 @media (max-height:760px){.ov.intro{padding-top:calc(4vh + env(safe-area-inset-top,0px));gap:2vh}.logo3{width:min(76vw,330px)}.playimg{width:min(54vw,230px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-height:760px){.hero,.hero-wrap{width:110px;height:110px}.sunburst{width:280px;height:280px;margin:-140px 0 0 -140px}.logo h1{font-size:42px}.logo .ar{font-size:24px}.world img{max-width:62px}.world small{display:none}}
@@ -340,21 +325,17 @@ body.menu #app{visibility:hidden}
   <div class="copy" id="tCopy"></div>
 </div>
 
-<!-- Scene 2: choose a world (book page) -->
+<!-- Scene 2: choose a world -->
 <div class="ov" id="ovHome" hidden>
-  <div class="book">
-    <button class="rbtn blue" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button>
-    <button class="rbtn red" id="bBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M10.5 5 4 12l6.5 7v-4.3H20V9.3h-9.5z" fill="#fff" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
-    <div class="bk-head">
-      <div class="bk-badge"><img id="featImg" src="assets/badges/mosque.webp" alt=""><b id="featName"></b></div>
-      <div class="bk-title"><h1 id="tChoose"></h1><div class="bk-stars"><img src="assets/ui/star.webp" alt=""><b id="hStars">0</b></div></div>
+  <div class="pick">
+    <div class="pk-top">
+      <button class="tool sm" id="bBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M10.5 5 4 12l6.5 7v-4.3H20V9.3h-9.5z" fill="#fff" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+      <div class="pill"><img src="assets/ui/star.webp" alt=""><span id="hStars">0</span></div>
+      <button class="tool sm" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button>
     </div>
-    <div class="bk-body">
-      <button class="pg prev" id="pgPrev" aria-label="Previous"></button>
-      <div class="bk-grid" id="worlds"></div>
-      <button class="pg next" id="pgNext" aria-label="Next"></button>
-    </div>
-    <div class="bk-foot"><button class="praychip" id="prayChip"><span id="prayTxt">—</span></button><div class="pgnum" id="pgNum">1</div></div>
+    <h1 class="pk-title" id="tChoose"></h1>
+    <div class="pk-scroll" id="pkScroll"><div class="pk-grid" id="worlds"></div></div>
+    <button class="praychip" id="prayChip"><span id="prayTxt">—</span></button>
     <div class="schedpop" id="schedPop" hidden><label id="tSched"></label><div class="sched" id="sched"></div><div class="meta" id="schedMeta"></div></div>
     <button id="bStart" hidden></button><span id="hLvl" hidden></span><p id="tTag" hidden></p>
   </div>
@@ -422,6 +403,7 @@ body.menu #app{visibility:hidden}
     <div class="field"><label data-ic="clock" id="lWait"></label><div class="seg" id="segWait"><button data-v="5">5 min</button><button data-v="10">10 min</button><button data-v="15">15 min</button><button data-v="20">20 min</button></div></div>
     <div class="field"><label data-ic="sound" id="lSound"></label><div class="seg" id="segSound"><button data-v="1" data-ic="sound"></button><button data-v="0" data-ic="mute"></button></div></div>
     <div class="field"><label data-ic="voice" id="lVoice"></label><div class="seg" id="segVoice"><button data-v="1" data-ic="voice"></button><button data-v="0" data-ic="novoice"></button></div></div>
+    <div class="field"><label data-ic="music" id="lMusic"></label><div class="seg" id="segMusic"><button data-v="1" data-ic="music"></button><button data-v="0" data-ic="mute"></button></div></div>
     <button class="btn ghost" data-ic="bell" id="bPreview"></button>
     <button class="btn ghost" data-ic="trash" id="bReset"></button>
     <button class="btn" data-ic="check" id="bSetDone"></button>
@@ -452,14 +434,14 @@ const store={get(k,d){try{const v=localStorage.getItem('nur:'+k);return v==null?
 
 /* ---------- Text ---------- */
 const T={
-en:{choose:'Choose a World',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',locked:'Soon',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
+en:{choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
 bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah!',winB:'All praise is for Allah. You earned {s} stars, including {b} for time left.',next:'Next level, Bismillah',home:'Home',
 loseT:'Time is up!',loseB:'Allah has decreed, and He does what He wills. Take a breath and try again.',retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
 lockT:'It is time for {p}',lockB:'Pause the game and pray {p} first, at the masjid or at home. Your game is saved right where you left it.',lockWait:'The button opens in {m}',lockReady:'Done praying? Tap below.',prayed:'I have prayed {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound effects',voice:'Voice cheers (MasyaAllah, great!)',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
 next2:'{p} at {t} · in {d}',nowP:'{p} time now',noMove:'No moves left. Shuffling…',hintNone:'Shuffling for a fresh start',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min ihtiyat',resetDone:'Progress reset',
 P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'}},
-id:{choose:'Pilih Dunia',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
+id:{choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
 bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah!',winB:'Segala puji bagi Allah. Kamu dapat {s} bintang, termasuk {b} dari sisa waktu.',next:'Level berikutnya, Bismillah',home:'Beranda',
 loseT:'Waktu habis!',loseB:'Allah telah menakdirkan, dan apa yang Dia kehendaki pasti terjadi. Tarik napas, lalu coba lagi.',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
 lockT:'Sudah masuk waktu {p}',lockB:'Jeda dulu, sholat {p} dulu, di masjid atau di rumah. Permainanmu tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk di bawah.',prayed:'Aku sudah sholat {p}',
@@ -482,7 +464,7 @@ const VO={
 en:{win:'Alhamdulillah! Well done!',lose:'Qaddarallah. Try again!',pray:'It is time to pray {p}.',hurry:'Hurry up!',hurry30:'30 seconds left, hurry!',bism:'Bismillah!'},
 id:{win:'Alhamdulillah! Berhasil!',lose:'Qadarullah. Ayo coba lagi!',pray:'Waktunya sholat {p}.',hurry:'Ayo, cepat!',hurry30:'30 detik lagi, ayo cepat!',bism:'Bismillah!'}
 };
-const S=Object.assign({city:'malang',lang:'en',wait:10,sound:1,voice:1,lat:-7.98,lng:112.63},store.get('settings',{}));
+const S=Object.assign({city:'malang',lang:'en',wait:10,sound:1,voice:1,music:1,lat:-7.98,lng:112.63},store.get('settings',{}));
 const t=(k,v)=>{let s=T[S.lang][k]||k;if(v)for(const x in v)s=s.replace('{'+x+'}',v[x]);return s};
 const pn=p=>T[S.lang].P[p];
 
@@ -681,6 +663,48 @@ const sfx={
 /* every button gives a soft click (and unlocks audio on the first tap) */
 document.addEventListener('click',e=>{if(e.target.closest('.btn,.tool,.seg button')){ensureAudio();sfx.click()}},true);
 
+/* ---------- Menu music ----------
+   An original tune composed for Nur Connect and played by the game itself (no audio files,
+   no third-party recording, so there are no copyright or licence issues).
+   104 bpm, 8-bar loop: C - Am - F - G, marimba melody, soft pad, plucked bass, light shaker. */
+const MUS={bpm:104,on:false,t0:0,step:0,timer:0,gain:null};
+const N=n=>440*Math.pow(2,(n-69)/12);
+/* melody: one entry per 8th note (MIDI note, 0 = rest), 8 bars x 8 */
+const MEL=[
+ 76,0,79,0,81,79,76,0,   72,0,74,76,0,74,72,0,
+ 76,0,79,0,84,0,81,79,   76,0,0,0,74,0,0,0,
+ 77,0,81,0,84,81,77,0,   76,0,79,0,81,0,79,76,
+ 74,0,76,79,0,76,74,0,   72,0,0,0,0,0,0,0];
+const CH=[[48,[60,64,67]],[45,[57,60,64]],[41,[57,60,65]],[43,[55,59,62]]];   /* bass + chord, 2 bars each */
+function mNote(f,t,d,v,type,wet){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g);g.connect(MUS.gain);if(wet&&verb){const w=ac.createGain();w.gain.value=wet;g.connect(w);w.connect(verb)}o.start(t);o.stop(t+d+.05)}
+function mMarimba(n,t){const f=N(n);mNote(f,t,.55,.16,'sine',.35);mNote(f*4,t,.12,.035,'sine',.2);mNote(f*2,t,.25,.03,'triangle')}
+function mPad(notes,t,d){notes.forEach(n=>{const o=ac.createOscillator(),g=ac.createGain(),lp=ac.createBiquadFilter();o.type='triangle';o.frequency.value=N(n);
+  lp.type='lowpass';lp.frequency.value=1400;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.022,t+.25);g.gain.setValueAtTime(.022,t+d-.3);g.gain.linearRampToValueAtTime(.0001,t+d);
+  o.connect(lp);lp.connect(g);g.connect(MUS.gain);o.start(t);o.stop(t+d+.05)})}
+function mShaker(t,v){const len=Math.ceil(ac.sampleRate*.05),b=ac.createBuffer(1,len,ac.sampleRate),x=b.getChannelData(0);for(let i=0;i<len;i++)x[i]=(Math.random()*2-1)*(1-i/len);
+  const s=ac.createBufferSource(),hp=ac.createBiquadFilter(),g=ac.createGain();s.buffer=b;hp.type='highpass';hp.frequency.value=6000;g.gain.value=v;s.connect(hp);hp.connect(g);g.connect(MUS.gain);s.start(t)}
+function mKick(t){const o=ac.createOscillator(),g=ac.createGain();o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);
+  g.gain.setValueAtTime(.16,t);g.gain.exponentialRampToValueAtTime(.0001,t+.18);o.connect(g);g.connect(MUS.gain);o.start(t);o.stop(t+.2)}
+function mSchedule(){const e=60/MUS.bpm/2;while(MUS.t0<ac.currentTime+.35){const s=MUS.step%64,t=MUS.t0,bar=Math.floor(s/8),beat=s%8;
+    if(MEL[s])mMarimba(MEL[s],t);
+    const [bass,ch]=CH[Math.floor(bar/2)%4];
+    if(beat===0){mNote(N(bass),t,.5,.13,'triangle');if(bar%2===0)mPad(ch,t,e*16)}
+    if(beat===4)mNote(N(bass+7),t,.4,.09,'triangle');
+    if(beat===0||beat===4)mKick(t);
+    mShaker(t,beat%2?.05:.025);
+    MUS.t0+=e;MUS.step++}}
+function musicOn(){if(!S.music||!S.sound||!ac||MUS.on)return;MUS.on=true;
+  MUS.gain=ac.createGain();MUS.gain.gain.setValueAtTime(.0001,ac.currentTime);MUS.gain.gain.exponentialRampToValueAtTime(.55,ac.currentTime+1.2);MUS.gain.connect(master);
+  MUS.t0=ac.currentTime+.1;MUS.step=0;mSchedule();MUS.timer=setInterval(mSchedule,90)}
+function musicOff(){if(!MUS.on)return;MUS.on=false;clearInterval(MUS.timer);const g=MUS.gain;
+  try{g.gain.cancelScheduledValues(ac.currentTime);g.gain.setValueAtTime(g.gain.value,ac.currentTime);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+.6)}catch(e){}
+  setTimeout(()=>{try{g.disconnect()}catch(e){}},800)}
+/* browsers only allow sound after the first tap: start the menu music then */
+document.addEventListener('pointerdown',()=>{ensureAudio();if(document.body.classList.contains('menu'))musicOn()},true);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)musicOff();else if(document.body.classList.contains('menu'))musicOn()});
+
 /* ---------- Voice cheers ---------- */
 const TTS='speechSynthesis' in window;let voices=[],spoke=false,clip=null;
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
@@ -864,7 +888,7 @@ let praiseT=null;function praise(k,override){const P=PR[k],L=P[S.lang],el=$('#pr
 
 /* ---------- Flow ---------- */
 const OVS=['ovIntro','ovHome','ovBis','ovWin','ovLose','ovPause','ovSet'];
-function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id);document.body.classList.toggle('menu',id==='ovIntro'||id==='ovHome')}
+function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id);const m=id==='ovIntro'||id==='ovHome';document.body.classList.toggle('menu',m);if(m)musicOn();else musicOff()}
 function anyOv(){return OVS.some(o=>!$('#'+o).hidden)}
 function blocked(){return anyOv()||!$('#ovLock').hidden||document.hidden}
 function goHome(){G.running=false;calm();renderHome();show('ovHome')}
@@ -942,21 +966,15 @@ function renderChip(now){const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo
   s+=t('next2',{p:'<b>'+pn(nx.p)+'</b>',t:nx.at?fmtT(nx.at,c.tz):'—',d:nx.at?dur(nx.at-now):'—'});$('#pchip').innerHTML=s+' · '+c.name}
 
 /* ---------- Home ---------- */
-/* ---- Scene 2: world cards, 9 per page ---- */
-const WCOL=['#BFE6C9','#FFD9C2','#D5F0B8','#FFE3B0','#FFD3E6','#E2D6FF','#BDE8FF','#CDEBFF','#D9EBC6','#CBC6FF','#F3DDBB','#FFE7A6'];
-let wPage=0;const PER=9,pages=()=>Math.ceil(WORLDS.length/PER);
-function renderWorlds(dx){wPage=Math.max(0,Math.min(pages()-1,wPage));const g=$('#worlds');
-  g.innerHTML=WORLDS.slice(wPage*PER,wPage*PER+PER).map((w,j)=>{const i=wPage*PER+j,lv=getLv(w.id),done=Math.min(5,lv-1);
-    return`<button class="wcard${i===worldIdx?' cur':''}" data-i="${i}" style="--wc:${WCOL[i%WCOL.length]}"><img src="assets/badges/${w.id}.webp" alt=""><span class="lv">Lv ${lv}</span>
-      <div class="st">${[0,1,2,3,4].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<done?'':'off'}">`).join('')}</div><b>${w.name[S.lang]}</b></button>`}).join('');
-  if(dx){g.style.setProperty('--dx',dx+'px');g.classList.remove('slide');void g.offsetWidth;g.classList.add('slide')}
-  $('#pgPrev').disabled=wPage===0;$('#pgNext').disabled=wPage>=pages()-1;$('#pgNum').textContent=(wPage+1)+'/'+pages();
-  const w=curWorld();$('#featImg').src=`assets/badges/${w.id}.webp`;$('#featName').textContent=w.name[S.lang];$('#tChoose').textContent=t('choose')}
-$('#pgPrev').onclick=()=>{if(wPage>0){wPage--;sfx.shuffle();renderWorlds(-40)}};
-$('#pgNext').onclick=()=>{if(wPage<pages()-1){wPage++;sfx.shuffle();renderWorlds(40)}};
-{let sx=null;const g=$('#worlds');g.addEventListener('pointerdown',e=>{sx=e.clientX});g.addEventListener('pointerup',e=>{if(sx==null)return;const d=e.clientX-sx;sx=null;
-  if(Math.abs(d)>50){(d<0?$('#pgNext'):$('#pgPrev')).click();g.dataset.swiped=1;setTimeout(()=>delete g.dataset.swiped,50)}})}
-$('#worlds').onclick=e=>{const b=e.target.closest('.wcard');if(!b||$('#worlds').dataset.swiped)return;ensureAudio();const i=+b.dataset.i,w=WORLDS[i];
+/* ---- Scene 2: badges in a scrolling grid, plus coming-soon slots ---- */
+const SOON=3;
+function renderWorlds(){const g=$('#worlds');
+  g.innerHTML=WORLDS.map((w,i)=>{const lv=getLv(w.id),done=Math.min(5,lv-1);
+    return`<button class="wb${i===worldIdx?' cur':''}" data-i="${i}" style="--i:${i}"><img src="assets/badges/${w.id}.webp" alt=""><span class="lv">${lv}</span><b>${w.name[S.lang]}</b>
+      <span class="st">${[0,1,2,3,4].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<done?'':'off'}">`).join('')}</span></button>`}).join('')+
+    Array.from({length:SOON},(_,k)=>`<button class="wb soon" data-soon="1" style="--i:${WORLDS.length+k}"><img src="assets/badges/soon.webp" alt=""><b>${t('locked')}</b></button>`).join('');
+  $('#tChoose').textContent=t('choose')}
+$('#worlds').onclick=e=>{const b=e.target.closest('.wb');if(!b)return;ensureAudio();if(b.dataset.soon){sfx.bad();toast(t('soonG'));return}const i=+b.dataset.i,w=WORLDS[i];
   if(i!==worldIdx){worldIdx=i;store.set('world',w.id);G.level=getLv(w.id);G.grid=[];G.running=false;loadIcons();renderHome()}
   $('#bStart').click()};
 $('#bBack').onclick=()=>{ensureAudio();$('#schedPop').hidden=true;$('#ovIntro').classList.remove('leave');show('ovIntro')};
@@ -977,18 +995,19 @@ function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePray
 /* ---------- Settings ---------- */
 let returnTo='ovHome';
 function openSettings(){returnTo=OVS.find(o=>!$('#'+o).hidden)||(G.running?null:'ovHome');
-  $('#setTitle').textContent=t('setT');$('#lCity').textContent=t('city');$('#lLang').textContent=t('lang');$('#lWait').textContent=t('wait');$('#lSound').textContent=t('sound');$('#lVoice').textContent=t('voice');
+  $('#setTitle').textContent=t('setT');$('#lCity').textContent=t('city');$('#lLang').textContent=t('lang');$('#lWait').textContent=t('wait');$('#lSound').textContent=t('sound');$('#lVoice').textContent=t('voice');$('#lMusic').textContent=t('music');
   $('#bPreview').textContent=t('preview');$('#bReset').textContent=t('reset');$('#bSetDone').textContent=t('done');
-  for(const id of ['segSound','segVoice']){const sb=$('#'+id).children;sb[0].textContent=t('on');sb[1].textContent=t('off')}
+  for(const id of ['segSound','segVoice','segMusic']){const sb=$('#'+id).children;sb[0].textContent=t('on');sb[1].textContent=t('off')}
   $('#city').innerHTML=CITIES.map(c=>`<option value="${c[0]}">${c[0]==='custom'?t('custom'):c[1]}</option>`).join('');$('#city').value=S.city;
   $('#lat').value=S.lat;$('#lng').value=S.lng;$('#customRow').hidden=S.city!=='custom';segs();show('ovSet')}
-function segs(){[['segLang','lang'],['segWait','wait'],['segSound','sound'],['segVoice','voice']].forEach(([id,k])=>[...$('#'+id).children].forEach(b=>b.classList.toggle('on',String(S[k])===b.dataset.v)))}
+function segs(){[['segLang','lang'],['segWait','wait'],['segSound','sound'],['segVoice','voice'],['segMusic','music']].forEach(([id,k])=>[...$('#'+id).children].forEach(b=>b.classList.toggle('on',String(S[k])===b.dataset.v)))}
 function save(){store.set('settings',S);cache={};lastCheck=0}
 $('#city').onchange=e=>{S.city=e.target.value;$('#customRow').hidden=S.city!=='custom';save()};
 $('#lat').oninput=e=>{S.lat=parseFloat(e.target.value)||0;save()};$('#lng').oninput=e=>{S.lng=parseFloat(e.target.value)||0;save()};
 $('#segLang').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.lang=b.dataset.v;save();openSettings();renderHome()};
 $('#segWait').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.wait=+b.dataset.v;save();segs()};
-$('#segSound').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.sound=+b.dataset.v;save();segs();ensureAudio();sfx.click()};
+$('#segSound').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.sound=+b.dataset.v;save();segs();ensureAudio();sfx.click();if(!S.sound)musicOff();else if(document.body.classList.contains('menu'))musicOn()};
+$('#segMusic').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.music=+b.dataset.v;save();segs();ensureAudio();if(S.music&&document.body.classList.contains('menu'))musicOn();else musicOff()};
 $('#segVoice').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.voice=+b.dataset.v;save();segs();ensureAudio();if(S.voice)voice('masya1',PR.masya1[S.lang][1]);else stopVoice()};
 $('#bPreview').onclick=()=>{ensureAudio();const nx=nextPrayer(Date.now());$('#ovSet').hidden=true;if(returnTo&&returnTo!=='ovSet')$('#'+returnTo).hidden=false;lock={p:nx.p,key:'demo',demo:true,readyAt:Date.now()+8000};openLock()};
 $('#bReset').onclick=()=>{G.level=1;G.total=0;G.grid=[];G.running=false;store.set('level',1);WORLDS.forEach(w=>store.set('lv:'+w.id,1));store.set('stars',0);$('#bReset').textContent=t('resetDone');returnTo='ovHome'};
