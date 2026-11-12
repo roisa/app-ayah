@@ -1032,7 +1032,9 @@ $('#bReset').onclick=()=>{G.level=1;G.total=0;G.grid=[];G.running=false;store.se
 $('#bSetDone').onclick=()=>{renderHome();show(returnTo)};
 
 window.addEventListener('resize',fit);fit();
-document.querySelectorAll('.mbtn').forEach(b=>b.classList.toggle('off',!S.music||!S.sound));renderHome();show('ovIntro');tickPrayer(Date.now());
+document.querySelectorAll('.mbtn').forEach(b=>b.classList.toggle('off',!S.music||!S.sound));renderHome();show('ovIntro');
+/* if the device already allows sound (e.g. the store app), start the music on the intro; otherwise it starts on the first tap */
+ensureAudio();setTimeout(()=>{if(ac&&ac.state==='running')musicOn()},300);tickPrayer(Date.now());
 })();
 </script>
 
