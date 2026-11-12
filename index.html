@@ -602,7 +602,14 @@ function dur(ms){const m=Math.max(0,Math.ceil(ms/60000));const h=Math.floor(m/60
    Voice cheers use recorded clips when listed in VOICE_FILES, otherwise the
    phone's own text-to-speech voice. To add real recordings later, drop the
    files in voice/<lang>/ and list them, e.g. 'id/masya1':'voice/id/masya1.mp3'. */
-const VOICE_FILES={};
+/* Recorded voice clips: put MP3s in voice/en/ and voice/id/ named after these keys (e.g. voice/id/masya1.mp3).
+   They play through the game's own audio engine, so the music keeps playing at full volume.
+   Any clip that is missing falls back to the phone's text-to-speech (which makes the phone lower the music). */
+const VOICE_KEYS=['bism','bismillah','masya1','masya2','subhan','barak','akbar','taqabbal','shuffle','win','lose','hurry','hurry30','pray-fajr','pray-dhuhr','pray-asr','pray-maghrib','pray-isha'];
+const VOICE_FILES={},VBUF={};let vLoaded=false,vSrc=null;
+function loadClips(){if(vLoaded||!ac)return;vLoaded=true;
+  ['en','id'].forEach(l=>VOICE_KEYS.forEach(k=>{const url=`voice/${l}/${k}.mp3`;
+    fetch(url).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((res,rej)=>ac.decodeAudioData(b,res,rej))).then(buf=>{VBUF[l+'/'+k]=buf}).catch(()=>{})}))}
 let ac=null,master=null,verb=null;
 function impulse(sec,decay){const n=Math.floor(ac.sampleRate*sec),b=ac.createBuffer(2,n,ac.sampleRate);
   for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,decay)}return b}
@@ -717,7 +724,7 @@ function musicOff(){if(!MUS.on)return;MUS.on=false;clearInterval(MUS.timer);cons
   try{g.gain.cancelScheduledValues(ac.currentTime);g.gain.setValueAtTime(g.gain.value,ac.currentTime);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+.6)}catch(e){}
   setTimeout(()=>{try{g.disconnect()}catch(e){}},800)}
 /* browsers only allow sound after the first tap: start the menu music then */
-function unlockAudio(){ensureAudio();if(!ac)return;
+function unlockAudio(){ensureAudio();if(!ac)return;loadClips();
   try{const b=ac.createBuffer(1,1,22050),src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);src.start(0)}catch(e){}
   const p=ac.resume&&ac.resume();if(p&&p.then)p.then(()=>musicOn()).catch(()=>{});musicOn()}
 ['pointerdown','touchend','click','keydown'].forEach(ev=>document.addEventListener(ev,unlockAudio,true));
@@ -748,9 +755,11 @@ function unlockSpeech(){if(!TTS||spoke)return;spoke=true;try{const u=new SpeechS
 function pickVoice(lang){const pre=lang==='id'?'id':'en';
   const L=voices.filter(v=>(v.lang||'').toLowerCase().replace('_','-').startsWith(pre));
   return L.find(v=>/natural|neural|enhanced|premium|siri|google/i.test(v.name))||L.find(v=>v.localService)||L[0]||null}
-function stopVoice(){try{TTS&&speechSynthesis.cancel()}catch(e){}if(clip){try{clip.pause()}catch(e){}clip=null}}
+function stopVoice(){try{TTS&&speechSynthesis.cancel()}catch(e){}if(clip){try{clip.pause()}catch(e){}clip=null}if(vSrc){try{vSrc.stop()}catch(e){}vSrc=null}}
 /* key: a PR or VO key; text: what to say; vars: {p:...} for VO lines */
-function voice(k,text,vars){if(!S.voice)return;
+function voice(k,text,vars,key2){if(!S.voice)return;
+  const buf=VBUF[S.lang+'/'+(key2||k)];
+  if(buf&&ac){stopVoice();setTimeout(()=>{try{vSrc=ac.createBufferSource();vSrc.buffer=buf;const g=ac.createGain();g.gain.value=1;vSrc.connect(g);g.connect(ac.destination);vSrc.start()}catch(e){}},150);return}
   if(text==null){text=VO[S.lang][k]||'';if(vars)for(const x in vars)text=text.replace('{'+x+'}',vars[x])}
   if(!text)return;stopVoice();
   const file=VOICE_FILES[S.lang+'/'+k];
@@ -977,7 +986,7 @@ function tickPrayer(now){
       if(a&&!prayed[a.key]){if(!lock||lock.key!==a.key){lock={...a,demo:false};openLock()}}else if(lock){closeLock(false)}}}
   if(lock)renderLock(now);
   if(now%1000<260)renderChip(now)}
-function openLock(){$('#ovLock').hidden=false;musicOff();G.sel=null;drag=null;sfx.bell();voice('pray',null,{p:pn(lock.p)});renderLock(Date.now())}
+function openLock(){$('#ovLock').hidden=false;musicOff();G.sel=null;drag=null;sfx.bell();voice('pray',null,{p:pn(lock.p)},'pray-'+lock.p);renderLock(Date.now())}
 function renderLock(now){const p=pn(lock.p);$('#lockRib').textContent=t('lockRib');$('#lockTitle').textContent=t('lockT',{p});$('#lockBody').textContent=t('lockB',{p});
   const ready=lock.demo?lock.readyAt:lock.start+S.wait*60000,rem=ready-now,b=$('#bPrayed');b.textContent=t('prayed',{p});
   if(rem>0){b.disabled=true;const s=Math.ceil(rem/1000);$('#lockCount').textContent=t('lockWait',{m:Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})}else{b.disabled=false;$('#lockCount').textContent=t('lockReady')}}
