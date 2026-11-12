@@ -217,6 +217,15 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 [data-ic="pin"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill-rule=%22evenodd%22 d=%22M12 2.4c-4 0-7.2 3.1-7.2 7.1 0 5.2 7.2 12.1 7.2 12.1s7.2-6.9 7.2-12.1c0-4-3.2-7.1-7.2-7.1zm0 4.2a2.9 2.9 0 1 1 0 5.8 2.9 2.9 0 0 1 0-5.8z%22/%3E%3C/svg%3E")}
 [data-ic="globe"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.4%22/%3E%3Cpath d=%22M3 12h18M12 3c-2.8 3-2.8 15 0 18M12 3c2.8 3 2.8 15 0 18%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22/%3E%3C/svg%3E")}
 [data-ic="clock"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22/%3E%3Cpath d=%22M12 7v5.3l3.4 2.2%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
+/* ===== Scene 0: tap to start ===== */
+.ov.splash{z-index:50;background:radial-gradient(circle at 50% 40%,#7B4DFF,#2B1478 75%);backdrop-filter:none;-webkit-backdrop-filter:none;cursor:pointer}
+.sp-in{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
+.sp-logo{width:min(62vw,280px);filter:drop-shadow(0 10px 16px rgba(0,0,0,.4));animation:logoFloat 3.2s ease-in-out infinite}
+.sp-studio{font-family:var(--f-display);font-size:22px;color:#fff;letter-spacing:1px;-webkit-text-stroke:4px var(--v-ink);paint-order:stroke fill}
+.sp-studio small{display:block;font-family:var(--f-body);font-weight:700;font-size:13px;color:var(--muted);-webkit-text-stroke:0;letter-spacing:.5px}
+.sp-tap{font-family:var(--f-display);font-size:26px;color:var(--gold);-webkit-text-stroke:5px var(--v-ink);paint-order:stroke fill;animation:tapPulse 1.1s ease-in-out infinite}
+@keyframes tapPulse{50%{transform:scale(1.1);opacity:.75}}
+.ov.splash.leave{animation:introOut .4s ease-in forwards}
 /* ===== Scene 1: intro ===== */
 body.menu #app{visibility:hidden}
 .ov.intro{background:#5BC4F5;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;
@@ -319,6 +328,15 @@ body.menu #app{visibility:hidden}
     <button class="tool" id="bShuf" aria-label="Shuffle"><img src="assets/ui/shuffle.webp" alt=""><span class="n" id="nShuf">2</span></button>
     <button class="tool" id="bHint" aria-label="Hint"><img src="assets/ui/hint.webp" alt=""><span class="n" id="nHint">3</span></button>
     <button class="tool sm" id="bSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button>
+  </div>
+</div>
+
+<!-- Scene 0: tap to start (unlocks sound so the intro plays with music) -->
+<div class="ov splash" id="ovSplash">
+  <div class="sp-in">
+    <img class="sp-logo" src="assets/ui/logo.webp" alt="Nur Connect">
+    <div class="sp-studio">Mo Games<small>by IBRAZ Group</small></div>
+    <div class="sp-tap" id="tTap">Tap to start</div>
   </div>
 </div>
 
@@ -446,14 +464,14 @@ const store={get(k,d){try{const v=localStorage.getItem('nur:'+k);return v==null?
 
 /* ---------- Text ---------- */
 const T={
-en:{choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
+en:{tap:'Tap to start',choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
 bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah!',winB:'All praise is for Allah. You earned {s} stars, including {b} for time left.',next:'Next level, Bismillah',home:'Home',
 loseT:'Time is up!',loseB:'Allah has decreed, and He does what He wills. Take a breath and try again.',retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
 lockT:'It is time for {p}',lockB:'Pause the game and pray {p} first, at the masjid or at home. Your game is saved right where you left it.',lockWait:'The button opens in {m}',lockReady:'Done praying? Tap below.',prayed:'I have prayed {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound effects',voice:'Voice cheers (MasyaAllah, great!)',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
 next2:'{p} at {t} · in {d}',nowP:'{p} time now',noMove:'No moves left. Shuffling…',hintNone:'Shuffling for a fresh start',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min ihtiyat',resetDone:'Progress reset',
 P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'}},
-id:{choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
+id:{tap:'Ketuk untuk mulai',choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
 bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah!',winB:'Segala puji bagi Allah. Kamu dapat {s} bintang, termasuk {b} dari sisa waktu.',next:'Level berikutnya, Bismillah',home:'Beranda',
 loseT:'Waktu habis!',loseB:'Allah telah menakdirkan, dan apa yang Dia kehendaki pasti terjadi. Tarik napas, lalu coba lagi.',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
 lockT:'Sudah masuk waktu {p}',lockB:'Jeda dulu, sholat {p} dulu, di masjid atau di rumah. Permainanmu tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk di bawah.',prayed:'Aku sudah sholat {p}',
@@ -905,8 +923,8 @@ function hud(){$('#lvl').textContent=G.level;$('#stars').textContent=G.total+G.s
 let praiseT=null;function praise(k,override){const P=PR[k],L=P[S.lang],el=$('#praise');el.querySelector('.ar').textContent=P.ar;el.querySelector('.tr').textContent=override||L[0];el.querySelector('.mn').textContent=override?'':L[2];el.classList.remove('on');void el.offsetWidth;el.classList.add('on');clearTimeout(praiseT);praiseT=setTimeout(()=>el.classList.remove('on'),1700);voice(k,L[1])}
 
 /* ---------- Flow ---------- */
-const OVS=['ovIntro','ovHome','ovBis','ovWin','ovLose','ovPause','ovSet'];
-function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id);const m=id==='ovIntro'||id==='ovHome';document.body.classList.toggle('menu',m);musicOn();musicDuck()}
+const OVS=['ovSplash','ovIntro','ovHome','ovBis','ovWin','ovLose','ovPause','ovSet'];
+function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id);const m=id==='ovSplash'||id==='ovIntro'||id==='ovHome';document.body.classList.toggle('menu',m);musicOn();musicDuck()}
 function anyOv(){return OVS.some(o=>!$('#'+o).hidden)}
 function blocked(){return anyOv()||!$('#ovLock').hidden||document.hidden}
 function goHome(){G.running=false;calm();renderHome();show('ovHome')}
@@ -998,11 +1016,15 @@ $('#worlds').onclick=e=>{const b=e.target.closest('.wb');if(!b)return;ensureAudi
 $('#bBack').onclick=()=>{ensureAudio();$('#schedPop').hidden=true;$('#ovIntro').classList.remove('leave');show('ovIntro')};
 $('#prayChip').onclick=()=>{ensureAudio();$('#schedPop').hidden=!$('#schedPop').hidden};
 $('#schedPop').onclick=()=>{$('#schedPop').hidden=true};
+/* ---- Scene 0: tap to start. Skipped when the device already allows sound (e.g. the store app). ---- */
+function startUp(){show('ovSplash');ensureAudio();
+  setTimeout(()=>{if(ac&&ac.state==='running'&&!$('#ovSplash').hidden)show('ovIntro')},350)}
+$('#ovSplash').onclick=()=>{ensureAudio();sfx.start();const o=$('#ovSplash');o.classList.add('leave');setTimeout(()=>{o.classList.remove('leave');show('ovIntro')},380)};
 /* ---- Scene 1: intro ---- */
 $('#bIntroPlay').onclick=()=>{ensureAudio();sfx.start();voice('bism');buzz(20);const o=$('#ovIntro');o.classList.add('leave');
   setTimeout(()=>{o.classList.remove('leave');renderHome();show('ovHome')},450)};
 function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePrayer(now);
-  $('#tTag').textContent=t('tag');$('#tCopy').textContent=t('copy');$('#hLvl').textContent=G.level;$('#hStars').textContent=G.total;renderWorlds();if(!G.running)setBg(curWorld().bgs[0]);
+  $('#tTag').textContent=t('tag');$('#tTap').textContent=t('tap');$('#tCopy').textContent=t('copy');$('#hLvl').textContent=G.level;$('#hStars').textContent=G.total;renderWorlds();if(!G.running)setBg(curWorld().bgs[0]);
   $('#tSched').textContent=t('sched')+' · '+c.name;$('#schedMeta').textContent=t('method');
   $('#sched').innerHTML=FIVE.map(p=>{const k=td.key+':'+p,isNow=a&&a.key===k;return`<div class="${isNow?'now':''}"><small>${pn(p)}</small><b>${td.t[p]?fmtT(td.t[p],c.tz):'—'}</b><span class="ck">${prayed[k]?'✓':''}</span></div>`}).join('');
   $('#bStart').textContent=(G.level>1?t('cont',{n:G.level}):t('start'));
@@ -1032,7 +1054,7 @@ $('#bReset').onclick=()=>{G.level=1;G.total=0;G.grid=[];G.running=false;store.se
 $('#bSetDone').onclick=()=>{renderHome();show(returnTo)};
 
 window.addEventListener('resize',fit);fit();
-document.querySelectorAll('.mbtn').forEach(b=>b.classList.toggle('off',!S.music||!S.sound));renderHome();show('ovIntro');tickPrayer(Date.now());
+document.querySelectorAll('.mbtn').forEach(b=>b.classList.toggle('off',!S.music||!S.sound));renderHome();startUp();tickPrayer(Date.now());
 })();
 </script>
 
