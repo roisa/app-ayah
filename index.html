@@ -157,6 +157,18 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 @keyframes burstIn{0%{scale:0;opacity:0}100%{scale:1;opacity:1}}
 @keyframes glowPulse{to{transform:scale(1.12);opacity:.8}}
 #ovWin .fx{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.rewards{display:flex;justify-content:center;gap:10px;margin-top:-2px}
+.rw{position:relative;flex:1;max-width:150px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;align-items:center;column-gap:8px;text-align:left;
+  background:rgba(28,11,85,.55);border:2px solid rgba(255,255,255,.22);border-radius:18px;padding:6px 12px 6px 8px;box-shadow:inset 0 2px 0 rgba(255,255,255,.08);
+  animation:rwIn .5s cubic-bezier(.34,1.7,.64,1) both}
+.rw-s{animation-delay:1.1s;border-color:rgba(255,201,60,.6)}.rw-t{animation-delay:1.3s;border-color:rgba(46,196,214,.6)}
+@keyframes rwIn{0%{transform:scale(0) rotate(-6deg)}100%{transform:none}}
+.rw img{grid-row:1/3;width:40px;height:40px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35));animation:bob 2.2s ease-in-out 1.8s infinite}
+.rw b{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1;color:var(--gold);-webkit-text-stroke:5px var(--v-ink);paint-order:stroke fill;font-variant-numeric:tabular-nums}
+.rw-t b{color:#7FE7F2}
+.rw small{font-size:11.5px;font-weight:800;color:var(--muted);line-height:1.1}
+.rw b.pop{animation:numPop .25s ease-out}
+@keyframes numPop{50%{transform:scale(1.3)}}
 #ovWin .bigburst{position:absolute;left:50%;top:40%;width:180vmax;height:180vmax;margin:-90vmax 0 0 -90vmax;border-radius:50%;
   background:repeating-conic-gradient(from 0deg,rgba(255,236,170,.16) 0deg 7deg,rgba(255,236,170,0) 7deg 16deg);animation:spin 45s linear infinite reverse}
 #confetti{position:fixed;inset:0;width:100%;height:100%;z-index:30;pointer-events:none}
@@ -379,6 +391,7 @@ body.menu #app{visibility:hidden}
     <div class="ar-big" style="font-size:40px;line-height:1.4">ٱلْحَمْدُ لِلَّٰهِ</div>
     <h2 id="winTitle"></h2>
     <p id="winBody"></p>
+    <div class="rewards"><div class="rw rw-s"><img src="assets/ui/star.webp" alt=""><b id="rwS">0</b><small id="rwSl"></small></div><div class="rw rw-t"><img src="assets/ui/stopwatch.webp" alt=""><b id="rwT">+0</b><small id="rwTl"></small></div></div>
     <div class="gift" id="winGift" hidden><img src="assets/ui/gift.webp" alt=""><span id="winGiftT"></span></div>
     <button class="btn" data-ic="next" id="bNext"></button>
     <button class="btn ghost" data-ic="home" id="bWinHome"></button>
@@ -452,14 +465,14 @@ const store={get(k,d){try{const v=localStorage.getItem('nur:'+k);return v==null?
 /* ---------- Text ---------- */
 const T={
 en:{choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
-bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah!',winB:'All praise is for Allah. You earned {s} stars, including {b} for time left.',next:'Next level, Bismillah',home:'Home',
+bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah!',winB:'All praise is for Allah.',rwStars:'Stars earned',rwTime:'Time bonus',next:'Next level, Bismillah',home:'Home',
 loseT:'Time is up!',loseB:'Allah has decreed, and He does what He wills. Take a breath and try again.',retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
 lockT:'It is time for {p}',lockB:'Pause the game and pray {p} first, at the masjid or at home. Your game is saved right where you left it.',lockWait:'The button opens in {m}',lockReady:'Done praying? Tap below.',prayed:'I have prayed {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound effects',voice:'Voice cheers (MasyaAllah, great!)',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
 next2:'{p} at {t} · in {d}',nowP:'{p} time now',noMove:'No moves left. Shuffling…',hintNone:'Shuffling for a fresh start',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min ihtiyat',resetDone:'Progress reset',
 P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'}},
 id:{choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
-bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah!',winB:'Segala puji bagi Allah. Kamu dapat {s} bintang, termasuk {b} dari sisa waktu.',next:'Level berikutnya, Bismillah',home:'Beranda',
+bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah!',winB:'Segala puji bagi Allah.',rwStars:'Bintang didapat',rwTime:'Bonus waktu',next:'Level berikutnya, Bismillah',home:'Beranda',
 loseT:'Waktu habis!',loseB:'Allah telah menakdirkan, dan apa yang Dia kehendaki pasti terjadi. Tarik napas, lalu coba lagi.',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
 lockT:'Sudah masuk waktu {p}',lockB:'Jeda dulu, sholat {p} dulu, di masjid atau di rumah. Permainanmu tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk di bawah.',prayed:'Aku sudah sholat {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Pengaturan',city:'Kota',custom:'Lokasi kustom (lat/lng)',lang:'Bahasa',wait:'Jeda sholat minimal',sound:'Efek suara',voice:'Suara pujian (MasyaAllah, hebat!)',on:'Nyala',off:'Mati',preview:'Coba jeda sholat',reset:'Ulang progres',done:'Selesai',
@@ -952,6 +965,14 @@ function celebrate(rt,gift){winT.forEach(clearTimeout);winT=[];
   later(1150,()=>{sfx.sparkleUp();confetti('top')});
   if(gift)later(1500,()=>sfx.coin());
   later(1700,()=>voice('win'))}
+/* reward numbers count up, with a tick for each step */
+function countUp(sel,to,pre,delay){const el=$(sel);el.textContent=pre+'0';later(delay,()=>{const t0=performance.now(),dur=Math.min(1200,300+to*12);let last=-1;
+  const step=now=>{const k=Math.min(1,(now-t0)/dur),v=Math.round(to*(1-Math.pow(1-k,3)));if(v!==last){el.textContent=pre+v;if(v%3===0)osc({f:1200+v*4,d:.03,v:.025});last=v}
+    if(k<1)requestAnimationFrame(step);else{el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop')}};requestAnimationFrame(step)})}
+/* centre the big background sunburst on the trophy */
+function aimBurst(){const h=document.querySelector('#ovWin .hero-wrap'),bb=document.querySelector('#ovWin .bigburst');if(!h||!bb)return;const r=h.getBoundingClientRect();
+  bb.style.left=(r.left+r.width/2)+'px';bb.style.top=(r.top+r.height/2)+'px'}
+addEventListener('resize',aimBurst);
 function rating(){const f=G.max?G.time/G.max:0;return f>=.5?3:f>=.25?2:1}
 $('#bStart').onclick=()=>{ensureAudio();if(!G.grid.length||!G.running)newLevel();gate()};
 $('#bHomeSet').onclick=()=>openSettings();
@@ -959,7 +980,7 @@ $('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;hurried={};calm(
 function win(){G.running=false;calm();const bonus=Math.floor(G.time/6),rt=rating(),gift=G.level%5===0?10:0;G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
   $('#winRib').textContent=t('cleared',{n:G.level});$('#rate').innerHTML=[1,2,3].map(i=>`<img src="assets/ui/star.webp" alt="" class="${i<=rt?'':'off'}">`).join('');
   $('#winGift').hidden=!gift;$('#winGiftT').textContent=t('gift',{g:gift});
-  $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB',{s:G.stars,b:bonus});G.level++;store.set('lv:'+curWorld().id,G.level);show('ovWin');celebrate(rt,gift);hud()}
+  $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB');$('#rwSl').textContent=t('rwStars');$('#rwTl').textContent=t('rwTime');G.level++;store.set('lv:'+curWorld().id,G.level);show('ovWin');requestAnimationFrame(aimBurst);celebrate(rt,gift);countUp('#rwS',G.stars,'',1150);countUp('#rwT',bonus,'+',1350);hud()}
 $('#bNext').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();newLevel();gate()};
 $('#bWinHome').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();G.grid=[];goHome()};
 function lose(){G.running=false;calm();G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');sfx.lose();voice('lose');show('ovLose')}
