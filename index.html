@@ -270,23 +270,23 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .map-head img{width:58px;height:58px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.4))}
 .map-head h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:min(8vw,32px);color:var(--gold);-webkit-text-stroke:7px var(--v-ink);paint-order:stroke fill;text-shadow:0 4px 0 var(--v-ink)}
 .map-head i{font-style:normal;font-size:30px;animation:bob 2s infinite}
-.map{position:relative;width:100%}
-.mpath{position:absolute;left:0;top:0;width:100%;pointer-events:none}
-.mpath polyline{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1.6;stroke-dasharray:.1 3.2;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-width:9px}
-.node{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:4px solid #fff;padding:0;display:grid;place-items:center;
-  background:radial-gradient(circle at 35% 30%,#9C7BFF,#5A2FE0 70%);box-shadow:0 6px 0 var(--v-ink),0 10px 16px rgba(0,0,0,.35);color:#fff}
-.node b{font-family:var(--f-display);font-weight:400;font-size:26px;-webkit-text-stroke:4px var(--v-ink);paint-order:stroke fill}
-.node.done{background:radial-gradient(circle at 35% 30%,#FFE98A,#F2A40C 70%)}
-.node.hard{border-color:#FF9F9F}
-.node.boss{width:84px;height:84px;margin:-42px 0 0 -42px;border-width:5px;border-color:var(--gold);background:radial-gradient(circle at 35% 30%,#FF8A8E,#C72E3A 70%)}
-.node.boss.done{background:radial-gradient(circle at 35% 30%,#FFE98A,#F2A40C 70%)}
-.node .crown{position:absolute;top:-26px;font-style:normal;font-size:28px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4))}
-.node.lock{background:radial-gradient(circle at 35% 30%,#8E86B5,#4E4683 70%);border-color:rgba(255,255,255,.5)}
-.node.lock b{font-size:20px;-webkit-text-stroke:0}
-.node.cur{background:radial-gradient(circle at 35% 30%,#8CF59C,#2FB24A 70%);animation:bob 1.6s ease-in-out infinite}
-.node.cur::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:4px solid rgba(140,245,156,.8);animation:ring 1.4s ease-out infinite}
-@keyframes ring{from{transform:scale(.8);opacity:1}to{transform:scale(1.35);opacity:0}}
-.node .ns{position:absolute;bottom:-17px;display:flex;gap:0}.node .ns img{width:18px;height:18px}.node .ns img.off{filter:grayscale(1) brightness(.6);opacity:.7}
+.map{position:relative;width:100%;aspect-ratio:724/2172;background:url(assets/bg/map.webp) center/100% 100% no-repeat;border-radius:22px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+#mapScroll{-webkit-mask:none;mask:none;border-radius:22px}
+.node{position:absolute;width:15%;aspect-ratio:1;translate:-50% -55%;border:0;padding:0;background:url(assets/ui/node-silver.webp) center/contain no-repeat;display:grid;place-items:center;color:#fff;filter:drop-shadow(0 5px 4px rgba(0,0,0,.35))}
+.node.done{background-image:url(assets/ui/node-gold.webp)}
+.node.cur{background-image:url(assets/ui/node-green.webp);width:17%;animation:bob 1.4s ease-in-out infinite}
+.node.boss{background-image:url(assets/ui/node-boss.webp);width:18%;aspect-ratio:159/200;translate:-50% -65%}
+.node.boss b{margin-top:22%}
+.node b{font-family:var(--f-display);font-weight:400;font-size:min(6.5vw,28px);margin-top:-6%;-webkit-text-stroke:5px rgba(90,50,0,.55);paint-order:stroke fill;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+.node.lock b{-webkit-text-stroke-color:rgba(60,60,70,.6);color:#F4F4F8}
+.node.cur b{-webkit-text-stroke-color:rgba(20,90,10,.6)}
+.node.boss b{-webkit-text-stroke-color:rgba(110,10,20,.6)}
+.node .ns{position:absolute;bottom:-14%;display:flex;gap:0}.node .ns img{width:min(5.4vw,24px);height:auto}.node .ns img.off{filter:grayscale(1) brightness(.85);opacity:.85}
+.node .ns img:nth-child(2){transform:translateY(5px)}
+.mo-pin{position:absolute;width:13%;translate:-50% -100%;pointer-events:none;z-index:3;filter:drop-shadow(0 6px 6px rgba(0,0,0,.4));transition:left .9s ease-in-out,top .9s ease-in-out;animation:hop2 1.6s ease-in-out infinite}
+@keyframes hop2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.fly{position:absolute;width:6px;height:6px;border-radius:50%;background:#FFF6B0;box-shadow:0 0 10px 3px rgba(255,240,150,.8);pointer-events:none;animation:fly var(--d) ease-in-out infinite alternate;opacity:.85}
+@keyframes fly{from{transform:translate(0,0)}to{transform:translate(var(--x),var(--y))}}
 /* ===== v2: daily gift ===== */
 .gdays{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .gd{display:flex;flex-direction:column;align-items:center;gap:1px;background:rgba(28,11,85,.45);border:2px solid rgba(255,255,255,.18);border-radius:14px;padding:5px 2px}
@@ -1329,16 +1329,19 @@ function clearedN(id){const a=lvStars(id);let k=0;while(k<lpw()&&a[k]>0)k++;retu
 function worldOpen(i){return i===0||lvStars(WORLDS[i-1].id)[sty().unlock-1]>0}
 function starSum(id){return lvStars(id).slice(0,lpw()).reduce((s,v)=>s+v,0)}
 function openMap(){if(G.daily)endDaily();renderMap();show('ovMap');setBg(curWorld().bgs[0])}
-function renderMap(){const w=curWorld(),a=lvStars(w.id),cur=Math.min(lpw(),clearedN(w.id)+1),done=clearedN(w.id)>=lpw();
-  $('#mapName').textContent=w.name[S.lang];$('#mapBadge').src=`assets/badges/${w.id}.webp`;$('#mapStars').textContent=starSum(w.id)+'/'+lpw()*3;$('#mapTrophy').hidden=!done;
-  const sp=96,Hh=lpw()*sp+70,pts=[];
-  for(let n=1;n<=lpw();n++)pts.push([50+Math.sin(n*.95)*28,Hh-50-(n-1)*sp]);
-  const path=`<svg class="mpath" viewBox="0 0 100 ${Hh}" preserveAspectRatio="none" style="height:${Hh}px"><polyline points="${pts.map(p=>p[0]+','+p[1]).join(' ')}"/></svg>`;
-  $('#mapPath').style.height=Hh+'px';
-  $('#mapPath').innerHTML=path+pts.map(([x,y],i)=>{const n=i+1,boss=isBoss(n),hard=!boss&&sty()!==STYLES.little&&n%5===0,st=a[i]||0,lock=n>cur,isCur=n===cur&&!done;
-    return`<button class="node${boss?' boss':''}${hard?' hard':''}${st?' done':''}${lock?' lock':''}${isCur?' cur':''}" data-n="${n}" style="left:${x}%;top:${y}px">
-      ${boss?'<i class="crown">👑</i>':''}<b>${lock?'🔒':n}</b><span class="ns">${[1,2,3].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<=st?'':'off'}">`).join('')}</span></button>`}).join('');
-  requestAnimationFrame(()=>{const el=$('#mapPath .cur')||$('#mapPath .node[data-n="'+cur+'"]'),sc=$('#mapScroll');if(el&&sc)sc.scrollTop=el.offsetTop-sc.clientHeight/2})}
+const MAPNODES={"7": [[27.07, 84.81], [38.54, 71.55], [67.61, 57.09], [57.53, 45.72], [67.33, 28.36], [42.68, 16.57], [37.85, 7.27]], "10": [[27.07, 84.81], [62.64, 76.2], [50.16, 64.59], [67.61, 57.09], [31.91, 49.03], [66.3, 40.7], [67.33, 28.36], [37.15, 21.18], [65.54, 13.86], [37.85, 7.27]], "15": [[27.07, 84.81], [58.01, 80.39], [50.29, 73.94], [54.07, 65.1], [75.48, 60.96], [48.69, 55.76], [26.52, 50.41], [57.53, 45.72], [60.5, 39.36], [57.04, 30.11], [70.23, 24.26], [39.09, 20.72], [54.21, 15.33], [69.27, 10.45], [37.85, 7.27]], "20": [[27.07, 84.81], [42.2, 81.68], [64.5, 76.75], [47.24, 72.79], [45.73, 65.38], [71.69, 62.75], [65.55, 58.15], [43.3, 55.16], [24.31, 51.38], [41.57, 47.1], [66.78, 44.2], [51.24, 38.72], [46.82, 31.54], [72.93, 27.26], [58.49, 23.11], [35.7, 20.44], [44.89, 16.11], [67.61, 13.49], [61.05, 9.62], [37.85, 7.27]]};
+function renderMap(){const w=curWorld(),a=lvStars(w.id),N=lpw(),cur=Math.min(N,clearedN(w.id)+1),done=clearedN(w.id)>=N,P=MAPNODES[N];
+  $('#mapName').textContent=w.name[S.lang];$('#mapBadge').src=`assets/badges/${w.id}.webp`;$('#mapStars').textContent=starSum(w.id)+'/'+N*3;$('#mapTrophy').hidden=!done;
+  $('#mapPath').style.height='';
+  const flies=Array.from({length:14},(_,i)=>`<i class="fly" style="left:${(i*37)%95}%;top:${(i*53)%96}%;--x:${(i%2?1:-1)*(20+i*3)}px;--y:${(i%3-1)*30}px;--d:${3+i%4}s"></i>`).join('');
+  const prev=+(store.get('mopos:'+w.id,cur)),from=P[Math.min(N,prev)-1]||P[cur-1],to=P[(done?N:cur)-1];
+  $('#mapPath').innerHTML=flies+P.map(([x,y],i)=>{const n=i+1,boss=isBoss(n),st=a[i]||0,lock=n>cur,isCur=n===cur&&!done;
+    return`<button class="node${boss?' boss':''}${st?' done':''}${lock?' lock':''}${isCur?' cur':''}" data-n="${n}" style="left:${x}%;top:${y}%">
+      <b>${n}</b>${st||isCur?`<span class="ns">${[1,2,3].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<=st?'':'off'}">`).join('')}</span>`:''}</button>`}).join('')+
+    `<img class="mo-pin" id="moPin" src="assets/ui/mo.webp" alt="" style="left:${from[0]+7}%;top:${from[1]-2}%">`;
+  store.set('mopos:'+w.id,done?N:cur);
+  if(from!==to)setTimeout(()=>{const m=$('#moPin');if(m){m.style.left=(to[0]+7)+'%';m.style.top=(to[1]-2)+'%'}},500);
+  requestAnimationFrame(()=>{const sc=$('#mapScroll'),mp=$('#mapPath');if(sc&&mp)sc.scrollTop=mp.offsetHeight*to[1]/100-sc.clientHeight/2})}
 $('#mapPath').onclick=e=>{const b=e.target.closest('.node');if(!b)return;ensureAudio();if(b.classList.contains('lock')){sfx.bad();toast(t('lockLvl'));return}
   G.daily=false;G.level=+b.dataset.n;newLevel();gate()};
 $('#bMapBack').onclick=()=>{ensureAudio();renderHome();show('ovHome')};
