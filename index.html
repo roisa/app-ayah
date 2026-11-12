@@ -41,6 +41,9 @@ body{
   overflow:hidden; overscroll-behavior:none; touch-action:none; -webkit-touch-callout:none; -webkit-tap-highlight-color:transparent; user-select:none;
 }
 img{-webkit-user-drag:none;user-select:none}
+*{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,select,textarea{-webkit-user-select:text;user-select:text}
+#boardArea,#cv{-webkit-user-select:none;user-select:none;touch-action:none}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
@@ -353,6 +356,14 @@ body.menu #app{visibility:hidden}
 .mbtn.big{width:48px;height:48px;border-radius:16px;border:0;box-shadow:0 5px 0 var(--v-ink),0 9px 14px rgba(0,0,0,.3)}
 .mbtn.big svg{width:26px;height:26px}
 .mbtn.corner{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:5}
+.powers{display:flex;justify-content:center;gap:14px;padding-top:4px}
+.pw{position:relative;display:flex;align-items:center;gap:6px;border:3px solid #fff;border-radius:999px;padding:4px 14px 4px 8px;color:#fff;
+  background:linear-gradient(180deg,#FF8AD8,#B04BD6);box-shadow:0 4px 0 #6E1F8E,0 8px 12px rgba(0,0,0,.3)}
+.pw+.pw{background:linear-gradient(180deg,#8FE3FF,#2E8FE0);box-shadow:0 4px 0 #134F8A,0 8px 12px rgba(0,0,0,.3)}
+.pw i{font-style:normal;font-size:24px;line-height:1}.pw b{font-family:var(--f-display);font-weight:400;font-size:20px;-webkit-text-stroke:3px rgba(0,0,0,.3);paint-order:stroke fill}
+.pw:active{transform:translateY(3px)}.pw:disabled{filter:grayscale(1);opacity:.5}
+.pw.new{animation:pwNew .6s cubic-bezier(.34,1.7,.64,1)}@keyframes pwNew{0%{transform:scale(.4)}100%{transform:none}}
+.pill.timer.frozen{background:linear-gradient(180deg,#8FE3FF,#2E8FE0)}
 .hud-r,.pk-r{display:flex;align-items:center;gap:6px}
 /* ===== Scene 2: choose a world ===== */
 .pick{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
@@ -406,6 +417,7 @@ body.menu #app{visibility:hidden}
     <canvas id="cv"></canvas>
     <div id="praise"><div class="ar"></div><div class="tr"></div><div class="mn"></div></div>
   </div>
+  <div class="powers"><button class="pw" id="pwBurst" aria-label="Star Burst"><i>✨</i><b id="nBurst">0</b></button><button class="pw" id="pwFreeze" aria-label="Time Freeze"><i>❄️</i><b id="nFreeze">0</b></button></div>
   <div class="dock">
     <button class="tool sm" id="bPause" aria-label="Pause"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="5.5" y="4.5" width="4.6" height="15" rx="1.6"/><rect x="13.9" y="4.5" width="4.6" height="15" rx="1.6"/></svg></button>
     <button class="tool" id="bUndo" aria-label="Undo"><img src="assets/ui/undo.webp" alt=""><span class="n" id="nUndo">3</span></button>
@@ -576,14 +588,14 @@ const store={get(k,d){try{const v=localStorage.getItem('nur:'+k);return v==null?
 
 /* ---------- Text ---------- */
 const T={
-en:{bonusT:'Bonus: +{g} ★',map:'Map',bossT:'Boss Level {n}',dailyT:'Daily Puzzle',dailyDoneT:'Daily Puzzle done!',dailyGift:'+1 free sticker pack 🎴',unlockT:'New world unlocked: {w}! 🔓',worldDone:'World complete! 🏆 +50',lockLvl:'Finish the level before it first!',lockedS:'Locked',lockedW:'Clear level 10 of {w} to unlock',lastPairs:'Last pairs! Hurry!',bombT:'BOOM! −15 seconds',meterT:'Combo power! +10 seconds ⏱',iceT:'Frozen! Match a tile next to it first',goalT:'Collect',giftT:'Daily Gift',day:'Day {n}',claim:'Claim',album:'Sticker Book',daily:'Daily Puzzle',dailyS:'+30 ★ & a sticker pack',dailyDoneS:'Done today ✓',pack:'Open sticker pack · {c} ★',packFree:'Open FREE sticker pack ({n})',newS:'NEW!',dupS:'+5 ★',notEnough:'Not enough stars. Play more levels!',streakT:'{n}-day prayer streak! +{s} ★',albDone:'{w} stickers complete! +100 ★',comeBack:'Played today. Come back tomorrow for new rewards!',tipBoss:'Boss level! Big board, special tiles, big reward.',tipGoal:'Goal: collect all the tiles shown at the top. You win as soon as they are done!',tipGrav:'Gravity! Tiles fall down after every match.',tipBomb:'Bomb tile: match it before its number reaches 0, or you lose 15 seconds!',tipStone:'Stone tiles must be matched twice.',tipIce:'Frozen tiles: match a tile right next to them to melt the ice.',tipGold:'Golden tiles give +5 stars!',tipHard:'Hard level: less time. You can do it!',choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
+en:{gotBurst:'You got a ✨ Star Burst!',gotFreeze:'You got a ❄️ Time Freeze!',frozenT:'❄️ Time frozen for 15 seconds!',bonusT:'Bonus: +{g} ★',map:'Map',bossT:'Boss Level {n}',dailyT:'Daily Puzzle',dailyDoneT:'Daily Puzzle done!',dailyGift:'+1 free sticker pack 🎴',unlockT:'New world unlocked: {w}! 🔓',worldDone:'World complete! 🏆 +50',lockLvl:'Finish the level before it first!',lockedS:'Locked',lockedW:'Clear level 10 of {w} to unlock',lastPairs:'Last pairs! Hurry!',bombT:'BOOM! −15 seconds',meterT:'Combo power! +10 seconds ⏱',iceT:'Frozen! Match a tile next to it first',goalT:'Collect',giftT:'Daily Gift',day:'Day {n}',claim:'Claim',album:'Sticker Book',daily:'Daily Puzzle',dailyS:'+30 ★ & a sticker pack',dailyDoneS:'Done today ✓',pack:'Open sticker pack · {c} ★',packFree:'Open FREE sticker pack ({n})',newS:'NEW!',dupS:'+5 ★',notEnough:'Not enough stars. Play more levels!',streakT:'{n}-day prayer streak! +{s} ★',albDone:'{w} stickers complete! +100 ★',comeBack:'Played today. Come back tomorrow for new rewards!',tipBoss:'Boss level! Big board, special tiles, big reward.',tipGoal:'Goal: collect all the tiles shown at the top. You win as soon as they are done!',tipGrav:'Gravity! Tiles fall down after every match.',tipBomb:'Bomb tile: match it before its number reaches 0, or you lose 15 seconds!',tipStone:'Stone tiles must be matched twice.',tipIce:'Frozen tiles: match a tile right next to them to melt the ice.',tipGold:'Golden tiles give +5 stars!',tipHard:'Hard level: less time. You can do it!',choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
 bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah!',winB:'All praise is for Allah.',rwStars:'Stars earned',rwTime:'Time bonus',next:'Next level, Bismillah',home:'Home',
 loseT:'Time is up!',loseB:'Allah has decreed, and He does what He wills. Take a breath and try again.',retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
 lockT:'It is time for {p}',lockB:'Pause the game and pray {p} first, at the masjid or at home. Your game is saved right where you left it.',lockWait:'The button opens in {m}',lockReady:'Done praying? Tap below.',prayed:'I have prayed {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound effects',voice:'Voice cheers (MasyaAllah, great!)',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
 next2:'{p} at {t} · in {d}',nowP:'{p} time now',noMove:'No moves left. Shuffling…',hintNone:'Shuffling for a fresh start',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min ihtiyat',resetDone:'Progress reset',
 P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'}},
-id:{bonusT:'Bonus: +{g} ★',map:'Peta',bossT:'Level Bos {n}',dailyT:'Puzzle Harian',dailyDoneT:'Puzzle Harian selesai!',dailyGift:'+1 paket stiker gratis 🎴',unlockT:'Dunia baru terbuka: {w}! 🔓',worldDone:'Dunia selesai! 🏆 +50',lockLvl:'Selesaikan level sebelumnya dulu!',lockedS:'Terkunci',lockedW:'Selesaikan level 10 di {w} untuk membuka',lastPairs:'Pasangan terakhir! Ayo cepat!',bombT:'BUM! −15 detik',meterT:'Kekuatan kombo! +10 detik ⏱',iceT:'Beku! Cocokkan ubin di sebelahnya dulu',goalT:'Kumpulkan',giftT:'Hadiah Harian',day:'Hari {n}',claim:'Ambil',album:'Buku Stiker',daily:'Puzzle Harian',dailyS:'+30 ★ & paket stiker',dailyDoneS:'Selesai hari ini ✓',pack:'Buka paket stiker · {c} ★',packFree:'Buka paket stiker GRATIS ({n})',newS:'BARU!',dupS:'+5 ★',notEnough:'Bintang belum cukup. Main level lagi!',streakT:'{n} hari sholat berturut-turut! +{s} ★',albDone:'Stiker {w} lengkap! +100 ★',comeBack:'Sudah main hari ini. Kembali besok untuk hadiah baru!',tipBoss:'Level bos! Papan besar, ubin spesial, hadiah besar.',tipGoal:'Tujuan: kumpulkan semua ubin di atas. Langsung menang kalau sudah lengkap!',tipGrav:'Gravitasi! Ubin jatuh ke bawah setiap kali cocok.',tipBomb:'Ubin bom: cocokkan sebelum angkanya 0, atau waktu berkurang 15 detik!',tipStone:'Ubin batu harus dicocokkan dua kali.',tipIce:'Ubin beku: cocokkan ubin tepat di sebelahnya untuk mencairkan es.',tipGold:'Ubin emas memberi +5 bintang!',tipHard:'Level sulit: waktu lebih sedikit. Kamu pasti bisa!',choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
+id:{gotBurst:'Dapat ✨ Ledakan Bintang!',gotFreeze:'Dapat ❄️ Pembeku Waktu!',frozenT:'❄️ Waktu berhenti 15 detik!',bonusT:'Bonus: +{g} ★',map:'Peta',bossT:'Level Bos {n}',dailyT:'Puzzle Harian',dailyDoneT:'Puzzle Harian selesai!',dailyGift:'+1 paket stiker gratis 🎴',unlockT:'Dunia baru terbuka: {w}! 🔓',worldDone:'Dunia selesai! 🏆 +50',lockLvl:'Selesaikan level sebelumnya dulu!',lockedS:'Terkunci',lockedW:'Selesaikan level 10 di {w} untuk membuka',lastPairs:'Pasangan terakhir! Ayo cepat!',bombT:'BUM! −15 detik',meterT:'Kekuatan kombo! +10 detik ⏱',iceT:'Beku! Cocokkan ubin di sebelahnya dulu',goalT:'Kumpulkan',giftT:'Hadiah Harian',day:'Hari {n}',claim:'Ambil',album:'Buku Stiker',daily:'Puzzle Harian',dailyS:'+30 ★ & paket stiker',dailyDoneS:'Selesai hari ini ✓',pack:'Buka paket stiker · {c} ★',packFree:'Buka paket stiker GRATIS ({n})',newS:'BARU!',dupS:'+5 ★',notEnough:'Bintang belum cukup. Main level lagi!',streakT:'{n} hari sholat berturut-turut! +{s} ★',albDone:'Stiker {w} lengkap! +100 ★',comeBack:'Sudah main hari ini. Kembali besok untuk hadiah baru!',tipBoss:'Level bos! Papan besar, ubin spesial, hadiah besar.',tipGoal:'Tujuan: kumpulkan semua ubin di atas. Langsung menang kalau sudah lengkap!',tipGrav:'Gravitasi! Ubin jatuh ke bawah setiap kali cocok.',tipBomb:'Ubin bom: cocokkan sebelum angkanya 0, atau waktu berkurang 15 detik!',tipStone:'Ubin batu harus dicocokkan dua kali.',tipIce:'Ubin beku: cocokkan ubin tepat di sebelahnya untuk mencairkan es.',tipGold:'Ubin emas memberi +5 bintang!',tipHard:'Level sulit: waktu lebih sedikit. Kamu pasti bisa!',choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
 bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah!',winB:'Segala puji bagi Allah.',rwStars:'Bintang didapat',rwTime:'Bonus waktu',next:'Level berikutnya, Bismillah',home:'Beranda',
 loseT:'Waktu habis!',loseB:'Allah telah menakdirkan, dan apa yang Dia kehendaki pasti terjadi. Tarik napas, lalu coba lagi.',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
 lockT:'Sudah masuk waktu {p}',lockB:'Jeda dulu, sholat {p} dulu, di masjid atau di rumah. Permainanmu tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk di bawah.',prayed:'Aku sudah sholat {p}',
@@ -953,6 +965,9 @@ function endDrag(e){if(!drag)return;const d=drag;drag=null;
   if(d.moved){const tl=tileAt(pt(e));if(tl&&!same(tl,d.start))wrong(d.start);G.sel=null;return}
   if(d.wasSel)G.sel=null}
 cv.addEventListener('pointerup',endDrag);
+['touchstart','touchmove'].forEach(ev=>cv.addEventListener(ev,e=>{if(e.cancelable)e.preventDefault()},{passive:false}));
+document.addEventListener('selectstart',e=>{if(!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName))e.preventDefault()});
+document.addEventListener('contextmenu',e=>e.preventDefault());
 cv.addEventListener('pointercancel',()=>{drag=null});
 
 function tryMatch(a,b){if(G.grid[a[0]][a[1]]===G.grid[b[0]][b[1]]&&!frozen(a[0],a[1])&&!frozen(b[0],b[1])){const p=findPath(a[0],a[1],b[0],b[1]);if(p){match(a,b,p);return true}}wrong(a);return false}
@@ -988,7 +1003,7 @@ function lvCfg(wi,n,daily){
     bomb:(n>=12||(boss&&n>=10))?1+(n>=17):0,bombN:n>=17?8:10,
     gravity:[9,14,18,20].includes(n)||(daily&&daily.gravity),goal:[6,11,16].includes(n)}}
 const frozen=(r,c)=>{const s=G.spec&&G.spec[r]&&G.spec[r][c];return !!(s&&s.k==='ice')};
-function newLevel(){const C=G.daily?dailyCfg():lvCfg(worldIdx,G.level);G.cfg=C;
+function newLevel(){const C=G.daily?dailyCfg():lvCfg(worldIdx,G.level);G.cfg=C;G.freezeUntil=0;
   G.cols=C.C;G.rows=C.R;G.max=G.time=C.time;G.hints=3;G.shuf=2;G.undo=3;G.hist=[];G.stars=0;G.combo=0;G.meter=0;G.near=false;G.sel=null;G.left=C.pairs*2;
   drag=null;removing=[];trails=[];particles=[];hintPair=null;MUS.bpm=104;
   const pool=pickTypes(C.types),arr=[];for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
@@ -1017,6 +1032,24 @@ function applyGravity(now){for(let c=1;c<=G.cols;c++){const slots=[];for(let r=1
   slots.forEach(r=>{G.grid[r][c]=null;G.spec[r][c]=null});
   for(let i=0;i<tiles.length;i++){const r=slots[slots.length-tiles.length+i],tl=tiles[i];G.grid[r][c]=tl.t;G.spec[r][c]=tl.s;
     if(tl.from!==r)anim[key(r,c)]={born:0,shake:0,fromR:tl.from,t0:now};else{const a=anim[key(tl.from,c)];anim[key(r,c)]=a||{born:0,shake:0}}}}}
+/* ===== power-ups: earned, saved, used any time ===== */
+const powers=()=>store.get('pw',{burst:1,freeze:1});
+function givePower(k,n){const p=powers();p[k]=(p[k]||0)+n;store.set('pw',p);const b=$(k==='burst'?'#pwBurst':'#pwFreeze');if(b){b.classList.remove('new');void b.offsetWidth;b.classList.add('new')}hud()}
+function usePower(k){const p=powers();if(!p[k])return false;p[k]--;store.set('pw',p);return true}
+$('#pwBurst').onclick=()=>{if(!G.running||blocked())return;ensureAudio();
+  const by={};for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++){const v=G.grid[r][c];if(v&&!frozen(r,c))(by[v]=by[v]||[]).push([r,c])}
+  const pairs=[];shuffleArr(Object.keys(by)).forEach(k=>{const L=by[k];for(let i=0;i+1<L.length&&pairs.length<3;i+=2)pairs.push([L[i],L[i+1],k])});
+  if(!pairs.length||!usePower('burst'))return;snapshot();const now=performance.now();
+  pairs.forEach(([a,b,typ])=>{[a,b].forEach(([r,c])=>{removing.push({r,c,type:G.grid[r][c],spec:G.spec[r][c],t0:now});
+      for(let i=0;i<22;i++){const ang=Math.random()*6.3,v=2+Math.random()*6;particles.push({x:X(c),y:Y(r),vx:Math.cos(ang)*v,vy:Math.sin(ang)*v-2,born:now,life:800,s:4,col:['#FFC93C','#FF8AD8','#8FE3FF','#fff'][i%4]})}
+      const s=G.spec[r][c];if(s&&s.k==='gold')G.stars+=5;G.grid[r][c]=null;G.spec[r][c]=null;delete anim[key(r,c)]});
+    [a,b].forEach(([r,c])=>thaw(r,c));G.left-=2;G.stars+=1;if(G.goal){const g=G.goal.find(g=>g.t===typ);if(g&&g.got<g.need){g.got++;renderGoal(true)}}});
+  sfx.popper();sfx.sparkleUp();buzz([30,30,60]);praise('masya1');
+  if(G.cfg.gravity)applyGravity(now);G.sel=null;hintPair=null;hud();
+  if(G.left===0||goalDone()){setTimeout(win,700);return}
+  if(!anyMove())setTimeout(()=>doShuffle(true),800)};
+$('#pwFreeze').onclick=()=>{if(!G.running||blocked())return;ensureAudio();if(G.freezeUntil&&Date.now()<G.freezeUntil)return;if(!usePower('freeze'))return;
+  G.freezeUntil=Date.now()+15000;sfx.ice();osc({f:1800,f2:600,d:.5,v:.05,wet:.9});toast(t('frozenT'));calm();hud()};
 function goalDone(){return !!(G.goal&&G.goal.every(g=>g.got>=g.need))}
 function renderGoal(pop){const el=$('#goalBar');if(!G.goal){el.hidden=true;return}el.hidden=false;
   el.innerHTML=`<span class="gl">${t('goalT')}</span>`+G.goal.map(g=>`<span class="gi${g.got>=g.need?' done':''}${pop?' pop':''}"><img src="assets/icons/${g.t}.webp" alt=""><b>${g.got>=g.need?'✓':g.got+'/'+g.need}</b></span>`).join('')}
@@ -1031,7 +1064,7 @@ function match(a,b,path){const now=performance.now();trails.push({path,t0:now});
     if(G.goal){const g=G.goal.find(g=>g.t===typ);if(g&&g.got<g.need){g.got++;renderGoal(true)}}}
   tickBombs();
   const cmb={3:'masya1',5:'masya2',7:'subhan',9:'barak'}[G.combo]||(G.combo>9&&G.combo%3===0?'akbar':null);if(cmb){G.stars+=Math.floor(G.combo/2);praise(cmb);sfx.praise();buzz([20,40,20])}
-  if(G.combo>=2){G.meter++;if(G.meter>=6){G.meter=0;G.time=Math.min(G.max,G.time+10);sfx.coin();toast(t('meterT'));const tp=$('#timerPill');tp.classList.remove('beat');void tp.offsetWidth;tp.classList.add('beat')}}
+  if(G.combo>=2){G.meter++;if(G.meter>=6){G.meter=0;const k=Math.random()<.5?'burst':'freeze';givePower(k,1);sfx.coin();toast(t(k==='burst'?'gotBurst':'gotFreeze'))}}
   G.sel=null;hintPair=null;
   if(!stone&&G.cfg.gravity)applyGravity(now);
   hud();
@@ -1130,7 +1163,7 @@ function frame(now){const dt=Math.min(50,now-lastF)/16.7;lastF=now;
   requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 
-function hud(){$('#lvl').textContent=G.daily?'★':G.level;$('#meterFill').style.width=((G.meter||0)/6*100)+'%';$('#stars').textContent=G.total+G.stars;$('#nHint').textContent=G.hints;$('#nShuf').textContent=G.shuf;$('#nUndo').textContent=G.undo;
+function hud(){const pwv=powers();$('#nBurst').textContent=pwv.burst;$('#nFreeze').textContent=pwv.freeze;$('#pwBurst').disabled=!pwv.burst;$('#pwFreeze').disabled=!pwv.freeze;$('#lvl').textContent=G.daily?'★':G.level;$('#meterFill').style.width=((G.meter||0)/6*100)+'%';$('#stars').textContent=G.total+G.stars;$('#nHint').textContent=G.hints;$('#nShuf').textContent=G.shuf;$('#nUndo').textContent=G.undo;
   $('#bHint').disabled=G.hints<=0;$('#bShuf').disabled=G.shuf<=0;$('#bUndo').disabled=G.undo<=0||!G.hist.length;$('#timerPill').classList.toggle('low',G.time<=30&&G.max>0);const s=Math.max(0,Math.ceil(G.time));$('#time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
   $('#barFill').style.width=(G.max?G.time/G.max*100:100)+'%';$('#bar').classList.toggle('low',G.time<=30&&G.max>0)}
 let praiseT=null;function praise(k,override){const P=PR[k],L=P[S.lang],el=$('#praise');el.querySelector('.ar').textContent=P.ar;el.querySelector('.tr').textContent=override||L[0];el.querySelector('.mn').textContent=override?'':L[2];el.classList.remove('on');void el.offsetWidth;el.classList.add('on');clearTimeout(praiseT);praiseT=setTimeout(()=>el.classList.remove('on'),1700);voice(k,L[1])}
@@ -1187,7 +1220,8 @@ function win(){G.running=false;calm();const bonus=Math.floor(G.time/6),rt=rating
   if(G.daily){gift+=30;if(!dailyDone()){store.set('daily:'+ymd(),1);addPacks(1);msgs.push(t('dailyGift'))}}
   else{if(n%5===0)gift+=10;if(C.boss)gift+=20;const id=curWorld().id,a=lvStars(id),first=!a[n-1];a[n-1]=Math.max(a[n-1]||0,rt);store.set('ls:'+id,a);
     if(n===10&&first&&WORLDS[worldIdx+1])msgs.push(t('unlockT',{w:WORLDS[worldIdx+1].name[S.lang]}));
-    if(n===LPW&&first){gift+=50;msgs.push(t('worldDone'))}}
+    if(n===LPW&&first){gift+=50;msgs.push(t('worldDone'))}
+    if(C.boss){givePower('burst',1);msgs.push(t('gotBurst'))}}
   if(gift)msgs.unshift(t('bonusT',{g:gift}));
   G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
   $('#winRib').textContent=G.daily?t('dailyDoneT'):t('cleared',{n});$('#rate').innerHTML=[1,2,3].map(i=>`<img src="assets/ui/star.webp" alt="" class="${i<=rt?'':'off'}">`).join('');
@@ -1216,7 +1250,7 @@ function tension(sec){const dz=$('#danger'),tp=$('#timerPill');dz.classList.add(
   if(sec<=10)buzz(sec<=5?[30,60,30]:20)}
 function calm(){MUS.bpm=104;const dz=$('#danger');dz.classList.remove('on','beat');dz.style.opacity='';$('#timerPill').classList.remove('beat','shake')}
 setInterval(()=>{const n=Date.now(),dt=(n-lastTick)/1000;lastTick=n;
-  if(G.running&&!blocked()){const before=Math.ceil(G.time);G.time-=dt;if(G.time<=0){G.time=0;hud();lose();return}const sec=Math.ceil(G.time);if(sec<before&&sec<=30)tension(sec);hud()}
+  if(G.running&&!blocked()){const fz=G.freezeUntil&&n<G.freezeUntil;$('#timerPill').classList.toggle('frozen',!!fz);if(fz){hud();tickPrayer(n);return}const before=Math.ceil(G.time);G.time-=dt;if(G.time<=0){G.time=0;hud();lose();return}const sec=Math.ceil(G.time);if(sec<before&&sec<=30)tension(sec);hud()}
   tickPrayer(n)},250);
 
 /* ---------- Prayer lock ---------- */
@@ -1300,7 +1334,7 @@ function checkGift(){const g=store.get('gift',{last:'',day:0});if(g.last===ymd()
   const day=g.last===yday()?g.day%7+1:1;G.giftDay=day;
   $('#giftDays').innerHTML=GIFTS.map((v,i)=>`<div class="gd${i+1<day?' got':''}${i+1===day?' today':''}${i===6?' big':''}"><small>${t('day',{n:i+1})}</small><img src="assets/ui/${i===6?'gift':'star'}.webp" alt=""><b>${i===6?'+'+v+' 🎴':'+'+v}</b></div>`).join('');
   $('#giftRib').textContent=t('giftT');$('#bGift').textContent=t('claim');$('#ovGift').hidden=false;sfx.hint()}
-$('#bGift').onclick=()=>{ensureAudio();const day=G.giftDay||1,v=GIFTS[day-1];store.set('gift',{last:ymd(),day});
+$('#bGift').onclick=()=>{ensureAudio();const day=G.giftDay||1,v=GIFTS[day-1];const pk=Math.random()<.5?'burst':'freeze';givePower(pk,1);setTimeout(()=>toast(t(pk==='burst'?'gotBurst':'gotFreeze')),1200);store.set('gift',{last:ymd(),day});
   G.total+=v;store.set('stars',G.total);if(day===7)addPacks(1);sfx.coin();sfx.sparkleUp();confetti('top');$('#ovGift').hidden=true;toast('+'+v+' ★');renderHome()};
 
 /* ===== Prayer streak (days with at least one prayer pause completed) ===== */
