@@ -30,8 +30,8 @@ body{margin:0}
   --text:#FFFFFF; --muted:#D9CFFF; --ok:#5BE37D;
   --f-display:"Lilita One","Baloo 2",system-ui,sans-serif;
   --f-body:"Baloo 2",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-arab:"Amiri","Traditional Arabic","Geeza Pro",serif;
-  --f-arab-fun:"Baloo Bhaijaan 2","Amiri","Geeza Pro",serif;
+  --f-arab:"Marhey","Traditional Arabic","Geeza Pro",sans-serif;
+  --f-arab-fun:"Marhey","Geeza Pro",sans-serif;
   color-scheme:dark;
 }
 html,body{height:100%}
@@ -119,10 +119,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .ribbon img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .ribbon span{position:relative;top:-9%;font-family:var(--f-display);font-size:23px;color:#fff;letter-spacing:.5px;-webkit-text-stroke:5px rgba(60,10,10,.55);paint-order:stroke fill;text-shadow:0 3px 0 rgba(0,0,0,.25);white-space:nowrap}
 .ribbon.green span{-webkit-text-stroke-color:rgba(10,60,20,.55)}
+.ribbon span{display:none}
+.ribbon .rtext{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ribbon .rtext text{font-family:var(--f-display);font-size:58px;letter-spacing:1px;fill:#fff;stroke:rgba(90,12,12,.7);stroke-width:13px;stroke-linejoin:round;paint-order:stroke fill}
+.ribbon.green .rtext text{stroke:rgba(10,70,20,.7)}
 .card h1{margin:0;font-family:var(--f-display);font-size:46px;font-weight:400;color:var(--gold);letter-spacing:1px;line-height:1;-webkit-text-stroke:7px var(--v-ink);paint-order:stroke fill;text-shadow:0 5px 0 var(--v-ink)}
 .card h2{margin:0;font-family:var(--f-display);font-size:28px;font-weight:400;letter-spacing:.4px;text-wrap:balance;-webkit-text-stroke:5px var(--v-ink);paint-order:stroke fill}
 .card p{margin:0;color:var(--muted);font-size:15px;font-weight:600;line-height:1.5;text-wrap:balance}
-.ar-big{font-family:var(--f-arab);font-size:32px;line-height:1.7;color:var(--gold);direction:rtl;text-shadow:0 2px 0 rgba(0,0,0,.3)}
+.ar-big{font-family:var(--f-arab);font-weight:700;font-size:30px;line-height:1.75;color:var(--gold);direction:rtl;text-shadow:0 2px 0 rgba(0,0,0,.3)}
 .btn{border:0;border-radius:20px;padding:14px 18px;font-family:var(--f-display);font-size:22px;letter-spacing:.6px;color:#fff;
   background:linear-gradient(180deg,#7DF08F,var(--green));box-shadow:0 6px 0 var(--green-deep),0 10px 16px rgba(0,0,0,.25);text-shadow:0 2px 0 rgba(0,0,0,.25);transition:transform .08s}
 .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--green-deep)}
@@ -284,7 +288,8 @@ body.menu #app{visibility:hidden}
 .wb b{font-family:var(--f-display);font-weight:400;font-size:13.5px;line-height:1.05;letter-spacing:.3px;-webkit-text-stroke:4px var(--v-ink);paint-order:stroke fill;text-align:center;min-height:2.1em;display:flex;align-items:center}
 .wb .st{display:flex;gap:1px;margin-top:-2px}.wb .st img{width:12px;height:12px}.wb .st img.off{filter:grayscale(1) brightness(.6);opacity:.55}
 .wb .lv{position:absolute;top:2%;right:6%;background:linear-gradient(180deg,#FF8A8E,var(--red));border:2px solid #fff;border-radius:10px;padding:0 6px;font-family:var(--f-display);font-size:13px;line-height:1.4;box-shadow:0 2px 0 rgba(0,0,0,.25);transform:rotate(8deg)}
-.wb.soon{pointer-events:auto}.wb.soon>img{filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));opacity:.9}
+.wb.soon{pointer-events:auto}.wb.soon>img{filter:saturate(.35) brightness(.75) drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+.wb .soontag{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.4px;text-transform:uppercase;margin-top:-2px}
 .wb.soon::after{content:'';position:absolute;top:14%;left:50%;width:42%;aspect-ratio:1;translate:-50% 0;background:url(assets/ui/padlock.webp) center/contain no-repeat;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4))}
 .wb.soon b{color:var(--muted)}
 .praychip{display:flex;align-items:center;gap:6px;border:2px solid rgba(255,255,255,.22);background:rgba(28,11,85,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
@@ -999,12 +1004,12 @@ function renderChip(now){const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo
 
 /* ---------- Home ---------- */
 /* ---- Scene 2: badges in a scrolling grid, plus coming-soon slots ---- */
-const SOON=3;
+const SOON=[{id:'dinosaur',name:{en:'Dinosaurs',id:'Dinosaurus'}},{id:'farm',name:{en:'Farm Friends',id:'Peternakan'}},{id:'desert',name:{en:'Desert Oasis',id:'Oasis Gurun'}},{id:'beach',name:{en:'Beach Fun',id:'Pantai'}}];
 function renderWorlds(){const g=$('#worlds');
   g.innerHTML=WORLDS.map((w,i)=>{const lv=getLv(w.id),done=Math.min(5,lv-1);
     return`<button class="wb${i===worldIdx?' cur':''}" data-i="${i}" style="--i:${i}"><img src="assets/badges/${w.id}.webp" alt=""><span class="lv">${lv}</span><b>${w.name[S.lang]}</b>
       <span class="st">${[0,1,2,3,4].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<done?'':'off'}">`).join('')}</span></button>`}).join('')+
-    Array.from({length:SOON},(_,k)=>`<button class="wb soon" data-soon="1" style="--i:${WORLDS.length+k}"><img src="assets/badges/soon.webp" alt=""><b>${t('locked')}</b></button>`).join('');
+    SOON.map((w,k)=>`<button class="wb soon" data-soon="1" style="--i:${WORLDS.length+k}"><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><small class="soontag">${t('locked')}</small></button>`).join('');
   $('#tChoose').textContent=t('choose')}
 $('#worlds').onclick=e=>{const b=e.target.closest('.wb');if(!b)return;ensureAudio();if(b.dataset.soon){sfx.bad();toast(t('soonG'));return}const i=+b.dataset.i,w=WORLDS[i];
   if(i!==worldIdx){worldIdx=i;store.set('world',w.id);G.level=getLv(w.id);G.grid=[];G.running=false;loadIcons();renderHome()}
@@ -1012,6 +1017,12 @@ $('#worlds').onclick=e=>{const b=e.target.closest('.wb');if(!b)return;ensureAudi
 $('#bBack').onclick=()=>{ensureAudio();$('#schedPop').hidden=true;$('#ovIntro').classList.remove('leave');show('ovIntro')};
 $('#prayChip').onclick=()=>{ensureAudio();$('#schedPop').hidden=!$('#schedPop').hidden};
 $('#schedPop').onclick=()=>{$('#schedPop').hidden=true};
+/* ---- curved ribbon titles: the text follows the arch of the ribbon image ---- */
+document.querySelectorAll('.ribbon').forEach((r,i)=>{const sp=r.querySelector('span');if(!sp)return;
+  r.insertAdjacentHTML('beforeend',`<svg class="rtext" viewBox="0 0 720 264" aria-hidden="true"><path id="rarc${i}" d="M50,140 Q360,48 670,140" fill="none"/><text><textPath href="#rarc${i}" startOffset="50%" text-anchor="middle"></textPath></text></svg>`);
+  const tp=r.querySelector('textPath'),tx=r.querySelector('.rtext text');
+  const fit=()=>{tp.textContent=sp.textContent;tx.style.fontSize='58px';requestAnimationFrame(()=>{try{const L=tx.getComputedTextLength();if(L>500)tx.style.fontSize=Math.max(34,58*500/L)+'px'}catch(e){}})};
+  new MutationObserver(fit).observe(sp,{childList:true,characterData:true,subtree:true});fit()});
 /* ---- Scene 1: intro ---- */
 $('#bIntroPlay').onclick=()=>{ensureAudio();sfx.start();voice('bism');buzz(20);const o=$('#ovIntro');o.classList.add('leave');
   setTimeout(()=>{o.classList.remove('leave');renderHome();show('ovHome')},450)};
