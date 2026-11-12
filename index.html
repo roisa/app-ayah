@@ -272,7 +272,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .map-head i{font-style:normal;font-size:30px;animation:bob 2s infinite}
 .map{position:relative;width:100%;aspect-ratio:724/2172;background:url(assets/bg/map.webp) center/100% 100% no-repeat;border-radius:22px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 #mapScroll{-webkit-mask:none;mask:none;border-radius:22px}
-.node{position:absolute;width:15%;aspect-ratio:1;translate:-50% -55%;border:0;padding:0;background:url(assets/ui/node-silver.webp) center/contain no-repeat;display:grid;place-items:center;color:#fff;filter:drop-shadow(0 5px 4px rgba(0,0,0,.35))}
+.node{position:absolute;z-index:1;width:15%;aspect-ratio:1;translate:-50% -55%;border:0;padding:0;background:url(assets/ui/node-silver.webp) center/contain no-repeat;display:grid;place-items:center;color:#fff;filter:drop-shadow(0 5px 4px rgba(0,0,0,.35))}
 .node.done{background-image:url(assets/ui/node-gold.webp)}
 .node.cur{background-image:url(assets/ui/node-green.webp);width:17%;animation:bob 1.4s ease-in-out infinite}
 .node.boss{background-image:url(assets/ui/node-boss.webp);width:18%;aspect-ratio:159/200;translate:-50% -65%}
@@ -283,7 +283,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .node.boss b{-webkit-text-stroke-color:rgba(110,10,20,.6)}
 .node .ns{position:absolute;bottom:-14%;display:flex;gap:0}.node .ns img{width:min(5.4vw,24px);height:auto}.node .ns img.off{filter:grayscale(1) brightness(.85);opacity:.85}
 .node .ns img:nth-child(2){transform:translateY(5px)}
-.mo-pin{position:absolute;width:13%;translate:-50% -100%;pointer-events:none;z-index:3;filter:drop-shadow(0 6px 6px rgba(0,0,0,.4));transition:left .9s ease-in-out,top .9s ease-in-out;animation:hop2 1.6s ease-in-out infinite}
+.mo-pin{position:absolute;width:15%;translate:-50% -100%;pointer-events:none;z-index:0;filter:drop-shadow(0 6px 6px rgba(0,0,0,.4));transition:left .9s ease-in-out,top .9s ease-in-out;animation:hop2 1.6s ease-in-out infinite}
 @keyframes hop2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .fly{position:absolute;width:6px;height:6px;border-radius:50%;background:#FFF6B0;box-shadow:0 0 10px 3px rgba(255,240,150,.8);pointer-events:none;animation:fly var(--d) ease-in-out infinite alternate;opacity:.85}
 @keyframes fly{from{transform:translate(0,0)}to{transform:translate(var(--x),var(--y))}}
@@ -1335,12 +1335,12 @@ function renderMap(){const w=curWorld(),a=lvStars(w.id),N=lpw(),cur=Math.min(N,c
   $('#mapPath').style.height='';
   const flies=Array.from({length:14},(_,i)=>`<i class="fly" style="left:${(i*37)%95}%;top:${(i*53)%96}%;--x:${(i%2?1:-1)*(20+i*3)}px;--y:${(i%3-1)*30}px;--d:${3+i%4}s"></i>`).join('');
   const prev=+(store.get('mopos:'+w.id,cur)),from=P[Math.min(N,prev)-1]||P[cur-1],to=P[(done?N:cur)-1];
-  $('#mapPath').innerHTML=flies+P.map(([x,y],i)=>{const n=i+1,boss=isBoss(n),st=a[i]||0,lock=n>cur,isCur=n===cur&&!done;
+  const moHTML=`<img class="mo-pin" id="moPin" src="assets/ui/mo.webp" alt="" style="left:${from[0]}%;top:${from[1]-.6}%">`;
+  $('#mapPath').innerHTML=flies+moHTML+P.map(([x,y],i)=>{const n=i+1,boss=isBoss(n),st=a[i]||0,lock=n>cur,isCur=n===cur&&!done;
     return`<button class="node${boss?' boss':''}${st?' done':''}${lock?' lock':''}${isCur?' cur':''}" data-n="${n}" style="left:${x}%;top:${y}%">
-      <b>${n}</b>${st||isCur?`<span class="ns">${[1,2,3].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<=st?'':'off'}">`).join('')}</span>`:''}</button>`}).join('')+
-    `<img class="mo-pin" id="moPin" src="assets/ui/mo.webp" alt="" style="left:${from[0]+7}%;top:${from[1]-2}%">`;
+      <b>${n}</b>${st||isCur?`<span class="ns">${[1,2,3].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<=st?'':'off'}">`).join('')}</span>`:''}</button>`}).join('');
   store.set('mopos:'+w.id,done?N:cur);
-  if(from!==to)setTimeout(()=>{const m=$('#moPin');if(m){m.style.left=(to[0]+7)+'%';m.style.top=(to[1]-2)+'%'}},500);
+  if(from!==to)setTimeout(()=>{const m=$('#moPin');if(m){m.style.left=to[0]+'%';m.style.top=(to[1]-.6)+'%'}},500);
   requestAnimationFrame(()=>{const sc=$('#mapScroll'),mp=$('#mapPath');if(sc&&mp)sc.scrollTop=mp.offsetHeight*to[1]/100-sc.clientHeight/2})}
 $('#mapPath').onclick=e=>{const b=e.target.closest('.node');if(!b)return;ensureAudio();if(b.classList.contains('lock')){sfx.bad();toast(t('lockLvl'));return}
   G.daily=false;G.level=+b.dataset.n;newLevel();gate()};
