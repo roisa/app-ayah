@@ -364,6 +364,13 @@ body.menu #app{visibility:hidden}
 .pw:active{transform:translateY(3px)}.pw:disabled{filter:grayscale(1);opacity:.5}
 .pw.new{animation:pwNew .6s cubic-bezier(.34,1.7,.64,1)}@keyframes pwNew{0%{transform:scale(.4)}100%{transform:none}}
 .pill.timer.frozen{background:linear-gradient(180deg,#8FE3FF,#2E8FE0)}
+.stys{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sty{display:flex;flex-direction:column;align-items:center;gap:2px;border:3px solid rgba(255,255,255,.35);border-radius:20px;padding:10px 4px 8px;color:#fff;
+  background:linear-gradient(180deg,var(--c1),var(--c2));box-shadow:0 5px 0 var(--c3),0 9px 14px rgba(0,0,0,.3);animation:rwIn .45s cubic-bezier(.34,1.7,.64,1) both;animation-delay:calc(var(--i)*.08s)}
+.sty:active{transform:translateY(3px)}.sty.on{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold),0 5px 0 var(--c3)}
+.sty i{font-style:normal;font-size:46px;line-height:1.1;animation:bob 2.4s ease-in-out infinite}
+.sty b{font-family:var(--f-display);font-weight:400;font-size:19px;-webkit-text-stroke:4px rgba(0,0,0,.25);paint-order:stroke fill}
+.sty small{font-weight:800;font-size:12px;opacity:.95}.sty em{font-style:normal;font-size:11px;font-weight:700;opacity:.85}
 .hud-r,.pk-r{display:flex;align-items:center;gap:6px}
 /* ===== Scene 2: choose a world ===== */
 .pick{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
@@ -456,6 +463,15 @@ body.menu #app{visibility:hidden}
     <button class="praychip" id="prayChip"><span id="prayTxt">—</span></button>
     <div class="schedpop" id="schedPop" hidden><label id="tSched"></label><div class="sched" id="sched"></div><div class="meta" id="schedMeta"></div></div>
     <button id="bStart" hidden></button><span id="hLvl" hidden></span><p id="tTag" hidden></p>
+  </div>
+</div>
+
+<!-- Who is playing? (play style) -->
+<div class="ov" id="ovStyle" hidden style="z-index:46">
+  <div class="card">
+    <div class="ribbon green"><img src="assets/ui/ribbon-green.webp" alt=""><span id="styRib"></span></div>
+    <div class="stys" id="stys"></div>
+    <p id="styHint"></p>
   </div>
 </div>
 
@@ -553,6 +569,7 @@ body.menu #app{visibility:hidden}
       <div class="field"><label for="lat">Lat</label><input id="lat" type="number" step="0.0001"></div>
       <div class="field"><label for="lng">Lng</label><input id="lng" type="number" step="0.0001"></div>
     </div>
+    <div class="field"><label id="lStyle"></label><button class="btn ghost" id="bStyle"></button></div>
     <div class="field"><label data-ic="globe" id="lLang"></label><div class="seg" id="segLang"><button data-v="en">🇬🇧 English</button><button data-v="id">🇮🇩 Indonesia</button></div></div>
     <div class="field"><label data-ic="clock" id="lWait"></label><div class="seg" id="segWait"><button data-v="5">5 min</button><button data-v="10">10 min</button><button data-v="15">15 min</button><button data-v="20">20 min</button></div></div>
     <div class="field"><label data-ic="sound" id="lSound"></label><div class="seg" id="segSound"><button data-v="1" data-ic="sound"></button><button data-v="0" data-ic="mute"></button></div></div>
@@ -588,14 +605,14 @@ const store={get(k,d){try{const v=localStorage.getItem('nur:'+k);return v==null?
 
 /* ---------- Text ---------- */
 const T={
-en:{gotBurst:'You got a ✨ Star Burst!',gotFreeze:'You got a ❄️ Time Freeze!',frozenT:'❄️ Time frozen for 15 seconds!',bonusT:'Bonus: +{g} ★',map:'Map',bossT:'Boss Level {n}',dailyT:'Daily Puzzle',dailyDoneT:'Daily Puzzle done!',dailyGift:'+1 free sticker pack 🎴',unlockT:'New world unlocked: {w}! 🔓',worldDone:'World complete! 🏆 +50',lockLvl:'Finish the level before it first!',lockedS:'Locked',lockedW:'Clear level 10 of {w} to unlock',lastPairs:'Last pairs! Hurry!',bombT:'BOOM! −15 seconds',meterT:'Combo power! +10 seconds ⏱',iceT:'Frozen! Match a tile next to it first',goalT:'Collect',giftT:'Daily Gift',day:'Day {n}',claim:'Claim',album:'Sticker Book',daily:'Daily Puzzle',dailyS:'+30 ★ & a sticker pack',dailyDoneS:'Done today ✓',pack:'Open sticker pack · {c} ★',packFree:'Open FREE sticker pack ({n})',newS:'NEW!',dupS:'+5 ★',notEnough:'Not enough stars. Play more levels!',streakT:'{n}-day prayer streak! +{s} ★',albDone:'{w} stickers complete! +100 ★',comeBack:'Played today. Come back tomorrow for new rewards!',tipBoss:'Boss level! Big board, special tiles, big reward.',tipGoal:'Goal: collect all the tiles shown at the top. You win as soon as they are done!',tipGrav:'Gravity! Tiles fall down after every match.',tipBomb:'Bomb tile: match it before its number reaches 0, or you lose 15 seconds!',tipStone:'Stone tiles must be matched twice.',tipIce:'Frozen tiles: match a tile right next to them to melt the ice.',tipGold:'Golden tiles give +5 stars!',tipHard:'Hard level: less time. You can do it!',choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
+en:{whoT:'Who is playing?',styHint:'You can change this anytime in Settings.',st_little:'Little',st_kids:'Kids',st_big:'Big Kids',st_family:'Family',yrs:'years',agesFam:'13+ & parents',lvlsN:'{n} levels per world',styleL:'Play style',gotBurst:'You got a ✨ Star Burst!',gotFreeze:'You got a ❄️ Time Freeze!',frozenT:'❄️ Time frozen for 15 seconds!',bonusT:'Bonus: +{g} ★',map:'Map',bossT:'Boss Level {n}',dailyT:'Daily Puzzle',dailyDoneT:'Daily Puzzle done!',dailyGift:'+1 free sticker pack 🎴',unlockT:'New world unlocked: {w}! 🔓',worldDone:'World complete! 🏆 +50',lockLvl:'Finish the level before it first!',lockedS:'Locked',lockedW:'Clear level {n} of {w} to unlock',lastPairs:'Last pairs! Hurry!',bombT:'BOOM! −15 seconds',meterT:'Combo power! +10 seconds ⏱',iceT:'Frozen! Match a tile next to it first',goalT:'Collect',giftT:'Daily Gift',day:'Day {n}',claim:'Claim',album:'Sticker Book',daily:'Daily Puzzle',dailyS:'+30 ★ & a sticker pack',dailyDoneS:'Done today ✓',pack:'Open sticker pack · {c} ★',packFree:'Open FREE sticker pack ({n})',newS:'NEW!',dupS:'+5 ★',notEnough:'Not enough stars. Play more levels!',streakT:'{n}-day prayer streak! +{s} ★',albDone:'{w} stickers complete! +100 ★',comeBack:'Played today. Come back tomorrow for new rewards!',tipBoss:'Boss level! Big board, special tiles, big reward.',tipGoal:'Goal: collect all the tiles shown at the top. You win as soon as they are done!',tipGrav:'Gravity! Tiles fall down after every match.',tipBomb:'Bomb tile: match it before its number reaches 0, or you lose 15 seconds!',tipStone:'Stone tiles must be matched twice.',tipIce:'Frozen tiles: match a tile right next to them to melt the ice.',tipGold:'Golden tiles give +5 stars!',tipHard:'Hard level: less time. You can do it!',choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
 bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah!',winB:'All praise is for Allah.',rwStars:'Stars earned',rwTime:'Time bonus',next:'Next level, Bismillah',home:'Home',
 loseT:'Time is up!',loseB:'Allah has decreed, and He does what He wills. Take a breath and try again.',retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
 lockT:'It is time for {p}',lockB:'Pause the game and pray {p} first, at the masjid or at home. Your game is saved right where you left it.',lockWait:'The button opens in {m}',lockReady:'Done praying? Tap below.',prayed:'I have prayed {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound effects',voice:'Voice cheers (MasyaAllah, great!)',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
 next2:'{p} at {t} · in {d}',nowP:'{p} time now',noMove:'No moves left. Shuffling…',hintNone:'Shuffling for a fresh start',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min ihtiyat',resetDone:'Progress reset',
 P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'}},
-id:{gotBurst:'Dapat ✨ Ledakan Bintang!',gotFreeze:'Dapat ❄️ Pembeku Waktu!',frozenT:'❄️ Waktu berhenti 15 detik!',bonusT:'Bonus: +{g} ★',map:'Peta',bossT:'Level Bos {n}',dailyT:'Puzzle Harian',dailyDoneT:'Puzzle Harian selesai!',dailyGift:'+1 paket stiker gratis 🎴',unlockT:'Dunia baru terbuka: {w}! 🔓',worldDone:'Dunia selesai! 🏆 +50',lockLvl:'Selesaikan level sebelumnya dulu!',lockedS:'Terkunci',lockedW:'Selesaikan level 10 di {w} untuk membuka',lastPairs:'Pasangan terakhir! Ayo cepat!',bombT:'BUM! −15 detik',meterT:'Kekuatan kombo! +10 detik ⏱',iceT:'Beku! Cocokkan ubin di sebelahnya dulu',goalT:'Kumpulkan',giftT:'Hadiah Harian',day:'Hari {n}',claim:'Ambil',album:'Buku Stiker',daily:'Puzzle Harian',dailyS:'+30 ★ & paket stiker',dailyDoneS:'Selesai hari ini ✓',pack:'Buka paket stiker · {c} ★',packFree:'Buka paket stiker GRATIS ({n})',newS:'BARU!',dupS:'+5 ★',notEnough:'Bintang belum cukup. Main level lagi!',streakT:'{n} hari sholat berturut-turut! +{s} ★',albDone:'Stiker {w} lengkap! +100 ★',comeBack:'Sudah main hari ini. Kembali besok untuk hadiah baru!',tipBoss:'Level bos! Papan besar, ubin spesial, hadiah besar.',tipGoal:'Tujuan: kumpulkan semua ubin di atas. Langsung menang kalau sudah lengkap!',tipGrav:'Gravitasi! Ubin jatuh ke bawah setiap kali cocok.',tipBomb:'Ubin bom: cocokkan sebelum angkanya 0, atau waktu berkurang 15 detik!',tipStone:'Ubin batu harus dicocokkan dua kali.',tipIce:'Ubin beku: cocokkan ubin tepat di sebelahnya untuk mencairkan es.',tipGold:'Ubin emas memberi +5 bintang!',tipHard:'Level sulit: waktu lebih sedikit. Kamu pasti bisa!',choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
+id:{whoT:'Siapa yang main?',styHint:'Bisa diganti kapan saja di Pengaturan.',st_little:'Si Kecil',st_kids:'Anak',st_big:'Anak Besar',st_family:'Keluarga',yrs:'tahun',agesFam:'13+ & orang tua',lvlsN:'{n} level per dunia',styleL:'Gaya main',gotBurst:'Dapat ✨ Ledakan Bintang!',gotFreeze:'Dapat ❄️ Pembeku Waktu!',frozenT:'❄️ Waktu berhenti 15 detik!',bonusT:'Bonus: +{g} ★',map:'Peta',bossT:'Level Bos {n}',dailyT:'Puzzle Harian',dailyDoneT:'Puzzle Harian selesai!',dailyGift:'+1 paket stiker gratis 🎴',unlockT:'Dunia baru terbuka: {w}! 🔓',worldDone:'Dunia selesai! 🏆 +50',lockLvl:'Selesaikan level sebelumnya dulu!',lockedS:'Terkunci',lockedW:'Selesaikan level {n} di {w} untuk membuka',lastPairs:'Pasangan terakhir! Ayo cepat!',bombT:'BUM! −15 detik',meterT:'Kekuatan kombo! +10 detik ⏱',iceT:'Beku! Cocokkan ubin di sebelahnya dulu',goalT:'Kumpulkan',giftT:'Hadiah Harian',day:'Hari {n}',claim:'Ambil',album:'Buku Stiker',daily:'Puzzle Harian',dailyS:'+30 ★ & paket stiker',dailyDoneS:'Selesai hari ini ✓',pack:'Buka paket stiker · {c} ★',packFree:'Buka paket stiker GRATIS ({n})',newS:'BARU!',dupS:'+5 ★',notEnough:'Bintang belum cukup. Main level lagi!',streakT:'{n} hari sholat berturut-turut! +{s} ★',albDone:'Stiker {w} lengkap! +100 ★',comeBack:'Sudah main hari ini. Kembali besok untuk hadiah baru!',tipBoss:'Level bos! Papan besar, ubin spesial, hadiah besar.',tipGoal:'Tujuan: kumpulkan semua ubin di atas. Langsung menang kalau sudah lengkap!',tipGrav:'Gravitasi! Ubin jatuh ke bawah setiap kali cocok.',tipBomb:'Ubin bom: cocokkan sebelum angkanya 0, atau waktu berkurang 15 detik!',tipStone:'Ubin batu harus dicocokkan dua kali.',tipIce:'Ubin beku: cocokkan ubin tepat di sebelahnya untuk mencairkan es.',tipGold:'Ubin emas memberi +5 bintang!',tipHard:'Level sulit: waktu lebih sedikit. Kamu pasti bisa!',choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
 bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah!',winB:'Segala puji bagi Allah.',rwStars:'Bintang didapat',rwTime:'Bonus waktu',next:'Level berikutnya, Bismillah',home:'Beranda',
 loseT:'Waktu habis!',loseB:'Allah telah menakdirkan, dan apa yang Dia kehendaki pasti terjadi. Tarik napas, lalu coba lagi.',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
 lockT:'Sudah masuk waktu {p}',lockB:'Jeda dulu, sholat {p} dulu, di masjid atau di rumah. Permainanmu tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk di bawah.',prayed:'Aku sudah sholat {p}',
@@ -974,7 +991,14 @@ function tryMatch(a,b){if(G.grid[a[0]][a[1]]===G.grid[b[0]][b[1]]&&!frozen(a[0],
 function wrong(a){const an=anim[key(a[0],a[1])];if(an)an.shake=performance.now();sfx.bad();buzz(35);G.combo=0}
 function burst(x,y){for(let i=0;i<14;i++){const a=Math.random()*Math.PI*2,v=1.5+Math.random()*3.5;particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2,born:performance.now(),life:550+Math.random()*350,s:2+Math.random()*3.5,col:Math.random()<.65?COL.gold:'#FFF6DE'})}}
 /* ===== v2 levels: 20 per world, board shapes, special tiles, goals, gravity ===== */
-const LPW=20;
+const LMAX=20;
+/* play styles picked on first launch (no personal data, stored on the device only) */
+const STYLES={little:{em:'🐣',age:'3–5',n:7,unlock:3,timeMul:0,maxC:6,maxR:8,spec:['gold'],hints:99,grav:[],goal:[4]},
+  kids:{em:'🧒',age:'6–8',n:10,unlock:5,timeMul:1.5,maxC:7,maxR:10,spec:['gold','ice'],hints:5,grav:[7],goal:[4]},
+  big:{em:'👦',age:'9–12',n:15,unlock:8,timeMul:1,maxC:8,maxR:11,spec:['gold','ice','stone','bomb'],hints:3,grav:[7,12],goal:[4,11]},
+  family:{em:'🧑',age:'13+',n:20,unlock:10,timeMul:1,maxC:8,maxR:12,spec:['gold','ice','stone','bomb'],hints:3,grav:[9,14,18,20],goal:[6,11,16]}};
+const sty=()=>STYLES[S.style]||STYLES.family,lpw=()=>sty().n;
+const isBoss=n=>{const N=lpw();return n===N||(N===20&&n===10)};
 const SHAPES=['diamond','heart','frame','cross','hourglass','dome','split'];
 function inShape(sh,r,c,R,C){const x=(c-(C+1)/2)/(C/2),y=(r-(R+1)/2)/(R/2);
   switch(sh){case 'diamond':return Math.abs(x)*0.85+Math.abs(y)<=1.0;
@@ -988,23 +1012,23 @@ function inShape(sh,r,c,R,C){const x=(c-(C+1)/2)/(C/2),y=(r-(R+1)/2)/(R/2);
 function hashStr(s){let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function rngFrom(seed){let s=seed||1;return()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return ((s>>>0)%100000)/100000}}
 /* level recipe: size and shape grow, time per pair shrinks, specials arrive one by one */
-function lvCfg(wi,n,daily){
-  const boss=!daily&&n%10===0,hard=!daily&&!boss&&n%5===0;
-  const [C,R]=boss?[8,12]:n<=2?[6,8]:n<=4?[6,9]:n<=7?[7,9]:n<=11?[7,10]:n<=15?[8,10]:[8,11];
-  let shape='rect';if(daily)shape=daily.shape;else if(boss)shape=n===10?'heart':'dome';else if(n>=3&&n%3!==1)shape=SHAPES[(n+wi)%SHAPES.length];
+function lvCfg(wi,n,daily){const st=sty(),N=st.n,d=Math.max(1,Math.round(n*20/N)),little=st===STYLES.little;
+  const boss=!daily&&isBoss(n),hard=!daily&&!boss&&!little&&n%5===0;
+  let [C,R]=boss?[8,12]:d<=2?[6,8]:d<=4?[6,9]:d<=7?[7,9]:d<=11?[7,10]:d<=15?[8,10]:[8,11];C=Math.min(C,st.maxC);R=Math.min(R,st.maxR);
+  let shape='rect';if(daily)shape=daily.shape;else if(boss)shape=little?'heart':(n===N?'dome':'heart');else if(!little&&d>=3&&n%3!==1)shape=SHAPES[(n+wi)%SHAPES.length];
   const cells=[];for(let r=1;r<=R;r++)for(let c=1;c<=C;c++)if(inShape(shape,r,c,R,C))cells.push([r,c]);
   if(cells.length%2)cells.splice(Math.floor(cells.length/2),1);
-  const pairs=cells.length/2,per=Math.max(4.2,8.6-n*.18-wi*.1)*(hard?.85:boss?.92:1);
+  const pairs=cells.length/2,per=Math.max(4.2,8.6-d*.18-wi*.1)*(hard?.85:boss?.92:1),ok=k=>st.spec.includes(k);
   return{n,wi,R,C,shape,cells,pairs,boss,hard,daily:!!daily,
-    types:Math.min(IDS.length,7+n+(wi%3),pairs),time:Math.round(pairs*per+25),
-    gold:n>=2?1+(n>8)+(boss?1:0):0,
-    ice:n>=4?Math.min(10,2+Math.floor(n/3)+(boss?2:0)):0,
-    stone:n>=7?Math.min(3,1+Math.floor((n-7)/5)+(boss?1:0)):0,
-    bomb:(n>=12||(boss&&n>=10))?1+(n>=17):0,bombN:n>=17?8:10,
-    gravity:[9,14,18,20].includes(n)||(daily&&daily.gravity),goal:[6,11,16].includes(n)}}
+    types:Math.min(IDS.length,(little?5+n:7+d)+(wi%3),pairs),time:st.timeMul?Math.round((pairs*per+25)*st.timeMul):0,
+    gold:ok('gold')&&d>=2?1+(d>8)+(boss?1:0):0,
+    ice:ok('ice')&&d>=4?Math.min(10,2+Math.floor(d/3)+(boss?2:0)):0,
+    stone:ok('stone')&&d>=7?Math.min(3,1+Math.floor((d-7)/5)+(boss?1:0)):0,
+    bomb:ok('bomb')&&(d>=12||(boss&&d>=10))?1+(d>=17):0,bombN:d>=17?8:10,
+    gravity:st.grav.includes(n)||!!(daily&&daily.gravity&&st.grav.length),goal:!daily&&st.goal.includes(n)}}
 const frozen=(r,c)=>{const s=G.spec&&G.spec[r]&&G.spec[r][c];return !!(s&&s.k==='ice')};
 function newLevel(){const C=G.daily?dailyCfg():lvCfg(worldIdx,G.level);G.cfg=C;G.freezeUntil=0;
-  G.cols=C.C;G.rows=C.R;G.max=G.time=C.time;G.hints=3;G.shuf=2;G.undo=3;G.hist=[];G.stars=0;G.combo=0;G.meter=0;G.near=false;G.sel=null;G.left=C.pairs*2;
+  G.cols=C.C;G.rows=C.R;G.max=G.time=C.time;G.noTimer=!C.time;G.hints=sty().hints;G.shuf=2;G.undo=3;G.hist=[];G.stars=0;G.combo=0;G.meter=0;G.near=false;G.sel=null;G.left=C.pairs*2;
   drag=null;removing=[];trails=[];particles=[];hintPair=null;MUS.bpm=104;
   const pool=pickTypes(C.types),arr=[];for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
   G.grid=[];G.spec=[];G.hole=[];for(let r=0;r<G.rows+2;r++){G.grid.push(new Array(G.cols+2).fill(null));G.spec.push(new Array(G.cols+2).fill(null));G.hole.push(new Array(G.cols+2).fill(true))}
@@ -1075,7 +1099,7 @@ function doShuffle(free){const pos=[],vals=[];for(let r=1;r<=G.rows;r++)for(let 
   let n=0;do{shuffleArr(vals);pos.forEach(([r,c],i)=>{G.grid[r][c]=vals[i][0];G.spec[r][c]=vals[i][1]})}while(!anyMove()&&++n<60);
   if(!anyMove())for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(frozen(r,c))G.spec[r][c]=null;
   G.sel=null;drag=null;hintPair=null;spawnAll(performance.now(),12);sfx.shuffle();if(!free)G.shuf--;hud();buzz(20)}
-$('#bHint').onclick=()=>{if(!G.running||blocked()||G.hints<=0)return;ensureAudio();const m=findMove();if(!m){doShuffle(true);return}hintPair=m;hintPath=findPath(m[0][0],m[0][1],m[1][0],m[1][1]);hintT0=performance.now();hintUntil=hintT0+4200;G.hints--;sfx.hint();hud()};
+$('#bHint').onclick=()=>{if(!G.running||blocked()||G.hints<=0)return;ensureAudio();const m=findMove();if(!m){doShuffle(true);return}hintPair=m;hintPath=findPath(m[0][0],m[0][1],m[1][0],m[1][1]);hintT0=performance.now();hintUntil=hintT0+4200;if(G.hints<99)G.hints--;sfx.hint();hud()};
 $('#bShuf').onclick=()=>{if(!G.running||blocked()||G.shuf<=0)return;ensureAudio();doShuffle(false);praise('shuffle')};
 $('#bUndo').onclick=()=>{if(!G.running||blocked()||G.undo<=0||!G.hist.length)return;ensureAudio();const h=G.hist.pop();
   G.grid=h.grid;G.spec=h.spec;G.left=h.left;G.stars=h.stars;G.goal=h.goal;spawnAll(performance.now(),6);renderGoal();
@@ -1163,8 +1187,8 @@ function frame(now){const dt=Math.min(50,now-lastF)/16.7;lastF=now;
   requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 
-function hud(){const pwv=powers();$('#nBurst').textContent=pwv.burst;$('#nFreeze').textContent=pwv.freeze;$('#pwBurst').disabled=!pwv.burst;$('#pwFreeze').disabled=!pwv.freeze;$('#lvl').textContent=G.daily?'★':G.level;$('#meterFill').style.width=((G.meter||0)/6*100)+'%';$('#stars').textContent=G.total+G.stars;$('#nHint').textContent=G.hints;$('#nShuf').textContent=G.shuf;$('#nUndo').textContent=G.undo;
-  $('#bHint').disabled=G.hints<=0;$('#bShuf').disabled=G.shuf<=0;$('#bUndo').disabled=G.undo<=0||!G.hist.length;$('#timerPill').classList.toggle('low',G.time<=30&&G.max>0);const s=Math.max(0,Math.ceil(G.time));$('#time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+function hud(){const pwv=powers();$('#nBurst').textContent=pwv.burst;$('#nFreeze').textContent=pwv.freeze;$('#pwBurst').disabled=!pwv.burst;$('#pwFreeze').disabled=!pwv.freeze;$('#lvl').textContent=G.daily?'★':G.level;$('#meterFill').style.width=((G.meter||0)/6*100)+'%';$('#stars').textContent=G.total+G.stars;$('#nHint').textContent=G.hints>=99?'∞':G.hints;$('#nShuf').textContent=G.shuf;$('#nUndo').textContent=G.undo;
+  $('#bHint').disabled=G.hints<=0;$('#bShuf').disabled=G.shuf<=0;$('#bUndo').disabled=G.undo<=0||!G.hist.length;$('#timerPill').classList.toggle('low',G.time<=30&&G.max>0);const s=Math.max(0,Math.ceil(G.time));$('#time').textContent=G.noTimer?'∞':Math.floor(s/60)+':'+String(s%60).padStart(2,'0');$('#pwFreeze').hidden=!!G.noTimer;$('.rw-t')&&($('.rw-t').hidden=!!G.noTimer);
   $('#barFill').style.width=(G.max?G.time/G.max*100:100)+'%';$('#bar').classList.toggle('low',G.time<=30&&G.max>0)}
 let praiseT=null;function praise(k,override){const P=PR[k],L=P[S.lang],el=$('#praise');el.querySelector('.ar').textContent=P.ar;el.querySelector('.tr').textContent=override||L[0];el.querySelector('.mn').textContent=override?'':L[2];el.classList.remove('on');void el.offsetWidth;el.classList.add('on');clearTimeout(praiseT);praiseT=setTimeout(()=>el.classList.remove('on'),1700);voice(k,L[1])}
 
@@ -1212,22 +1236,22 @@ function countUp(sel,to,pre,delay){const el=$(sel);el.textContent=pre+'0';later(
 function aimBurst(){const h=document.querySelector('#ovWin .hero-wrap'),bb=document.querySelector('#ovWin .bigburst');if(!h||!bb)return;const r=h.getBoundingClientRect();
   bb.style.left=(r.left+r.width/2)+'px';bb.style.top=(r.top+r.height/2)+'px'}
 addEventListener('resize',aimBurst);
-function rating(){const f=G.max?G.time/G.max:0;return f>=.5?3:f>=.25?2:1}
+function rating(){if(G.noTimer)return 3;const f=G.max?G.time/G.max:0;return f>=.5?3:f>=.25?2:1}
 $('#bStart').onclick=()=>{ensureAudio();if(!G.grid.length||!G.running)newLevel();gate()};
 $('#bHomeSet').onclick=()=>openSettings();
 $('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;hurried={};calm();praise('bismillah');sfx.start()};
 function win(){G.running=false;calm();const bonus=Math.floor(G.time/6),rt=rating(),n=G.level,C=G.cfg,msgs=[];let gift=0;
   if(G.daily){gift+=30;if(!dailyDone()){store.set('daily:'+ymd(),1);addPacks(1);msgs.push(t('dailyGift'))}}
-  else{if(n%5===0)gift+=10;if(C.boss)gift+=20;const id=curWorld().id,a=lvStars(id),first=!a[n-1];a[n-1]=Math.max(a[n-1]||0,rt);store.set('ls:'+id,a);
-    if(n===10&&first&&WORLDS[worldIdx+1])msgs.push(t('unlockT',{w:WORLDS[worldIdx+1].name[S.lang]}));
-    if(n===LPW&&first){gift+=50;msgs.push(t('worldDone'))}
+  else{if(n%5===0||n===lpw())gift+=10;if(C.boss)gift+=20;const id=curWorld().id,a=lvStars(id),first=!a[n-1];a[n-1]=Math.max(a[n-1]||0,rt);store.set('ls:'+id,a);
+    if(n===sty().unlock&&first&&WORLDS[worldIdx+1])msgs.push(t('unlockT',{w:WORLDS[worldIdx+1].name[S.lang]}));
+    if(n===lpw()&&first){gift+=50;msgs.push(t('worldDone'))}
     if(C.boss){givePower('burst',1);msgs.push(t('gotBurst'))}}
   if(gift)msgs.unshift(t('bonusT',{g:gift}));
   G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
   $('#winRib').textContent=G.daily?t('dailyDoneT'):t('cleared',{n});$('#rate').innerHTML=[1,2,3].map(i=>`<img src="assets/ui/star.webp" alt="" class="${i<=rt?'':'off'}">`).join('');
   $('#winGift').hidden=!msgs.length;$('#winGiftT').innerHTML=msgs.join('<br>');
   $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB');$('#rwSl').textContent=t('rwStars');$('#rwTl').textContent=t('rwTime');
-  $('#bNext').hidden=G.daily||n>=LPW;if(!G.daily&&n<LPW)G.level=n+1;$('#bWinHome').textContent=G.daily?t('home'):t('map');
+  $('#bNext').hidden=G.daily||n>=lpw();if(!G.daily&&n<lpw())G.level=n+1;$('#bWinHome').textContent=G.daily?t('home'):t('map');
   show('ovWin');requestAnimationFrame(aimBurst);celebrate(rt,!!gift);countUp('#rwS',G.stars,'',1150);countUp('#rwT',bonus,'+',1350);hud()}
 $('#bNext').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();newLevel();gate()};
 $('#bWinHome').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();goHome()};
@@ -1250,6 +1274,7 @@ function tension(sec){const dz=$('#danger'),tp=$('#timerPill');dz.classList.add(
   if(sec<=10)buzz(sec<=5?[30,60,30]:20)}
 function calm(){MUS.bpm=104;const dz=$('#danger');dz.classList.remove('on','beat');dz.style.opacity='';$('#timerPill').classList.remove('beat','shake')}
 setInterval(()=>{const n=Date.now(),dt=(n-lastTick)/1000;lastTick=n;
+  if(G.running&&!blocked()&&G.noTimer){hud();tickPrayer(n);return}
   if(G.running&&!blocked()){const fz=G.freezeUntil&&n<G.freezeUntil;$('#timerPill').classList.toggle('frozen',!!fz);if(fz){hud();tickPrayer(n);return}const before=Math.ceil(G.time);G.time-=dt;if(G.time<=0){G.time=0;hud();lose();return}const sec=Math.ceil(G.time);if(sec<before&&sec<=30)tension(sec);hud()}
   tickPrayer(n)},250);
 
@@ -1275,9 +1300,9 @@ function renderChip(now){const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo
 /* ---- Scene 2: badges in a scrolling grid, plus coming-soon slots ---- */
 const SOON=[{id:'dinosaur',name:{en:'Dinosaurs',id:'Dinosaurus'}},{id:'farm',name:{en:'Farm Friends',id:'Peternakan'}},{id:'desert',name:{en:'Desert Oasis',id:'Oasis Gurun'}},{id:'beach',name:{en:'Beach Fun',id:'Pantai'}}];
 function renderWorlds(){const g=$('#worlds');
-  g.innerHTML=WORLDS.map((w,i)=>{const open=worldOpen(i),done=clearedN(w.id),cur=Math.min(LPW,done+1);
-    return open?`<button class="wb${i===worldIdx?' cur':''}" data-i="${i}" style="--i:${i}"><img src="assets/badges/${w.id}.webp" alt="">${done>=LPW?'<span class="lv cup">🏆</span>':`<span class="lv">${cur}</span>`}<b>${w.name[S.lang]}</b>
-      <span class="wprog"><i style="width:${done/LPW*100}%"></i></span><small class="wnum">${done}/${LPW}</small></button>`
+  g.innerHTML=WORLDS.map((w,i)=>{const open=worldOpen(i),done=clearedN(w.id),cur=Math.min(lpw(),done+1);
+    return open?`<button class="wb${i===worldIdx?' cur':''}" data-i="${i}" style="--i:${i}"><img src="assets/badges/${w.id}.webp" alt="">${done>=lpw()?'<span class="lv cup">🏆</span>':`<span class="lv">${cur}</span>`}<b>${w.name[S.lang]}</b>
+      <span class="wprog"><i style="width:${done/lpw()*100}%"></i></span><small class="wnum">${done}/${lpw()}</small></button>`
      :`<button class="wb soon" data-lock="${i}" style="--i:${i}"><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><small class="soontag">${t('lockedS')}</small></button>`}).join('')+
     SOON.map((w,k)=>`<button class="wb soon" data-soon="1" style="--i:${WORLDS.length+k}"><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><small class="soontag">${t('locked')}</small></button>`).join('');
   $('#tChoose').textContent=t('choose');
@@ -1286,7 +1311,7 @@ function renderWorlds(){const g=$('#worlds');
   $('#tAlbum').textContent=t('album');$('#tAlbumS').textContent=Object.keys(o).length+'/'+tot;$('#albDot').hidden=!(packs()>0||G.total>=PACK);
   const st=prayStreak();$('#streakPill').hidden=!st;$('#streakN').textContent=st}
 $('#worlds').onclick=e=>{const b=e.target.closest('.wb');if(!b)return;ensureAudio();if(b.dataset.soon){sfx.bad();toast(t('soonG'));return}
-  if(b.dataset.lock){sfx.bad();toast(t('lockedW',{w:WORLDS[+b.dataset.lock-1].name[S.lang]}));return}
+  if(b.dataset.lock){sfx.bad();toast(t('lockedW',{n:sty().unlock,w:WORLDS[+b.dataset.lock-1].name[S.lang]}));return}
   const i=+b.dataset.i,w=WORLDS[i];if(i!==worldIdx){worldIdx=i;store.set('world',w.id);G.grid=[];G.running=false;loadIcons()}
   openMap()};
 $('#bBack').onclick=()=>{ensureAudio();$('#schedPop').hidden=true;$('#ovIntro').classList.remove('leave');show('ovIntro')};
@@ -1299,18 +1324,18 @@ document.querySelectorAll('.ribbon').forEach((r,i)=>{const sp=r.querySelector('s
   const fit=()=>{tp.textContent=sp.textContent;tx.style.fontSize='58px';requestAnimationFrame(()=>{try{const L=tx.getComputedTextLength();if(L>500)tx.style.fontSize=Math.max(34,58*500/L)+'px'}catch(e){}})};
   new MutationObserver(fit).observe(sp,{childList:true,characterData:true,subtree:true});fit()});
 /* ===== v2 progress: stars per level, world map, unlocking ===== */
-function lvStars(id){let a=store.get('ls:'+id,null);if(!a){const old=store.get('lv:'+id,id==='mosque'?store.get('level',1):1);a=new Array(LPW).fill(0);for(let i=0;i<Math.min(old-1,LPW);i++)a[i]=1;store.set('ls:'+id,a)}return a}
-function clearedN(id){const a=lvStars(id);let k=0;while(k<LPW&&a[k]>0)k++;return k}
-function worldOpen(i){return i===0||lvStars(WORLDS[i-1].id)[9]>0}
-function starSum(id){return lvStars(id).reduce((s,v)=>s+v,0)}
+function lvStars(id){let a=store.get('ls:'+id,null);if(!a){const old=store.get('lv:'+id,id==='mosque'?store.get('level',1):1);a=new Array(LMAX).fill(0);for(let i=0;i<Math.min(old-1,LMAX);i++)a[i]=1;store.set('ls:'+id,a)}return a}
+function clearedN(id){const a=lvStars(id);let k=0;while(k<lpw()&&a[k]>0)k++;return k}
+function worldOpen(i){return i===0||lvStars(WORLDS[i-1].id)[sty().unlock-1]>0}
+function starSum(id){return lvStars(id).slice(0,lpw()).reduce((s,v)=>s+v,0)}
 function openMap(){if(G.daily)endDaily();renderMap();show('ovMap');setBg(curWorld().bgs[0])}
-function renderMap(){const w=curWorld(),a=lvStars(w.id),cur=Math.min(LPW,clearedN(w.id)+1),done=clearedN(w.id)>=LPW;
-  $('#mapName').textContent=w.name[S.lang];$('#mapBadge').src=`assets/badges/${w.id}.webp`;$('#mapStars').textContent=starSum(w.id)+'/'+LPW*3;$('#mapTrophy').hidden=!done;
-  const sp=96,Hh=LPW*sp+70,pts=[];
-  for(let n=1;n<=LPW;n++)pts.push([50+Math.sin(n*.95)*28,Hh-50-(n-1)*sp]);
+function renderMap(){const w=curWorld(),a=lvStars(w.id),cur=Math.min(lpw(),clearedN(w.id)+1),done=clearedN(w.id)>=lpw();
+  $('#mapName').textContent=w.name[S.lang];$('#mapBadge').src=`assets/badges/${w.id}.webp`;$('#mapStars').textContent=starSum(w.id)+'/'+lpw()*3;$('#mapTrophy').hidden=!done;
+  const sp=96,Hh=lpw()*sp+70,pts=[];
+  for(let n=1;n<=lpw();n++)pts.push([50+Math.sin(n*.95)*28,Hh-50-(n-1)*sp]);
   const path=`<svg class="mpath" viewBox="0 0 100 ${Hh}" preserveAspectRatio="none" style="height:${Hh}px"><polyline points="${pts.map(p=>p[0]+','+p[1]).join(' ')}"/></svg>`;
   $('#mapPath').style.height=Hh+'px';
-  $('#mapPath').innerHTML=path+pts.map(([x,y],i)=>{const n=i+1,boss=n%10===0,hard=!boss&&n%5===0,st=a[i]||0,lock=n>cur,isCur=n===cur&&!done;
+  $('#mapPath').innerHTML=path+pts.map(([x,y],i)=>{const n=i+1,boss=isBoss(n),hard=!boss&&sty()!==STYLES.little&&n%5===0,st=a[i]||0,lock=n>cur,isCur=n===cur&&!done;
     return`<button class="node${boss?' boss':''}${hard?' hard':''}${st?' done':''}${lock?' lock':''}${isCur?' cur':''}" data-n="${n}" style="left:${x}%;top:${y}px">
       ${boss?'<i class="crown">👑</i>':''}<b>${lock?'🔒':n}</b><span class="ns">${[1,2,3].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<=st?'':'off'}">`).join('')}</span></button>`}).join('');
   requestAnimationFrame(()=>{const el=$('#mapPath .cur')||$('#mapPath .node[data-n="'+cur+'"]'),sc=$('#mapScroll');if(el&&sc)sc.scrollTop=el.offsetTop-sc.clientHeight/2})}
@@ -1322,7 +1347,7 @@ $('#bMapBack').onclick=()=>{ensureAudio();renderHome();show('ovHome')};
 const ymd=d=>{d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const yday=()=>{const d=new Date();d.setDate(d.getDate()-1);return ymd(d)};
 const dailyDone=()=>!!store.get('daily:'+ymd(),0);
-function dailyCfg(){const rng=rngFrom(hashStr('nur'+ymd()));const n=8+Math.floor(rng()*9);return lvCfg(worldIdx,n,{shape:SHAPES[Math.floor(rng()*SHAPES.length)],gravity:rng()<.4})}
+function dailyCfg(){const rng=rngFrom(hashStr('nur'+ymd()));const N=lpw(),n=Math.max(2,Math.round(N*.55+rng()*N*.4));return lvCfg(worldIdx,n,{shape:SHAPES[Math.floor(rng()*SHAPES.length)],gravity:rng()<.4})}
 function startDaily(){const open=WORLDS.map((w,i)=>i).filter(worldOpen),rng=rngFrom(hashStr('w'+ymd()));
   G.dailyPrev=worldIdx;worldIdx=open[Math.floor(rng()*open.length)];loadIcons();G.daily=true;G.level=1;newLevel();gate()}
 function endDaily(){if(!G.daily)return;G.daily=false;if(G.dailyPrev!=null){worldIdx=G.dailyPrev;loadIcons()}}
@@ -1354,7 +1379,7 @@ function renderAlbum(){const o=owned();$('#tAlbumT').textContent=t('album');$('#
   $('#bPack').innerHTML=packs()>0?t('packFree',{n:packs()}):t('pack',{c:PACK});
   $('#albumList').innerHTML=WORLDS.map((w,i)=>{const L=ICONSETS[w.set],have=L.filter(k=>o[w.set+'/'+k]).length,open=worldOpen(i);
     return`<section class="alb${open?'':' locked'}"><header><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><span>${have===L.length?'✓ ':''}${have}/${L.length}</span></header>
-      ${open?`<div class="agrid">${L.map(k=>`<i class="${o[w.set+'/'+k]?'':'miss'}"><img loading="lazy" src="assets/icons/${w.set}/${k}.webp" alt=""></i>`).join('')}</div>`:`<p class="alock">🔒 ${t('lockedW',{w:WORLDS[i-1].name[S.lang]})}</p>`}</section>`}).join('')}
+      ${open?`<div class="agrid">${L.map(k=>`<i class="${o[w.set+'/'+k]?'':'miss'}"><img loading="lazy" src="assets/icons/${w.set}/${k}.webp" alt=""></i>`).join('')}</div>`:`<p class="alock">🔒 ${t('lockedW',{n:sty().unlock,w:WORLDS[i-1].name[S.lang]})}</p>`}</section>`}).join('')}
 $('#bPack').onclick=()=>{ensureAudio();const free=packs()>0;if(!free&&G.total<PACK){sfx.bad();toast(t('notEnough'));return}
   if(free)addPacks(-1);else{G.total-=PACK;store.set('stars',G.total)}
   const o=owned(),pool=stickerPool(),miss=pool.filter(k=>!o[k]),got=[];
@@ -1366,11 +1391,17 @@ $('#bPack').onclick=()=>{ensureAudio();const free=packs()>0;if(!free&&G.total<PA
   renderAlbum()};
 $('#bPackOk').onclick=()=>{$('#packOv').hidden=true;renderAlbum()};
 $('#bAlbum').onclick=()=>{ensureAudio();openAlbum()};
+const STYC={little:['#8CF59C','#2FB24A','#1C7E33'],kids:['#FFE27A','#F2A40C','#A9640B'],big:['#5FD6E8','#1E9BB8','#0E6276'],family:['#C4A8FF','#7B4DFF','#3D1BA8']};
+function openStyle(after){$('#styRib').textContent=t('whoT');$('#styHint').textContent=t('styHint');
+  $('#stys').innerHTML=Object.entries(STYLES).map(([k,v],i)=>`<button class="sty${S.style===k?' on':''}" data-k="${k}" style="--i:${i};--c1:${STYC[k][0]};--c2:${STYC[k][1]};--c3:${STYC[k][2]}"><i>${v.em}</i><b>${t('st_'+k)}</b><small>${v.age==='13+'?t('agesFam'):v.age+' '+t('yrs')}</small><em>${t('lvlsN',{n:v.n})}</em></button>`).join('');
+  G.afterStyle=after||null;$('#ovStyle').hidden=false}
+$('#stys').onclick=e=>{const b=e.target.closest('.sty');if(!b)return;ensureAudio();S.style=b.dataset.k;try{store.set('settings',S)}catch(_){}sfx.praise();
+  $('#ovStyle').hidden=true;renderHome();if(G.afterStyle)setTimeout(G.afterStyle,400)};
 $('#bAlbBack').onclick=()=>{ensureAudio();renderHome();show('ovHome')};
 
 /* ---- Scene 1: intro ---- */
 $('#bIntroPlay').onclick=()=>{ensureAudio();sfx.start();voice('bism');buzz(20);const o=$('#ovIntro');o.classList.add('leave');
-  setTimeout(()=>{o.classList.remove('leave');renderHome();show('ovHome');setTimeout(checkGift,700)},450)};
+  setTimeout(()=>{o.classList.remove('leave');renderHome();show('ovHome');if(!S.style)openStyle(checkGift);else setTimeout(checkGift,700)},450)};
 function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePrayer(now);
   $('#tTag').textContent=t('tag');$('#tCopy').textContent=t('copy');$('#hLvl').textContent=G.level;$('#hStars').textContent=G.total;renderWorlds();if(!G.running)setBg(curWorld().bgs[0]);
   $('#tSched').textContent=t('sched')+' · '+c.name;$('#schedMeta').textContent=t('method');
@@ -1383,7 +1414,7 @@ function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePray
 /* ---------- Settings ---------- */
 let returnTo='ovHome';
 function openSettings(){returnTo=OVS.find(o=>!$('#'+o).hidden)||(G.running?null:'ovHome');
-  $('#setTitle').textContent=t('setT');$('#lCity').textContent=t('city');$('#lLang').textContent=t('lang');$('#lWait').textContent=t('wait');$('#lSound').textContent=t('sound');$('#lVoice').textContent=t('voice');$('#lMusic').textContent=t('music');
+  $('#setTitle').textContent=t('setT');$('#lCity').textContent=t('city');$('#lLang').textContent=t('lang');$('#lStyle').textContent=t('styleL');$('#bStyle').textContent=sty().em+' '+t('st_'+(S.style||'family'))+' · '+t('lvlsN',{n:lpw()});$('#lWait').textContent=t('wait');$('#lSound').textContent=t('sound');$('#lVoice').textContent=t('voice');$('#lMusic').textContent=t('music');
   $('#bPreview').textContent=t('preview');$('#bReset').textContent=t('reset');$('#bSetDone').textContent=t('done');
   for(const id of ['segSound','segVoice','segMusic']){const sb=$('#'+id).children;sb[0].textContent=t('on');sb[1].textContent=t('off')}
   $('#city').innerHTML=CITIES.map(c=>`<option value="${c[0]}">${c[0]==='custom'?t('custom'):c[1]}</option>`).join('');$('#city').value=S.city;
@@ -1392,6 +1423,7 @@ function segs(){[['segLang','lang'],['segWait','wait'],['segSound','sound'],['se
 function save(){store.set('settings',S);cache={};lastCheck=0}
 $('#city').onchange=e=>{S.city=e.target.value;$('#customRow').hidden=S.city!=='custom';save()};
 $('#lat').oninput=e=>{S.lat=parseFloat(e.target.value)||0;save()};$('#lng').oninput=e=>{S.lng=parseFloat(e.target.value)||0;save()};
+$('#bStyle').onclick=()=>{ensureAudio();$('#ovSet').hidden=true;openStyle(()=>openSettings())};
 $('#segLang').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.lang=b.dataset.v;save();openSettings();renderHome()};
 $('#segWait').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.wait=+b.dataset.v;save();segs()};
 $('#segSound').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.sound=+b.dataset.v;save();segs();ensureAudio();sfx.click();setMusic(S.music)};
