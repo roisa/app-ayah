@@ -958,7 +958,7 @@ function findMove(){const by={};for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;
 const anyMove=()=>!!findMove();
 function fit(){const a=$('#boardArea');W=a.clientWidth;H=a.clientHeight;DPR=Math.min(window.devicePixelRatio||1,2.5);
   cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);cv.style.width=W+'px';cv.style.height=H+'px';
-  if(!G.cols)return;tw=Math.floor(Math.min(W/(G.cols+1),H/((G.rows+1)*1.16)));th=Math.round(tw*1.16);ox=(W-(G.cols+1)*tw)/2;oy=(H-(G.rows+1)*th)/2}
+  if(!G.cols)return;tw=Math.floor(Math.min(W/(G.cols+1),H/((G.rows+1)*1.16),118));th=Math.round(tw*1.16);ox=(W-(G.cols+1)*tw)/2;oy=(H-(G.rows+1)*th)/2}
 const X=c=>ox+c*tw,Y=r=>oy+r*th;
 function pt(e){const b=cv.getBoundingClientRect();return{x:e.clientX-b.left,y:e.clientY-b.top}}
 function cellAt(p){return[Math.max(0,Math.min(G.rows+1,Math.round((p.y-oy)/th))),Math.max(0,Math.min(G.cols+1,Math.round((p.x-ox)/tw)))]}
@@ -1015,12 +1015,13 @@ function rngFrom(seed){let s=seed||1;return()=>{s^=s<<13;s^=s>>>17;s^=s<<5;retur
 function lvCfg(wi,n,daily){const st=sty(),N=st.n,d=Math.max(1,Math.round(n*20/N)),little=st===STYLES.little;
   const boss=!daily&&isBoss(n),hard=!daily&&!boss&&!little&&n%5===0;
   let [C,R]=boss?[8,12]:d<=2?[6,8]:d<=4?[6,9]:d<=7?[7,9]:d<=11?[7,10]:d<=15?[8,10]:[8,11];C=Math.min(C,st.maxC);R=Math.min(R,st.maxR);
+  const LS=[[3,4],[4,4],[4,5],[4,6],[5,6],[6,6],[6,8]],LT=[3,4,5,6,6,7,8];if(little)[C,R]=LS[Math.min(n,7)-1];
   let shape='rect';if(daily)shape=daily.shape;else if(boss)shape=little?'heart':(n===N?'dome':'heart');else if(!little&&d>=3&&n%3!==1)shape=SHAPES[(n+wi)%SHAPES.length];
   const cells=[];for(let r=1;r<=R;r++)for(let c=1;c<=C;c++)if(inShape(shape,r,c,R,C))cells.push([r,c]);
   if(cells.length%2)cells.splice(Math.floor(cells.length/2),1);
   const pairs=cells.length/2,per=Math.max(4.2,8.6-d*.18-wi*.1)*(hard?.85:boss?.92:1),ok=k=>st.spec.includes(k);
   return{n,wi,R,C,shape,cells,pairs,boss,hard,daily:!!daily,
-    types:Math.min(IDS.length,(little?5+n:7+d)+(wi%3),pairs),time:st.timeMul?Math.round((pairs*per+25)*st.timeMul):0,
+    types:Math.min(IDS.length,little?LT[Math.min(n,7)-1]:7+d+(wi%3),pairs),time:st.timeMul?Math.round((pairs*per+25)*st.timeMul):0,
     gold:ok('gold')&&d>=2?1+(d>8)+(boss?1:0):0,
     ice:ok('ice')&&d>=4?Math.min(10,2+Math.floor(d/3)+(boss?2:0)):0,
     stone:ok('stone')&&d>=7?Math.min(3,1+Math.floor((d-7)/5)+(boss?1:0)):0,
