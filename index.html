@@ -233,6 +233,80 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 [data-ic="pin"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill-rule=%22evenodd%22 d=%22M12 2.4c-4 0-7.2 3.1-7.2 7.1 0 5.2 7.2 12.1 7.2 12.1s7.2-6.9 7.2-12.1c0-4-3.2-7.1-7.2-7.1zm0 4.2a2.9 2.9 0 1 1 0 5.8 2.9 2.9 0 0 1 0-5.8z%22/%3E%3C/svg%3E")}
 [data-ic="globe"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.4%22/%3E%3Cpath d=%22M3 12h18M12 3c-2.8 3-2.8 15 0 18M12 3c2.8 3 2.8 15 0 18%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22/%3E%3C/svg%3E")}
 [data-ic="clock"]{--ic:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22/%3E%3Cpath d=%22M12 7v5.3l3.4 2.2%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222.6%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E")}
+/* ===== v2: combo meter, goal bar, quake, gate tip ===== */
+.meter{height:5px;margin:3px 30% 0;border-radius:5px;background:rgba(28,11,85,.5);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#B37BFF,#FF7AB6,#FFC93C);border-radius:5px;transition:width .3s}
+.goalbar{display:flex;justify-content:center;align-items:center;gap:8px;margin:5px auto 0;padding:3px 10px;border-radius:999px;background:rgba(28,11,85,.65);border:2px solid rgba(255,201,60,.6);width:max-content;max-width:94%}
+.goalbar .gl{font-family:var(--f-display);font-size:14px;color:var(--gold)}
+.goalbar .gi{display:flex;align-items:center;gap:3px;font-family:var(--f-display);font-size:16px}
+.goalbar .gi img{width:28px;height:28px}.goalbar .gi.done b{color:var(--ok)}
+.goalbar .gi.pop{animation:numPop .3s}
+#boardArea.quake{animation:quake .5s}
+@keyframes quake{10%,50%,90%{transform:translate(-6px,3px)}30%,70%{transform:translate(6px,-3px)}}
+.tip{display:flex;align-items:center;gap:10px;text-align:left;background:rgba(28,11,85,.5);border:2px solid rgba(255,201,60,.55);border-radius:16px;padding:8px 12px;font-weight:700;font-size:14px;line-height:1.3}
+.tip i{font-style:normal;font-size:30px;flex:none;animation:bob 2s ease-in-out infinite}
+/* ===== v2: world screen hub, progress ===== */
+.pk-mid{display:flex;gap:6px;align-items:center}.pill.streak{font-size:16px;padding:0 12px;gap:4px}
+.hub{width:100%;display:flex;gap:8px;padding:0 4px}
+.hubb{position:relative;flex:1;display:flex;align-items:center;gap:8px;border:0;border-radius:18px;padding:8px 10px;text-align:left;color:#fff;
+  background:linear-gradient(180deg,#FFB347,#F07C1E);box-shadow:0 5px 0 #A9480B,0 9px 14px rgba(0,0,0,.3)}
+.hubb+.hubb{background:linear-gradient(180deg,#5FD6E8,#1E9BB8);box-shadow:0 5px 0 #0E6276,0 9px 14px rgba(0,0,0,.3)}
+.hubb:active{transform:translateY(3px)}
+.hubb i{font-style:normal;font-size:28px}.hubb span{display:flex;flex-direction:column;min-width:0}
+.hubb b{font-family:var(--f-display);font-weight:400;font-size:16px;line-height:1.05;-webkit-text-stroke:3px rgba(0,0,0,.25);paint-order:stroke fill}
+.hubb small{font-size:11px;font-weight:800;opacity:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hubb.done{filter:saturate(.6)}
+.hubb .dot{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--red);border:2px solid #fff;animation:pulse 1.2s infinite}
+.wprog{width:66%;height:6px;border-radius:6px;background:rgba(28,11,85,.6);overflow:hidden;margin-top:1px}.wprog i{display:block;height:100%;background:linear-gradient(90deg,#FFE27A,var(--gold))}
+.wb .wnum{font-size:11px;font-weight:800;color:var(--muted);line-height:1.1}
+.wb .lv.cup{background:linear-gradient(180deg,#FFE27A,var(--gold))}
+/* ===== v2: world map ===== */
+#ovMap,#ovAlbum{display:flex;justify-content:center;padding-top:max(14px,env(safe-area-inset-top,0px));padding-bottom:max(10px,env(safe-area-inset-bottom,0px));overflow:hidden}
+#ovMap .pick,#ovAlbum .pick{height:auto;align-self:stretch;min-height:0}
+.map-head{display:flex;align-items:center;gap:8px}
+.map-head img{width:58px;height:58px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.4))}
+.map-head h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:min(8vw,32px);color:var(--gold);-webkit-text-stroke:7px var(--v-ink);paint-order:stroke fill;text-shadow:0 4px 0 var(--v-ink)}
+.map-head i{font-style:normal;font-size:30px;animation:bob 2s infinite}
+.map{position:relative;width:100%}
+.mpath{position:absolute;left:0;top:0;width:100%;pointer-events:none}
+.mpath polyline{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1.6;stroke-dasharray:.1 3.2;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-width:9px}
+.node{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:4px solid #fff;padding:0;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#9C7BFF,#5A2FE0 70%);box-shadow:0 6px 0 var(--v-ink),0 10px 16px rgba(0,0,0,.35);color:#fff}
+.node b{font-family:var(--f-display);font-weight:400;font-size:26px;-webkit-text-stroke:4px var(--v-ink);paint-order:stroke fill}
+.node.done{background:radial-gradient(circle at 35% 30%,#FFE98A,#F2A40C 70%)}
+.node.hard{border-color:#FF9F9F}
+.node.boss{width:84px;height:84px;margin:-42px 0 0 -42px;border-width:5px;border-color:var(--gold);background:radial-gradient(circle at 35% 30%,#FF8A8E,#C72E3A 70%)}
+.node.boss.done{background:radial-gradient(circle at 35% 30%,#FFE98A,#F2A40C 70%)}
+.node .crown{position:absolute;top:-26px;font-style:normal;font-size:28px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4))}
+.node.lock{background:radial-gradient(circle at 35% 30%,#8E86B5,#4E4683 70%);border-color:rgba(255,255,255,.5)}
+.node.lock b{font-size:20px;-webkit-text-stroke:0}
+.node.cur{background:radial-gradient(circle at 35% 30%,#8CF59C,#2FB24A 70%);animation:bob 1.6s ease-in-out infinite}
+.node.cur::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:4px solid rgba(140,245,156,.8);animation:ring 1.4s ease-out infinite}
+@keyframes ring{from{transform:scale(.8);opacity:1}to{transform:scale(1.35);opacity:0}}
+.node .ns{position:absolute;bottom:-17px;display:flex;gap:0}.node .ns img{width:18px;height:18px}.node .ns img.off{filter:grayscale(1) brightness(.6);opacity:.7}
+/* ===== v2: daily gift ===== */
+.gdays{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.gd{display:flex;flex-direction:column;align-items:center;gap:1px;background:rgba(28,11,85,.45);border:2px solid rgba(255,255,255,.18);border-radius:14px;padding:5px 2px}
+.gd small{font-size:11px;font-weight:800;color:var(--muted)}.gd img{width:30px;height:30px}.gd b{font-family:var(--f-display);font-weight:400;font-size:14px}
+.gd.got{opacity:.45}.gd.got::after{content:'✓';position:absolute}
+.gd.today{border-color:var(--gold);background:rgba(255,201,60,.22);animation:pulse 1.2s ease-in-out infinite}
+.gd.big{grid-column:span 1}
+/* ===== v2: sticker book ===== */
+#bPack{width:94%}
+.alb{background:rgba(28,11,85,.5);border:2px solid rgba(255,255,255,.18);border-radius:18px;padding:8px;margin:0 4px 10px}
+.alb header{display:flex;align-items:center;gap:8px;margin-bottom:6px}.alb header img{width:36px;height:36px}
+.alb header b{flex:1;font-family:var(--f-display);font-weight:400;font-size:16px}.alb header span{font-weight:800;font-size:13px;color:var(--gold)}
+.agrid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.agrid i{aspect-ratio:1;border-radius:10px;background:#FFF7E6;display:grid;place-items:center;box-shadow:0 2px 0 #C49A5C}
+.agrid i img{width:86%;height:86%;object-fit:contain}
+.agrid i.miss{background:rgba(255,255,255,.08);box-shadow:none}.agrid i.miss img{filter:brightness(0);opacity:.25}
+.alb.locked{opacity:.6}.alock{margin:0;font-size:13px;font-weight:700;color:var(--muted)}
+.packov{position:absolute;inset:0;z-index:5;background:rgba(28,11,85,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.packcards{display:flex;gap:10px}
+.pcard{width:100px;height:136px;border-radius:16px;background:linear-gradient(180deg,#FFF7E6,#FFE3B0);border:4px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  box-shadow:0 8px 0 #B8860B,0 14px 24px rgba(0,0,0,.4);animation:flipIn .6s cubic-bezier(.34,1.56,.64,1) calc(.6s + var(--d)) both}
+.pcard img{width:72px;height:72px}.pcard b{font-family:var(--f-display);font-weight:400;font-size:15px;color:#8A4B00}.pcard b.new{color:#fff;background:var(--red);border-radius:8px;padding:0 6px}
+@keyframes flipIn{0%{transform:rotateY(90deg) scale(.6);opacity:0}100%{transform:none;opacity:1}}
 /* ===== Scene 1: intro ===== */
 body.menu #app{visibility:hidden}
 .ov.intro{background:#5BC4F5;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;
@@ -325,6 +399,8 @@ body.menu #app{visibility:hidden}
     <div class="hud-r"><div class="pill"><img src="assets/ui/star.webp" alt=""><span id="stars">0</span></div><button class="mbtn " id="mHud" aria-label="Music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2" fill="currentColor"/><circle cx="17.4" cy="15" r="3.2" fill="currentColor"/><path class="x" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></div>
   </div>
   <div class="bar" id="bar"><i id="barFill" style="width:100%"></i></div>
+  <div class="meter" title="Combo power"><i id="meterFill"></i></div>
+  <div class="goalbar" id="goalBar" hidden></div>
   <div class="pchip"><span id="pchip">—</span></div>
   <div id="boardArea">
     <canvas id="cv"></canvas>
@@ -359,14 +435,49 @@ body.menu #app{visibility:hidden}
   <div class="pick">
     <div class="pk-top">
       <button class="tool sm" id="bBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M10.5 5 4 12l6.5 7v-4.3H20V9.3h-9.5z" fill="#fff" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
-      <div class="pill"><img src="assets/ui/star.webp" alt=""><span id="hStars">0</span></div>
+      <div class="pk-mid"><div class="pill"><img src="assets/ui/star.webp" alt=""><span id="hStars">0</span></div><div class="pill streak" id="streakPill" hidden>🕌<span id="streakN"></span></div></div>
       <div class="pk-r"><button class="mbtn big" id="mHome" aria-label="Music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2" fill="currentColor"/><circle cx="17.4" cy="15" r="3.2" fill="currentColor"/><path class="x" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button><button class="tool sm" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button></div>
     </div>
     <h1 class="pk-title" id="tChoose"></h1>
+    <div class="hub"><button class="hubb" id="bDaily"><i>📅</i><span><b id="tDaily"></b><small id="tDailyS"></small></span></button><button class="hubb" id="bAlbum"><i>📒</i><span><b id="tAlbum"></b><small id="tAlbumS"></small></span><em class="dot" id="albDot" hidden></em></button></div>
     <div class="pk-scroll" id="pkScroll"><div class="pk-grid" id="worlds"></div></div>
     <button class="praychip" id="prayChip"><span id="prayTxt">—</span></button>
     <div class="schedpop" id="schedPop" hidden><label id="tSched"></label><div class="sched" id="sched"></div><div class="meta" id="schedMeta"></div></div>
     <button id="bStart" hidden></button><span id="hLvl" hidden></span><p id="tTag" hidden></p>
+  </div>
+</div>
+
+<!-- World map: 20 levels -->
+<div class="ov" id="ovMap" hidden>
+  <div class="pick">
+    <div class="pk-top"><button class="tool sm" id="bMapBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M10.5 5 4 12l6.5 7v-4.3H20V9.3h-9.5z" fill="#fff" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+      <div class="pill"><img src="assets/ui/star.webp" alt=""><span id="mapStars">0</span></div>
+      <button class="mbtn big" id="mMap" aria-label="Music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2" fill="currentColor"/><circle cx="17.4" cy="15" r="3.2" fill="currentColor"/><path class="x" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></div>
+    <div class="map-head"><img id="mapBadge" src="assets/badges/mosque.webp" alt=""><h1 id="mapName"></h1><i id="mapTrophy" hidden>🏆</i></div>
+    <div class="pk-scroll" id="mapScroll"><div class="map" id="mapPath"></div></div>
+  </div>
+</div>
+
+<!-- Sticker book -->
+<div class="ov" id="ovAlbum" hidden>
+  <div class="pick">
+    <div class="pk-top"><button class="tool sm" id="bAlbBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M10.5 5 4 12l6.5 7v-4.3H20V9.3h-9.5z" fill="#fff" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+      <div class="pill"><img src="assets/ui/star.webp" alt=""><span id="albStars">0</span></div>
+      <button class="mbtn big" id="mAlb" aria-label="Music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2" fill="currentColor"/><circle cx="17.4" cy="15" r="3.2" fill="currentColor"/><path class="x" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></div>
+    <h1 class="pk-title" id="tAlbumT"></h1>
+    <button class="btn gold" id="bPack"></button>
+    <div class="pk-scroll"><div id="albumList"></div></div>
+  </div>
+  <div class="packov" id="packOv" hidden><div class="packcards" id="packCards"></div><button class="btn" id="bPackOk">OK</button></div>
+</div>
+
+<!-- Daily gift (pops over the world screen) -->
+<div class="ov" id="ovGift" hidden style="z-index:45">
+  <div class="card">
+    <div class="ribbon green"><img src="assets/ui/ribbon-green.webp" alt=""><span id="giftRib"></span></div>
+    <img class="hero" src="assets/ui/gift.webp" alt="">
+    <div class="gdays" id="giftDays"></div>
+    <button class="btn gold" id="bGift"></button>
   </div>
 </div>
 
@@ -375,6 +486,7 @@ body.menu #app{visibility:hidden}
   <div class="card">
     <div class="ribbon green"><img src="assets/ui/ribbon-green.webp" alt=""><span id="bisLvl">Level 1</span></div>
     <img class="hero" id="bisArt" src="assets/badges/mosque.webp" alt="">
+    <div class="tip" id="bisTip" hidden></div>
     <div class="ar-big">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
     <p id="bisMean"></p>
     <button class="btn" data-ic="play" id="bBis">Bismillah</button>
@@ -464,14 +576,14 @@ const store={get(k,d){try{const v=localStorage.getItem('nur:'+k);return v==null?
 
 /* ---------- Text ---------- */
 const T={
-en:{choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
+en:{bonusT:'Bonus: +{g} ★',map:'Map',bossT:'Boss Level {n}',dailyT:'Daily Puzzle',dailyDoneT:'Daily Puzzle done!',dailyGift:'+1 free sticker pack 🎴',unlockT:'New world unlocked: {w}! 🔓',worldDone:'World complete! 🏆 +50',lockLvl:'Finish the level before it first!',lockedS:'Locked',lockedW:'Clear level 10 of {w} to unlock',lastPairs:'Last pairs! Hurry!',bombT:'BOOM! −15 seconds',meterT:'Combo power! +10 seconds ⏱',iceT:'Frozen! Match a tile next to it first',goalT:'Collect',giftT:'Daily Gift',day:'Day {n}',claim:'Claim',album:'Sticker Book',daily:'Daily Puzzle',dailyS:'+30 ★ & a sticker pack',dailyDoneS:'Done today ✓',pack:'Open sticker pack · {c} ★',packFree:'Open FREE sticker pack ({n})',newS:'NEW!',dupS:'+5 ★',notEnough:'Not enough stars. Play more levels!',streakT:'{n}-day prayer streak! +{s} ★',albDone:'{w} stickers complete! +100 ★',comeBack:'Played today. Come back tomorrow for new rewards!',tipBoss:'Boss level! Big board, special tiles, big reward.',tipGoal:'Goal: collect all the tiles shown at the top. You win as soon as they are done!',tipGrav:'Gravity! Tiles fall down after every match.',tipBomb:'Bomb tile: match it before its number reaches 0, or you lose 15 seconds!',tipStone:'Stone tiles must be matched twice.',tipIce:'Frozen tiles: match a tile right next to them to melt the ice.',tipGold:'Golden tiles give +5 stars!',tipHard:'Hard level: less time. You can do it!',choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
 bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah!',winB:'All praise is for Allah.',rwStars:'Stars earned',rwTime:'Time bonus',next:'Next level, Bismillah',home:'Home',
 loseT:'Time is up!',loseB:'Allah has decreed, and He does what He wills. Take a breath and try again.',retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
 lockT:'It is time for {p}',lockB:'Pause the game and pray {p} first, at the masjid or at home. Your game is saved right where you left it.',lockWait:'The button opens in {m}',lockReady:'Done praying? Tap below.',prayed:'I have prayed {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound effects',voice:'Voice cheers (MasyaAllah, great!)',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
 next2:'{p} at {t} · in {d}',nowP:'{p} time now',noMove:'No moves left. Shuffling…',hintNone:'Shuffling for a fresh start',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min ihtiyat',resetDone:'Progress reset',
 P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'}},
-id:{choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
+id:{bonusT:'Bonus: +{g} ★',map:'Peta',bossT:'Level Bos {n}',dailyT:'Puzzle Harian',dailyDoneT:'Puzzle Harian selesai!',dailyGift:'+1 paket stiker gratis 🎴',unlockT:'Dunia baru terbuka: {w}! 🔓',worldDone:'Dunia selesai! 🏆 +50',lockLvl:'Selesaikan level sebelumnya dulu!',lockedS:'Terkunci',lockedW:'Selesaikan level 10 di {w} untuk membuka',lastPairs:'Pasangan terakhir! Ayo cepat!',bombT:'BUM! −15 detik',meterT:'Kekuatan kombo! +10 detik ⏱',iceT:'Beku! Cocokkan ubin di sebelahnya dulu',goalT:'Kumpulkan',giftT:'Hadiah Harian',day:'Hari {n}',claim:'Ambil',album:'Buku Stiker',daily:'Puzzle Harian',dailyS:'+30 ★ & paket stiker',dailyDoneS:'Selesai hari ini ✓',pack:'Buka paket stiker · {c} ★',packFree:'Buka paket stiker GRATIS ({n})',newS:'BARU!',dupS:'+5 ★',notEnough:'Bintang belum cukup. Main level lagi!',streakT:'{n} hari sholat berturut-turut! +{s} ★',albDone:'Stiker {w} lengkap! +100 ★',comeBack:'Sudah main hari ini. Kembali besok untuk hadiah baru!',tipBoss:'Level bos! Papan besar, ubin spesial, hadiah besar.',tipGoal:'Tujuan: kumpulkan semua ubin di atas. Langsung menang kalau sudah lengkap!',tipGrav:'Gravitasi! Ubin jatuh ke bawah setiap kali cocok.',tipBomb:'Ubin bom: cocokkan sebelum angkanya 0, atau waktu berkurang 15 detik!',tipStone:'Ubin batu harus dicocokkan dua kali.',tipIce:'Ubin beku: cocokkan ubin tepat di sebelahnya untuk mencairkan es.',tipGold:'Ubin emas memberi +5 bintang!',tipHard:'Level sulit: waktu lebih sedikit. Kamu pasti bisa!',choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
 bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah!',winB:'Segala puji bagi Allah.',rwStars:'Bintang didapat',rwTime:'Bonus waktu',next:'Level berikutnya, Bismillah',home:'Beranda',
 loseT:'Waktu habis!',loseB:'Allah telah menakdirkan, dan apa yang Dia kehendaki pasti terjadi. Tarik napas, lalu coba lagi.',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
 lockT:'Sudah masuk waktu {p}',lockB:'Jeda dulu, sholat {p} dulu, di masjid atau di rumah. Permainanmu tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk di bawah.',prayed:'Aku sudah sholat {p}',
@@ -547,7 +659,7 @@ function pickTypes(n){const set=curWorld().set,grp={};(SIMILAR[set]||[]).forEach
   const first=[],later=[],used={};shuffleArr([...IDS]).forEach(k=>{const g=grp[k];if(g===undefined||!used[g]){if(g!==undefined)used[g]=1;first.push(k)}else later.push(k)});
   return first.concat(later).slice(0,n)}
 /* each world keeps its own level; the old single 'level' key becomes the Masjid level */
-let worldIdx=Math.max(0,WORLDS.findIndex(w=>w.id===store.get('world','mosque')&&w.open));
+let worldIdx=Math.max(0,WORLDS.findIndex(w=>w.id===store.get('world','mosque')));
 const curWorld=()=>WORLDS[worldIdx];
 const getLv=id=>store.get('lv:'+id,id==='mosque'?store.get('level',1):1);
 let IDS=[];
@@ -687,6 +799,9 @@ const sfx={
   starPop:i=>{const f=660*Math.pow(1.26,i);osc({f,f2:f*1.5,d:.12,v:.1});chime(f*1.5,.06,.08,.7);noise({d:.04,v:.06,f1:3000,f2:2500,q:1})},
   popper:()=>{noise({d:.12,v:.16,f1:1800,f2:600,q:.8});osc({f:140,f2:60,d:.12,v:.12});for(let i=0;i<6;i++)osc({f:2400+Math.random()*2400,t:.05+i*.04,d:.12,v:.02,wet:.9})},
   sparkleUp:()=>{for(let i=0;i<12;i++)osc({f:1046.5*Math.pow(2,i/12*1.6),t:i*.045,d:.22,v:.03,wet:.9})},
+  ice:()=>{noise({d:.18,v:.08,f1:6000,f2:2500,q:3});osc({f:2400,f2:3200,d:.12,v:.03,wet:.9})},
+  crack:()=>{noise({d:.12,v:.14,f1:900,f2:300,q:1});osc({f:160,f2:90,d:.1,v:.1})},
+  boom:()=>{noise({d:.6,v:.3,f1:500,f2:60,q:.7});osc({f:90,f2:30,d:.6,v:.3})},
   coin:()=>{osc({f:987.8,type:'square',d:.08,v:.03});osc({f:1318.5,type:'square',t:.08,d:.35,v:.03});chime(1318.5,.08,.05,.6)},
   lose:()=>[440,392,329.63].forEach((f,i)=>osc({f,type:'triangle',t:i*.18,d:.35,v:.07,wet:.4})),
   /* clock: wooden tick-tock (alternating pitch) */
@@ -796,13 +911,7 @@ const COL={face1:'#FFFDF6',face2:'#FFF1D6',side:'#E9C98F',side2:'#C49A5C',gold:'
 let anim={},removing=[],particles=[],trails=[],drag=null,hintPair=null,hintUntil=0,hintPath=null,hintT0=0;
 const key=(r,c)=>r+'_'+c,same=(a,b)=>a&&b&&a[0]===b[0]&&a[1]===b[1];
 function buzz(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
-function cfg(n){const [c,r]=SIZES[Math.min(n-1,SIZES.length-1)],pairs=c*r/2;return{c,r,pairs,types:Math.min(IDS.length,8+(n-1)*2,pairs),time:Math.round(pairs*Math.max(5,10-n)+40)}}
 function shuffleArr(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function newLevel(){const C=cfg(G.level);G.cols=C.c;G.rows=C.r;G.max=G.time=C.time;G.hints=3;G.shuf=2;G.undo=3;G.hist=[];G.stars=0;G.combo=0;G.sel=null;G.left=C.pairs*2;drag=null;removing=[];trails=[];particles=[];
-  const pool=pickTypes(C.types),arr=[];for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
-  G.grid=[];for(let r=0;r<G.rows+2;r++)G.grid.push(new Array(G.cols+2).fill(null));
-  let tries=0;do{shuffleArr(arr);let i=0;for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)G.grid[r][c]=arr[i++]}while(!anyMove()&&++tries<50);
-  fit();spawnAll(performance.now()+250,28);setBg(levelBg());hud()}
 function spawnAll(t0,step){anim={};for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(G.grid[r][c])anim[key(r,c)]={born:t0+(r+c)*step,shake:0}}
 function findPath(r1,c1,r2,c2){
   const R=G.rows+2,C=G.cols+2,D=[[-1,0],[1,0],[0,-1],[0,1]],best={},q=[];
@@ -815,7 +924,7 @@ function findPath(r1,c1,r2,c2){
     const nx={r:nr,c:nc,d:n.d,t:n.t,prev:n};q.push(nx);
     if(n.t<2)for(let d=0;d<4;d++)if(d!==n.d&&(d^1)!==n.d)q.push({r:nr,c:nc,d,t:n.t+1,prev:nx});
   }return null}
-function findMove(){const by={};for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++){const v=G.grid[r][c];if(v)(by[v]=by[v]||[]).push([r,c])}
+function findMove(){const by={};for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++){const v=G.grid[r][c];if(v&&!frozen(r,c))(by[v]=by[v]||[]).push([r,c])}
   for(const k in by){const L=by[k];for(let i=0;i<L.length;i++)for(let j=i+1;j<L.length;j++)if(findPath(L[i][0],L[i][1],L[j][0],L[j][1]))return[L[i],L[j]]}return null}
 const anyMove=()=>!!findMove();
 function fit(){const a=$('#boardArea');W=a.clientWidth;H=a.clientHeight;DPR=Math.min(window.devicePixelRatio||1,2.5);
@@ -828,6 +937,7 @@ function tileAt(p){const [r,c]=cellAt(p);return(r>=1&&r<=G.rows&&c>=1&&c<=G.cols
 
 cv.addEventListener('pointerdown',e=>{if(!G.running||blocked())return;ensureAudio();const p=pt(e),tl=tileAt(p);hintPair=null;
   if(!tl){G.sel=null;return}
+  if(frozen(tl[0],tl[1])){wrong(tl);toast(t('iceT'));return}
   try{cv.setPointerCapture(e.pointerId)}catch(_){}
   if(G.sel&&!same(G.sel,tl)&&tryMatch(G.sel,tl))return;
   const wasSel=same(G.sel,tl);G.sel=tl;drag={start:tl,x:p.x,y:p.y,sx:p.x,sy:p.y,moved:false,wasSel,path:null,ok:false,okKey:''};sfx.tap();buzz(6)});
@@ -835,7 +945,7 @@ cv.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(e);drag.x=p.x;d
   if(Math.hypot(p.x-drag.sx,p.y-drag.sy)>8)drag.moved=true;if(!drag.moved)return;
   const [r,c]=cellAt(p),s=drag.start,tp=G.grid[s[0]][s[1]];drag.path=null;drag.ok=false;
   if(r===s[0]&&c===s[1])return;const v=G.grid[r][c];
-  if(v===null||v===tp){const path=findPath(s[0],s[1],r,c);if(path){drag.path=path;drag.ok=v===tp;
+  if(v===null||v===tp){const path=findPath(s[0],s[1],r,c);if(path){drag.path=path;drag.ok=v===tp&&!frozen(r,c);
     if(drag.ok&&drag.okKey!==key(r,c)){buzz(12);sfx.ready()}}}
   drag.okKey=drag.ok?key(r,c):''});
 function endDrag(e){if(!drag)return;const d=drag;drag=null;
@@ -845,40 +955,127 @@ function endDrag(e){if(!drag)return;const d=drag;drag=null;
 cv.addEventListener('pointerup',endDrag);
 cv.addEventListener('pointercancel',()=>{drag=null});
 
-function tryMatch(a,b){if(G.grid[a[0]][a[1]]===G.grid[b[0]][b[1]]){const p=findPath(a[0],a[1],b[0],b[1]);if(p){match(a,b,p);return true}}wrong(a);return false}
+function tryMatch(a,b){if(G.grid[a[0]][a[1]]===G.grid[b[0]][b[1]]&&!frozen(a[0],a[1])&&!frozen(b[0],b[1])){const p=findPath(a[0],a[1],b[0],b[1]);if(p){match(a,b,p);return true}}wrong(a);return false}
 function wrong(a){const an=anim[key(a[0],a[1])];if(an)an.shake=performance.now();sfx.bad();buzz(35);G.combo=0}
 function burst(x,y){for(let i=0;i<14;i++){const a=Math.random()*Math.PI*2,v=1.5+Math.random()*3.5;particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2,born:performance.now(),life:550+Math.random()*350,s:2+Math.random()*3.5,col:Math.random()<.65?COL.gold:'#FFF6DE'})}}
-function match(a,b,path){const now=performance.now();trails.push({path,t0:now});
-  const typ=G.grid[a[0]][a[1]],st0=G.stars;[a,b].forEach(([r,c])=>{removing.push({r,c,type:G.grid[r][c],t0:now});burst(X(c),Y(r));G.grid[r][c]=null;delete anim[key(r,c)]});
-  G.sel=null;G.left-=2;const n=Date.now();G.combo=(n-G.last<4000)?G.combo+1:1;G.last=n;G.stars+=1;sfx.match(G.combo);buzz(18);
+/* ===== v2 levels: 20 per world, board shapes, special tiles, goals, gravity ===== */
+const LPW=20;
+const SHAPES=['diamond','heart','frame','cross','hourglass','dome','split'];
+function inShape(sh,r,c,R,C){const x=(c-(C+1)/2)/(C/2),y=(r-(R+1)/2)/(R/2);
+  switch(sh){case 'diamond':return Math.abs(x)*0.85+Math.abs(y)<=1.0;
+    case 'heart':{const ax=Math.abs(x);return Math.hypot(ax-.5,y+.5)<=.56||(y>=-.5&&ax<=.98*(1-(y+.5)/1.5))}
+    case 'frame':return !(Math.abs(x)<.4&&Math.abs(y)<.34);
+    case 'cross':return Math.abs(x)<.5||Math.abs(y)<.42;
+    case 'hourglass':return Math.abs(x)<=.3+.75*Math.abs(y);
+    case 'dome':return y>=-.2||x*x+Math.pow((y+.2)/.85,2)<=1.0;
+    case 'split':return Math.abs(x)>.18;
+    default:return true}}
+function hashStr(s){let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function rngFrom(seed){let s=seed||1;return()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return ((s>>>0)%100000)/100000}}
+/* level recipe: size and shape grow, time per pair shrinks, specials arrive one by one */
+function lvCfg(wi,n,daily){
+  const boss=!daily&&n%10===0,hard=!daily&&!boss&&n%5===0;
+  const [C,R]=boss?[8,12]:n<=2?[6,8]:n<=4?[6,9]:n<=7?[7,9]:n<=11?[7,10]:n<=15?[8,10]:[8,11];
+  let shape='rect';if(daily)shape=daily.shape;else if(boss)shape=n===10?'heart':'dome';else if(n>=3&&n%3!==1)shape=SHAPES[(n+wi)%SHAPES.length];
+  const cells=[];for(let r=1;r<=R;r++)for(let c=1;c<=C;c++)if(inShape(shape,r,c,R,C))cells.push([r,c]);
+  if(cells.length%2)cells.splice(Math.floor(cells.length/2),1);
+  const pairs=cells.length/2,per=Math.max(4.2,8.6-n*.18-wi*.1)*(hard?.85:boss?.92:1);
+  return{n,wi,R,C,shape,cells,pairs,boss,hard,daily:!!daily,
+    types:Math.min(IDS.length,7+n+(wi%3),pairs),time:Math.round(pairs*per+25),
+    gold:n>=2?1+(n>8)+(boss?1:0):0,
+    ice:n>=4?Math.min(10,2+Math.floor(n/3)+(boss?2:0)):0,
+    stone:n>=7?Math.min(3,1+Math.floor((n-7)/5)+(boss?1:0)):0,
+    bomb:(n>=12||(boss&&n>=10))?1+(n>=17):0,bombN:n>=17?8:10,
+    gravity:[9,14,18,20].includes(n)||(daily&&daily.gravity),goal:[6,11,16].includes(n)}}
+const frozen=(r,c)=>{const s=G.spec&&G.spec[r]&&G.spec[r][c];return !!(s&&s.k==='ice')};
+function newLevel(){const C=G.daily?dailyCfg():lvCfg(worldIdx,G.level);G.cfg=C;
+  G.cols=C.C;G.rows=C.R;G.max=G.time=C.time;G.hints=3;G.shuf=2;G.undo=3;G.hist=[];G.stars=0;G.combo=0;G.meter=0;G.near=false;G.sel=null;G.left=C.pairs*2;
+  drag=null;removing=[];trails=[];particles=[];hintPair=null;MUS.bpm=104;
+  const pool=pickTypes(C.types),arr=[];for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
+  G.grid=[];G.spec=[];G.hole=[];for(let r=0;r<G.rows+2;r++){G.grid.push(new Array(G.cols+2).fill(null));G.spec.push(new Array(G.cols+2).fill(null));G.hole.push(new Array(G.cols+2).fill(true))}
+  C.cells.forEach(([r,c])=>G.hole[r][c]=false);
+  G.goal=null;if(C.goal){const ts=shuffleArr([...new Set(arr)]).slice(0,2);G.goal=ts.map(t=>({t,need:arr.filter(x=>x===t).length/2,got:0}))}
+  let tries=0;do{shuffleArr(arr);C.cells.forEach(([r,c],i)=>{G.grid[r][c]=arr[i];G.spec[r][c]=null});placeSpecials(C)}while(!anyMove()&&++tries<60);
+  if(!anyMove())C.cells.forEach(([r,c])=>{if(frozen(r,c))G.spec[r][c]=null});
+  fit();spawnAll(performance.now()+250,28);setBg(levelBg());hud();renderGoal()}
+function placeSpecials(C){const byType={};C.cells.forEach(([r,c])=>{(byType[G.grid[r][c]]=byType[G.grid[r][c]]||[]).push([r,c])});
+  const types=shuffleArr(Object.keys(byType)).filter(t=>!G.goal||!G.goal.some(g=>g.t===t));let ti=0;
+  for(let k=0;k<C.gold&&ti<types.length;k++,ti++)byType[types[ti]].slice(0,2).forEach(([r,c])=>G.spec[r][c]={k:'gold'});
+  for(let k=0;k<C.stone&&ti<types.length;k++,ti++)byType[types[ti]].slice(0,2).forEach(([r,c])=>G.spec[r][c]={k:'stone',hp:2});
+  const free=shuffleArr(C.cells.filter(([r,c])=>!G.spec[r][c]));
+  for(let k=0;k<C.bomb&&free.length;k++){const [r,c]=free.pop();G.spec[r][c]={k:'bomb',n:C.bombN}}
+  for(let k=0;k<C.ice&&free.length;k++){const [r,c]=free.pop();G.spec[r][c]={k:'ice'}}}
+function snapshot(){G.hist.push({grid:G.grid.map(r=>r.slice()),spec:G.spec.map(r=>r.map(s=>s&&{...s})),left:G.left,stars:G.stars,goal:G.goal&&G.goal.map(g=>({...g}))});if(G.hist.length>20)G.hist.shift()}
+function thaw(r,c){[[1,0],[-1,0],[0,1],[0,-1]].forEach(([dr,dc])=>{const R=r+dr,C=c+dc;if(frozen(R,C)){G.spec[R][C]=null;
+  for(let i=0;i<10;i++)particles.push({x:X(C),y:Y(R),vx:(Math.random()-.5)*5,vy:-Math.random()*4,born:performance.now(),life:500,s:3,col:'#CFF1FF'});sfx.ice()}})}
+function tickBombs(){for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++){const s=G.spec[r][c];if(s&&s.k==='bomb'){s.n--;if(s.n<=0){G.spec[r][c]=null;G.time=Math.max(1,G.time-15);
+  for(let i=0;i<26;i++){const a=Math.random()*6.3,v=2+Math.random()*6;particles.push({x:X(c),y:Y(r),vx:Math.cos(a)*v,vy:Math.sin(a)*v,born:performance.now(),life:700,s:4,col:i%2?'#FF5A5F':'#FFC93C'})}
+  sfx.boom();buzz([60,40,120]);const b=$('#boardArea');b.classList.remove('quake');void b.offsetWidth;b.classList.add('quake');toast(t('bombT'))}else if(s.n<=3)sfx.tick(true)}}}
+/* gravity: tiles slide down inside the board shape */
+function applyGravity(now){for(let c=1;c<=G.cols;c++){const slots=[];for(let r=1;r<=G.rows;r++)if(!G.hole[r][c])slots.push(r);
+  const tiles=slots.filter(r=>G.grid[r][c]).map(r=>({t:G.grid[r][c],s:G.spec[r][c],from:r}));
+  slots.forEach(r=>{G.grid[r][c]=null;G.spec[r][c]=null});
+  for(let i=0;i<tiles.length;i++){const r=slots[slots.length-tiles.length+i],tl=tiles[i];G.grid[r][c]=tl.t;G.spec[r][c]=tl.s;
+    if(tl.from!==r)anim[key(r,c)]={born:0,shake:0,fromR:tl.from,t0:now};else{const a=anim[key(tl.from,c)];anim[key(r,c)]=a||{born:0,shake:0}}}}}
+function goalDone(){return !!(G.goal&&G.goal.every(g=>g.got>=g.need))}
+function renderGoal(pop){const el=$('#goalBar');if(!G.goal){el.hidden=true;return}el.hidden=false;
+  el.innerHTML=`<span class="gl">${t('goalT')}</span>`+G.goal.map(g=>`<span class="gi${g.got>=g.need?' done':''}${pop?' pop':''}"><img src="assets/icons/${g.t}.webp" alt=""><b>${g.got>=g.need?'✓':g.got+'/'+g.need}</b></span>`).join('')}
+function match(a,b,path){const now=performance.now();trails.push({path,t0:now});snapshot();
+  const typ=G.grid[a[0]][a[1]],st0=G.stars,sa=G.spec[a[0]][a[1]],sb=G.spec[b[0]][b[1]];
+  const stone=(sa&&sa.k==='stone'&&sa.hp>1)||(sb&&sb.k==='stone'&&sb.hp>1);
+  const n=Date.now();G.combo=(n-G.last<4000)?G.combo+1:1;G.last=n;G.stars+=1;sfx.match(G.combo);buzz(18);
+  if(stone){[sa,sb].forEach(s=>{if(s&&s.k==='stone'&&s.hp>1)s.hp--});[a,b].forEach(([r,c])=>{const an=anim[key(r,c)]||(anim[key(r,c)]={born:0});an.shake=now;burst(X(c),Y(r))});sfx.crack()}
+  else{let gold=false;[a,b].forEach(([r,c])=>{const s=G.spec[r][c];removing.push({r,c,type:G.grid[r][c],spec:s,t0:now});burst(X(c),Y(r));
+      if(s&&s.k==='gold'){G.stars+=5;gold=true}if(s&&s.k==='bomb')G.stars+=3;G.grid[r][c]=null;G.spec[r][c]=null;delete anim[key(r,c)]});
+    [a,b].forEach(([r,c])=>thaw(r,c));G.left-=2;if(gold)sfx.coin();
+    if(G.goal){const g=G.goal.find(g=>g.t===typ);if(g&&g.got<g.need){g.got++;renderGoal(true)}}}
+  tickBombs();
   const cmb={3:'masya1',5:'masya2',7:'subhan',9:'barak'}[G.combo]||(G.combo>9&&G.combo%3===0?'akbar':null);if(cmb){G.stars+=Math.floor(G.combo/2);praise(cmb);sfx.praise();buzz([20,40,20])}
-  G.hist.push({a,b,typ,gain:G.stars-st0});hud();
-  if(G.left===0){setTimeout(win,650);return}
+  if(G.combo>=2){G.meter++;if(G.meter>=6){G.meter=0;G.time=Math.min(G.max,G.time+10);sfx.coin();toast(t('meterT'));const tp=$('#timerPill');tp.classList.remove('beat');void tp.offsetWidth;tp.classList.add('beat')}}
+  G.sel=null;hintPair=null;
+  if(!stone&&G.cfg.gravity)applyGravity(now);
+  hud();
+  if(G.left===0||goalDone()){setTimeout(win,650);return}
+  if(!G.near&&G.left<=4){G.near=true;toast(t('lastPairs'));MUS.bpm=126}
   if(!anyMove()){praise('shuffle',t('noMove'));setTimeout(()=>doShuffle(true),800)}}
-function doShuffle(free){const pos=[],vals=[];for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(G.grid[r][c]){pos.push([r,c]);vals.push(G.grid[r][c])}
-  let n=0;do{shuffleArr(vals);pos.forEach(([r,c],i)=>G.grid[r][c]=vals[i])}while(!anyMove()&&++n<60);
+function doShuffle(free){const pos=[],vals=[];for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(G.grid[r][c]&&!frozen(r,c)){pos.push([r,c]);vals.push([G.grid[r][c],G.spec[r][c]])}
+  let n=0;do{shuffleArr(vals);pos.forEach(([r,c],i)=>{G.grid[r][c]=vals[i][0];G.spec[r][c]=vals[i][1]})}while(!anyMove()&&++n<60);
+  if(!anyMove())for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(frozen(r,c))G.spec[r][c]=null;
   G.sel=null;drag=null;hintPair=null;spawnAll(performance.now(),12);sfx.shuffle();if(!free)G.shuf--;hud();buzz(20)}
 $('#bHint').onclick=()=>{if(!G.running||blocked()||G.hints<=0)return;ensureAudio();const m=findMove();if(!m){doShuffle(true);return}hintPair=m;hintPath=findPath(m[0][0],m[0][1],m[1][0],m[1][1]);hintT0=performance.now();hintUntil=hintT0+4200;G.hints--;sfx.hint();hud()};
 $('#bShuf').onclick=()=>{if(!G.running||blocked()||G.shuf<=0)return;ensureAudio();doShuffle(false);praise('shuffle')};
 $('#bUndo').onclick=()=>{if(!G.running||blocked()||G.undo<=0||!G.hist.length)return;ensureAudio();const h=G.hist.pop();
-  [h.a,h.b].forEach(([r,c])=>{G.grid[r][c]=h.typ;anim[key(r,c)]={born:performance.now(),shake:0}});
-  G.left+=2;G.stars=Math.max(0,G.stars-h.gain);G.combo=0;G.sel=null;hintPair=null;G.undo--;sfx.shuffle();buzz(15);hud()};
+  G.grid=h.grid;G.spec=h.spec;G.left=h.left;G.stars=h.stars;G.goal=h.goal;spawnAll(performance.now(),6);renderGoal();
+  G.combo=0;G.sel=null;hintPair=null;G.undo--;sfx.shuffle();buzz(15);hud()};
 $('#bPause').onclick=()=>{if(!G.running)return;drag=null;show('ovPause')};
 $('#bSet').onclick=()=>openSettings();
 
 /* drawing */
 function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
 const easeBack=t=>{const s=1.7;t-=1;return t*t*((s+1)*t+s)+1};
-function drawTile(r,c,type,s,lift,ring,alpha,dx){const w=tw-4,h=th-9,rad=w*.2,y0=-th/2+2;
+function drawTile(r,c,type,s,lift,ring,alpha,dx,sp){const w=tw-4,h=th-9,rad=w*.2,y0=-th/2+2,K=sp&&sp.k;
   ctx.save();ctx.globalAlpha=alpha;ctx.translate(X(c)+(dx||0),Y(r)+lift);ctx.scale(s,s);
   ctx.fillStyle='rgba(28,11,85,.35)';rr(-w/2+1,y0+9,w,h,rad);ctx.fill();
-  ctx.fillStyle=COL.side2;rr(-w/2,y0+6,w,h,rad);ctx.fill();
-  ctx.fillStyle=COL.side;rr(-w/2,y0+3.5,w,h,rad);ctx.fill();
-  const g=ctx.createLinearGradient(0,y0,0,y0+h);g.addColorStop(0,COL.face1);g.addColorStop(1,COL.face2);ctx.fillStyle=g;rr(-w/2,y0,w,h,rad);ctx.fill();
+  ctx.fillStyle=K==='gold'?'#B8860B':K==='stone'?'#6E7385':COL.side2;rr(-w/2,y0+6,w,h,rad);ctx.fill();
+  ctx.fillStyle=K==='gold'?'#E0A21A':K==='stone'?'#9AA0B2':COL.side;rr(-w/2,y0+3.5,w,h,rad);ctx.fill();
+  const g=ctx.createLinearGradient(0,y0,0,y0+h);g.addColorStop(0,K==='gold'?'#FFF6C2':K==='stone'?'#EEF0F5':COL.face1);g.addColorStop(1,K==='gold'?'#FFD24A':K==='stone'?'#C9CDD8':COL.face2);ctx.fillStyle=g;rr(-w/2,y0,w,h,rad);ctx.fill();
   ctx.fillStyle='rgba(255,255,255,.7)';rr(-w/2+3,y0+2,w-6,h*.22,rad*.7);ctx.fill();
   if(ring){ctx.lineWidth=3.5;ctx.strokeStyle=ring;rr(-w/2,y0,w,h,rad);ctx.stroke()}
   const im=IMG[type],is=w*.86;if(im&&im.complete&&im.naturalWidth)ctx.drawImage(im,-is/2,y0+h/2-is/2,is,is);
+  if(K)drawSpec(sp,w,h,y0,rad);
   ctx.restore()}
+function drawSpec(sp,w,h,y0,rad){const now=performance.now(),cy=y0+h/2;
+  if(sp.k==='ice'){ctx.fillStyle='rgba(150,215,255,.62)';rr(-w/2,y0,w,h,rad);ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle='rgba(255,255,255,.95)';rr(-w/2+1,y0+1,w-2,h-2,rad);ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-w*.32,y0+h*.18);ctx.lineTo(-w*.08,y0+h*.05);ctx.moveTo(-w*.36,y0+h*.36);ctx.lineTo(w*.02,y0+h*.12);ctx.stroke();
+    ctx.font=`${Math.round(w*.3)}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('❄️',w*.28,y0+h*.78)}
+  else if(sp.k==='stone'){ctx.lineWidth=Math.max(3,w*.09);ctx.strokeStyle=sp.hp>1?'#5E6476':'#9AA0B2';rr(-w/2+ctx.lineWidth/2,y0+ctx.lineWidth/2,w-ctx.lineWidth,h-ctx.lineWidth,rad);ctx.stroke();
+    if(sp.hp>1){ctx.fillStyle='#3E4354';[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(a*w*.36,cy+b*h*.36,w*.045,0,7);ctx.fill()})}
+    else{ctx.strokeStyle='rgba(40,40,55,.75)';ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(-w*.45,y0+h*.2);ctx.lineTo(-w*.2,y0+h*.35);ctx.lineTo(-w*.28,y0+h*.55);ctx.moveTo(w*.45,y0+h*.7);ctx.lineTo(w*.18,y0+h*.6);ctx.lineTo(w*.25,y0+h*.4);ctx.stroke()}}
+  else if(sp.k==='gold'){const k=(now/900)%1;sparkle(w*.3,y0+h*.2,3+2*Math.sin(now/200),'#FFFFFF',.9);
+    ctx.save();ctx.globalAlpha=.55;ctx.fillStyle=ctx.createLinearGradient(-w,0,w,0);const gg=ctx.createLinearGradient(-w/2+k*w*2-w,0,-w/2+k*w*2,0);gg.addColorStop(0,'rgba(255,255,255,0)');gg.addColorStop(.5,'rgba(255,255,255,.8)');gg.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=gg;rr(-w/2,y0,w,h,rad);ctx.fill();ctx.restore()}
+  else if(sp.k==="bomb"){const R=w*.26,x=w*.34,y=y0+h*.1,warn=sp.n<=3,pl=warn?1+.12*Math.sin(now/90):1;ctx.save();ctx.translate(x,y);ctx.scale(pl,pl);
+    ctx.fillStyle='#22202A';ctx.beginPath();ctx.arc(0,0,R,0,7);ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=warn?'#FF5A5F':'#FFC93C';ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=`${Math.round(R*1.25)}px "Lilita One",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(sp.n,0,1);ctx.restore()}}
 function line(pts,color,width,glow,alpha,dash){if(pts.length<2)return;ctx.save();ctx.globalAlpha=alpha;ctx.lineCap='round';ctx.lineJoin='round';ctx.setLineDash(dash||[]);
   if(glow){ctx.shadowColor=color;ctx.shadowBlur=glow}ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke();ctx.restore()}
 function along(pts,f){let L=0;const seg=[];for(let i=1;i<pts.length;i++){const d=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);seg.push(d);L+=d}
@@ -905,13 +1102,15 @@ function frame(now){const dt=Math.min(50,now-lastF)/16.7;lastF=now;
     const hk=(hintPair&&now<hintUntil)?hintPair.map(([r,c])=>key(r,c)):[],pulse=.5+.5*Math.sin(now/140);
     const tk=drag&&drag.ok?drag.okKey:'',sk=G.sel?key(G.sel[0],G.sel[1]):'';
     const later=[];
-    for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++){const v=G.grid[r][c];if(!v)continue;const k=key(r,c),a=anim[k]||{born:0,shake:0};
+    if(G.hole){ctx.fillStyle='rgba(28,11,85,.28)';for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(!G.hole[r][c]){rr(X(c)-tw/2,Y(r)-th/2-1,tw,th+2,tw*.22);ctx.fill()}}
+    for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++){const v=G.grid[r][c];if(!v)continue;const k=key(r,c),a=anim[k]||{born:0,shake:0},sp=G.spec[r][c];
+      let fall=0;if(a.t0){const fe=Math.min(1,(now-a.t0)/320);fall=(a.fromR-r)*th*(1-easeBack(fe));if(fe>=1)a.t0=0}
       if(a.born>now)continue;const e=Math.min(1,(now-a.born)/380),s=e<1?easeBack(e):1;
       const sh=a.shake&&now-a.shake<320?Math.sin((now-a.shake)/22)*5*(1-(now-a.shake)/320):0;
-      if(k===sk||k===tk){later.push([r,c,v,s,sh,k]);continue}
-      const hint=hk.includes(k);drawTile(r,c,v,s,hint?-Math.abs(Math.sin((now-hintT0)/170))*th*.14:0,hint?`rgba(61,220,107,${.5+.5*pulse})`:null,Math.min(1,e*2),sh)}
-    later.forEach(([r,c,v,s,sh,k])=>drawTile(r,c,v,s*1.06,-6,k===tk?COL.ok:COL.gold,1,sh));
-    removing=removing.filter(o=>{const e=(now-o.t0)/320;if(e>=1)return false;drawTile(o.r,o.c,o.type,1.12-e*1.1,-6*(1-e),COL.gold,1-e);return true});
+      if(k===sk||k===tk){later.push([r,c,v,s,sh,k,sp]);continue}
+      const hint=hk.includes(k);drawTile(r,c,v,s,fall+(hint?-Math.abs(Math.sin((now-hintT0)/170))*th*.14:0),hint?`rgba(61,220,107,${.5+.5*pulse})`:null,Math.min(1,e*2),sh,sp)}
+    later.forEach(([r,c,v,s,sh,k,sp])=>drawTile(r,c,v,s*1.06,-6,k===tk?COL.ok:COL.gold,1,sh,sp));
+    removing=removing.filter(o=>{const e=(now-o.t0)/320;if(e>=1)return false;drawTile(o.r,o.c,o.type,1.12-e*1.1,-6*(1-e),COL.gold,1-e,0,o.spec);return true});
     if(hk.length&&hintPath){const age=now-hintT0,fade=Math.min(1,(hintUntil-now)/400);
       connector(hintPath.map(([r,c])=>[X(c),Y(r)]),now,fade,Math.min(1,(age%1500)/600),true);
       hintPair.forEach(([r,c],i)=>{const b=Math.abs(Math.sin(age/170+i*.6))*th*.16,x=X(c),y=Y(r)-th*.62-b,h=Math.max(16,tw*.34);
@@ -931,18 +1130,25 @@ function frame(now){const dt=Math.min(50,now-lastF)/16.7;lastF=now;
   requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 
-function hud(){$('#lvl').textContent=G.level;$('#stars').textContent=G.total+G.stars;$('#nHint').textContent=G.hints;$('#nShuf').textContent=G.shuf;$('#nUndo').textContent=G.undo;
+function hud(){$('#lvl').textContent=G.daily?'★':G.level;$('#meterFill').style.width=((G.meter||0)/6*100)+'%';$('#stars').textContent=G.total+G.stars;$('#nHint').textContent=G.hints;$('#nShuf').textContent=G.shuf;$('#nUndo').textContent=G.undo;
   $('#bHint').disabled=G.hints<=0;$('#bShuf').disabled=G.shuf<=0;$('#bUndo').disabled=G.undo<=0||!G.hist.length;$('#timerPill').classList.toggle('low',G.time<=30&&G.max>0);const s=Math.max(0,Math.ceil(G.time));$('#time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
   $('#barFill').style.width=(G.max?G.time/G.max*100:100)+'%';$('#bar').classList.toggle('low',G.time<=30&&G.max>0)}
 let praiseT=null;function praise(k,override){const P=PR[k],L=P[S.lang],el=$('#praise');el.querySelector('.ar').textContent=P.ar;el.querySelector('.tr').textContent=override||L[0];el.querySelector('.mn').textContent=override?'':L[2];el.classList.remove('on');void el.offsetWidth;el.classList.add('on');clearTimeout(praiseT);praiseT=setTimeout(()=>el.classList.remove('on'),1700);voice(k,L[1])}
 
 /* ---------- Flow ---------- */
-const OVS=['ovIntro','ovHome','ovBis','ovWin','ovLose','ovPause','ovSet'];
-function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id);const m=id==='ovIntro'||id==='ovHome';document.body.classList.toggle('menu',m);musicOn();musicDuck()}
+const OVS=['ovIntro','ovHome','ovMap','ovAlbum','ovBis','ovWin','ovLose','ovPause','ovSet'];
+function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id);const m=['ovIntro','ovHome','ovMap','ovAlbum'].includes(id);document.body.classList.toggle('menu',m);musicOn();musicDuck()}
 function anyOv(){return OVS.some(o=>!$('#'+o).hidden)}
 function blocked(){return anyOv()||!$('#ovLock').hidden||document.hidden}
-function goHome(){G.running=false;calm();renderHome();show('ovHome')}
-function gate(){$('#bisLvl').textContent=t('level')+' '+G.level;$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
+function goHome(){G.running=false;calm();G.grid=[];if(G.daily){endDaily();renderHome();show('ovHome')}else openMap()}
+const TIPS={boss:['👑','tipBoss'],goal:['🎯','tipGoal'],gravity:['⬇️','tipGrav'],bomb:['💣','tipBomb'],stone:['🪨','tipStone'],ice:['❄️','tipIce'],gold:['⭐','tipGold'],hard:['🔥','tipHard']};
+function gateTip(){const C=G.cfg,seen=store.get('seen',{});let k=null;
+  for(const f of ['boss','goal','gravity']){if(C[f]){k=f;break}}
+  if(!k)for(const f of ['bomb','stone','ice','gold']){if(C[f]&&!seen[f]){k=f;break}}
+  if(!k&&C.hard)k='hard';
+  const el=$('#bisTip');if(!k){el.hidden=true;return}seen[k]=1;store.set('seen',seen);el.hidden=false;
+  el.innerHTML=`<i>${TIPS[k][0]}</i><span>${t(TIPS[k][1])}</span>`}
+function gate(){$('#bisLvl').textContent=G.daily?t('dailyT'):G.cfg&&G.cfg.boss?t('bossT',{n:G.level}):t('level')+' '+G.level;gateTip();$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
 /* confetti: paper strips, dots and little stars from two cannons and a shower from the top */
 let cf={parts:[],raf:0};
 function confetti(kind){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=$('#confetti'),x=c.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1);
@@ -977,15 +1183,23 @@ function rating(){const f=G.max?G.time/G.max:0;return f>=.5?3:f>=.25?2:1}
 $('#bStart').onclick=()=>{ensureAudio();if(!G.grid.length||!G.running)newLevel();gate()};
 $('#bHomeSet').onclick=()=>openSettings();
 $('#bBis').onclick=()=>{ensureAudio();show(null);G.running=true;hurried={};calm();praise('bismillah');sfx.start()};
-function win(){G.running=false;calm();const bonus=Math.floor(G.time/6),rt=rating(),gift=G.level%5===0?10:0;G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
-  $('#winRib').textContent=t('cleared',{n:G.level});$('#rate').innerHTML=[1,2,3].map(i=>`<img src="assets/ui/star.webp" alt="" class="${i<=rt?'':'off'}">`).join('');
-  $('#winGift').hidden=!gift;$('#winGiftT').textContent=t('gift',{g:gift});
-  $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB');$('#rwSl').textContent=t('rwStars');$('#rwTl').textContent=t('rwTime');G.level++;store.set('lv:'+curWorld().id,G.level);show('ovWin');requestAnimationFrame(aimBurst);celebrate(rt,gift);countUp('#rwS',G.stars,'',1150);countUp('#rwT',bonus,'+',1350);hud()}
+function win(){G.running=false;calm();const bonus=Math.floor(G.time/6),rt=rating(),n=G.level,C=G.cfg,msgs=[];let gift=0;
+  if(G.daily){gift+=30;if(!dailyDone()){store.set('daily:'+ymd(),1);addPacks(1);msgs.push(t('dailyGift'))}}
+  else{if(n%5===0)gift+=10;if(C.boss)gift+=20;const id=curWorld().id,a=lvStars(id),first=!a[n-1];a[n-1]=Math.max(a[n-1]||0,rt);store.set('ls:'+id,a);
+    if(n===10&&first&&WORLDS[worldIdx+1])msgs.push(t('unlockT',{w:WORLDS[worldIdx+1].name[S.lang]}));
+    if(n===LPW&&first){gift+=50;msgs.push(t('worldDone'))}}
+  if(gift)msgs.unshift(t('bonusT',{g:gift}));
+  G.stars+=bonus+gift;G.total+=G.stars;store.set('stars',G.total);
+  $('#winRib').textContent=G.daily?t('dailyDoneT'):t('cleared',{n});$('#rate').innerHTML=[1,2,3].map(i=>`<img src="assets/ui/star.webp" alt="" class="${i<=rt?'':'off'}">`).join('');
+  $('#winGift').hidden=!msgs.length;$('#winGiftT').innerHTML=msgs.join('<br>');
+  $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB');$('#rwSl').textContent=t('rwStars');$('#rwTl').textContent=t('rwTime');
+  $('#bNext').hidden=G.daily||n>=LPW;if(!G.daily&&n<LPW)G.level=n+1;$('#bWinHome').textContent=G.daily?t('home'):t('map');
+  show('ovWin');requestAnimationFrame(aimBurst);celebrate(rt,!!gift);countUp('#rwS',G.stars,'',1150);countUp('#rwT',bonus,'+',1350);hud()}
 $('#bNext').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();newLevel();gate()};
-$('#bWinHome').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();G.grid=[];goHome()};
+$('#bWinHome').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();goHome()};
 function lose(){G.running=false;calm();G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');sfx.lose();voice('lose');show('ovLose')}
 $('#bRetry').onclick=()=>{newLevel();gate()};
-$('#bLoseHome').onclick=()=>{G.grid=[];goHome()};
+$('#bLoseHome').onclick=()=>{goHome()};
 $('#bResume').onclick=()=>show(null);
 $('#bPauseHome').onclick=()=>goHome();
 
@@ -1000,7 +1214,7 @@ function tension(sec){const dz=$('#danger'),tp=$('#timerPill');dz.classList.add(
   if(sec<=10)setTimeout(()=>{if(G.running&&!blocked())pulse()},200);   /* second beat of the heartbeat */
   const cls=sec<=5?'shake':'beat';tp.classList.remove('beat','shake');void tp.offsetWidth;tp.classList.add(cls);
   if(sec<=10)buzz(sec<=5?[30,60,30]:20)}
-function calm(){const dz=$('#danger');dz.classList.remove('on','beat');dz.style.opacity='';$('#timerPill').classList.remove('beat','shake')}
+function calm(){MUS.bpm=104;const dz=$('#danger');dz.classList.remove('on','beat');dz.style.opacity='';$('#timerPill').classList.remove('beat','shake')}
 setInterval(()=>{const n=Date.now(),dt=(n-lastTick)/1000;lastTick=n;
   if(G.running&&!blocked()){const before=Math.ceil(G.time);G.time-=dt;if(G.time<=0){G.time=0;hud();lose();return}const sec=Math.ceil(G.time);if(sec<before&&sec<=30)tension(sec);hud()}
   tickPrayer(n)},250);
@@ -1017,7 +1231,7 @@ function renderLock(now){const p=pn(lock.p);$('#lockRib').textContent=t('lockRib
   const ready=lock.demo?lock.readyAt:lock.start+S.wait*60000,rem=ready-now,b=$('#bPrayed');b.textContent=t('prayed',{p});
   if(rem>0){b.disabled=true;const s=Math.ceil(rem/1000);$('#lockCount').textContent=t('lockWait',{m:Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})}else{b.disabled=false;$('#lockCount').textContent=t('lockReady')}}
 function closeLock(thanks){$('#ovLock').hidden=true;setTimeout(musicOn,1500);const was=lock;lock=null;if(thanks){praise('taqabbal');sfx.praise()}renderHome();return was}
-$('#bPrayed').onclick=()=>{if(!lock)return;ensureAudio();if(!lock.demo)markPrayed(lock.key);closeLock(true);lastCheck=0};
+$('#bPrayed').onclick=()=>{if(!lock)return;ensureAudio();if(!lock.demo){markPrayed(lock.key);recordPrayDay()}closeLock(true);lastCheck=0};
 function renderChip(now){const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo();let s='';
   $('#prayTxt').innerHTML=`🕌 <b>${pn(nx.p)}</b> ${nx.at?fmtT(nx.at,c.tz):'—'} · ${nx.at?dur(nx.at-now):'—'} · ${c.name}`;
   if(a&&prayed[a.key])s='✓ '+pn(a.p)+' · ';
@@ -1027,14 +1241,20 @@ function renderChip(now){const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo
 /* ---- Scene 2: badges in a scrolling grid, plus coming-soon slots ---- */
 const SOON=[{id:'dinosaur',name:{en:'Dinosaurs',id:'Dinosaurus'}},{id:'farm',name:{en:'Farm Friends',id:'Peternakan'}},{id:'desert',name:{en:'Desert Oasis',id:'Oasis Gurun'}},{id:'beach',name:{en:'Beach Fun',id:'Pantai'}}];
 function renderWorlds(){const g=$('#worlds');
-  g.innerHTML=WORLDS.map((w,i)=>{const lv=getLv(w.id),done=Math.min(5,lv-1);
-    return`<button class="wb${i===worldIdx?' cur':''}" data-i="${i}" style="--i:${i}"><img src="assets/badges/${w.id}.webp" alt=""><span class="lv">${lv}</span><b>${w.name[S.lang]}</b>
-      <span class="st">${[0,1,2,3,4].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<done?'':'off'}">`).join('')}</span></button>`}).join('')+
+  g.innerHTML=WORLDS.map((w,i)=>{const open=worldOpen(i),done=clearedN(w.id),cur=Math.min(LPW,done+1);
+    return open?`<button class="wb${i===worldIdx?' cur':''}" data-i="${i}" style="--i:${i}"><img src="assets/badges/${w.id}.webp" alt="">${done>=LPW?'<span class="lv cup">🏆</span>':`<span class="lv">${cur}</span>`}<b>${w.name[S.lang]}</b>
+      <span class="wprog"><i style="width:${done/LPW*100}%"></i></span><small class="wnum">${done}/${LPW}</small></button>`
+     :`<button class="wb soon" data-lock="${i}" style="--i:${i}"><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><small class="soontag">${t('lockedS')}</small></button>`}).join('')+
     SOON.map((w,k)=>`<button class="wb soon" data-soon="1" style="--i:${WORLDS.length+k}"><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><small class="soontag">${t('locked')}</small></button>`).join('');
-  $('#tChoose').textContent=t('choose')}
-$('#worlds').onclick=e=>{const b=e.target.closest('.wb');if(!b)return;ensureAudio();if(b.dataset.soon){sfx.bad();toast(t('soonG'));return}const i=+b.dataset.i,w=WORLDS[i];
-  if(i!==worldIdx){worldIdx=i;store.set('world',w.id);G.level=getLv(w.id);G.grid=[];G.running=false;loadIcons();renderHome()}
-  $('#bStart').click()};
+  $('#tChoose').textContent=t('choose');
+  const o=owned(),tot=WORLDS.reduce((s,w)=>s+ICONSETS[w.set].length,0);
+  $('#tDaily').textContent=t('daily');$('#tDailyS').textContent=dailyDone()?t('dailyDoneS'):t('dailyS');$('#bDaily').classList.toggle('done',dailyDone());
+  $('#tAlbum').textContent=t('album');$('#tAlbumS').textContent=Object.keys(o).length+'/'+tot;$('#albDot').hidden=!(packs()>0||G.total>=PACK);
+  const st=prayStreak();$('#streakPill').hidden=!st;$('#streakN').textContent=st}
+$('#worlds').onclick=e=>{const b=e.target.closest('.wb');if(!b)return;ensureAudio();if(b.dataset.soon){sfx.bad();toast(t('soonG'));return}
+  if(b.dataset.lock){sfx.bad();toast(t('lockedW',{w:WORLDS[+b.dataset.lock-1].name[S.lang]}));return}
+  const i=+b.dataset.i,w=WORLDS[i];if(i!==worldIdx){worldIdx=i;store.set('world',w.id);G.grid=[];G.running=false;loadIcons()}
+  openMap()};
 $('#bBack').onclick=()=>{ensureAudio();$('#schedPop').hidden=true;$('#ovIntro').classList.remove('leave');show('ovIntro')};
 $('#prayChip').onclick=()=>{ensureAudio();$('#schedPop').hidden=!$('#schedPop').hidden};
 $('#schedPop').onclick=()=>{$('#schedPop').hidden=true};
@@ -1044,9 +1264,79 @@ document.querySelectorAll('.ribbon').forEach((r,i)=>{const sp=r.querySelector('s
   const tp=r.querySelector('textPath'),tx=r.querySelector('.rtext text');
   const fit=()=>{tp.textContent=sp.textContent;tx.style.fontSize='58px';requestAnimationFrame(()=>{try{const L=tx.getComputedTextLength();if(L>500)tx.style.fontSize=Math.max(34,58*500/L)+'px'}catch(e){}})};
   new MutationObserver(fit).observe(sp,{childList:true,characterData:true,subtree:true});fit()});
+/* ===== v2 progress: stars per level, world map, unlocking ===== */
+function lvStars(id){let a=store.get('ls:'+id,null);if(!a){const old=store.get('lv:'+id,id==='mosque'?store.get('level',1):1);a=new Array(LPW).fill(0);for(let i=0;i<Math.min(old-1,LPW);i++)a[i]=1;store.set('ls:'+id,a)}return a}
+function clearedN(id){const a=lvStars(id);let k=0;while(k<LPW&&a[k]>0)k++;return k}
+function worldOpen(i){return i===0||lvStars(WORLDS[i-1].id)[9]>0}
+function starSum(id){return lvStars(id).reduce((s,v)=>s+v,0)}
+function openMap(){if(G.daily)endDaily();renderMap();show('ovMap');setBg(curWorld().bgs[0])}
+function renderMap(){const w=curWorld(),a=lvStars(w.id),cur=Math.min(LPW,clearedN(w.id)+1),done=clearedN(w.id)>=LPW;
+  $('#mapName').textContent=w.name[S.lang];$('#mapBadge').src=`assets/badges/${w.id}.webp`;$('#mapStars').textContent=starSum(w.id)+'/'+LPW*3;$('#mapTrophy').hidden=!done;
+  const sp=96,Hh=LPW*sp+70,pts=[];
+  for(let n=1;n<=LPW;n++)pts.push([50+Math.sin(n*.95)*28,Hh-50-(n-1)*sp]);
+  const path=`<svg class="mpath" viewBox="0 0 100 ${Hh}" preserveAspectRatio="none" style="height:${Hh}px"><polyline points="${pts.map(p=>p[0]+','+p[1]).join(' ')}"/></svg>`;
+  $('#mapPath').style.height=Hh+'px';
+  $('#mapPath').innerHTML=path+pts.map(([x,y],i)=>{const n=i+1,boss=n%10===0,hard=!boss&&n%5===0,st=a[i]||0,lock=n>cur,isCur=n===cur&&!done;
+    return`<button class="node${boss?' boss':''}${hard?' hard':''}${st?' done':''}${lock?' lock':''}${isCur?' cur':''}" data-n="${n}" style="left:${x}%;top:${y}px">
+      ${boss?'<i class="crown">👑</i>':''}<b>${lock?'🔒':n}</b><span class="ns">${[1,2,3].map(k=>`<img src="assets/ui/star.webp" alt="" class="${k<=st?'':'off'}">`).join('')}</span></button>`}).join('');
+  requestAnimationFrame(()=>{const el=$('#mapPath .cur')||$('#mapPath .node[data-n="'+cur+'"]'),sc=$('#mapScroll');if(el&&sc)sc.scrollTop=el.offsetTop-sc.clientHeight/2})}
+$('#mapPath').onclick=e=>{const b=e.target.closest('.node');if(!b)return;ensureAudio();if(b.classList.contains('lock')){sfx.bad();toast(t('lockLvl'));return}
+  G.daily=false;G.level=+b.dataset.n;newLevel();gate()};
+$('#bMapBack').onclick=()=>{ensureAudio();renderHome();show('ovHome')};
+
+/* ===== Daily puzzle ===== */
+const ymd=d=>{d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const yday=()=>{const d=new Date();d.setDate(d.getDate()-1);return ymd(d)};
+const dailyDone=()=>!!store.get('daily:'+ymd(),0);
+function dailyCfg(){const rng=rngFrom(hashStr('nur'+ymd()));const n=8+Math.floor(rng()*9);return lvCfg(worldIdx,n,{shape:SHAPES[Math.floor(rng()*SHAPES.length)],gravity:rng()<.4})}
+function startDaily(){const open=WORLDS.map((w,i)=>i).filter(worldOpen),rng=rngFrom(hashStr('w'+ymd()));
+  G.dailyPrev=worldIdx;worldIdx=open[Math.floor(rng()*open.length)];loadIcons();G.daily=true;G.level=1;newLevel();gate()}
+function endDaily(){if(!G.daily)return;G.daily=false;if(G.dailyPrev!=null){worldIdx=G.dailyPrev;loadIcons()}}
+$('#bDaily').onclick=()=>{ensureAudio();if(dailyDone())toast(t('comeBack'));startDaily()};
+
+/* ===== Daily gift: 7-day streak ===== */
+const GIFTS=[10,15,20,25,30,40,100];
+function checkGift(){const g=store.get('gift',{last:'',day:0});if(g.last===ymd())return;
+  const day=g.last===yday()?g.day%7+1:1;G.giftDay=day;
+  $('#giftDays').innerHTML=GIFTS.map((v,i)=>`<div class="gd${i+1<day?' got':''}${i+1===day?' today':''}${i===6?' big':''}"><small>${t('day',{n:i+1})}</small><img src="assets/ui/${i===6?'gift':'star'}.webp" alt=""><b>${i===6?'+'+v+' 🎴':'+'+v}</b></div>`).join('');
+  $('#giftRib').textContent=t('giftT');$('#bGift').textContent=t('claim');$('#ovGift').hidden=false;sfx.hint()}
+$('#bGift').onclick=()=>{ensureAudio();const day=G.giftDay||1,v=GIFTS[day-1];store.set('gift',{last:ymd(),day});
+  G.total+=v;store.set('stars',G.total);if(day===7)addPacks(1);sfx.coin();sfx.sparkleUp();confetti('top');$('#ovGift').hidden=true;toast('+'+v+' ★');renderHome()};
+
+/* ===== Prayer streak (days with at least one prayer pause completed) ===== */
+function recordPrayDay(){const d=store.get('pdays',[]);if(!d.includes(ymd())){d.push(ymd());while(d.length>60)d.shift();store.set('pdays',d)}
+  const s=prayStreak(),got=store.get('pmil',[]),M={3:20,7:50,14:100,30:200};
+  if(M[s]&&!got.includes(s)){got.push(s);store.set('pmil',got);G.total+=M[s];store.set('stars',G.total);setTimeout(()=>{toast(t('streakT',{n:s,s:M[s]}));sfx.coin()},1600)}}
+function prayStreak(){const d=new Set(store.get('pdays',[]));const day=new Date();if(!d.has(ymd(day)))day.setDate(day.getDate()-1);let k=0;while(d.has(ymd(day))){k++;day.setDate(day.getDate()-1)}return k}
+
+/* ===== Sticker book: spend stars on packs of 3 stickers made from the tile art ===== */
+const PACK=50;
+const owned=()=>store.get('stk',{});
+const packs=()=>store.get('packs',0);
+function addPacks(n){store.set('packs',packs()+n)}
+function stickerPool(){const out=[];WORLDS.forEach((w,i)=>{if(worldOpen(i))ICONSETS[w.set].forEach(k=>out.push(w.set+'/'+k))});return out}
+function openAlbum(){renderAlbum();show('ovAlbum')}
+function renderAlbum(){const o=owned();$('#tAlbumT').textContent=t('album');$('#albStars').textContent=G.total;
+  $('#bPack').innerHTML=packs()>0?t('packFree',{n:packs()}):t('pack',{c:PACK});
+  $('#albumList').innerHTML=WORLDS.map((w,i)=>{const L=ICONSETS[w.set],have=L.filter(k=>o[w.set+'/'+k]).length,open=worldOpen(i);
+    return`<section class="alb${open?'':' locked'}"><header><img src="assets/badges/${w.id}.webp" alt=""><b>${w.name[S.lang]}</b><span>${have===L.length?'✓ ':''}${have}/${L.length}</span></header>
+      ${open?`<div class="agrid">${L.map(k=>`<i class="${o[w.set+'/'+k]?'':'miss'}"><img loading="lazy" src="assets/icons/${w.set}/${k}.webp" alt=""></i>`).join('')}</div>`:`<p class="alock">🔒 ${t('lockedW',{w:WORLDS[i-1].name[S.lang]})}</p>`}</section>`}).join('')}
+$('#bPack').onclick=()=>{ensureAudio();const free=packs()>0;if(!free&&G.total<PACK){sfx.bad();toast(t('notEnough'));return}
+  if(free)addPacks(-1);else{G.total-=PACK;store.set('stars',G.total)}
+  const o=owned(),pool=stickerPool(),miss=pool.filter(k=>!o[k]),got=[];
+  for(let i=0;i<3;i++){const src=(miss.length&&Math.random()<.75)?miss:pool;const k=src[Math.floor(Math.random()*src.length)];const isNew=!o[k];if(isNew){o[k]=1;miss.splice(miss.indexOf(k),1)}else{G.total+=5}got.push({k,isNew})}
+  store.set('stk',o);store.set('stars',G.total);
+  $('#packCards').innerHTML=got.map((g,i)=>`<div class="pcard" style="--d:${i*.25}s"><img src="assets/icons/${g.k}.webp" alt=""><b class="${g.isNew?'new':''}">${g.isNew?t('newS'):t('dupS')}</b></div>`).join('');
+  $('#packOv').hidden=false;sfx.drumroll();setTimeout(()=>{sfx.fanfare();confetti('top')},560);got.forEach((g,i)=>setTimeout(()=>sfx.starPop(i),700+i*250));
+  WORLDS.forEach(w=>{const L=ICONSETS[w.set];if(L.every(k=>o[w.set+'/'+k])&&!store.get('albDone:'+w.set,0)){store.set('albDone:'+w.set,1);G.total+=100;store.set('stars',G.total);setTimeout(()=>toast(t('albDone',{w:w.name[S.lang]})),2200)}});
+  renderAlbum()};
+$('#bPackOk').onclick=()=>{$('#packOv').hidden=true;renderAlbum()};
+$('#bAlbum').onclick=()=>{ensureAudio();openAlbum()};
+$('#bAlbBack').onclick=()=>{ensureAudio();renderHome();show('ovHome')};
+
 /* ---- Scene 1: intro ---- */
 $('#bIntroPlay').onclick=()=>{ensureAudio();sfx.start();voice('bism');buzz(20);const o=$('#ovIntro');o.classList.add('leave');
-  setTimeout(()=>{o.classList.remove('leave');renderHome();show('ovHome')},450)};
+  setTimeout(()=>{o.classList.remove('leave');renderHome();show('ovHome');setTimeout(checkGift,700)},450)};
 function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePrayer(now);
   $('#tTag').textContent=t('tag');$('#tCopy').textContent=t('copy');$('#hLvl').textContent=G.level;$('#hStars').textContent=G.total;renderWorlds();if(!G.running)setBg(curWorld().bgs[0]);
   $('#tSched').textContent=t('sched')+' · '+c.name;$('#schedMeta').textContent=t('method');

@@ -31,3 +31,14 @@ All images are in `assets/` as WebP:
 | `store/app-icon-1024.png` | App Store / Play Store icon |
 
 Worlds are listed in `WORLDS` in `index.html`: 12 categories, each keeping its own level. Look-alike icons are listed in `SIMILAR` so early levels use only one of each group.
+
+## v2 gameplay
+
+- **v1 (simple gameplay) is kept at `/v1/`** (https://roisa.github.io/app-ayah/v1/), with its own saved progress.
+- 20 levels per world on a map; 1-3 stars per level; clearing level 10 unlocks the next world; level 20 completes the world.
+- Board shapes (diamond, heart, frame, cross, hourglass, dome, split), a hard level every 5th and a boss every 10th.
+- Special tiles: ice (match a neighbour to melt), stone (match twice), gold (+5 stars), bomb (match before 0 or lose 15 s).
+- Gravity levels (9, 14, 18, 20) and goal levels (6, 11, 16: collect the shown tiles).
+- Combo meter (+10 s when full), "Last pairs!" with faster music.
+- Daily gift (7-day streak), Daily Puzzle (+30 stars and a sticker pack), prayer streak rewards (3/7/14/30 days).
+- Sticker book: 50-star packs of 3 stickers made from the tile art; completing a world's page gives +100 stars.
