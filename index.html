@@ -253,6 +253,17 @@ body.menu #app{visibility:hidden}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
 .copy{position:absolute;left:0;right:0;bottom:calc(8px + env(safe-area-inset-bottom,0px));text-align:center;font-size:11.5px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8),0 0 8px rgba(0,60,0,.6);z-index:4;letter-spacing:.2px}
 
+/* music on/off button (shown on every screen) */
+.mbtn{flex:none;width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,.3);padding:0;display:grid;place-items:center;
+  background:linear-gradient(180deg,var(--v1),var(--v2));color:#fff;box-shadow:0 3px 0 var(--v-ink)}
+.mbtn svg{width:20px;height:20px}.mbtn .x{display:none}
+.mbtn.off{background:linear-gradient(180deg,#9A93BF,#6E6698)}.mbtn.off .x{display:block}
+.mbtn:not(.off) svg{animation:note 1s ease-in-out infinite alternate}
+@keyframes note{to{transform:rotate(-10deg) scale(1.08)}}
+.mbtn.big{width:48px;height:48px;border-radius:16px;border:0;box-shadow:0 5px 0 var(--v-ink),0 9px 14px rgba(0,0,0,.3)}
+.mbtn.big svg{width:26px;height:26px}
+.mbtn.corner{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:5}
+.hud-r,.pk-r{display:flex;align-items:center;gap:6px}
 /* ===== Scene 2: choose a world ===== */
 .pick{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
 #ovHome{display:flex;justify-content:center;padding-top:max(14px,env(safe-area-inset-top,0px));padding-bottom:max(10px,env(safe-area-inset-bottom,0px));overflow:hidden}
@@ -294,7 +305,7 @@ body.menu #app{visibility:hidden}
   <div class="hud">
     <div class="pill" id="lvlPill"><span class="hash">#</span><span id="lvl">1</span></div>
     <div class="pill timer" id="timerPill"><img src="assets/ui/stopwatch.webp" alt=""><span id="time">0:00</span></div>
-    <div class="pill"><img src="assets/ui/star.webp" alt=""><span id="stars">0</span></div>
+    <div class="hud-r"><div class="pill"><img src="assets/ui/star.webp" alt=""><span id="stars">0</span></div><button class="mbtn " id="mHud" aria-label="Music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2" fill="currentColor"/><circle cx="17.4" cy="15" r="3.2" fill="currentColor"/><path class="x" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></div>
   </div>
   <div class="bar" id="bar"><i id="barFill" style="width:100%"></i></div>
   <div class="pchip"><span id="pchip">—</span></div>
@@ -314,6 +325,7 @@ body.menu #app{visibility:hidden}
 <!-- Scene 1: intro -->
 <div class="ov intro" id="ovIntro">
   <div class="introbg"></div>
+  <button class="mbtn big corner" id="mIntro" aria-label="Music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2" fill="currentColor"/><circle cx="17.4" cy="15" r="3.2" fill="currentColor"/><path class="x" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button>
   <div class="clouds"><i></i><i></i><i></i></div>
   <div class="logo3" id="logo2">
     <div class="l-rays"></div>
@@ -331,7 +343,7 @@ body.menu #app{visibility:hidden}
     <div class="pk-top">
       <button class="tool sm" id="bBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M10.5 5 4 12l6.5 7v-4.3H20V9.3h-9.5z" fill="#fff" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
       <div class="pill"><img src="assets/ui/star.webp" alt=""><span id="hStars">0</span></div>
-      <button class="tool sm" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button>
+      <div class="pk-r"><button class="mbtn big" id="mHome" aria-label="Music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2" fill="currentColor"/><circle cx="17.4" cy="15" r="3.2" fill="currentColor"/><path class="x" d="M3 3l18 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button><button class="tool sm" id="bHomeSet" aria-label="Settings"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.83 9.58 L22.78 9.81 L22.78 14.19 L19.83 14.42 L19.25 15.83 L21.17 18.08 L18.08 21.17 L15.83 19.25 L14.42 19.83 L14.19 22.78 L9.81 22.78 L9.58 19.83 L8.17 19.25 L5.92 21.17 L2.83 18.08 L4.75 15.83 L4.17 14.42 L1.22 14.19 L1.22 9.81 L4.17 9.58 L4.75 8.17 L2.83 5.92 L5.92 2.83 L8.17 4.75 L9.58 4.17 L9.81 1.22 L14.19 1.22 L14.42 4.17 L15.83 4.75 L18.08 2.83 L21.17 5.92 L19.25 8.17Z M15.4 12A3.4 3.4 0 1 0 8.6 12A3.4 3.4 0 1 0 15.4 12Z"/></svg></button></div>
     </div>
     <h1 class="pk-title" id="tChoose"></h1>
     <div class="pk-scroll" id="pkScroll"><div class="pk-grid" id="worlds"></div></div>
@@ -695,15 +707,21 @@ function mSchedule(){const e=60/MUS.bpm/2;while(MUS.t0<ac.currentTime+.35){const
     if(beat===0||beat===4)mKick(t);
     mShaker(t,beat%2?.05:.025);
     MUS.t0+=e;MUS.step++}}
-function musicOn(){if(!S.music||!S.sound||!ac||MUS.on)return;MUS.on=true;
-  MUS.gain=ac.createGain();MUS.gain.gain.setValueAtTime(.0001,ac.currentTime);MUS.gain.gain.exponentialRampToValueAtTime(.55,ac.currentTime+1.2);MUS.gain.connect(master);
+const musVol=()=>document.body.classList.contains('menu')?.55:.3;
+function musicDuck(){if(MUS.on&&MUS.gain){const g=MUS.gain.gain;g.cancelScheduledValues(ac.currentTime);g.setValueAtTime(Math.max(.0001,g.value),ac.currentTime);g.exponentialRampToValueAtTime(musVol(),ac.currentTime+.6)}}
+const lockOpen=()=>{const l=document.getElementById('ovLock');return l&&!l.hidden};
+function musicOn(){if(!S.music||!S.sound||!ac||MUS.on||lockOpen()||document.hidden)return;MUS.on=true;
+  MUS.gain=ac.createGain();MUS.gain.gain.setValueAtTime(.0001,ac.currentTime);MUS.gain.gain.exponentialRampToValueAtTime(musVol(),ac.currentTime+1.2);MUS.gain.connect(master);
   MUS.t0=ac.currentTime+.1;MUS.step=0;mSchedule();MUS.timer=setInterval(mSchedule,90)}
 function musicOff(){if(!MUS.on)return;MUS.on=false;clearInterval(MUS.timer);const g=MUS.gain;
   try{g.gain.cancelScheduledValues(ac.currentTime);g.gain.setValueAtTime(g.gain.value,ac.currentTime);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+.6)}catch(e){}
   setTimeout(()=>{try{g.disconnect()}catch(e){}},800)}
 /* browsers only allow sound after the first tap: start the menu music then */
-document.addEventListener('pointerdown',()=>{ensureAudio();if(document.body.classList.contains('menu'))musicOn()},true);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)musicOff();else if(document.body.classList.contains('menu'))musicOn()});
+document.addEventListener('pointerdown',()=>{ensureAudio();musicOn()},true);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)musicOff();else musicOn()});
+function setMusic(v){S.music=v?1:0;try{store.set('settings',S)}catch(e){}document.querySelectorAll('.mbtn').forEach(b=>b.classList.toggle('off',!S.music||!S.sound));
+  if(S.music&&S.sound)musicOn();else musicOff()}
+document.querySelectorAll('.mbtn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();ensureAudio();if(!S.sound){S.sound=1;setMusic(1)}else setMusic(!S.music);try{segs()}catch(_){}}));
 
 /* ---------- Voice cheers ---------- */
 const TTS='speechSynthesis' in window;let voices=[],spoke=false,clip=null;
@@ -888,7 +906,7 @@ let praiseT=null;function praise(k,override){const P=PR[k],L=P[S.lang],el=$('#pr
 
 /* ---------- Flow ---------- */
 const OVS=['ovIntro','ovHome','ovBis','ovWin','ovLose','ovPause','ovSet'];
-function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id);const m=id==='ovIntro'||id==='ovHome';document.body.classList.toggle('menu',m);if(m)musicOn();else musicOff()}
+function show(id){OVS.forEach(o=>$('#'+o).hidden=o!==id);const m=id==='ovIntro'||id==='ovHome';document.body.classList.toggle('menu',m);musicOn();musicDuck()}
 function anyOv(){return OVS.some(o=>!$('#'+o).hidden)}
 function blocked(){return anyOv()||!$('#ovLock').hidden||document.hidden}
 function goHome(){G.running=false;calm();renderHome();show('ovHome')}
@@ -954,11 +972,11 @@ function tickPrayer(now){
       if(a&&!prayed[a.key]){if(!lock||lock.key!==a.key){lock={...a,demo:false};openLock()}}else if(lock){closeLock(false)}}}
   if(lock)renderLock(now);
   if(now%1000<260)renderChip(now)}
-function openLock(){$('#ovLock').hidden=false;G.sel=null;drag=null;sfx.bell();voice('pray',null,{p:pn(lock.p)});renderLock(Date.now())}
+function openLock(){$('#ovLock').hidden=false;musicOff();G.sel=null;drag=null;sfx.bell();voice('pray',null,{p:pn(lock.p)});renderLock(Date.now())}
 function renderLock(now){const p=pn(lock.p);$('#lockRib').textContent=t('lockRib');$('#lockTitle').textContent=t('lockT',{p});$('#lockBody').textContent=t('lockB',{p});
   const ready=lock.demo?lock.readyAt:lock.start+S.wait*60000,rem=ready-now,b=$('#bPrayed');b.textContent=t('prayed',{p});
   if(rem>0){b.disabled=true;const s=Math.ceil(rem/1000);$('#lockCount').textContent=t('lockWait',{m:Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})}else{b.disabled=false;$('#lockCount').textContent=t('lockReady')}}
-function closeLock(thanks){$('#ovLock').hidden=true;const was=lock;lock=null;if(thanks){praise('taqabbal');sfx.praise()}renderHome();return was}
+function closeLock(thanks){$('#ovLock').hidden=true;setTimeout(musicOn,1500);const was=lock;lock=null;if(thanks){praise('taqabbal');sfx.praise()}renderHome();return was}
 $('#bPrayed').onclick=()=>{if(!lock)return;ensureAudio();if(!lock.demo)markPrayed(lock.key);closeLock(true);lastCheck=0};
 function renderChip(now){const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo();let s='';
   $('#prayTxt').innerHTML=`🕌 <b>${pn(nx.p)}</b> ${nx.at?fmtT(nx.at,c.tz):'—'} · ${nx.at?dur(nx.at-now):'—'} · ${c.name}`;
@@ -1006,15 +1024,15 @@ $('#city').onchange=e=>{S.city=e.target.value;$('#customRow').hidden=S.city!=='c
 $('#lat').oninput=e=>{S.lat=parseFloat(e.target.value)||0;save()};$('#lng').oninput=e=>{S.lng=parseFloat(e.target.value)||0;save()};
 $('#segLang').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.lang=b.dataset.v;save();openSettings();renderHome()};
 $('#segWait').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.wait=+b.dataset.v;save();segs()};
-$('#segSound').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.sound=+b.dataset.v;save();segs();ensureAudio();sfx.click();if(!S.sound)musicOff();else if(document.body.classList.contains('menu'))musicOn()};
-$('#segMusic').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.music=+b.dataset.v;save();segs();ensureAudio();if(S.music&&document.body.classList.contains('menu'))musicOn();else musicOff()};
+$('#segSound').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.sound=+b.dataset.v;save();segs();ensureAudio();sfx.click();setMusic(S.music)};
+$('#segMusic').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.music=+b.dataset.v;save();segs();ensureAudio();setMusic(S.music)};
 $('#segVoice').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.voice=+b.dataset.v;save();segs();ensureAudio();if(S.voice)voice('masya1',PR.masya1[S.lang][1]);else stopVoice()};
 $('#bPreview').onclick=()=>{ensureAudio();const nx=nextPrayer(Date.now());$('#ovSet').hidden=true;if(returnTo&&returnTo!=='ovSet')$('#'+returnTo).hidden=false;lock={p:nx.p,key:'demo',demo:true,readyAt:Date.now()+8000};openLock()};
 $('#bReset').onclick=()=>{G.level=1;G.total=0;G.grid=[];G.running=false;store.set('level',1);WORLDS.forEach(w=>store.set('lv:'+w.id,1));store.set('stars',0);$('#bReset').textContent=t('resetDone');returnTo='ovHome'};
 $('#bSetDone').onclick=()=>{renderHome();show(returnTo)};
 
 window.addEventListener('resize',fit);fit();
-renderHome();show('ovIntro');tickPrayer(Date.now());
+document.querySelectorAll('.mbtn').forEach(b=>b.classList.toggle('off',!S.music||!S.sound));renderHome();show('ovIntro');tickPrayer(Date.now());
 })();
 </script>
 
