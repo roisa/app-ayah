@@ -375,6 +375,15 @@ body.menu #app{visibility:hidden}
 .sty i{font-style:normal;font-size:46px;line-height:1.1;animation:bob 2.4s ease-in-out infinite}
 .sty b{font-family:var(--f-display);font-weight:400;font-size:19px;-webkit-text-stroke:4px rgba(0,0,0,.25);paint-order:stroke fill}
 .sty small{font-weight:800;font-size:12px;opacity:.95}.sty em{font-style:normal;font-size:11px;font-weight:700;opacity:.85}
+.dyk{display:flex;align-items:center;gap:10px;text-align:left;background:linear-gradient(180deg,#FFF7E6,#FFE7B8);color:#5A3200;border:3px solid #FFC93C;border-radius:18px;padding:8px 12px;
+  box-shadow:0 4px 0 #D98A00;animation:rwIn .5s cubic-bezier(.34,1.7,.64,1) 1.6s both}
+.dyk img{width:54px;height:54px;flex:none;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.2))}
+.dyk b{font-family:var(--f-display);font-weight:400;font-size:16px;color:#E8661C}.dyk p{margin:1px 0 0;font-size:13.5px;font-weight:700;line-height:1.3;color:#5A3200}
+.st-head{position:relative;display:flex;justify-content:center}.st-book{position:absolute;left:12%;top:8px;font-size:34px;animation:bob 2s infinite}
+.st-tx{min-height:5.6em;font-size:17px!important;font-weight:700!important;color:#fff!important;line-height:1.45!important}
+.st-tx.in{animation:fadeUp .4s ease-out}
+.st-dots{display:flex;justify-content:center;gap:6px}.st-dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3)}.st-dots i.on{background:var(--gold);width:22px;border-radius:5px}
+.st-skip{border:0;background:none;color:var(--muted);font-weight:800;font-size:13px;text-decoration:underline}
 .hud-r,.pk-r{display:flex;align-items:center;gap:6px}
 /* ===== Scene 2: choose a world ===== */
 .pick{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
@@ -514,6 +523,18 @@ body.menu #app{visibility:hidden}
   </div>
 </div>
 
+<!-- Prophet story (before each world's boss level) -->
+<div class="ov" id="ovStory" hidden style="z-index:44">
+  <div class="card">
+    <div class="ribbon"><img src="assets/ui/ribbon-red.webp" alt=""><span id="storyRib"></span></div>
+    <div class="st-head"><span class="st-book">📖</span><img id="storyImg" class="hero" src="" alt=""></div>
+    <p class="st-tx" id="storyTx"></p>
+    <div class="st-dots" id="storyDots"></div>
+    <button class="btn gold" data-ic="next" id="bStory"></button>
+    <button class="st-skip" id="bStorySkip"></button>
+  </div>
+</div>
+
 <!-- Bismillah gate -->
 <div class="ov" id="ovBis" hidden>
   <div class="card">
@@ -522,6 +543,7 @@ body.menu #app{visibility:hidden}
     <div class="tip" id="bisTip" hidden></div>
     <div class="ar-big">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
     <p id="bisMean"></p>
+    <button class="btn ghost" id="bisStory" hidden></button>
     <button class="btn" data-ic="play" id="bBis">Bismillah</button>
   </div>
 </div>
@@ -537,6 +559,7 @@ body.menu #app{visibility:hidden}
     <h2 id="winTitle"></h2>
     <p id="winBody"></p>
     <div class="rewards"><div class="rw rw-s"><img src="assets/ui/star.webp" alt=""><b id="rwS">0</b><small id="rwSl"></small></div><div class="rw rw-t"><img src="assets/ui/stopwatch.webp" alt=""><b id="rwT">+0</b><small id="rwTl"></small></div></div>
+    <div class="dyk" id="winFact" hidden><img id="factImg" src="" alt=""><div><b id="factT"></b><p id="factTx"></p></div></div>
     <div class="gift" id="winGift" hidden><img src="assets/ui/gift.webp" alt=""><span id="winGiftT"></span></div>
     <button class="btn" data-ic="next" id="bNext"></button>
     <button class="btn ghost" data-ic="home" id="bWinHome"></button>
@@ -547,7 +570,7 @@ body.menu #app{visibility:hidden}
 <div class="ov" id="ovLose" hidden>
   <div class="card">
     <div class="ribbon"><img src="assets/ui/ribbon-red.webp" alt=""><span id="loseTitle"></span></div>
-    <div class="ar-big" style="font-size:28px;margin-top:6px">قَدَّرَ ٱللَّٰهُ وَمَا شَاءَ فَعَلَ</div>
+    <div class="ar-big" style="font-size:32px;margin-top:6px">أَسْتَغْفِرُ ٱللَّٰهَ</div>
     <p id="loseBody"></p>
     <button class="btn" data-ic="retry" id="bRetry"></button>
     <button class="btn ghost" data-ic="home" id="bLoseHome"></button>
@@ -610,22 +633,23 @@ const store={get(k,d){try{const v=localStorage.getItem('nur:'+k);return v==null?
 
 /* ---------- Text ---------- */
 const T={
-en:{tagline:'Play Games the <b>Islamic Way</b>',whoT:'Who is playing?',styHint:'You can change this anytime in Settings.',st_little:'Little',st_kids:'Kids',st_big:'Big Kids',st_family:'Family',yrs:'years',agesFam:'13+ & parents',lvlsN:'{n} levels per world',styleL:'Play style',gotBurst:'You got a ✨ Star Burst!',gotFreeze:'You got a ❄️ Time Freeze!',frozenT:'❄️ Time frozen for 15 seconds!',bonusT:'Bonus: +{g} ★',map:'Map',bossT:'Boss Level {n}',dailyT:'Daily Puzzle',dailyDoneT:'Daily Puzzle done!',dailyGift:'+1 free sticker pack 🎴',unlockT:'New world unlocked: {w}! 🔓',worldDone:'World complete! 🏆 +50',lockLvl:'Finish the level before it first!',lockedS:'Locked',lockedW:'Clear level {n} of {w} to unlock',lastPairs:'Last pairs! Hurry!',bombT:'BOOM! −15 seconds',meterT:'Combo power! +10 seconds ⏱',iceT:'Frozen! Match a tile next to it first',goalT:'Collect',giftT:'Daily Gift',day:'Day {n}',claim:'Claim',album:'Sticker Book',daily:'Daily Puzzle',dailyS:'+30 ★ & a sticker pack',dailyDoneS:'Done today ✓',pack:'Open sticker pack · {c} ★',packFree:'Open FREE sticker pack ({n})',newS:'NEW!',dupS:'+5 ★',notEnough:'Not enough stars. Play more levels!',streakT:'{n}-day prayer streak! +{s} ★',albDone:'{w} stickers complete! +100 ★',comeBack:'Played today. Come back tomorrow for new rewards!',tipBoss:'Boss level! Big board, special tiles, big reward.',tipGoal:'Goal: collect all the tiles shown at the top. You win as soon as they are done!',tipGrav:'Gravity! Tiles fall down after every match.',tipBomb:'Bomb tile: match it before its number reaches 0, or you lose 15 seconds!',tipStone:'Stone tiles must be matched twice.',tipIce:'Frozen tiles: match a tile right next to them to melt the ice.',tipGold:'Golden tiles give +5 stars!',tipHard:'Hard level: less time. You can do it!',choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
+en:{dyk:'Did you know?',storyNext:'Next',storyGo:'Bismillah, boss level!',storyRe:'Read the story again',skip:'Skip story',tagline:'Play Games the <b>Islamic Way</b>',whoT:'Who is playing?',styHint:'You can change this anytime in Settings.',st_little:'Little',st_kids:'Kids',st_big:'Big Kids',st_family:'Family',yrs:'years',agesFam:'13+ & parents',lvlsN:'{n} levels per world',styleL:'Play style',gotBurst:'You got a ✨ Star Burst!',gotFreeze:'You got a ❄️ Time Freeze!',frozenT:'❄️ Time frozen for 15 seconds!',bonusT:'Bonus: +{g} ★',map:'Map',bossT:'Boss Level {n}',dailyT:'Daily Puzzle',dailyDoneT:'Daily Puzzle done!',dailyGift:'+1 free sticker pack 🎴',unlockT:'New world unlocked: {w}! 🔓',worldDone:'World complete! 🏆 +50',lockLvl:'Finish the level before it first!',lockedS:'Locked',lockedW:'Clear level {n} of {w} to unlock',lastPairs:'Last pairs! Hurry!',bombT:'BOOM! −15 seconds',meterT:'Combo power! +10 seconds ⏱',iceT:'Frozen! Match a tile next to it first',goalT:'Collect',giftT:'Daily Gift',day:'Day {n}',claim:'Claim',album:'Sticker Book',daily:'Daily Puzzle',dailyS:'+30 ★ & a sticker pack',dailyDoneS:'Done today ✓',pack:'Open sticker pack · {c} ★',packFree:'Open FREE sticker pack ({n})',newS:'NEW!',dupS:'+5 ★',notEnough:'Not enough stars. Play more levels!',streakT:'{n}-day prayer streak! +{s} ★',albDone:'{w} stickers complete! +100 ★',comeBack:'Played today. Come back tomorrow for new rewards!',tipBoss:'Boss level! Big board, special tiles, big reward.',tipGoal:'Goal: collect all the tiles shown at the top. You win as soon as they are done!',tipGrav:'Gravity! Tiles fall down after every match.',tipBomb:'Bomb tile: match it before its number reaches 0, or you lose 15 seconds!',tipStone:'Stone tiles must be matched twice.',tipIce:'Frozen tiles: match a tile right next to them to melt the ice.',tipGold:'Golden tiles give +5 stars!',tipHard:'Hard level: less time. You can do it!',choose:'Choose a World',locked:'Coming soon',soonG:'New worlds are coming soon, insyaAllah!',music:'Music',copy:'© 2026 Mo Games by IBRAZ Group. All rights reserved.',tag:'Match the pairs. Pray on time. A puzzle for the whole family.',level:'Level',sched:'Prayer times today',start:'Bismillah, play',cont:'Play level {n}',settings:'Settings',soon:'{w} is coming soon, insyaAllah',world:'World {n}',worldLvl:'Level {n}',stars3:'{s} stars',gift:'Gift every 5 levels: +{g} stars!',cleared:'Level {n} cleared!',lockRib:'Time to pray',
 bisMean:'In the name of Allah, the Most Gracious, the Most Merciful',bis:'Bismillah',winT:'Alhamdulillah!',winB:'All praise is for Allah.',rwStars:'Stars earned',rwTime:'Time bonus',next:'Next level, Bismillah',home:'Home',
-loseT:'Time is up!',loseB:'Allah has decreed, and He does what He wills. Take a breath and try again.',retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
+loseT:'Time is up!',loseB:"Astaghfirullah, I seek forgiveness from Allah. Take a deep breath and let's try again!",retry:'Try again',pause:'Paused',pauseB:'Glory be to Allah and praise be to Him.',resume:'Resume',
 lockT:'It is time for {p}',lockB:'Pause the game and pray {p} first, at the masjid or at home. Your game is saved right where you left it.',lockWait:'The button opens in {m}',lockReady:'Done praying? Tap below.',prayed:'I have prayed {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Settings',city:'City',custom:'Custom location (lat/lng)',lang:'Language',wait:'Prayer pause lasts at least',sound:'Sound effects',voice:'Voice cheers (MasyaAllah, great!)',on:'On',off:'Off',preview:'Preview the prayer pause',reset:'Reset progress',done:'Done',
 next2:'{p} at {t} · in {d}',nowP:'{p} time now',noMove:'No moves left. Shuffling…',hintNone:'Shuffling for a fresh start',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min ihtiyat',resetDone:'Progress reset',
 P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'}},
-id:{tagline:'Bermain dengan <b>Cara Islami</b>',whoT:'Siapa yang main?',styHint:'Bisa diganti kapan saja di Pengaturan.',st_little:'Si Kecil',st_kids:'Anak',st_big:'Anak Besar',st_family:'Keluarga',yrs:'tahun',agesFam:'13+ & orang tua',lvlsN:'{n} level per dunia',styleL:'Gaya main',gotBurst:'Dapat ✨ Ledakan Bintang!',gotFreeze:'Dapat ❄️ Pembeku Waktu!',frozenT:'❄️ Waktu berhenti 15 detik!',bonusT:'Bonus: +{g} ★',map:'Peta',bossT:'Level Bos {n}',dailyT:'Puzzle Harian',dailyDoneT:'Puzzle Harian selesai!',dailyGift:'+1 paket stiker gratis 🎴',unlockT:'Dunia baru terbuka: {w}! 🔓',worldDone:'Dunia selesai! 🏆 +50',lockLvl:'Selesaikan level sebelumnya dulu!',lockedS:'Terkunci',lockedW:'Selesaikan level {n} di {w} untuk membuka',lastPairs:'Pasangan terakhir! Ayo cepat!',bombT:'BUM! −15 detik',meterT:'Kekuatan kombo! +10 detik ⏱',iceT:'Beku! Cocokkan ubin di sebelahnya dulu',goalT:'Kumpulkan',giftT:'Hadiah Harian',day:'Hari {n}',claim:'Ambil',album:'Buku Stiker',daily:'Puzzle Harian',dailyS:'+30 ★ & paket stiker',dailyDoneS:'Selesai hari ini ✓',pack:'Buka paket stiker · {c} ★',packFree:'Buka paket stiker GRATIS ({n})',newS:'BARU!',dupS:'+5 ★',notEnough:'Bintang belum cukup. Main level lagi!',streakT:'{n} hari sholat berturut-turut! +{s} ★',albDone:'Stiker {w} lengkap! +100 ★',comeBack:'Sudah main hari ini. Kembali besok untuk hadiah baru!',tipBoss:'Level bos! Papan besar, ubin spesial, hadiah besar.',tipGoal:'Tujuan: kumpulkan semua ubin di atas. Langsung menang kalau sudah lengkap!',tipGrav:'Gravitasi! Ubin jatuh ke bawah setiap kali cocok.',tipBomb:'Ubin bom: cocokkan sebelum angkanya 0, atau waktu berkurang 15 detik!',tipStone:'Ubin batu harus dicocokkan dua kali.',tipIce:'Ubin beku: cocokkan ubin tepat di sebelahnya untuk mencairkan es.',tipGold:'Ubin emas memberi +5 bintang!',tipHard:'Level sulit: waktu lebih sedikit. Kamu pasti bisa!',choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
+id:{dyk:'Tahukah kamu?',storyNext:'Lanjut',storyGo:'Bismillah, level bos!',storyRe:'Baca kisahnya lagi',skip:'Lewati kisah',tagline:'Bermain dengan <b>Cara Islami</b>',whoT:'Siapa yang main?',styHint:'Bisa diganti kapan saja di Pengaturan.',st_little:'Si Kecil',st_kids:'Anak',st_big:'Anak Besar',st_family:'Keluarga',yrs:'tahun',agesFam:'13+ & orang tua',lvlsN:'{n} level per dunia',styleL:'Gaya main',gotBurst:'Dapat ✨ Ledakan Bintang!',gotFreeze:'Dapat ❄️ Pembeku Waktu!',frozenT:'❄️ Waktu berhenti 15 detik!',bonusT:'Bonus: +{g} ★',map:'Peta',bossT:'Level Bos {n}',dailyT:'Puzzle Harian',dailyDoneT:'Puzzle Harian selesai!',dailyGift:'+1 paket stiker gratis 🎴',unlockT:'Dunia baru terbuka: {w}! 🔓',worldDone:'Dunia selesai! 🏆 +50',lockLvl:'Selesaikan level sebelumnya dulu!',lockedS:'Terkunci',lockedW:'Selesaikan level {n} di {w} untuk membuka',lastPairs:'Pasangan terakhir! Ayo cepat!',bombT:'BUM! −15 detik',meterT:'Kekuatan kombo! +10 detik ⏱',iceT:'Beku! Cocokkan ubin di sebelahnya dulu',goalT:'Kumpulkan',giftT:'Hadiah Harian',day:'Hari {n}',claim:'Ambil',album:'Buku Stiker',daily:'Puzzle Harian',dailyS:'+30 ★ & paket stiker',dailyDoneS:'Selesai hari ini ✓',pack:'Buka paket stiker · {c} ★',packFree:'Buka paket stiker GRATIS ({n})',newS:'BARU!',dupS:'+5 ★',notEnough:'Bintang belum cukup. Main level lagi!',streakT:'{n} hari sholat berturut-turut! +{s} ★',albDone:'Stiker {w} lengkap! +100 ★',comeBack:'Sudah main hari ini. Kembali besok untuk hadiah baru!',tipBoss:'Level bos! Papan besar, ubin spesial, hadiah besar.',tipGoal:'Tujuan: kumpulkan semua ubin di atas. Langsung menang kalau sudah lengkap!',tipGrav:'Gravitasi! Ubin jatuh ke bawah setiap kali cocok.',tipBomb:'Ubin bom: cocokkan sebelum angkanya 0, atau waktu berkurang 15 detik!',tipStone:'Ubin batu harus dicocokkan dua kali.',tipIce:'Ubin beku: cocokkan ubin tepat di sebelahnya untuk mencairkan es.',tipGold:'Ubin emas memberi +5 bintang!',tipHard:'Level sulit: waktu lebih sedikit. Kamu pasti bisa!',choose:'Pilih Dunia',soonG:'Dunia baru segera hadir, insyaAllah!',music:'Musik',copy:'© 2026 Mo Games oleh IBRAZ Group. Hak cipta dilindungi.',tag:'Cocokkan pasangan. Sholat tepat waktu. Permainan untuk seluruh keluarga.',level:'Level',sched:'Jadwal sholat hari ini',start:'Bismillah, main',cont:'Main level {n}',settings:'Pengaturan',soon:'{w} segera hadir, insyaAllah',world:'Dunia {n}',worldLvl:'Level {n}',locked:'Segera',stars3:'{s} bintang',gift:'Hadiah tiap 5 level: +{g} bintang!',cleared:'Level {n} selesai!',lockRib:'Waktunya sholat',
 bisMean:'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',bis:'Bismillah',winT:'Alhamdulillah!',winB:'Segala puji bagi Allah.',rwStars:'Bintang didapat',rwTime:'Bonus waktu',next:'Level berikutnya, Bismillah',home:'Beranda',
-loseT:'Waktu habis!',loseB:'Allah telah menakdirkan, dan apa yang Dia kehendaki pasti terjadi. Tarik napas, lalu coba lagi.',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
+loseT:'Waktu habis!',loseB:'Astaghfirullah, aku memohon ampun kepada Allah. Tarik napas, lalu ayo coba lagi!',retry:'Coba lagi',pause:'Dijeda',pauseB:'Maha Suci Allah dan segala puji bagi-Nya.',resume:'Lanjut',
 lockT:'Sudah masuk waktu {p}',lockB:'Jeda dulu, sholat {p} dulu, di masjid atau di rumah. Permainanmu tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk di bawah.',prayed:'Aku sudah sholat {p}',
 accepted:'Taqabbalallahu minna wa minkum',setT:'Pengaturan',city:'Kota',custom:'Lokasi kustom (lat/lng)',lang:'Bahasa',wait:'Jeda sholat minimal',sound:'Efek suara',voice:'Suara pujian (MasyaAllah, hebat!)',on:'Nyala',off:'Mati',preview:'Coba jeda sholat',reset:'Ulang progres',done:'Selesai',
 next2:'{p} pukul {t} · {d} lagi',nowP:'Sekarang waktu {p}',noMove:'Tidak ada langkah. Diacak…',hintNone:'Diacak agar bisa lanjut',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',resetDone:'Progres diulang',
 P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'}}
 };
 const PR={
+astagh:{ar:'أَسْتَغْفِرُ ٱللَّٰهَ',en:["Astaghfirullah, let's try again","Astaghfirullah. Let's try again!",'I seek forgiveness from Allah'],id:['Astaghfirullah, ayo coba lagi','Astaghfirullah. Ayo coba lagi!','Aku memohon ampun kepada Allah']},
 masya1:{ar:'مَا شَاءَ ٱللَّٰهُ',en:['MasyaAllah, great!','Masha Allah! Great!','What Allah has willed'],id:['MasyaAllah, hebat!','Masya Allah! Hebat!','Atas kehendak Allah']},
 masya2:{ar:'مَا شَاءَ ٱللَّٰهُ',en:['MasyaAllah, well done!','Masha Allah! Well done!','What Allah has willed'],id:['MasyaAllah, bagus sekali!','Masya Allah! Bagus sekali!','Atas kehendak Allah']},
 subhan:{ar:'سُبْحَانَ ٱللَّٰهِ',en:['SubhanAllah, amazing!','Subhaan Allah! Amazing!','Glory be to Allah'],id:['SubhanAllah, keren!','Subhanallah! Keren!','Maha Suci Allah']},
@@ -637,8 +661,8 @@ shuffle:{ar:'تَوَكَّلْتُ عَلَى ٱللَّٰهِ',en:['Tawakkaltu
 };
 /* Spoken-only lines (no toast) */
 const VO={
-en:{win:'Alhamdulillah! Well done!',lose:'Qaddarallah. Try again!',pray:'It is time to pray {p}.',hurry:'Hurry up!',hurry30:'30 seconds left, hurry!',bism:'Bismillah!'},
-id:{win:'Alhamdulillah! Berhasil!',lose:'Qadarullah. Ayo coba lagi!',pray:'Waktunya sholat {p}.',hurry:'Ayo, cepat!',hurry30:'30 detik lagi, ayo cepat!',bism:'Bismillah!'}
+en:{win:'Alhamdulillah! Well done!',lose:"Astaghfirullah. Let's try again!",pray:'It is time to pray {p}.',hurry:'Hurry up!',hurry30:'30 seconds left, hurry!',bism:'Bismillah!'},
+id:{win:'Alhamdulillah! Berhasil!',lose:'Astaghfirullah. Ayo coba lagi!',pray:'Waktunya sholat {p}.',hurry:'Ayo, cepat!',hurry30:'30 detik lagi, ayo cepat!',bism:'Bismillah!'}
 };
 const S=Object.assign({city:'malang',lang:'en',wait:10,sound:1,voice:1,music:1,lat:-7.98,lng:112.63},store.get('settings',{}));
 const t=(k,v)=>{let s=T[S.lang][k]||k;if(v)for(const x in v)s=s.replace('{'+x+'}',v[x]);return s};
@@ -769,7 +793,7 @@ function dur(ms){const m=Math.max(0,Math.ceil(ms/60000));const h=Math.floor(m/60
 /* Recorded voice clips: put MP3s in voice/en/ and voice/id/ named after these keys (e.g. voice/id/masya1.mp3).
    They play through the game's own audio engine, so the music keeps playing at full volume.
    Any clip that is missing falls back to the phone's text-to-speech (which makes the phone lower the music). */
-const VOICE_KEYS=['bism','bismillah','masya1','masya2','subhan','barak','akbar','taqabbal','shuffle','win','lose','hurry','hurry30','pray-fajr','pray-dhuhr','pray-asr','pray-maghrib','pray-isha'];
+const VOICE_KEYS=['astagh','bism','bismillah','masya1','masya2','subhan','barak','akbar','taqabbal','shuffle','win','lose','hurry','hurry30','pray-fajr','pray-dhuhr','pray-asr','pray-maghrib','pray-isha'];
 const VOICE_FILES={},VBUF={};let vLoaded=false,vSrc=null;
 function loadClips(){if(vLoaded||!ac)return;vLoaded=true;
   ['en','id'].forEach(l=>VOICE_KEYS.forEach(k=>{const url=`voice/${l}/${k}.mp3`;
@@ -993,7 +1017,7 @@ document.addEventListener('contextmenu',e=>e.preventDefault());
 cv.addEventListener('pointercancel',()=>{drag=null});
 
 function tryMatch(a,b){if(G.grid[a[0]][a[1]]===G.grid[b[0]][b[1]]&&!frozen(a[0],a[1])&&!frozen(b[0],b[1])){const p=findPath(a[0],a[1],b[0],b[1]);if(p){match(a,b,p);return true}}wrong(a);return false}
-function wrong(a){const an=anim[key(a[0],a[1])];if(an)an.shake=performance.now();sfx.bad();buzz(35);G.combo=0}
+function wrong(a){const an=anim[key(a[0],a[1])];if(an)an.shake=performance.now();sfx.bad();buzz(35);G.combo=0;G.wrongs=(G.wrongs||0)+1;if(G.wrongs>=3){G.wrongs=0;setTimeout(()=>praise('astagh'),250)}}
 function burst(x,y){for(let i=0;i<14;i++){const a=Math.random()*Math.PI*2,v=1.5+Math.random()*3.5;particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2,born:performance.now(),life:550+Math.random()*350,s:2+Math.random()*3.5,col:Math.random()<.65?COL.gold:'#FFF6DE'})}}
 /* ===== v2 levels: 20 per world, board shapes, special tiles, goals, gravity ===== */
 const LMAX=20;
@@ -1036,7 +1060,7 @@ const frozen=(r,c)=>{const s=G.spec&&G.spec[r]&&G.spec[r][c];return !!(s&&s.k===
 function newLevel(){const C=G.daily?dailyCfg():lvCfg(worldIdx,G.level);G.cfg=C;G.freezeUntil=0;
   G.cols=C.C;G.rows=C.R;G.max=G.time=C.time;G.noTimer=!C.time;G.hints=sty().hints;G.shuf=2;G.undo=3;G.hist=[];G.stars=0;G.combo=0;G.meter=0;G.near=false;G.sel=null;G.left=C.pairs*2;
   drag=null;removing=[];trails=[];particles=[];hintPair=null;MUS.bpm=104;
-  const pool=pickTypes(C.types),arr=[];for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
+  const pool=pickTypes(C.types),arr=[];G.pool=pool;for(let i=0;i<C.pairs;i++){const k=pool[i%pool.length];arr.push(k,k)}
   G.grid=[];G.spec=[];G.hole=[];for(let r=0;r<G.rows+2;r++){G.grid.push(new Array(G.cols+2).fill(null));G.spec.push(new Array(G.cols+2).fill(null));G.hole.push(new Array(G.cols+2).fill(true))}
   C.cells.forEach(([r,c])=>G.hole[r][c]=false);
   G.goal=null;if(C.goal){const ts=shuffleArr([...new Set(arr)]).slice(0,2);G.goal=ts.map(t=>({t,need:arr.filter(x=>x===t).length/2,got:0}))}
@@ -1083,7 +1107,7 @@ $('#pwFreeze').onclick=()=>{if(!G.running||blocked())return;ensureAudio();if(G.f
 function goalDone(){return !!(G.goal&&G.goal.every(g=>g.got>=g.need))}
 function renderGoal(pop){const el=$('#goalBar');if(!G.goal){el.hidden=true;return}el.hidden=false;
   el.innerHTML=`<span class="gl">${t('goalT')}</span>`+G.goal.map(g=>`<span class="gi${g.got>=g.need?' done':''}${pop?' pop':''}"><img src="assets/icons/${g.t}.webp" alt=""><b>${g.got>=g.need?'✓':g.got+'/'+g.need}</b></span>`).join('')}
-function match(a,b,path){const now=performance.now();trails.push({path,t0:now});snapshot();
+function match(a,b,path){G.wrongs=0;const now=performance.now();trails.push({path,t0:now});snapshot();
   const typ=G.grid[a[0]][a[1]],st0=G.stars,sa=G.spec[a[0]][a[1]],sb=G.spec[b[0]][b[1]];
   const stone=(sa&&sa.k==='stone'&&sa.hp>1)||(sb&&sb.k==='stone'&&sb.hp>1);
   const n=Date.now();G.combo=(n-G.last<4000)?G.combo+1:1;G.last=n;G.stars+=1;sfx.match(G.combo);buzz(18);
@@ -1211,7 +1235,8 @@ function gateTip(){const C=G.cfg,seen=store.get('seen',{});let k=null;
   if(!k&&C.hard)k='hard';
   const el=$('#bisTip');if(!k){el.hidden=true;return}seen[k]=1;store.set('seen',seen);el.hidden=false;
   el.innerHTML=`<i>${TIPS[k][0]}</i><span>${t(TIPS[k][1])}</span>`}
-function gate(){$('#bisLvl').textContent=G.daily?t('dailyT'):G.cfg&&G.cfg.boss?t('bossT',{n:G.level}):t('level')+' '+G.level;gateTip();$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
+function gate(){if(!G.daily&&G.cfg&&G.cfg.boss&&STORIES[curWorld().id]&&!store.get('story:'+curWorld().id,0)){openStory(gate0);return}gate0()}
+function gate0(){$('#bisStory').hidden=!(!G.daily&&G.cfg&&G.cfg.boss&&STORIES[curWorld().id]);$('#bisStory').textContent='📖 '+t('storyRe');$('#bStorySkip').textContent=t('skip');$('#bisLvl').textContent=G.daily?t('dailyT'):G.cfg&&G.cfg.boss?t('bossT',{n:G.level}):t('level')+' '+G.level;gateTip();$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
 /* confetti: paper strips, dots and little stars from two cannons and a shower from the top */
 let cf={parts:[],raf:0};
 function confetti(kind){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=$('#confetti'),x=c.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1);
@@ -1258,7 +1283,7 @@ function win(){G.running=false;calm();const bonus=Math.floor(G.time/6),rt=rating
   $('#winGift').hidden=!msgs.length;$('#winGiftT').innerHTML=msgs.join('<br>');
   $('#winTitle').textContent=t('winT');$('#winBody').textContent=t('winB');$('#rwSl').textContent=t('rwStars');$('#rwTl').textContent=t('rwTime');
   $('#bNext').hidden=G.daily||n>=lpw();if(!G.daily&&n<lpw())G.level=n+1;$('#bWinHome').textContent=G.daily?t('home'):t('map');
-  show('ovWin');requestAnimationFrame(aimBurst);celebrate(rt,!!gift);countUp('#rwS',G.stars,'',1150);countUp('#rwT',bonus,'+',1350);hud()}
+  showFact();show('ovWin');requestAnimationFrame(aimBurst);celebrate(rt,!!gift);countUp('#rwS',G.stars,'',1150);countUp('#rwT',bonus,'+',1350);hud()}
 $('#bNext').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();newLevel();gate()};
 $('#bWinHome').onclick=()=>{winT.forEach(clearTimeout);stopConfetti();goHome()};
 function lose(){G.running=false;calm();G.stars=0;$('#loseTitle').textContent=t('loseT');$('#loseBody').textContent=t('loseB');sfx.lose();voice('lose');show('ovLose')}
@@ -1407,6 +1432,169 @@ function openStyle(after){$('#styRib').textContent=t('whoT');$('#styHint').textC
 $('#stys').onclick=e=>{const b=e.target.closest('.sty');if(!b)return;ensureAudio();S.style=b.dataset.k;try{store.set('settings',S)}catch(_){}sfx.praise();
   $('#ovStyle').hidden=true;renderHome();if(G.afterStyle)setTimeout(G.afterStyle,400)};
 $('#bAlbBack').onclick=()=>{ensureAudio();renderHome();show('ovHome')};
+
+/* ===== Learn about Islam: "Did you know?" facts (by tile icon, or general per world) ===== */
+const FACTS={
+islamic:[
+ ['kaaba','The Kaaba in Makkah was built by Prophet Ibrahim and his son Ismail.','Ka\'bah di Makkah dibangun oleh Nabi Ibrahim dan putranya, Nabi Ismail.'],
+ ['qibla-compass','When we pray, we all face the Kaaba in Makkah. This direction is called the qibla.','Saat sholat, kita semua menghadap Ka\'bah di Makkah. Arah ini disebut kiblat.'],
+ ['mosque','The first mosque built by Prophet Muhammad ﷺ was Masjid Quba, near Madinah.','Masjid pertama yang dibangun Nabi Muhammad ﷺ adalah Masjid Quba, di dekat Madinah.'],
+ ['green-dome','The Green Dome stands over the Prophet\'s Mosque, Masjid an-Nabawi, in Madinah.','Kubah Hijau berada di Masjid Nabawi, masjid Nabi di Madinah.'],
+ ['minaret','The adhan is called from the minaret. Bilal was the first muadhin of Islam.','Adzan dikumandangkan dari menara. Bilal adalah muadzin pertama dalam Islam.'],
+ ['quran-open','The Quran has 114 surahs. The first word revealed was "Iqra" – Read!','Al-Qur\'an memiliki 114 surah. Kata pertama yang diturunkan adalah "Iqra" – Bacalah!'],
+ ['quran-rehal','The Quran was revealed to Prophet Muhammad ﷺ over about 23 years.','Al-Qur\'an diturunkan kepada Nabi Muhammad ﷺ selama sekitar 23 tahun.'],
+ ['dates','Prophet Muhammad ﷺ liked to break his fast with fresh dates.','Nabi Muhammad ﷺ suka berbuka puasa dengan kurma segar.'],
+ ['zamzam','Zamzam water comes from a well in Makkah. Allah gave it to Hajar and baby Ismail.','Air Zamzam berasal dari sumur di Makkah. Allah memberikannya kepada Hajar dan bayi Ismail.'],
+ ['crescent','The Islamic calendar follows the moon. A new month starts when the new crescent is seen.','Kalender Islam mengikuti bulan. Bulan baru dimulai saat hilal terlihat.'],
+ ['tasbih','After prayer we can say SubhanAllah, Alhamdulillah and Allahu Akbar 33 times each.','Setelah sholat kita bisa membaca Subhanallah, Alhamdulillah dan Allahu Akbar masing-masing 33 kali.'],
+ ['miswak','Prophet Muhammad ﷺ loved to clean his teeth with a miswak.','Nabi Muhammad ﷺ senang membersihkan gigi dengan siwak.'],
+ ['wudhu-jug','We make wudhu before we pray, so we are clean to stand before Allah.','Kita berwudhu sebelum sholat, agar bersih saat menghadap Allah.'],
+ ['eid-gift','Muslims celebrate two Eids: Eid al-Fitr after Ramadan, and Eid al-Adha.','Umat Islam merayakan dua hari raya: Idul Fitri setelah Ramadhan, dan Idul Adha.'],
+ ['ketupat','Ketupat is a favourite Eid food in Indonesia.','Ketupat adalah makanan favorit saat Lebaran di Indonesia.']],
+fruits:[
+ ['fig','Allah swears by the fig and the olive in Surah At-Tin.','Allah bersumpah demi buah tin dan zaitun dalam Surah At-Tin.'],
+ ['olive','Allah swears by the fig and the olive in Surah At-Tin.','Allah bersumpah demi buah tin dan zaitun dalam Surah At-Tin.'],
+ ['pomegranate','Pomegranates are mentioned in the Quran as a fruit of Jannah (Surah Ar-Rahman).','Delima disebut dalam Al-Qur\'an sebagai buah di surga (Surah Ar-Rahman).'],
+ ['grapes','Grapes are mentioned many times in the Quran as a gift from Allah.','Anggur disebut berkali-kali dalam Al-Qur\'an sebagai nikmat dari Allah.'],
+ ['watermelon','Prophet Muhammad ﷺ ate watermelon together with fresh dates.','Nabi Muhammad ﷺ pernah makan semangka bersama kurma segar.'],
+ [null,'Say "Bismillah" before you eat and "Alhamdulillah" when you finish.','Ucapkan "Bismillah" sebelum makan dan "Alhamdulillah" setelah selesai.']],
+veggies:[
+ ['pumpkin','Prophet Muhammad ﷺ loved to eat pumpkin.','Nabi Muhammad ﷺ suka makan labu.'],
+ ['olive','Olive oil comes from a blessed tree, mentioned in Surah An-Nur.','Minyak zaitun berasal dari pohon yang diberkahi, disebut dalam Surah An-Nur.'],
+ ['onion','Before going to the mosque, avoid eating raw onion so you don\'t bother others.','Sebelum ke masjid, hindari makan bawang mentah agar tidak mengganggu orang lain.'],
+ ['garlic','Before going to the mosque, avoid eating raw garlic so you don\'t bother others.','Sebelum ke masjid, hindari makan bawang putih mentah agar tidak mengganggu orang lain.'],
+ [null,'Eat with your right hand, as Prophet Muhammad ﷺ taught us.','Makanlah dengan tangan kanan, seperti yang diajarkan Nabi Muhammad ﷺ.']],
+food:[
+ [null,'Say "Bismillah" before you eat and "Alhamdulillah" when you finish.','Ucapkan "Bismillah" sebelum makan dan "Alhamdulillah" setelah selesai.'],
+ [null,'Don\'t waste food. Every bite is a blessing from Allah.','Jangan membuang makanan. Setiap suapan adalah nikmat dari Allah.'],
+ [null,'Sharing food with neighbours and friends is a good deed.','Berbagi makanan dengan tetangga dan teman adalah amal baik.'],
+ [null,'Eat with your right hand, as Prophet Muhammad ﷺ taught us.','Makanlah dengan tangan kanan, seperti yang diajarkan Nabi Muhammad ﷺ.']],
+pets:[
+ ['kitten','A companion of the Prophet ﷺ loved cats so much he was called Abu Hurairah, "father of the kitten".','Seorang sahabat Nabi ﷺ sangat sayang kucing, sampai dipanggil Abu Hurairah, "bapak kucing kecil".'],
+ ['cat-ginger','A companion of the Prophet ﷺ loved cats so much he was called Abu Hurairah, "father of the kitten".','Seorang sahabat Nabi ﷺ sangat sayang kucing, sampai dipanggil Abu Hurairah, "bapak kucing kecil".'],
+ ['camel','Allah gave the people of Prophet Saleh a special she-camel as a sign.','Allah memberi kaum Nabi Saleh seekor unta betina istimewa sebagai tanda.'],
+ ['cow','The longest surah, Al-Baqarah, means "The Cow".','Surah terpanjang, Al-Baqarah, artinya "Sapi Betina".'],
+ ['bee','There is a whole surah named after the bee: Surah An-Nahl.','Ada surah yang dinamai lebah: Surah An-Nahl.'],
+ ['ant','Prophet Sulaiman heard a little ant talking, and he smiled.','Nabi Sulaiman mendengar seekor semut kecil berbicara, dan beliau tersenyum.'],
+ ['hoopoe','A hoopoe bird brought news to Prophet Sulaiman (Surah An-Naml).','Burung hud-hud membawa kabar kepada Nabi Sulaiman (Surah An-Naml).'],
+ ['whale','Prophet Yunus was swallowed by a big fish and prayed to Allah inside it.','Nabi Yunus ditelan ikan besar dan berdoa kepada Allah di dalamnya.'],
+ [null,'Being kind to animals is loved by Allah. Give them water and food.','Allah menyukai orang yang sayang binatang. Beri mereka minum dan makan.']],
+animals:[
+ ['ant','Prophet Sulaiman heard a little ant talking, and he smiled.','Nabi Sulaiman mendengar seekor semut kecil berbicara, dan beliau tersenyum.'],
+ ['bee','There is a whole surah named after the bee: Surah An-Nahl.','Ada surah yang dinamai lebah: Surah An-Nahl.'],
+ ['cow','The longest surah, Al-Baqarah, means "The Cow".','Surah terpanjang, Al-Baqarah, artinya "Sapi Betina".'],
+ ['whale','Prophet Yunus was swallowed by a big fish and prayed to Allah inside it.','Nabi Yunus ditelan ikan besar dan berdoa kepada Allah di dalamnya.'],
+ ['cat','A companion of the Prophet ﷺ loved cats so much he was called Abu Hurairah, "father of the kitten".','Seorang sahabat Nabi ﷺ sangat sayang kucing, sampai dipanggil Abu Hurairah, "bapak kucing kecil".'],
+ [null,'Allah created every animal. Being kind to them is a good deed.','Allah menciptakan semua binatang. Sayang kepada mereka adalah amal baik.']],
+sea:[
+ ['whale','Prophet Yunus was swallowed by a big fish and prayed to Allah inside it.','Nabi Yunus ditelan ikan besar dan berdoa kepada Allah di dalamnya.'],
+ ['coral','The Quran mentions pearls and coral that come from the sea (Surah Ar-Rahman).','Al-Qur\'an menyebut mutiara dan marjan yang keluar dari laut (Surah Ar-Rahman).'],
+ ['shell','The Quran mentions pearls and coral that come from the sea (Surah Ar-Rahman).','Al-Qur\'an menyebut mutiara dan marjan yang keluar dari laut (Surah Ar-Rahman).'],
+ [null,'Allah parted the sea for Prophet Musa so he and his people could walk across.','Allah membelah laut untuk Nabi Musa agar beliau dan kaumnya bisa menyeberang.'],
+ [null,'Allah made the seas and everything that swims in them.','Allah menciptakan lautan dan semua yang berenang di dalamnya.']],
+balls:[
+ [null,'Prophet Muhammad ﷺ once had a running race with his wife Aisha.','Nabi Muhammad ﷺ pernah lomba lari bersama istrinya, Aisyah.'],
+ [null,'"A strong believer is better and more beloved to Allah." Stay healthy and active!','"Mukmin yang kuat lebih baik dan lebih dicintai Allah." Tetap sehat dan aktif!'],
+ [null,'Play fair, be kind to your friends, and say "Barakallahu fik" when they win.','Bermainlah dengan jujur, baik pada teman, dan ucapkan "Barakallahu fik" saat mereka menang.']],
+camping:[
+ ['mountain','Prophet Muhammad ﷺ received the first revelation in the Cave of Hira, on a mountain.','Nabi Muhammad ﷺ menerima wahyu pertama di Gua Hira, di atas gunung.'],
+ ['compass','Long ago, Muslims used the stars to find their way and the qibla.','Dahulu, umat Islam menggunakan bintang untuk mencari arah dan kiblat.'],
+ [null,'On the Hijrah, the Prophet ﷺ and Abu Bakr hid safely in the Cave of Thawr.','Saat hijrah, Nabi ﷺ dan Abu Bakar bersembunyi dengan aman di Gua Tsur.'],
+ [null,'Allah made the mountains like pegs that hold the earth (Surah An-Naba).','Allah menjadikan gunung seperti pasak yang menahan bumi (Surah An-Naba).']],
+space:[
+ [null,'The sun and the moon each swim in their own orbit (Surah Yasin).','Matahari dan bulan masing-masing beredar di garis edarnya (Surah Yasin).'],
+ ['observatory','Long ago, Muslim scientists built observatories to study the stars.','Dahulu, ilmuwan Muslim membangun observatorium untuk mempelajari bintang.'],
+ ['telescope','Long ago, Muslim scientists built observatories to study the stars.','Dahulu, ilmuwan Muslim membangun observatorium untuk mempelajari bintang.'],
+ ['earth','Allah made the earth a wide place for us to live (Surah Nuh).','Allah menjadikan bumi terhampar luas untuk kita tinggali (Surah Nuh).'],
+ [null,'The moon helps us know when Ramadan and the Eids begin.','Bulan membantu kita mengetahui kapan Ramadhan dan hari raya dimulai.']],
+ancient:[
+ ['manuscript','The first word of the Quran revealed was "Iqra" – Read! Learning is very important in Islam.','Kata pertama Al-Qur\'an yang diturunkan adalah "Iqra" – Bacalah! Belajar sangat penting dalam Islam.'],
+ [null,'Prophet Musa lived in ancient Egypt, in the time of Pharaoh.','Nabi Musa hidup di Mesir kuno, pada zaman Firaun.'],
+ [null,'Allah tells us to travel the earth and learn from the people who came before us.','Allah menyuruh kita berjalan di bumi dan belajar dari umat terdahulu.']],
+treasure:[
+ [null,'The best treasure is good deeds. They stay with us forever.','Harta terbaik adalah amal baik. Ia tetap bersama kita selamanya.'],
+ ['crown','Prophet Sulaiman was a king, and Allah taught him the speech of birds.','Nabi Sulaiman adalah seorang raja, dan Allah mengajarinya bahasa burung.'],
+ [null,'Giving charity (sedekah) never makes your wealth less.','Bersedekah tidak akan mengurangi harta.'],
+ [null,'A kind word is also a charity.','Kata-kata yang baik juga merupakan sedekah.']]};
+function pickFact(){const set=curWorld().set,L=FACTS[set]||[],seen=new Set((G.pool||[]).map(k=>k.split('/')[1]));
+  const hit=L.filter(f=>f[0]&&seen.has(f[0])),gen=L.filter(f=>!f[0]),src=hit.length&&Math.random()<.75?hit:(gen.length?gen:L);
+  return src[Math.floor(Math.random()*src.length)]}
+function showFact(){const f=pickFact(),el=$('#winFact');if(!f){el.hidden=true;return}
+  const set=curWorld().set,ic=f[0]&&ICONSETS[set].includes(f[0])?`assets/icons/${set}/${f[0]}.webp`:`assets/badges/${curWorld().id}.webp`;
+  $('#factImg').src=ic;$('#factT').textContent=t('dyk');$('#factTx').textContent=S.lang==='id'?f[2]:f[1];el.hidden=false}
+
+/* ===== Prophet stories at each world's boss level ===== */
+const STORIES={
+mosque:{who:['Prophet Ibrahim','Nabi Ibrahim'],p:[
+ ['Allah told Prophet Ibrahim to build a house in Makkah, to worship Allah alone.','Allah memerintahkan Nabi Ibrahim membangun rumah di Makkah, untuk menyembah Allah saja.'],
+ ['His son Ismail helped him. Ismail carried the stones, and Ibrahim built the walls.','Putranya, Ismail, membantu. Ismail membawa batu, dan Ibrahim membangun dindingnya.'],
+ ['As they worked, they prayed: "Our Lord, accept this from us!"','Sambil bekerja mereka berdoa: "Ya Tuhan kami, terimalah dari kami!"'],
+ ['That house is the Kaaba. Today we all face it when we pray. Let\'s help others like Ismail helped his father!','Rumah itu adalah Ka\'bah. Kini kita semua menghadapnya saat sholat. Ayo suka membantu seperti Ismail!']]},
+fruits:{who:['Maryam','Maryam'],p:[
+ ['Maryam was a very good woman who loved to worship Allah.','Maryam adalah wanita salehah yang senang beribadah kepada Allah.'],
+ ['When baby Isa was about to be born, she rested under a palm tree, tired and alone.','Saat bayi Isa akan lahir, ia beristirahat di bawah pohon kurma, lelah dan sendirian.'],
+ ['Allah told her: "Shake the palm tree, and fresh ripe dates will fall for you."','Allah berfirman: "Goyangkan pohon kurma itu, niscaya buah kurma yang masak akan jatuh untukmu."'],
+ ['Allah always takes care of those who trust Him. Say Alhamdulillah for the food we eat!','Allah selalu menjaga orang yang bertawakal. Ucapkan Alhamdulillah untuk makanan kita!']]},
+veggies:{who:['Prophet Yusuf','Nabi Yusuf'],p:[
+ ['The king of Egypt had a strange dream about seven fat cows and seven thin cows.','Raja Mesir bermimpi aneh tentang tujuh sapi gemuk dan tujuh sapi kurus.'],
+ ['Allah taught Prophet Yusuf the meaning: seven good years, then seven hungry years.','Allah mengajarkan Nabi Yusuf artinya: tujuh tahun panen, lalu tujuh tahun paceklik.'],
+ ['Yusuf told everyone to plant crops and save grain in the good years.','Yusuf menyuruh semua orang menanam dan menyimpan gandum di tahun-tahun baik.'],
+ ['When the hungry years came, everyone had food. Plan ahead and never waste food!','Saat paceklik datang, semua orang punya makanan. Rencanakan dengan baik dan jangan buang makanan!']]},
+food:{who:['Prophet Isa','Nabi Isa'],p:[
+ ['The friends of Prophet Isa asked: "Can Allah send us a table of food from the sky?"','Para pengikut Nabi Isa bertanya: "Bisakah Allah menurunkan hidangan dari langit?"'],
+ ['Prophet Isa prayed to Allah for them.','Nabi Isa berdoa kepada Allah untuk mereka.'],
+ ['Allah sent down a table full of food, as a sign and a blessing.','Allah menurunkan hidangan penuh makanan, sebagai tanda dan rahmat.'],
+ ['This story is in Surah Al-Ma\'idah, "The Table". Every meal is a gift, so say Alhamdulillah!','Kisah ini ada dalam Surah Al-Ma\'idah, "Hidangan". Setiap makanan adalah nikmat, ucapkan Alhamdulillah!']]},
+pets:{who:['Prophet Nuh','Nabi Nuh'],p:[
+ ['Prophet Nuh called his people to worship Allah for many, many years.','Nabi Nuh mengajak kaumnya menyembah Allah selama bertahun-tahun.'],
+ ['Allah told him to build a big ark, a giant ship, on dry land.','Allah memerintahkannya membuat bahtera besar, kapal raksasa, di daratan.'],
+ ['When the great flood came, Nuh brought the believers and pairs of animals onto the ark.','Saat banjir besar datang, Nuh membawa orang beriman dan hewan berpasangan ke dalam bahtera.'],
+ ['Allah kept them all safe. Be patient and keep doing good, even when it is hard!','Allah menyelamatkan mereka semua. Bersabarlah dan terus berbuat baik, walau sulit!']]},
+animals:{who:['Prophet Sulaiman','Nabi Sulaiman'],p:[
+ ['Prophet Sulaiman was a king. Allah let him understand the animals.','Nabi Sulaiman adalah seorang raja. Allah membuatnya mengerti bahasa binatang.'],
+ ['One day his big army marched through a valley full of ants.','Suatu hari pasukannya yang besar berjalan melewati lembah semut.'],
+ ['A little ant called: "Ants, go into your homes, so you are not stepped on!"','Seekor semut kecil berseru: "Wahai semut, masuklah ke sarangmu agar tidak terinjak!"'],
+ ['Sulaiman smiled and thanked Allah. Be kind to even the smallest creatures!','Sulaiman tersenyum dan bersyukur kepada Allah. Sayangi makhluk sekecil apa pun!']]},
+sea:{who:['Prophet Yunus','Nabi Yunus'],p:[
+ ['Prophet Yunus left his people and sailed away on a ship.','Nabi Yunus meninggalkan kaumnya dan pergi naik kapal.'],
+ ['A storm came, Yunus fell into the sea, and a big fish swallowed him!','Badai datang, Yunus jatuh ke laut, dan seekor ikan besar menelannya!'],
+ ['In the dark, he prayed: "La ilaha illa anta, subhanaka, inni kuntu minaz-zalimin."','Dalam gelap ia berdoa: "La ilaha illa anta, subhanaka, inni kuntu minaz-zalimin."'],
+ ['Allah heard him and the fish set him free on the shore. Allah always hears our dua!','Allah mendengarnya dan ikan itu mengeluarkannya di pantai. Allah selalu mendengar doa kita!']]},
+balls:{who:['Prophet Dawud','Nabi Dawud'],p:[
+ ['A giant warrior named Jalut scared everyone in the army.','Seorang prajurit raksasa bernama Jalut membuat semua pasukan takut.'],
+ ['Young Dawud was not afraid. He trusted Allah.','Dawud yang masih muda tidak takut. Ia bertawakal kepada Allah.'],
+ ['With Allah\'s help, Dawud defeated the giant Jalut.','Dengan pertolongan Allah, Dawud mengalahkan raksasa Jalut.'],
+ ['Allah later made Dawud a prophet and a king. With Allah\'s help, small can beat big!','Allah kemudian menjadikan Dawud nabi dan raja. Dengan pertolongan Allah, yang kecil bisa menang!']]},
+camping:{who:['Prophet Muhammad ﷺ','Nabi Muhammad ﷺ'],p:[
+ ['Prophet Muhammad ﷺ and his friend Abu Bakr left Makkah to go to Madinah. This is the Hijrah.','Nabi Muhammad ﷺ dan sahabatnya Abu Bakar pergi dari Makkah ke Madinah. Inilah Hijrah.'],
+ ['People were chasing them, so they hid in the Cave of Thawr on a mountain.','Mereka dikejar, maka mereka bersembunyi di Gua Tsur di atas gunung.'],
+ ['Abu Bakr was worried. The Prophet ﷺ said: "Don\'t be sad, Allah is with us."','Abu Bakar khawatir. Nabi ﷺ bersabda: "Jangan bersedih, Allah bersama kita."'],
+ ['Allah kept them safe, and they reached Madinah. When you are scared, remember Allah is with you!','Allah melindungi mereka hingga sampai di Madinah. Saat takut, ingat Allah bersamamu!']]},
+space:{who:['Prophet Ibrahim','Nabi Ibrahim'],p:[
+ ['One night young Ibrahim looked at a shining star. But then the star set and disappeared.','Suatu malam Ibrahim muda melihat bintang bersinar. Lalu bintang itu terbenam dan hilang.'],
+ ['He saw the bright moon. But the moon also went away.','Ia melihat bulan yang terang. Tapi bulan juga menghilang.'],
+ ['He saw the big sun. But even the sun set in the evening.','Ia melihat matahari yang besar. Tapi matahari pun terbenam di sore hari.'],
+ ['Ibrahim said: "I turn to Allah, who created the heavens and the earth!" Allah made everything we see.','Ibrahim berkata: "Aku menghadap Allah, yang menciptakan langit dan bumi!" Allah menciptakan semua yang kita lihat.']]},
+ancient:{who:['Prophet Musa','Nabi Musa'],p:[
+ ['Long ago in Egypt, Pharaoh was cruel to the people of Prophet Musa.','Dahulu di Mesir, Firaun berbuat zalim kepada kaum Nabi Musa.'],
+ ['Allah told Musa to lead his people away at night. Pharaoh and his army chased them.','Allah menyuruh Musa membawa kaumnya pergi di malam hari. Firaun dan pasukannya mengejar.'],
+ ['They reached the sea. Allah told Musa to strike the sea with his staff, and it split into a dry path!','Mereka tiba di laut. Allah menyuruh Musa memukul laut dengan tongkatnya, dan laut terbelah menjadi jalan kering!'],
+ ['Musa and his people crossed safely. Allah always helps those who trust Him!','Musa dan kaumnya menyeberang dengan selamat. Allah selalu menolong orang yang bertawakal!']]},
+treasure:{who:['Qarun','Qarun'],p:[
+ ['Qarun was so rich that strong men could hardly carry the keys to his treasure.','Qarun sangat kaya, sampai kunci-kunci hartanya berat dipikul orang-orang kuat.'],
+ ['Wise people told him: "Be thankful to Allah and share with others."','Orang-orang bijak menasihatinya: "Bersyukurlah kepada Allah dan berbagilah."'],
+ ['But Qarun was proud. He said: "I got all this by myself!"','Tapi Qarun sombong. Ia berkata: "Semua ini kudapat sendiri!"'],
+ ['Allah took his treasure away. All we have is from Allah, so be thankful and share!','Allah melenyapkan hartanya. Semua yang kita punya dari Allah, maka bersyukur dan berbagilah!']]}};
+let stPage=0,stAfter=null;
+function openStory(after){const st=STORIES[curWorld().id];if(!st){after&&after();return}stPage=0;stAfter=after;$('#storyImg').src=`assets/badges/${curWorld().id}.webp`;
+  $('#storyRib').textContent=st.who[S.lang==='id'?1:0];$('#ovStory').hidden=false;renderStory()}
+function renderStory(){const st=STORIES[curWorld().id],L=S.lang==='id'?1:0,last=stPage===st.p.length-1,tx=st.p[stPage][L];
+  $('#storyTx').textContent=tx;$('#storyTx').classList.remove('in');void $('#storyTx').offsetWidth;$('#storyTx').classList.add('in');
+  $('#storyDots').innerHTML=st.p.map((_,i)=>`<i class="${i===stPage?'on':''}"></i>`).join('');$('#bStory').textContent=last?t('storyGo'):t('storyNext');voice('story',tx)}
+$('#bStory').onclick=()=>{ensureAudio();const st=STORIES[curWorld().id];sfx.click();if(stPage<st.p.length-1){stPage++;renderStory()}
+  else{stopVoice();store.set('story:'+curWorld().id,1);$('#ovStory').hidden=true;const f=stAfter;stAfter=null;f&&f()}};
+$('#bStorySkip').onclick=()=>{stPage=STORIES[curWorld().id].p.length-1;$('#bStory').click()};
+$('#bisStory').onclick=()=>{ensureAudio();$('#ovBis').hidden=true;openStory(()=>show('ovBis'))};
 
 /* ---- Scene 1: intro ---- */
 $('#bIntroPlay').onclick=()=>{ensureAudio();sfx.start();voice('bism');buzz(20);const o=$('#ovIntro');o.classList.add('leave');

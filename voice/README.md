@@ -8,6 +8,7 @@ Tips: short (under 2 s), cheerful, no music or background noise, start speaking 
 
 | File | When it plays | English | Indonesian |
 |---|---|---|---|
+| astagh.mp3 | 3 wrong taps in a row, time is up | Astaghfirullah. Let's try again! | Astaghfirullah. Ayo coba lagi! |
 | bism.mp3 | Play on the intro | Bismillah! | Bismillah! |
 | bismillah.mp3 | Level starts | Bismillah! Let's go! | Bismillah! Ayo mulai! |
 | masya1.mp3 | 3 matches in a row | Masha Allah! Great! | Masya Allah! Hebat! |
@@ -17,7 +18,7 @@ Tips: short (under 2 s), cheerful, no music or background noise, start speaking 
 | akbar.mp3 | 12, 15... in a row | Allahu Akbar! Unstoppable! | Allahu Akbar! Mantap! |
 | shuffle.mp3 | Shuffle | Tawakkaltu alallah | Tawakkaltu alallah |
 | win.mp3 | Level cleared | Alhamdulillah! Well done! | Alhamdulillah! Berhasil! |
-| lose.mp3 | Time is up | Qaddarallah. Try again! | Qadarullah. Ayo coba lagi! |
+| lose.mp3 | Time is up | Astaghfirullah. Let's try again! | Astaghfirullah. Ayo coba lagi! |
 | hurry30.mp3 | 30 seconds left | 30 seconds left, hurry! | 30 detik lagi, ayo cepat! |
 | hurry.mp3 | 10 seconds left | Hurry up! | Ayo, cepat! |
 | taqabbal.mp3 | After "I have prayed" | Taqabbalallahu minna wa minkum | Taqabbalallahu minna wa minkum |
