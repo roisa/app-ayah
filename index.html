@@ -1326,7 +1326,7 @@ document.querySelectorAll('.ribbon').forEach((r,i)=>{const sp=r.querySelector('s
 /* ===== v2 progress: stars per level, world map, unlocking ===== */
 function lvStars(id){let a=store.get('ls:'+id,null);if(!a){const old=store.get('lv:'+id,id==='mosque'?store.get('level',1):1);a=new Array(LMAX).fill(0);for(let i=0;i<Math.min(old-1,LMAX);i++)a[i]=1;store.set('ls:'+id,a)}return a}
 function clearedN(id){const a=lvStars(id);let k=0;while(k<lpw()&&a[k]>0)k++;return k}
-function worldOpen(i){return i===0||lvStars(WORLDS[i-1].id)[sty().unlock-1]>0}
+function worldOpen(i){return i===0||sty()===STYLES.little||lvStars(WORLDS[i-1].id)[sty().unlock-1]>0}
 function starSum(id){return lvStars(id).slice(0,lpw()).reduce((s,v)=>s+v,0)}
 function openMap(){if(G.daily)endDaily();renderMap();show('ovMap');setBg(curWorld().bgs[0])}
 const MAPNODES={"7": [[27.07, 84.81], [38.54, 71.55], [67.61, 57.09], [57.53, 45.72], [67.33, 28.36], [42.68, 16.57], [37.85, 7.27]], "10": [[27.07, 84.81], [62.64, 76.2], [50.16, 64.59], [67.61, 57.09], [31.91, 49.03], [66.3, 40.7], [67.33, 28.36], [37.15, 21.18], [65.54, 13.86], [37.85, 7.27]], "15": [[27.07, 84.81], [58.01, 80.39], [50.29, 73.94], [54.07, 65.1], [75.48, 60.96], [48.69, 55.76], [26.52, 50.41], [57.53, 45.72], [60.5, 39.36], [57.04, 30.11], [70.23, 24.26], [39.09, 20.72], [54.21, 15.33], [69.27, 10.45], [37.85, 7.27]], "20": [[27.07, 84.81], [42.2, 81.68], [64.5, 76.75], [47.24, 72.79], [45.73, 65.38], [71.69, 62.75], [65.55, 58.15], [43.3, 55.16], [24.31, 51.38], [41.57, 47.1], [66.78, 44.2], [51.24, 38.72], [46.82, 31.54], [72.93, 27.26], [58.49, 23.11], [35.7, 20.44], [44.89, 16.11], [67.61, 13.49], [61.05, 9.62], [37.85, 7.27]]};
