@@ -611,7 +611,9 @@ async function openEditor(mode,page,art){
   show('ed');
   E={mode,page:page||null,undo:[],bytes:0,dirty:false,savedId:art?art.id:null,hue:0,reg:null,maskL:0,ready:false};
   $('#edTitle').textContent=page?page.name[lang]:'';
-  if(!art)tool='fill';
+  // default tool: paint bucket for coloring pages, bold pen for drawing; no stamps on coloring pages
+  if(!art)tool=mode==='color'?'fill':'pen';
+  if(mode==='color'&&tool==='stamp')tool='fill';
   renderTools();renderSizes();renderStamps();
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
   const st=$('#stage').getBoundingClientRect();
@@ -833,7 +835,7 @@ function endStroke(){
 /* ---------- dock ---------- */
 function renderTools(){
   const el=$('#tools');if(!el)return;const c=color;
-  el.innerHTML=TOOLS.map(x=>`<button class="tl${x.id===tool?' on':''}" data-tool="${x.id}" aria-label="${TXT[lang].tools[x.id]}" title="${TXT[lang].tools[x.id]}">${toolSVG(x.id,x.eraser?'#ff9ec0':c)}</button>`).join('');
+  el.innerHTML=TOOLS.filter(x=>!(x.stamp&&E.mode==='color')).map(x=>`<button class="tl${x.id===tool?' on':''}" data-tool="${x.id}" aria-label="${TXT[lang].tools[x.id]}" title="${TXT[lang].tools[x.id]}">${toolSVG(x.id,x.eraser?'#ff9ec0':c)}</button>`).join('');
 }
 function renderSizes(){
   const c=color==='rainbow'?'linear-gradient(135deg,#ff3b30,#ffd60a,#1fa64a,#2f5bea,#9b4bf0)':color;
