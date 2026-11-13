@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Nur Connect Store Kit</title>
+<link rel="icon" href="../assets/favicon-32.png?v=2">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<script defer src="vendor/jszip-3.10.1.min.js"></script>
+<style>
+:root{--bg:#f6f4fb;--card:#fff;--chip:#f0ecf8;--line:#e5e0f0;--ink:#1c1530;--soft:#655d7e;--accent:#6a2fe0;--accent-ink:#fff;--warn:#b5470b;--warn-bg:#fff4e5;--ok:#13895f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f0c1a;--card:#1a1529;--chip:#241d38;--line:#2f2747;--ink:#f3f0ff;--soft:#aaa2c4;--accent:#a57bff;--accent-ink:#140b2e;--warn:#ffb46b;--warn-bg:#2d1d10;--ok:#3ad69a}}
+:root[data-theme="dark"]{--bg:#0f0c1a;--card:#1a1529;--chip:#241d38;--line:#2f2747;--ink:#f3f0ff;--soft:#aaa2c4;--accent:#a57bff;--accent-ink:#140b2e;--warn:#ffb46b;--warn-bg:#2d1d10;--ok:#3ad69a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Baloo 2",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.w{max-width:1040px;margin:0 auto;padding:28px 16px 80px}
+h1{font-size:clamp(28px,4vw,38px);line-height:1.1;margin:0;letter-spacing:-.02em}
+h2{font-size:26px;margin:44px 0 6px;letter-spacing:-.01em;scroll-margin-top:16px}
+h3{margin:0;font-size:17px}
+.lead{color:var(--soft);margin:6px 0 0;max-width:70ch}
+.top{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.top img{width:84px;height:84px;border-radius:20px;box-shadow:0 10px 24px -14px rgba(0,0,0,.5)}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:800;cursor:pointer;text-decoration:none}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.6;cursor:wait}.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.toc a{font-weight:700;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 12px;text-decoration:none;font-size:14px}
+.tabs{display:inline-flex;gap:4px;padding:4px;background:var(--chip);border-radius:999px;margin-top:14px;flex-wrap:wrap}
+.tabs button{font:inherit;font-weight:800;padding:8px 16px;border-radius:999px;border:0;background:transparent;color:var(--soft);cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.group{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.ghead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.ghead p{margin:2px 0 0;color:var(--soft);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px}
+.grid.wide{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.tile{display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile img{width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff;display:block}
+.tile a{font-size:13px;font-weight:800;color:var(--accent);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.field{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:12px;min-width:0}
+.fhead{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.fhead small{color:var(--soft);font-size:13px}
+.count{font-size:13px;font-weight:800;color:var(--ok);font-variant-numeric:tabular-nums}.count.over{color:#d9480f}
+.val{margin-top:8px;white-space:pre-wrap;word-break:break-word;background:var(--chip);border-radius:10px;padding:10px 12px;font-size:14.5px;max-height:340px;overflow:auto}
+.copy{min-height:36px;padding:6px 12px;font-size:14px}
+.fnote{color:var(--soft);display:block;margin-top:6px;font-size:13.5px}
+.kv{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+.kv .field{margin-top:0}
+@media(min-width:760px){.kv{grid-template-columns:1fr 1fr}}
+table{width:100%;border-collapse:collapse;font-size:14.5px}td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}tr:first-child td{border-top:0}td:last-child{font-weight:800}
+.tbl{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px;margin-top:12px;overflow-x:auto}
+.check{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:10px}
+.check li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--accent);flex:0 0 auto}
+.check b{display:block}.check span{color:var(--soft);font-size:14.5px}
+.check code{background:var(--chip);border-radius:6px;padding:1px 5px;font-size:13px;word-break:break-all}
+.check li.done b{text-decoration:line-through;color:var(--soft)}
+.prog{font-weight:800;color:var(--soft);font-size:14px;margin-top:8px}
+.note{background:var(--warn-bg);border-radius:14px;padding:12px 14px;margin-top:10px;font-size:14.5px}
+.note b{color:var(--warn)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:800;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+pre.code{white-space:pre-wrap;word-break:break-word;background:var(--chip);border-radius:10px;padding:10px 12px;font-size:13.5px;margin:8px 0 0}
+</style>
+</head>
+<body>
+<main class="w">
+  <div class="top">
+    <img src="../store/app-icon-1024.png" alt="Nur Connect app icon" width="84" height="84">
+    <div>
+      <h1>Nur Connect · Store Kit</h1>
+      <p class="lead">Everything for the App Store Connect and Google Play Console submissions: screenshots at the right sizes, every listing field ready to copy with live character counts, the questionnaire answers, and a checklist. Facts are checked against the game.</p>
+    </div>
+  </div>
+  <div class="bar">
+    <button class="btn pri" data-zip="all" type="button">⬇ Download everything (ZIP)</button>
+    <a class="btn" href="../store/app-icon-1024.png" download="nur-connect-app-icon-1024.png">App icon 1024</a>
+    <a class="btn" href="../store/play-icon-512.png" download="nur-connect-play-icon-512.png">Play icon 512</a>
+    <a class="btn" href="../about/">Marketing page ↗</a>
+  </div>
+  <nav class="toc" aria-label="Sections">
+    <a href="#screens">Screenshots</a><a href="#listing">App Store text</a><a href="#info">App information</a><a href="#age">Age rating</a>
+    <a href="#privacy">App privacy</a><a href="#review">Review notes</a><a href="#play">Google Play</a><a href="#checklist">Checklist</a><a href="#notes">Heads-up</a>
+  </nav>
+
+  <h2 id="screens">Screenshots</h2>
+  <p class="lead">Captured from the real game with Playwright, then framed with a caption. Apple takes up to 10 per language; Google Play takes 2 to 8 phone screenshots (use 01–08). Both sets are JPEG with no transparency.</p>
+  <div class="tabs" role="group" aria-label="Screenshot language"><button type="button" data-slang="en" aria-pressed="true">English</button><button type="button" data-slang="id" aria-pressed="false">Bahasa Indonesia</button></div>
+  <div id="groups"></div>
+
+  <h2 id="listing">App Store listing text</h2>
+  <p class="lead">Paste each field into App Store Connect. The counter shows Apple's limit (keywords count in bytes, so don't add spaces after commas). Words already in the name and subtitle are left out of the keywords, because Apple indexes those already.</p>
+  <div class="tabs" role="group" aria-label="Listing language"><button type="button" data-llang="id" aria-pressed="true">Bahasa Indonesia (primary)</button><button type="button" data-llang="en" aria-pressed="false">English (U.S.)</button></div>
+  <div id="fields"></div>
+
+  <h2 id="info">App information</h2>
+  <p class="lead">The fixed facts for the New App form and the App Information page.</p>
+  <div class="kv" id="facts"></div>
+
+  <h2 id="age">Age rating</h2>
+  <p class="lead">App Information → Age Rating. With these answers the rating comes out as <b>4+</b>.</p>
+  <div class="tbl"><table id="ageT"></table></div>
+
+  <h2 id="privacy">App privacy</h2>
+  <p class="lead">App Privacy → Data Types. The game makes no network requests at all: no analytics, no ads, no accounts. The privacy label is <b>Data Not Collected</b>.</p>
+  <div class="tbl"><table id="privT"></table></div>
+
+  <h2 id="review">Notes for App Review</h2>
+  <div id="review-box"></div>
+
+  <h2 id="play">Google Play Console</h2>
+  <p class="lead">Store listing text and the answers for the App content pages (Policy → App content).</p>
+  <div class="tabs" role="group" aria-label="Play listing language"><button type="button" data-plang="id" aria-pressed="true">Bahasa Indonesia (default)</button><button type="button" data-plang="en" aria-pressed="false">English (United States)</button></div>
+  <div id="pfields"></div>
+  <div class="tbl"><table id="playT"></table></div>
+
+  <h2 id="checklist">Submission checklist</h2>
+  <p class="lead">Ticks are saved in this browser.</p>
+  <div class="prog" id="prog"></div>
+  <ul class="check" id="check"></ul>
+
+  <h2 id="notes">Heads-up</h2>
+  <div id="notesBox"></div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const BASE='https://roisa.github.io/app-ayah/NurConnect/';
+const SCENES=['01-intro','02-worlds','03-style','04-map','05-play','06-win','07-story','08-pray','09-album','10-little'];
+const CAPS={en:['Play games the Islamic way','Connect pairs, collect stars','Salah comes first','Even 3-year-olds can play','A level for every age','12 worlds to explore','Stories of the Prophets','Every win ends with Alhamdulillah','A journey map for every world','Collect 300+ stickers'],
+ id:['Bermain dengan cara Islami','Hubungkan pasangan, kumpulkan bintang','Salat nomor satu','Anak 3 tahun pun bisa main','Level untuk semua usia','12 dunia untuk dijelajahi','Kisah para Nabi','Setiap menang ditutup Alhamdulillah','Peta petualangan di setiap dunia','Kumpulkan 300+ stiker']};
+const n2=i=>String(i+1).padStart(2,'0');
+const GROUPS=[
+ {id:'iphone-69',dir:'iphone-6.9',title:'iPhone 6.9" display (captioned)',size:'1320 × 2868 px',note:'Upload this set. App Store Connect scales it down for every smaller iPhone.',files:l=>CAPS[l].map((c,i)=>[`screens/iphone-6.9/${l}/${n2(i)}.jpg`,`${n2(i)} ${c}`])},
+ {id:'iphone-63',dir:'iphone-6.3',title:'iPhone 6.3" display (captioned)',size:'1206 × 2622 px',note:'Only if App Store Connect asks for this slot. Same images, resized.',files:l=>CAPS[l].map((c,i)=>[`screens/iphone-6.3/${l}/${n2(i)}.jpg`,`${n2(i)} ${c}`])},
+ {id:'play-phone',dir:'play-phone',title:'Google Play phone (captioned)',size:'1080 × 1920 px (9:16)',note:'Use 01–08. Play allows at most 8 per device type.',files:l=>CAPS[l].map((c,i)=>[`screens/play-phone/${l}/${n2(i)}.jpg`,`${n2(i)} ${c}`])},
+ {id:'raw',dir:'raw-iphone-6.9',title:'Raw game screens (no caption)',size:'1320 × 2868 px',note:'Plain captures for social posts, the website or a different caption style.',files:l=>SCENES.map(s=>[`screens/raw-iphone-6.9/${l}/${s}.jpg`,s])},
+ {id:'feature',dir:'',title:'Google Play feature graphic',size:'1024 × 500 px',note:'Store listing → Graphics → Feature graphic.',wide:1,files:l=>[[`play-feature-graphic-${l}.jpg`,'Feature graphic']]},
+];
+let SL='en';
+function renderGroups(){document.getElementById('groups').innerHTML=GROUPS.map(g=>`<section class="group" id="g-${g.id}"><div class="ghead"><div><h3>${g.title}</h3><p>${g.size} · ${g.files(SL).length} image${g.files(SL).length>1?'s':''} · ${g.note}</p></div><button class="btn" data-zip="g-${g.id}" type="button">⬇ Download group (ZIP)</button></div>
+ <div class="grid${g.wide?' wide':''}">${g.files(SL).map(([f,name])=>{const thumb='../store/thumbs/'+f.replace(/\.jpg$/,'.webp');return `<div class="tile"><img loading="lazy" src="${thumb}" alt="${name}"><a href="../store/${f}" download data-file="${f.replace(/\//g,'_')}">⬇ ${name}</a></div>`}).join('')}</div></section>`).join('')}
+
+const DESC={en:`Nur Connect is a joyful tile-matching puzzle made for Muslim families. Find two matching tiles, connect them with a path of up to two turns, and watch the stars pop along the way. It's easy enough for a 3-year-old to start and tricky enough to keep grown-ups playing.
+
+PLAY GAMES THE ISLAMIC WAY
+Nur Connect is built around five simple habits:
+• Salah comes first: at prayer time the game pauses and waits until you've prayed.
+• Remember Allah: the cheers are dzikir, like MasyaAllah, SubhanAllah and Allahu Akbar.
+• Start with Bismillah: every level begins with Bismillah and its meaning.
+• End with Alhamdulillah: every win closes with Alhamdulillah.
+• Learn something about Islam: stories of the Prophets and "Did you know?" facts.
+
+12 COLOURFUL WORLDS
+Masjid, Fruit Garden, Veggie Garden, Yummy Food, Animal Friends, Cute Animals, Under the Sea, Ball Fun, Camping Trip, Space, Ancient Explorer and Treasure Quest. Each world has its own tiles, backgrounds and journey map.
+
+A LEVEL FOR EVERY AGE
+Choose who's playing and the game adapts:
+• Little (3–5): small boards, no timer, unlimited hints and a friendly hand that shows where to drag
+• Kids (6–8), Big Kids (9–12) and Family (13+): bigger boards, timers and special tiles
+
+MORE TO DISCOVER
+• Ice, stone, gold and bomb tiles, falling boards and shaped puzzles
+• Boss levels with a short Prophet story
+• Bomb and Time Freeze power-ups, plus undo, shuffle and hints
+• A Daily Puzzle, a 7-day gift and a prayer streak
+• A sticker book with 300+ stickers to collect
+• English and Bahasa Indonesia
+• Original music and sound effects
+
+PRAYER TIMES
+Pick your city in Settings: 27 cities across Indonesia, Malaysia, Singapore, Brunei, Saudi Arabia, the UAE and Türkiye. Times are calculated on your device using the Kemenag RI method.
+
+SAFE FOR KIDS
+• No ads
+• No accounts or sign-in
+• No data collected: progress stays on your device
+• No chat, links or online players
+• Works offline
+
+Made with love by Mo Games by IBRAZ Group, the team behind Baby Mo.`,
+id:`Nur Connect adalah puzzle mencocokkan ubin yang seru untuk keluarga Muslim. Cari dua ubin yang sama, hubungkan dengan garis maksimal dua belokan, dan lihat bintang bermunculan di sepanjang jalan. Cukup mudah untuk anak 3 tahun, cukup menantang untuk orang dewasa.
+
+BERMAIN DENGAN CARA ISLAMI
+Nur Connect dibangun di atas lima kebiasaan sederhana:
+• Salat nomor satu: saat masuk waktu salat, game berhenti dan menunggu sampai kamu selesai salat.
+• Ingat Allah: sorakannya adalah dzikir, seperti MasyaAllah, SubhanAllah, dan Allahu Akbar.
+• Mulai dengan Bismillah: setiap level dibuka dengan Bismillah beserta artinya.
+• Akhiri dengan Alhamdulillah: setiap kemenangan ditutup dengan Alhamdulillah.
+• Belajar tentang Islam: kisah para Nabi dan fakta "Tahukah kamu?".
+
+12 DUNIA PENUH WARNA
+Masjid, Kebun Buah, Kebun Sayur, Makanan Lezat, Sahabat Hewan, Hewan Lucu, Dunia Laut, Aneka Bola, Berkemah, Luar Angkasa, Penjelajah Kuno, dan Berburu Harta. Setiap dunia punya ubin, latar, dan peta petualangan sendiri.
+
+LEVEL UNTUK SEMUA USIA
+Pilih siapa yang bermain, dan game menyesuaikan:
+• Balita (3–5): papan kecil, tanpa waktu, petunjuk tanpa batas, dan tangan pemandu yang menunjukkan arah
+• Anak (6–8), Anak Besar (9–12), dan Keluarga (13+): papan lebih besar, waktu, dan ubin spesial
+
+BANYAK YANG BISA DITEMUKAN
+• Ubin es, batu, emas, dan bom, papan yang jatuh, dan puzzle berbentuk unik
+• Level bos dengan kisah Nabi yang singkat
+• Power-up Bom dan Bekukan Waktu, plus undo, acak, dan petunjuk
+• Puzzle Harian, hadiah 7 hari, dan streak salat
+• Buku stiker dengan 300+ stiker untuk dikoleksi
+• Bahasa Inggris dan Bahasa Indonesia
+• Musik dan efek suara orisinal
+
+WAKTU SALAT
+Pilih kotamu di Pengaturan: 27 kota di Indonesia, Malaysia, Singapura, Brunei, Arab Saudi, UEA, dan Turki. Waktu dihitung di perangkatmu dengan metode Kemenag RI.
+
+AMAN UNTUK ANAK
+• Tanpa iklan
+• Tanpa akun atau login
+• Tanpa pengumpulan data: progres tersimpan di perangkatmu
+• Tanpa chat, tautan, atau pemain online
+• Bisa dimainkan offline
+
+Dibuat dengan cinta oleh Mo Games by IBRAZ Group, tim di balik Baby Mo.`};
+const LST={name:{id:'Nur Connect: Puzzle Islami',en:'Nur Connect: Islamic Puzzle'},
+ subtitle:{id:'Cocokkan ubin & belajar Islam',en:'Match tiles, pray, learn Islam'},
+ promo:{id:'Bismillah! Hubungkan ubin yang sama di 12 dunia penuh warna, berhenti saat waktu salat, dan belajar tentang Islam. Tanpa iklan dan tanpa akun. Untuk usia 3+.',
+        en:'Bismillah! Connect matching tiles across 12 colourful worlds, pause for salah, and learn about Islam along the way. No ads, no accounts. For ages 3 and up.'},
+ keywords:{id:'onet,ubin,anak muslim,salat,sholat,dzikir,bismillah,kisah nabi,keluarga,asah otak,teka teki',
+           en:'onet,tile,pairs,muslim kids,salah,prayer,dzikir,bismillah,prophet stories,family,brain,mahjong,kids'},
+ whatsNew:{id:'Rilis pertama Nur Connect. Bismillah!',en:'The first release of Nur Connect. Bismillah!'}};
+const fields=l=>[
+ ['Name',LST.name[l],30,0,'App Information → Localizable Information'],
+ ['Subtitle',LST.subtitle[l],30,0,'App Information → Localizable Information'],
+ ['Promotional Text',LST.promo[l],170,0,'Version → Promotional Text (you can change it any time without a review)'],
+ ['Description',DESC[l],4000,0,'Version → Description'],
+ ['Keywords',LST.keywords[l],100,1,'Version → Keywords (comma-separated, no spaces after commas)'],
+ ["What's New in This Version",LST.whatsNew[l],4000,0,"Version → What's New (shown for updates only, not for 1.0)"]];
+const PLAY=l=>[
+ ['App name',LST.name[l],30,0,'Grow → Store presence → Main store listing'],
+ ['Short description',l==='en'?'Match tiles, pause for salah and learn about Islam. No ads. For ages 3+.':'Cocokkan ubin, berhenti saat salat, dan belajar Islam. Tanpa iklan. Usia 3+.',80,0,'Main store listing'],
+ ['Full description',DESC[l],4000,0,'Main store listing']];
+const FACTS=[
+ ['Primary language','Indonesian','App Information','Add English (U.S.) as a second localization. Google Play: default language Indonesian, plus an English (United States) translation.'],
+ ['Bundle ID / package name','id.babymo.nurconnect','Xcode → Signing & Capabilities; Android applicationId','Suggested, matching Baby Mo (id.babymo.app). It can never be changed after the first upload, so pick it once.'],
+ ['SKU','nurconnect-ios-001','New App form','Any unique code you like.'],
+ ['Version','1.0 (build 1)','Xcode → General → Identity',''],
+ ['Primary category','Games → Puzzle','App Information → Category','Second game subcategory: Family.'],
+ ['Secondary category','Education','App Information → Category',''],
+ ['Support URL',BASE+'support/','Version → Support URL (required)',''],
+ ['Marketing URL',BASE+'about/','Version → Marketing URL',''],
+ ['Privacy Policy URL',BASE+'privacy/','App Privacy → Privacy Policy URL (required, also on Google Play)',''],
+ ['Copyright','2026 IBRAZ Group','Version → Copyright','Apple adds the © sign.'],
+ ['Price','Your decision: see Heads-up','Pricing and Availability','The game has no in-app purchases, so it is either free or a one-time paid download.'],
+ ['Sign-in required for review','No: the game has no accounts','App Review Information → Sign-In Information (uncheck)',''],
+ ['Content rights','No third-party content','App Information → Content Rights','The art, music and sounds are your own or generated for you. Fonts are open-licensed (SIL OFL).'],
+];
+const AGE=[['Cartoon or fantasy violence','None'],['Realistic violence','None'],['Prolonged graphic or sadistic violence','None'],['Profanity or crude humor','None'],['Mature or suggestive themes','None'],['Horror or fear themes','None'],['Medical or treatment information','None'],['Alcohol, tobacco or drug use or references','None'],['Sexual content or nudity','None'],['Simulated gambling','None'],['Contests','None'],['Unrestricted web access','No'],['User-generated content','No'],['Messaging and chat','No'],['Advertising','No'],['Parental controls','No'],['Age assurance','No'],['Loot boxes / paid random items','No (sticker packs cost in-game stars only, never money)']];
+const PRIV=[['Do you or your third-party partners collect data from this app?','No'],['Resulting label','Data Not Collected'],['Tracking (App Tracking Transparency)','No: no tracking and no ATT prompt'],['Where progress is stored','Only on the device (web storage inside the app)'],['Third-party SDKs','None (no analytics, ads or crash reporting)']];
+const REVIEW=`Nur Connect is a tile-matching puzzle (Onet / Shisen-sho style) for Muslim families, ages 3 and up. Tap or drag between two identical tiles; they connect if a path with at most two turns joins them. There are no accounts, ads, in-app purchases, chat, links out or network requests. All content is bundled and works offline.
+
+How to test:
+• Tap the green Play button, choose who is playing (Little, Kids, Big Kids or Family) and pick the first world.
+• Little mode (ages 3–5) has small boards, no timer and a guiding hand on levels 1–3. All worlds are open in this mode, so it is the quickest way to see everything.
+
+Prayer-time pause:
+• The game includes an Islamic prayer-time reminder. At each prayer time for the city chosen in Settings, play pauses with a full-screen "Time to pray" card. The "I have prayed" button unlocks after the minimum pause (5–20 minutes, set in Settings, default 10).
+• If your review session falls on a prayer time, this card is expected behaviour, not a freeze. Settings (gear icon) → "Preview the prayer pause" shows it on demand, and that preview unlocks after 8 seconds.
+• Prayer times are calculated on the device from the chosen city (Kemenag RI method). The app does not request location permission.
+
+Other notes:
+• Stars and sticker packs are earned in play; nothing is sold.
+• Spoken phrases use the device's built-in speech voices.
+
+Privacy policy: ${BASE}privacy/ · Support: ${BASE}support/`;
+const PLAYQA=[['App access','All functionality is available without special access'],['Ads','No, my app does not contain ads'],['Content rating (IARC questionnaire)','Category: Game. Answer No to violence, fear, sexuality, language, controlled substances, crude humour, gambling, user interaction, sharing location, digital purchases. Expected: Everyone / PEGI 3 / SU (Indonesia)'],['Target audience','Select 5 & under, 6–8, 9–12, 13–15, 16–17 and 18+ (this puts the app in the Families programme, which is fine: no ads, no data)'],['Appeals to children?','Yes'],['Data safety: collects or shares user data?','No (answer No to collection and No to sharing)'],['Data safety: encryption in transit / deletion request','Not applicable: no data leaves the device'],['News app / Government app / Financial features / Health','No / No / None / None'],['Category','Game → Puzzle. Tags: Puzzle, Casual, Family-friendly, Offline'],['Contact details','Email (required), website: '+BASE+'about/'],['Graphics','Icon 512 × 512 PNG, feature graphic 1024 × 500, 2–8 phone screenshots (from the Screenshots section above)']];
+const CHECK=[
+ ['Wrap the game as an iOS and Android app','Make a Capacitor project like babymo-app: <code>npm i @capacitor/core @capacitor/cli @capacitor/ios @capacitor/android</code>, appId <code>id.babymo.nurconnect</code>, appName <code>Nur Connect</code>, webDir <code>www</code>. Copy index.html, assets/, fonts/, voice/ and manifest.webmanifest into www (not v1/, about/, store/ or store-kit/), then <code>npx cap add ios</code> and <code>npx cap add android</code>.'],
+ ['iPhone only, portrait only (for 1.0)','Xcode → General → Supported Destinations: remove iPad, so the app installs on iPhone and runs on iPad in compatibility mode. The game\'s layout isn\'t tuned for iPad screens yet, so no iPad screenshots are needed. Device Orientation: Portrait only.'],
+ ['Info.plist','Add <code>ITSAppUsesNonExemptEncryption</code> = NO (Boolean). No location, camera or microphone usage strings are needed.'],
+ ['App icon','Use store/app-icon-1024.png (1024 × 1024, no transparency) in the Xcode asset catalog, and <code>npx @capacitor/assets generate</code> for Android.'],
+ ['Test on a real iPhone and Android phone','Airplane mode, music and the mute button, sound with the ring/silent switch, Little mode guided levels, the prayer pause (Settings → Preview), a boss level story, and switching EN/ID.'],
+ ['Archive and upload (iOS)','Xcode → Product → Archive → Distribute App → App Store Connect. Wait for processing, then select the build on the version page.'],
+ ['Fill in the App Store listing','Paste the text from this page for Indonesian and English, upload the 6.9" screenshots for both languages, and add URLs, category, copyright and price.'],
+ ['Age Rating and App Privacy','Use the answers above. Rating 4+, label Data Not Collected.'],
+ ['App Review details','Your name, phone and email, then paste the review notes.'],
+ ['Choose manual release','Version Release → Manually release this version, so you can launch together with the marketing page buttons.'],
+ ['Google Play: upload an AAB','Android Studio → Build → Generate Signed Bundle. Keep the upload keystore safe and backed up. Upload to a testing track first.'],
+ ['Google Play: App content and listing','Data safety, content rating, target audience, ads and the store listing from the Google Play section above.'],
+ ['After approval: update the marketing page','Replace the "SOON" store badges in about/index.html with the real App Store and Google Play links.'],
+];
+const NOTES=[
+ '<b>Price vs. the free web version.</b> The full game is free at roisa.github.io/app-ayah/NurConnect. If you sell the app, most buyers will find the free version. Options: make the store apps free (and use them to grow Mo Games), or keep them paid and limit the web version to a demo (for example the first 2 worlds). Decide before release, because a paid app can be made free later but switching a free app to paid upsets users.',
+ '<b>Google Play testing rule.</b> A personal developer account created after November 2023 must run a closed test with at least 12 testers for 14 days before it can publish to production. An organisation account (with a D-U-N-S number for IBRAZ Group) skips this.',
+ '<b>Kids Category (Apple) and Teacher Approved (Google).</b> Nur Connect has no ads, analytics, links out or purchases, so it meets the rules. Joining is optional: it brings more visibility with parents but stricter review. You can leave it off for 1.0 and opt in later.',
+ '<b>Guideline 4.2 (minimum functionality).</b> Apple rejects apps that only load a website. Bundle the game files inside the app (Capacitor\'s webDir) and don\'t point it at the GitHub Pages URL.',
+ '<b>Review during prayer time.</b> The review notes explain the prayer pause and how to preview it, so a reviewer who meets it won\'t report a freeze.',
+ '<b>Religious content.</b> Have an ustadz check the Prophet stories, "Did you know?" facts and Arabic phrases before release. Reviews from Muslim parents will notice any mistake.',
+ '<b>Name check.</b> Search the App Store and Google Play for "Nur Connect" before you create the app record. If the name is taken, try "Nur Connect: Tile Match".',
+ '<b>"File dimensions are invalid".</b> The 6.9" slot takes 1320 × 2868. If App Store Connect only shows a 6.3" slot, use the 1206 × 2622 set. Google Play screenshots go in Phone only.',
+];
+
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const len=(s,b)=>b?new TextEncoder().encode(s).length:[...s].length;
+const fieldHTML=(id,[label,value,limit,bytes,where])=>{const n=len(value,bytes);return `<div class="field"><div class="fhead"><div><b>${label}</b> <small>· ${where}</small></div><div style="display:flex;gap:10px;align-items:center">${limit?`<span class="count${n>limit?' over':''}">${n} / ${limit}</span>`:''}<button class="btn copy" type="button" data-copy="${id}">Copy</button></div></div><div class="val" id="${id}">${esc(value)}</div></div>`};
+function renderFields(l){document.getElementById('fields').innerHTML=fields(l).map((f,i)=>fieldHTML('f'+i,f)).join('')}
+function renderPlay(l){document.getElementById('pfields').innerHTML=PLAY(l).map((f,i)=>fieldHTML('p'+i,f)).join('')}
+document.getElementById('facts').innerHTML=FACTS.map(([a,v,w,n],i)=>`<div class="field"><div class="fhead"><div><b>${a}</b> <small>· ${w}</small></div><button class="btn copy" type="button" data-copy="k${i}">Copy</button></div><div class="val" id="k${i}">${esc(v)}</div>${n?`<small class="fnote">${n}</small>`:''}</div>`).join('');
+const rows=a=>a.map(([q,v])=>`<tr><td>${q}</td><td>${v}</td></tr>`).join('');
+document.getElementById('ageT').innerHTML=rows(AGE);document.getElementById('privT').innerHTML=rows(PRIV);document.getElementById('playT').innerHTML=rows(PLAYQA);
+document.getElementById('review-box').innerHTML=fieldHTML('rv',['Notes',REVIEW,4000,0,'App Review Information → Notes']);
+document.getElementById('notesBox').innerHTML=NOTES.map(n=>`<div class="note">${n}</div>`).join('');
+document.getElementById('check').innerHTML=CHECK.map(([t,d],i)=>`<li><input type="checkbox" id="c${i}"><label for="c${i}"><b>${t}</b><span>${d}</span></label></li>`).join('');
+function prog(){const a=[...document.querySelectorAll('.check input')];document.getElementById('prog').textContent=a.filter(x=>x.checked).length+' of '+a.length+' done'}
+document.querySelectorAll('.check input').forEach(cb=>{const k='nurkit-'+cb.id;try{cb.checked=localStorage.getItem(k)==='1'}catch(e){}cb.closest('li').classList.toggle('done',cb.checked);
+ cb.addEventListener('change',()=>{try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){}cb.closest('li').classList.toggle('done',cb.checked);prog()})});prog();
+renderGroups();renderFields('id');renderPlay('id');
+
+const toast=document.getElementById('toast');let tt;
+function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),1600)}
+function tab(attr,v,fn){document.querySelectorAll(`[${attr}]`).forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute(attr)===v)));fn(v)}
+document.addEventListener('click',e=>{
+ const c=e.target.closest('[data-copy]');if(c){const el=document.getElementById(c.dataset.copy),txt=el.textContent;
+  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>say('Copied')).catch(()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);say('Selected: press Copy')})}
+ const s=e.target.closest('[data-slang]');if(s)tab('data-slang',s.dataset.slang,v=>{SL=v;renderGroups()});
+ const l=e.target.closest('[data-llang]');if(l)tab('data-llang',l.dataset.llang,renderFields);
+ const p=e.target.closest('[data-plang]');if(p)tab('data-plang',p.dataset.plang,renderPlay);
+ const z=e.target.closest('[data-zip]');if(z)zip(z)});
+function zip(btn){if(!window.JSZip){say('ZIP tool is still loading. Try again.');return}
+ const sel=btn.dataset.zip;let list;
+ if(sel==='all'){list=[['app-icon-1024.png','../store/app-icon-1024.png'],['play-icon-512.png','../store/play-icon-512.png']];GROUPS.forEach(g=>['en','id'].forEach(l=>g.files(l).forEach(([f])=>list.push([f,'../store/'+f]))))}
+ else{const g=GROUPS.find(x=>'g-'+x.id===sel);list=['en','id'].flatMap(l=>g.files(l).map(([f])=>[f,'../store/'+f]))}
+ const z=new JSZip(),label=btn.textContent;let done=0;btn.disabled=true;
+ Promise.all(list.map(([name,url])=>fetch(url).then(r=>{if(!r.ok)throw 0;return r.blob()}).then(b=>{z.file(name,b);btn.textContent='Preparing '+(++done)+'/'+list.length+'…'})))
+ .then(()=>z.generateAsync({type:'blob'})).then(b=>{const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=(sel==='all'?'nur-connect-store-kit':'nur-connect-'+sel.slice(2))+'.zip';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)})
+ .catch(()=>say('Download failed. Check your connection.')).then(()=>{btn.disabled=false;btn.textContent=label})}
+</script>
+</body>
+</html>

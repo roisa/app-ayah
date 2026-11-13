@@ -1,3 +1,14 @@
+# Mo Games (roisa.github.io/app-ayah)
+
+| Folder | URL | What |
+|---|---|---|
+| `/` | https://roisa.github.io/app-ayah/ | Mo Games hub: a card for each game |
+| `NurConnect/` | https://roisa.github.io/app-ayah/NurConnect/ | Nur Connect, current version (v2) |
+| `NurConnect/v1/` | https://roisa.github.io/app-ayah/NurConnect/v1/ | Nur Connect, first simple version |
+| `MoColorAndDraw/` | https://roisa.github.io/app-ayah/MoColorAndDraw/ | Mo Color & Draw (coming soon) |
+
+The old links (`/v1/`, `/about/`, `/store-kit/`, `/privacy/`, `/support/`) redirect to their new place under `NurConnect/`. Paths inside the Nur Connect README below are relative to `NurConnect/`.
+
 # Nur Connect
 
 Islamic pair-matching puzzle for Muslim families, by Baby Mo.
@@ -8,7 +19,7 @@ Islamic pair-matching puzzle for Muslim families, by Baby Mo.
 - Pauses the game at every prayer time (Kemenag RI method, Fajr 20°, Isha 18°) until the player has prayed
 - English and Bahasa Indonesia
 
-Play: https://roisa.github.io/app-ayah/
+Play: https://roisa.github.io/app-ayah/NurConnect/
 
 ## Fonts and sound
 
@@ -34,7 +45,7 @@ Worlds are listed in `WORLDS` in `index.html`: 12 categories, each keeping its o
 
 ## v2 gameplay
 
-- **v1 (simple gameplay) is kept at `/v1/`** (https://roisa.github.io/app-ayah/v1/), with its own saved progress.
+- **v1 (simple gameplay) is kept at `NurConnect/v1/`** (https://roisa.github.io/app-ayah/NurConnect/v1/), with its own saved progress.
 - 20 levels per world on a map; 1-3 stars per level; clearing level 10 unlocks the next world; level 20 completes the world.
 - Board shapes (diamond, heart, frame, cross, hourglass, dome, split), a hard level every 5th and a boss every 10th.
 - Special tiles: ice (match a neighbour to melt), stone (match twice), gold (+5 stars), bomb (match before 0 or lose 15 s).
@@ -47,9 +58,9 @@ Worlds are listed in `WORLDS` in `index.html`: 12 categories, each keeping its o
 
 | Page | URL | Source |
 |---|---|---|
-| Marketing page (EN/ID) | https://roisa.github.io/app-ayah/about/ | `about/` |
-| Store kit (App Store + Google Play) | https://roisa.github.io/app-ayah/store-kit/ | `store-kit/` |
-| Privacy policy | https://roisa.github.io/app-ayah/privacy/ | `privacy/` |
-| Support | https://roisa.github.io/app-ayah/support/ | `support/` |
+| Marketing page (EN/ID) | https://roisa.github.io/app-ayah/NurConnect/about/ | `NurConnect/about/` |
+| Store kit (App Store + Google Play) | https://roisa.github.io/app-ayah/NurConnect/store-kit/ | `NurConnect/store-kit/` |
+| Privacy policy | https://roisa.github.io/app-ayah/NurConnect/privacy/ | `NurConnect/privacy/` |
+| Support | https://roisa.github.io/app-ayah/NurConnect/support/ | `NurConnect/support/` |
 
-Store images live in `store/`: captioned screenshots for iPhone 6.9" (1320×2868), iPhone 6.3" (1206×2622) and Google Play (1080×1920), raw game captures, the Play feature graphic (1024×500) and the 512 px Play icon. They were captured from the real game with Playwright.
+Store images live in `NurConnect/store/`: captioned screenshots for iPhone 6.9" (1320×2868), iPhone 6.3" (1206×2622) and Google Play (1080×1920), raw game captures, the Play feature graphic (1024×500) and the 512 px Play icon. They were captured from the real game with Playwright.
