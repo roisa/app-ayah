@@ -1,70 +1,155 @@
 # Mo Color & Draw: art needed for the new UI
 
-Send everything in one Google Drive folder (sub-folders below are fine) and share the link.
-All files are **PNG with a transparent background** unless noted. Sizes are the minimum; bigger is fine.
-Keep each file name as listed, so each one drops straight into the game.
+Put everything in **one Google Drive folder**, using the sub-folders and file names below, and share the link. Claude can read the folder directly and swap the art in.
 
-## 1. Coloring pages (most important)
+## General rules (for every file)
 
-| What | Spec |
+| Rule | Why |
 |---|---|
-| `pages/<name>.png` | Black outlines on pure white, **1600 × 1200 px** (landscape) or 1200 × 1600 (portrait) |
-| Name + fact | For each page: name in EN and ID, and an optional short "Did you know?" fact (EN and ID) |
+| **PNG with a transparent background** (except backgrounds and coloring pages) | Buttons and tools sit on top of other things |
+| **No words inside the images** (except the logo) | The game switches between English and Indonesian, so it writes all labels itself |
+| Sizes below are the **minimum**; up to 2× bigger is fine | Phones and tablets have sharp screens |
+| Keep the **same style** for everything: same outline thickness, same lighting, same corner roundness | It looks like one app, not a collage |
+| Leave **a little empty space** (about 4%) around each object; don't let it touch the edge | Shadows and bounces don't get cut off |
+| Square icons: centre the object | They are shown at many sizes |
 
-Rules for line art, so tap-to-fill works:
-- Every shape **fully closed**, with no gaps in the lines (gaps make the paint leak into the next area).
-- Lines thick and even: about **8–14 px** at 1600 px wide.
-- Pure black and white only: no grey shading, texture, gradients, or a colored background.
-- Not too many tiny areas: little kids need big shapes to tap.
+If your AI image generator can't make transparent backgrounds: generate on a **plain, flat bright-green (#00FF00) background** with no shadow on the background, and Claude will cut it out. Avoid green inside the object itself. White backgrounds are hard to cut cleanly.
+
+**Fonts:** the game now uses *Lilita One* (titles) and *Baloo 2* (text). To change them, send the font name (free Google Fonts are best).
+
+**Colours:** send your main palette as hex codes (for example #FFA51F orange) for the backgrounds, panels and button rims. Panels, button rims and shadows are drawn by the game in those colours, so they stay sharp at any size.
+
+---
+
+## 1. Coloring pages (highest priority)
+
+`pages/<name>.png`, **1600 × 1200 px** (landscape) or 1200 × 1600 (portrait).
+
+- Black outlines on **pure white**. No grey, shading, texture, gradients or background colour.
+- **Every shape fully closed**, with no gaps; zoom in and check the joins. Any gap lets the paint bucket leak into the next area.
+- Lines thick and even: **8–14 px** at 1600 px wide.
+- Big, simple areas: kids aged 3+ tap with a whole finger. Avoid lots of tiny areas.
+- For each page, send in a small text file or list:
+  - the name in EN and ID (for example *Camel / Unta*)
+  - optionally a short "Did you know?" fact in EN and ID, with the surah and ayah if it quotes the Qur'an.
+- Ideas: masjids (Masjid al-Haram, Nabawi, Al-Aqsa, Istiqlal), animals in the Qur'an (camel, bee, ant, elephant, the big fish, cow, spider, hoopoe, the dog of the cave), Ramadan and Eid, wudu and salah steps, fruits from the Qur'an, Mo and friends.
 
 ## 2. Home screen
 
 | File | Size | Notes |
 |---|---|---|
-| `ui/bg-home.png` (or .jpg) | 2048 × 2048 | Background; the middle must still work when cropped to a phone (portrait) or a tablet (landscape) |
-| `ui/logo.png` | 1200 × 500 | "Mo Color & Draw" title art |
-| `ui/card-color.png` | 800 × 860 | Color button art. Optional: 2–3 frames for an animation |
-| `ui/card-draw.png` | 800 × 860 | Draw button art. Optional: 2–3 frames for an animation |
-| `ui/btn-myart.png` | 600 × 200 | My Art button |
+| `home/bg.png` (or .jpg) | 2732 × 2732 | Background. It is cropped to fit phones (tall) and tablets (wide), so keep the important bits in the middle 1290 × 1290. No characters near the edges |
+| `home/logo.png` | 1600 × 600 | "Mo Color & Draw" title art. The only file with words |
+| `home/card-color.png` | 900 × 970 | Art for the **Color** button, without the label. Show a coloring page being coloured |
+| `home/card-draw.png` | 900 × 970 | Art for the **Draw** button, without the label. Show a blank page with a drawing |
+| `home/card-color-anim-1.png`, `-2.png`, `-3.png` | 900 × 970 | Optional: 2–3 animation frames for the Color card (for example, the colour filling in step by step) |
+| `home/card-draw-anim-1.png`, `-2.png`, `-3.png` | 900 × 970 | Optional: 2–3 frames for the Draw card (for example, the crayon drawing step by step) |
 
-## 3. Mo (the character)
+The game writes the labels "Color / Mewarnai" and "Draw / Menggambar" itself, and adds the bounce and pop animation.
+
+## 3. Mo (the character), 900 × 1350 each, full body
+
+| File | Where it shows |
+|---|---|
+| `mo/wave.png` | Home screen |
+| `mo/bismillah.png` | Before every drawing: hands raised in du'a, or a happy "let's start" pose |
+| `mo/cheer.png` | After saving ("Alhamdulillah!"): jumping or arms up |
+| `mo/think.png` | Optional: next to the "Did you know?" fact |
+| `mo/sad.png` | Optional: My Art when it is empty ("No pictures yet") |
+
+## 4. Round buttons, 300 × 300 each (icon on its button)
+
+Send each as the **finished button** (button shape + icon). The game adds the press animation.
+
+| File | Icon |
+|---|---|
+| `btn/home.png` | House |
+| `btn/back.png` | Arrow pointing left |
+| `btn/undo.png` | Curved arrow back |
+| `btn/clear.png` | Trash can (clears the picture; the game adds the "hold to clear" ring) |
+| `btn/save.png` | Camera (save picture). Make it the **biggest and most eye-catching** button |
+| `btn/music-on.png`, `btn/music-off.png` | Music note, and the same note crossed out |
+| `btn/sound-on.png`, `btn/sound-off.png` | Speaker, and the same speaker crossed out |
+| `btn/lang-en.png`, `btn/lang-id.png` | English and Indonesian (a flag or "EN" / "ID"; letters are fine here) |
+| `btn/gallery.png` | Picture frame (My Art) |
+| `btn/edit.png` | Pencil (keep drawing) |
+| `btn/share.png` | Download arrow (save to photos) |
+| `btn/delete.png` | Trash can (delete a picture; can match `clear`) |
+| `btn/close.png` | X |
+| `btn/ok.png` | Check mark |
+| `btn/lock.png` | Padlock (parent gate) |
+| `btn/play.png` | Optional: big play button |
+
+Also send a wide button, `btn/pill.png` (900 × 260), for "My Art" and "Bismillah, let's draw!". The game writes the words on it, so leave the middle plain.
+
+## 5. Drawing tools: 9 tools, two layers each
+
+Canvas **300 × 540 px**, tool **standing straight up, tip at the top centre** (the tip should touch the top-centre point, about 10 px from the top edge). The same image is used as the finger cursor while drawing, so the tip position matters.
+
+Each tool part that shows the chosen colour is tinted by the game. For each tool send **two files with the same size and position**:
+
+- `tools/<name>.png`: the whole tool, with the colour part drawn in **plain light grey or white**, with soft shading.
+- `tools/<name>-color.png`: **only** the colour part, solid white, everything else transparent.
+
+| Name | Tool | The colour part |
+|---|---|---|
+| `fill` | Paint bucket | The paint in the bucket and a drip |
+| `crayon` | Crayon | Tip and body (keep the paper wrapper stripes white) |
+| `marker` | Highlighter (Stabilo) | Cap/body and chisel tip |
+| `brush` | Round paint brush | The wet tip |
+| `pen` | Bold marker pen | Body and pen tip |
+| `oil` | Flat oil brush | The bristles |
+| `glitter` | Glitter tube or bottle | The glitter inside |
+| `stamp` | Rubber stamp | The ink pad / stamp face |
+| `eraser` | Eraser | None: send just `eraser.png` |
+
+## 6. Colour crayon (one template makes all 30 colours)
+
+- `ui/swatch.png` + `ui/swatch-color.png`: **160 × 320**, crayon standing up, tip at the top. Same two-layer rule as the tools.
+- `ui/swatch-rainbow.png`: optional, a rainbow crayon in full colour.
+- `ui/picker.png`: 300 × 300, the "free colour" button (a rainbow wheel or palette with a + sign).
+
+Only the **top 40%** of the crayon shows in the two-row colour bar, so make the tip and top look nice.
+
+## 7. Sizes
+
+`ui/size.png`: 200 × 200, one round blob or dot. The game tints it and shows it in 3 sizes. Optional.
+
+## 8. Stamps, 400 × 400 each (Draw mode only)
+
+Now: star, heart, moon & star, sun, cloud, flower, sparkle, masjid, lantern, butterfly, balloon, fish.
+
+New ideas: camel, Ka'bah, date palm, dates, Qur'an on a stand, prayer mat, ketupat, rainbow, Mo's face, cat, bird, tree, house, car.
+
+Choose one style:
+- **A. Colourable** (like now): the shape in solid white with a dark outline. The game paints it in the colour the child picked.
+- **B. Full colour**: the stamp keeps its own colours, like stickers. The colour bar does nothing for stamps.
+
+## 9. Celebrations and extras (optional)
 
 | File | Size | Use |
 |---|---|---|
-| `mo/wave.png` | 600 × 900 | Home screen |
-| `mo/bismillah.png` | 600 × 900 | Bismillah screen (hands raised / praying pose) |
-| `mo/cheer.png` | 600 × 900 | Alhamdulillah celebration after saving |
-| `mo/think.png` | 600 × 900 | Optional: "Did you know?" box |
+| `fx/confetti-1.png` … `-6.png` | 64 × 64 | Confetti pieces after saving (stars, moons, dots) |
+| `fx/sparkle.png` | 128 × 128 | Sparkle used in animations |
+| `ui/frame.png` | 2000 × 1500 | Optional frame or border around the drawing paper |
+| `ui/empty-art.png` | 800 × 600 | Picture for an empty My Art |
+| `app/icon.png` | 1024 × 1024 | App icon: square, **no transparency, no rounded corners** (phones round it) |
 
-## 4. Buttons and icons (256 × 256 each)
+## 10. Sounds (optional; the game makes its own sounds now)
 
-Home, back, undo, trash (clear), camera (save), my art / gallery, sound on, sound off, language EN, language ID, plus (color wheel), close (X), OK / check, download / share, edit (pencil), padlock (parent gate), arrow left, arrow right.
+MP3 or M4A, short, no silence at the start:
+- `sfx/`: tap, paint bucket, crayon, highlighter, brush, pen, oil brush, glitter, stamp, eraser, colour pick, undo, clear, save cheer.
+- `music/loop.mp3`: background music that loops smoothly, 1–2 minutes, instruments or nasheed-style vocals only.
+- `voice/en/` and `voice/id/`: "Bismillah, let's color!", "Bismillah, let's draw!", "Alhamdulillah! What a beautiful picture!", and all 30 colour names.
 
-## 5. Tools (256 × 460 each, pointing up, tip at the top centre)
+---
 
-Paint bucket, crayon, highlighter, brush, bold pen, oil brush, glitter, stamp, eraser.
+## Priority order
 
-The **colored part of each tool** (crayon body, marker cap, paint in the bucket and so on) is tinted to the color the child picks. So send each tool as **two layers**:
-- `tools/<name>.png`: the full tool, with the colorable part drawn in **plain white or light grey**.
-- `tools/<name>-color.png`: only the colorable part, in white, at the same size and position. The game colors this layer.
-
-The same tool images are used for the finger cursor while drawing.
-
-## 6. Color crayons (one template)
-
-`ui/swatch.png` + `ui/swatch-color.png`, 160 × 320: one crayon in the same two-layer style. The game makes all 30 colors from it.
-
-## 7. Stamps (300 × 300 each)
-
-Star, heart, moon & star, sun, cloud, flower, sparkle, masjid, lantern, butterfly, balloon, fish, plus any new ones (camel, Ka'bah, date palm, Qur'an stand, ketupat, rainbow...).
-Either:
-- **Colorable** (like now): one white shape with a dark outline, which the game tints, or
-- **Full color**: the stamp keeps its own colors (say which you prefer).
-
-## 8. Optional
-
-- Size dots (small / medium / big), 128 × 128 each.
-- Confetti pieces, sparkles.
-- Panel / dock background texture.
-- App icon 1024 × 1024 (no transparency, no rounded corners).
-- Sounds (MP3 or M4A): button tap, fill, stamp, save cheer, plus voice lines in EN and ID ("Bismillah, let's color!", "Alhamdulillah! What a beautiful picture!", color names).
+1. Coloring pages (and their names and facts)
+2. Tools and the crayon swatch
+3. Round buttons
+4. Home screen (background, logo, two cards)
+5. Mo poses
+6. Stamps
+7. Everything optional
