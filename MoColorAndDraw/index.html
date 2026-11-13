@@ -48,6 +48,9 @@ svg{display:block}
 .rb svg{width:28px;height:28px;fill:#e98a00}
 .rb b{font:400 19px "Lilita One",sans-serif;color:#d07a00}
 .rb[disabled]{opacity:.45}
+.rb.mus .sl{display:none}.rb.mus.off .sl{display:block}.rb.mus.off svg{opacity:.75}
+.rb.mus:not(.off) svg{animation:note 1s ease-in-out infinite alternate}
+@keyframes note{to{transform:rotate(-10deg) scale(1.08)}}
 .rb.save{background:radial-gradient(circle at 35% 30%,#ffe066,var(--yel) 55%,var(--yel2));box-shadow:inset 0 -4px 0 rgba(0,0,0,.12),0 5px 0 rgba(176,92,0,.3);width:64px;height:64px}
 .rb.save svg{fill:#fff;width:32px;height:32px;filter:drop-shadow(0 2px 0 rgba(176,92,0,.45))}
 .bar{display:flex;align-items:center;gap:10px;padding:calc(12px + var(--safeT)) 16px 8px;flex:none}
@@ -214,6 +217,7 @@ svg{display:block}
     <a class="rb" href="../" aria-label="Mo Games"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></a>
     <span class="sp"></span>
     <button class="rb" id="langBtn" aria-label="Language"><b id="langLbl">EN</b></button>
+    <button class="rb mus" aria-label="Music"><svg viewBox="0 0 24 24"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="#e98a00" stroke-width="2.6" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2"/><circle cx="17.4" cy="15" r="3.2"/><path class="sl" d="M3 3l18 18" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/></svg></button>
     <button class="rb" id="sndBtn" aria-label="Sound"><svg viewBox="0 0 24 24" id="sndIco"></svg></button>
   </div>
   <div class="scroll">
@@ -267,6 +271,7 @@ svg{display:block}
   <div class="bar">
     <button class="rb" id="edHome" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></button>
     <button class="rb" id="undoBtn" aria-label="Undo" disabled><svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62A7.9 7.9 0 0 1 12.5 10.5c3.54 0 6.55 2.31 7.6 5.5l2.37-.78A10.5 10.5 0 0 0 12.5 8z"/></svg></button>
+    <button class="rb mus" aria-label="Music"><svg viewBox="0 0 24 24"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="#e98a00" stroke-width="2.6" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2"/><circle cx="17.4" cy="15" r="3.2"/><path class="sl" d="M3 3l18 18" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/></svg></button>
     <button class="rb hold" id="clearBtn" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 14H7zM9 3h6l1 2h4v2H4V5h4z"/></svg><span class="ring"></span><span class="tip" data-t="hold">Hold to clear</span></button>
     <div class="ttl" id="edTitle"></div>
     <button class="rb save" id="saveBtn" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M9 4 7.2 6H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.2L15 4zm3 4.5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></button>
@@ -359,7 +364,7 @@ id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',col
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! Gambarnya bagus sekali!'}};
 // language: saved choice here, else the one picked on the Mo Games landing page, else the device language
 let lang=store.get('lang',(()=>{try{const l=localStorage.getItem('moLang');if(l==='en'||l==='id')return l}catch(e){}return /^id\b|^id-/i.test(navigator.language||'')?'id':'en'})());
-let soundOn=store.get('sound',true);
+let soundOn=store.get('sound',true),musicPref=store.get('music',true);
 const t=k=>TXT[lang][k]??TXT.en[k];
 
 /* ---------- Coloring pages ----------
@@ -465,6 +470,65 @@ const sfx={
  clear(){tone(900,.4,'triangle',.12,0,180)},
  win(){[523,659,784,1047].forEach((f,i)=>tone(f,.35,'triangle',.14,i*.11));tone(1568,.6,'sine',.08,.45)},
  bism(){[392,523,659].forEach((f,i)=>tone(f,.4,'sine',.12,i*.09))}};
+function noise(freq,dur,vol,when=0,type='bandpass',q=1.2,to=0){const a=ac();if(!a||!soundOn)return;const t0=a.currentTime+when,s=a.createBufferSource(),f=a.createBiquadFilter(),g=a.createGain();
+  s.buffer=noiseBuf;f.type=type;f.frequency.setValueAtTime(freq,t0);if(to)f.frequency.exponentialRampToValueAtTime(to,t0+dur);f.Q.value=q;
+  g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol,t0+.01);g.gain.exponentialRampToValueAtTime(.001,t0+dur);s.connect(f).connect(g).connect(a.destination);s.start(t0,Math.random()*.5);s.stop(t0+dur+.05)}
+/* a little sound for each tool */
+const TOOL_SFX={
+ fill(){tone(700,.22,'sine',.18,0,180);tone(420,.12,'sine',.1,.12,900)},
+ crayon(){noise(2600,.09,.3);noise(2400,.09,.25,.11);tone(1200,.05,'triangle',.06)},
+ marker(){tone(900,.12,'sine',.12,0,1500);tone(1500,.08,'sine',.07,.1,1100)},
+ brush(){noise(500,.35,.28,0,'bandpass',.8,2500)},
+ pen(){tone(1800,.03,'square',.05);tone(1400,.03,'square',.05,.07)},
+ oil(){tone(220,.2,'sine',.16,0,110);noise(400,.2,.15,0,'lowpass',.7)},
+ glitter(){[1568,2093,2637,3136].forEach((f,i)=>tone(f,.25,'sine',.07,i*.06))},
+ stamp(){tone(160,.15,'triangle',.22,0,70);noise(1200,.06,.2)},
+ eraser(){noise(1000,.08,.25);noise(1100,.08,.25,.1);noise(950,.08,.2,.2)}};
+/* each colour plays a note (cheerful pentatonic scale, going up along the colour bar) */
+function colorNote(c){const i=Math.max(0,COLORS.findIndex(x=>x[0]===c)),pent=[0,2,4,7,9],m=67+pent[i%5]+12*(Math.floor(i/5)%2),f=440*Math.pow(2,(m-69)/12);
+  tone(f,.4,'sine',.16);tone(f*2,.15,'triangle',.04);tone(f*3.98,.08,'sine',.025)}
+
+/* ---------- background music ----------
+   An original tune made for Mo Color & Draw and played by the game itself (no audio files,
+   so no copyright or licence issues). 116 bpm, 8-bar loop: G - Em - C - D,
+   glockenspiel melody, plucked bass, soft pad, light claps and shaker. */
+const MUS={bpm:116,on:false,t0:0,step:0,timer:0,gain:null};
+const MN=n=>440*Math.pow(2,(n-69)/12);
+const MEL=[
+ 74,0,71,0,67,0,71,74,   76,0,74,0,71,0,0,0,
+ 71,0,67,0,64,0,67,71,   72,71,69,0,67,0,0,0,
+ 72,0,76,0,79,0,76,72,   74,0,76,74,72,0,71,0,
+ 69,0,71,72,74,0,78,0,   79,0,74,0,67,0,0,0];
+const MCH=[[43,[55,59,62]],[40,[52,55,59]],[48,[55,60,64]],[50,[54,57,62]]];
+function mOsc(f,t,d,v,type){const a=AC,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(MUS.gain);o.start(t);o.stop(t+d+.05)}
+function mGlock(n,t){const f=MN(n);mOsc(f,t,.5,.14,'sine');mOsc(f*2.76,t,.18,.03,'sine');mOsc(f*2,t,.22,.025,'triangle')}
+function mPad(ns,t,d){ns.forEach(n=>{const o=AC.createOscillator(),g=AC.createGain(),lp=AC.createBiquadFilter();o.type='triangle';o.frequency.value=MN(n);lp.type='lowpass';lp.frequency.value=1300;
+  g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.018,t+.2);g.gain.setValueAtTime(.018,t+d-.25);g.gain.linearRampToValueAtTime(.0001,t+d);o.connect(lp);lp.connect(g);g.connect(MUS.gain);o.start(t);o.stop(t+d+.05)})}
+function mHit(t,freq,v,d,type='highpass'){const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();s.buffer=noiseBuf;f.type=type;f.frequency.value=freq;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(f);f.connect(g);g.connect(MUS.gain);s.start(t,Math.random()*.5);s.stop(t+d+.02)}
+function mSchedule(){if(!AC||AC.state!=='running'||!MUS.on)return;const e=60/MUS.bpm/2;if(MUS.t0<AC.currentTime)MUS.t0=AC.currentTime+.05;
+  while(MUS.t0<AC.currentTime+.35){const s=MUS.step%64,t=MUS.t0,bar=Math.floor(s/8),beat=s%8;
+    if(MEL[s])mGlock(MEL[s],t);
+    const [bass,ch]=MCH[Math.floor(bar/2)%4];
+    if(beat===0||beat===3||beat===4)mOsc(MN(beat===4?bass+7:bass),t,.3,.12,'triangle');
+    if(beat===0&&bar%2===0)mPad(ch,t,e*16);
+    if(beat===2||beat===6)mHit(t,1500,.12,.09,'bandpass');
+    mHit(t,7000,beat%2?.04:.02,.04);
+    MUS.t0+=e;MUS.step++}}
+const musVol=()=>cur==='ed'?.2:.34;
+function musicOn(){const a=ac();if(!a||!musicPref||MUS.on||document.hidden)return;MUS.on=true;
+  MUS.gain=a.createGain();MUS.gain.gain.setValueAtTime(.0001,a.currentTime);MUS.gain.gain.exponentialRampToValueAtTime(musVol(),a.currentTime+1.2);MUS.gain.connect(a.destination);
+  MUS.t0=a.currentTime+.1;MUS.step=0;mSchedule();MUS.timer=setInterval(mSchedule,90)}
+function musicOff(){if(!MUS.on)return;MUS.on=false;clearInterval(MUS.timer);const g=MUS.gain;
+  try{g.gain.cancelScheduledValues(AC.currentTime);g.gain.setValueAtTime(g.gain.value,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.5)}catch(e){}
+  setTimeout(()=>{try{g.disconnect()}catch(e){}},700)}
+/* music is a little quieter while drawing, so the tool sounds stand out */
+function musicLevel(){if(MUS.on&&MUS.gain){const g=MUS.gain.gain;g.cancelScheduledValues(AC.currentTime);g.setValueAtTime(Math.max(.0001,g.value),AC.currentTime);g.exponentialRampToValueAtTime(musVol(),AC.currentTime+.6)}}
+function renderMus(){document.querySelectorAll('.rb.mus').forEach(b=>{b.classList.toggle('off',!musicPref);b.setAttribute('aria-pressed',musicPref)})}
+document.querySelectorAll('.rb.mus').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();musicPref=!musicPref;store.set('music',musicPref);renderMus();if(musicPref)musicOn();else musicOff()}));
+/* browsers only allow sound after the first tap: the music starts on the main menu at the first tap */
+['pointerdown','touchend','keydown'].forEach(ev=>document.addEventListener(ev,()=>{const a=ac();if(!a)return;const p=a.resume&&a.resume();if(p&&p.then)p.then(musicOn).catch(()=>{});musicOn()},true));
+document.addEventListener('visibilitychange',()=>{if(document.hidden)musicOff();else if(musicPref)setTimeout(musicOn,300)});
+setInterval(()=>{if(!AC||!musicPref||document.hidden)return;if(AC.state!=='running'){try{AC.resume()}catch(e){}}if(!MUS.on&&AC.state==='running')musicOn()},1500);
 let scr=null;
 function scribbleStart(tool){const a=ac();if(!a||!soundOn||!tool.snd)return;try{const s=a.createBufferSource();s.buffer=noiseBuf;s.loop=true;const f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=tool.snd;f.Q.value=1.1;const g=a.createGain();g.gain.value=0;s.connect(f).connect(g).connect(a.destination);s.start();scr={s,g,vol:tool.vol}}catch(e){}}
 function scribbleSpeed(v){if(!scr)return;scr.g.gain.setTargetAtTime(Math.min(scr.vol,v*scr.vol/1.2),AC.currentTime,.04)}
@@ -499,7 +563,7 @@ function ov(id,on){$('#'+id).classList.toggle('on',on)}
 /* screens + Android back button */
 let cur='home';
 function show(s,push=true){
-  document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===s));cur=s;
+  document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===s));cur=s;try{musicLevel()}catch(e){}
   if(push){try{history.pushState({s},'')}catch(e){}}
 }
 try{history.replaceState({s:'home'},'')}catch(e){}
@@ -780,7 +844,7 @@ function renderColors(){
   $('#colors').innerHTML=`<button class="plus" id="plusBtn" aria-label="${t('pick')}"><span>+</span></button>`+
     all.map(([c,en,id])=>`<button class="sw${c===color?' on':''}" data-color="${c}" aria-label="${(lang==='id'?id:en)||c}">${swatchSVG(c)}</button>`).join('');
 }
-$('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;tool=b.dataset.tool;store.set('tool',tool);renderTools();renderStamps();sfx.tap()});
+$('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;tool=b.dataset.tool;store.set('tool',tool);renderTools();renderStamps();(TOOL_SFX[tool]||sfx.tap)()});
 $('#stamps').addEventListener('click',e=>{const b=e.target.closest('[data-stamp]');if(!b)return;stampId=b.dataset.stamp;store.set('stamp',stampId);renderStamps();sfx.tap()});
 $('#arrL').onclick=()=>{const c=$('#colors');c.scrollLeft-=c.clientWidth*.8;sfx.tap()};
 $('#arrR').onclick=()=>{const c=$('#colors');c.scrollLeft+=c.clientWidth*.8;sfx.tap()};
@@ -789,7 +853,7 @@ $('#colors').addEventListener('click',e=>{
   if(e.target.closest('#plusBtn')){openPicker();return}
   const b=e.target.closest('[data-color]');if(!b)return;color=b.dataset.color;store.set('color',color);
   if(toolDef().eraser){tool='crayon';store.set('tool',tool)}
-  renderColors();renderTools();renderSizes();renderStamps();sfx.pop();
+  renderColors();renderTools();renderSizes();renderStamps();colorNote(color);
   const nm=COLORS.find(x=>x[0]===color);if(nm)say(lang==='id'?nm[2]:nm[1]);
 });
 
@@ -893,7 +957,7 @@ function confetti(){
 }
 
 /* start */
-renderSnd();applyLang();renderSizes();
+renderSnd();renderMus();applyLang();renderSizes();
 document.addEventListener('pointerdown',()=>ac(),{once:true});
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>

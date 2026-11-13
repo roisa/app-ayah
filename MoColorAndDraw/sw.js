@@ -1,5 +1,5 @@
 // Mo Color & Draw: offline support. Bump VERSION when files change.
-const VERSION='mocd-v2';
+const VERSION='mocd-v3';
 const ASSETS=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png',
   'pages/camel.svg','pages/bee.svg','pages/whale.svg','pages/elephant.svg','pages/ant.svg','pages/masjid.svg',
   '../home/mo.webp','../NurConnect/fonts/fonts.css',
