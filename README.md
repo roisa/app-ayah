@@ -2,7 +2,7 @@
 
 | Folder | URL | What |
 |---|---|---|
-| `/` | https://roisa.github.io/app-ayah/ | Mo Games hub: a card for each game |
+| `/` | https://roisa.github.io/app-ayah/ | Mo Games landing page: game shelf, games, values, parents (art in `home/`) |
 | `NurConnect/` | https://roisa.github.io/app-ayah/NurConnect/ | Nur Connect, current version (v2) |
 | `NurConnect/v1/` | https://roisa.github.io/app-ayah/NurConnect/v1/ | Nur Connect, first simple version |
 | `MoColorAndDraw/` | https://roisa.github.io/app-ayah/MoColorAndDraw/ | Mo Color & Draw (coming soon) |
