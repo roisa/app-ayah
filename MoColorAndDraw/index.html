@@ -390,7 +390,7 @@ const COLORS=[
  ['#d6249f','Magenta','Magenta'],['#8b1e2d','Maroon','Merah marun'],['#d9a066','Tan','Sawo matang'],['#5c3a1e','Dark brown','Cokelat tua'],['#f9e4c8','Cream','Krem muda']];
 const TOOLS=[
  {id:'fill',fill:true},
- {id:'crayon',wf:1,alpha:1,grain:true,snd:2600,vol:.10},
+ {id:'crayon',wf:1.1,alpha:1,grain:true,rough:true,snd:2600,vol:.10},
  {id:'marker',wf:2.4,alpha:.42,snd:1700,vol:.07},
  {id:'brush',wf:1.25,alpha:.92,soft:true,snd:700,vol:.06},
  {id:'pen',wf:.75,alpha:1,snd:1300,vol:.06},
@@ -600,8 +600,12 @@ let tool=store.get('tool','crayon'),color=store.get('color','#ff3b30'),size=stor
 const toolDef=()=>TOOLS.find(x=>x.id===tool)||TOOLS[0];
 
 /* crayon grain texture */
-const GRAIN=96,cGrain=document.createElement('canvas');cGrain.width=cGrain.height=GRAIN;
-(()=>{const g=cGrain.getContext('2d'),im=g.createImageData(GRAIN,GRAIN);for(let i=0;i<GRAIN*GRAIN;i++){const r=Math.random();im.data[i*4+3]=r<.2?0:r<.35?120:175+Math.random()*80}g.putImageData(im,0,0)})();
+/* crayon paper texture: mostly solid wax, with little slanted streaks and specks where the paper shows through (tiles seamlessly) */
+const GRAIN=128,cGrain=document.createElement('canvas');cGrain.width=cGrain.height=GRAIN;
+(()=>{const g=cGrain.getContext('2d'),im=g.createImageData(GRAIN,GRAIN);for(let i=0;i<GRAIN*GRAIN;i++){const r=Math.random();im.data[i*4+3]=r<.06?60:215+Math.random()*40}g.putImageData(im,0,0);
+  g.globalCompositeOperation='destination-out';g.lineCap='round';
+  for(let i=0;i<260;i++){const x=Math.random()*GRAIN,y=Math.random()*GRAIN,a=-.35+(Math.random()-.5)*.6,l=2+Math.random()*7;g.lineWidth=.8+Math.random()*1.4;g.strokeStyle=`rgba(0,0,0,${.45+Math.random()*.55})`;
+    for(const ox of [-GRAIN,0,GRAIN])for(const oy of [-GRAIN,0,GRAIN]){g.beginPath();g.moveTo(x+ox,y+oy);g.lineTo(x+ox+Math.cos(a)*l,y+oy+Math.sin(a)*l);g.stroke()}}})();
 const grainURL=cGrain.toDataURL(),grainPat=tctx.createPattern(cGrain,'repeat');
 
 function hexRgb(h){const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255]}
@@ -787,6 +791,21 @@ paper.addEventListener('pointermove',e=>{
 ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>paper.addEventListener(ev,e=>{if(e.pointerId!==active)return;active=null;endStroke();showCursor(e,e.pointerType==='mouse')}));
 paper.addEventListener('contextmenu',e=>e.preventDefault());
 
+/* crayon tip: a round tip with a ragged, broken edge (made fresh for each stroke and size) */
+function makeTip(w){
+  const R=Math.max(2,w/2),sz=Math.ceil(R*2)+2,c=document.createElement('canvas');c.width=c.height=sz;
+  const x=c.getContext('2d'),im=x.createImageData(sz,sz),d=im.data,m=sz/2,p=[Math.random()*6,Math.random()*6,Math.random()*6];
+  for(let yy=0;yy<sz;yy++)for(let xx=0;xx<sz;xx++){
+    const dx=xx+.5-m,dy=yy+.5-m,r=Math.hypot(dx,dy),th=Math.atan2(dy,dx);
+    const e=R*(.8+.1*Math.sin(5*th+p[0])+.06*Math.sin(11*th+p[1])+.04*Math.sin(23*th+p[2]));
+    let a=0;
+    if(r<e*.72)a=.9+.1*Math.random();
+    else if(r<e){const f=1-(r-e*.72)/(e*.28);a=Math.random()<.3+.7*f?.55+.45*Math.random():0}
+    else if(r<R&&Math.random()<.015)a=.6;
+    const k=(yy*sz+xx)*4;d[k]=d[k+1]=d[k+2]=255;d[k+3]=Math.min(255,a*255)}
+  x.putImageData(im,0,0);return c;
+}
+function tintTips(col){const cs=rgbStr(col);return S.tips.map(t=>{const c=document.createElement('canvas');c.width=t.width;c.height=t.height;const x=c.getContext('2d');x.drawImage(t,0,0);x.globalCompositeOperation='source-in';x.fillStyle=cs;x.fillRect(0,0,c.width,c.height);return c})}
 function seg(ax,ay,cx,cy,bx,by){
   const td=S.td,ctx=lctx,w=S.w;let col;
   if(!S.base){E.hue=(E.hue+Math.hypot(bx-ax,by-ay)/E.scale*.6)%360;col=hslRgb(E.hue,95,55)}else col=S.base;
@@ -798,6 +817,13 @@ function seg(ax,ay,cx,cy,bx,by){
     const n=S.offs.length,bw=w/n*1.8;
     for(let j=0;j<n;j++){const o=(j/(n-1)-.5)*w*.9,ox=nx*o,oy=ny*o;ctx.strokeStyle=rgbStr(shade(col,S.offs[j]));ctx.lineWidth=bw;
       ctx.beginPath();ctx.moveTo(ax+ox,ay+oy);ctx.quadraticCurveTo(cx+ox,cy+oy,bx+ox,by+oy);ctx.stroke()}
+  }else if(td.rough){
+    // press the ragged tip along the curve, turning it each time, so the edge breaks up like wax on paper
+    if(!S.tips)S.tips=[makeTip(w),makeTip(w),makeTip(w)];
+    if(!S.tinted||!S.base)S.tinted=tintTips(col);
+    const L=Math.hypot(cx-ax,cy-ay)+Math.hypot(bx-cx,by-cy),n=Math.max(1,Math.ceil(L/Math.max(1,w*.09)));
+    for(let i=1;i<=n;i++){const tt=i/n,u=1-tt,px=u*u*ax+2*u*tt*cx+tt*tt*bx,py=u*u*ay+2*u*tt*cy+tt*tt*by,tip=S.tinted[(Math.random()*3)|0];
+      ctx.save();ctx.translate(px,py);ctx.rotate(Math.random()*6.283);ctx.drawImage(tip,-tip.width/2,-tip.height/2);ctx.restore()}
   }else if(td.glitter){
     // glitter: a darker base with lots of tiny light, dark and white sparkles on top
     ctx.strokeStyle=rgbStr(shade(col,-.2));ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(ax,ay);ctx.quadraticCurveTo(cx,cy,bx,by);ctx.stroke();
