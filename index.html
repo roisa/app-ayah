@@ -1164,6 +1164,18 @@ $('#bSet').onclick=()=>openSettings();
 /* drawing */
 function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
 const easeBack=t=>{const s=1.7;t-=1;return t*t*((s+1)*t+s)+1};
+/* board plate: one shape for all board cells (no overlaps, no gaps), rounded only on outer corners */
+function drawPlate(){const cell=(r,c)=>r>=1&&c>=1&&r<=G.rows&&c<=G.cols&&!G.hole[r][c],R=tw*.22,pad=Math.max(3,tw*.06);
+  ctx.save();ctx.fillStyle='rgba(28,11,85,.28)';ctx.beginPath();
+  for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++){if(!cell(r,c))continue;
+    const up=cell(r-1,c),dn=cell(r+1,c),lf=cell(r,c-1),rt=cell(r,c+1);
+    const x0=Math.round(X(c)-tw/2-(lf?0:pad)),x1=Math.round(X(c)+tw/2+(rt?0:pad)),y0=Math.round(Y(r)-th/2-(up?0:pad)),y1=Math.round(Y(r)+th/2+(dn?0:pad));
+    const tl=!up&&!lf?R:0,tr=!up&&!rt?R:0,br=!dn&&!rt?R:0,bl=!dn&&!lf?R:0;
+    ctx.moveTo(x0+tl,y0);ctx.lineTo(x1-tr,y0);tr?ctx.arcTo(x1,y0,x1,y0+tr,tr):ctx.lineTo(x1,y0);
+    ctx.lineTo(x1,y1-br);br?ctx.arcTo(x1,y1,x1-br,y1,br):ctx.lineTo(x1,y1);
+    ctx.lineTo(x0+bl,y1);bl?ctx.arcTo(x0,y1,x0,y1-bl,bl):ctx.lineTo(x0,y1);
+    ctx.lineTo(x0,y0+tl);tl?ctx.arcTo(x0,y0,x0+tl,y0,tl):ctx.lineTo(x0,y0);ctx.closePath()}
+  ctx.fill('nonzero');ctx.restore()}
 function drawTile(r,c,type,s,lift,ring,alpha,dx,sp){const w=tw-4,h=th-9,rad=w*.2,y0=-th/2+2,K=sp&&sp.k;
   ctx.save();ctx.globalAlpha=alpha;ctx.translate(X(c)+(dx||0),Y(r)+lift);ctx.scale(s,s);
   ctx.fillStyle='rgba(28,11,85,.35)';rr(-w/2+1,y0+9,w,h,rad);ctx.fill();
@@ -1224,7 +1236,7 @@ function frame(now){const dt=Math.min(50,now-lastF)/16.7;lastF=now;
     const hk=(hintPair&&now<hintUntil)?hintPair.map(([r,c])=>key(r,c)):[],pulse=.5+.5*Math.sin(now/140);
     const tk=drag&&drag.ok?drag.okKey:'',sk=G.sel?key(G.sel[0],G.sel[1]):'';
     const later=[];
-    if(G.hole){ctx.fillStyle='rgba(28,11,85,.28)';for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++)if(!G.hole[r][c]){rr(X(c)-tw/2,Y(r)-th/2-1,tw,th+2,tw*.22);ctx.fill()}}
+    if(G.hole)drawPlate();
     for(let r=1;r<=G.rows;r++)for(let c=1;c<=G.cols;c++){const v=G.grid[r][c];if(!v)continue;const k=key(r,c),a=anim[k]||{born:0,shake:0},sp=G.spec[r][c];
       let fall=0;if(a.t0){const fe=Math.min(1,(now-a.t0)/320);fall=(a.fromR-r)*th*(1-easeBack(fe));if(fe>=1)a.t0=0}
       if(a.born>now)continue;const e=Math.min(1,(now-a.born)/380),s=e<1?easeBack(e):1;
