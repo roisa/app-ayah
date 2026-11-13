@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nur Connect: Play Games the Islamic Way</title>
+<meta name="description" content="Nur Connect is a tile-matching puzzle for Muslim families. Connect pairs, collect stars, pause for salah, and learn about Islam. No ads, no accounts, no data collected.">
+<meta name="theme-color" content="#6a2fe0">
+<meta property="og:title" content="Nur Connect: Play Games the Islamic Way">
+<meta property="og:description" content="A joyful tile-matching puzzle for Muslim families. 12 worlds, prayer-time pauses, Prophet stories. No ads.">
+<meta property="og:image" content="img/og-en.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon-32.png?v=2">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png?v=2">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+:root{
+  --bg:#f4f1fb;--bg2:#ffffff;--ink:#1c1530;--ink2:#5b5375;--ink3:#8b84a3;
+  --glass:rgba(255,255,255,.62);--glass2:rgba(255,255,255,.82);--stroke:rgba(255,255,255,.75);--hair:rgba(28,21,48,.08);
+  --brand:#6a2fe0;--brand2:#9a5bff;--sun:#ffc531;--mint:#1fbf8f;--sky:#2f8cff;--pink:#ff5fa8;--orange:#ff8a3d;
+  --shadow:0 1px 1px rgba(40,20,90,.04),0 10px 30px rgba(60,30,130,.10);
+  --r:28px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d0a18;--bg2:#161126;--ink:#f5f2ff;--ink2:#bdb5d8;--ink3:#8a83a6;
+  --glass:rgba(40,32,70,.55);--glass2:rgba(44,36,78,.8);--stroke:rgba(255,255,255,.12);--hair:rgba(255,255,255,.08);
+  --shadow:0 1px 1px rgba(0,0,0,.2),0 14px 40px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --bg:#0d0a18;--bg2:#161126;--ink:#f5f2ff;--ink2:#bdb5d8;--ink3:#8a83a6;
+  --glass:rgba(40,32,70,.55);--glass2:rgba(44,36,78,.8);--stroke:rgba(255,255,255,.12);--hair:rgba(255,255,255,.08);
+  --shadow:0 1px 1px rgba(0,0,0,.2),0 14px 40px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:clip;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Baloo 2",system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.disp{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Baloo 2",system-ui,sans-serif;font-weight:800;letter-spacing:-.025em}
+.fun{font-family:"Lilita One","Baloo 2",sans-serif;font-weight:400;letter-spacing:.01em}
+
+/* ambient mesh */
+.mesh{position:fixed;inset:-20vh -20vw;z-index:-1;pointer-events:none;filter:blur(70px) saturate(1.2);opacity:.55}
+.mesh i{position:absolute;border-radius:50%}
+.mesh i:nth-child(1){width:46vw;height:46vw;left:5vw;top:0;background:#b28bff;animation:drift 22s ease-in-out infinite}
+.mesh i:nth-child(2){width:40vw;height:40vw;right:5vw;top:10vh;background:#ffb3d9;animation:drift 26s ease-in-out infinite reverse}
+.mesh i:nth-child(3){width:38vw;height:38vw;left:30vw;top:55vh;background:#ffe08a;animation:drift 30s ease-in-out infinite}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mesh{opacity:.28}}
+:root[data-theme="dark"] .mesh{opacity:.28}
+@keyframes drift{50%{transform:translate(6vw,4vh) scale(1.08)}}
+
+/* glass */
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);border:1px solid var(--stroke);box-shadow:var(--shadow)}
+
+/* nav */
+nav{position:sticky;top:10px;z-index:50;margin:10px auto 0;max-width:1120px;padding:0 12px}
+.navin{display:flex;align-items:center;gap:12px;padding:8px 8px 8px 12px;border-radius:999px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;margin-right:auto;white-space:nowrap}
+.brand img{width:34px;height:34px;border-radius:9px;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:var(--hair);gap:2px}
+.seg button{border:0;background:transparent;color:var(--ink2);font:600 13px/1 inherit;padding:8px 12px;border-radius:999px;cursor:pointer;font-family:inherit}
+.seg button[aria-pressed="true"]{background:var(--bg2);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font-weight:700;font-size:15px;padding:12px 20px;border:0;cursor:pointer;transition:transform .2s,box-shadow .2s;white-space:nowrap;font-family:inherit}
+.pill:active{transform:scale(.96)}
+.pill.pri{background:linear-gradient(180deg,#8048ff,#5b22d6);color:#fff;box-shadow:0 6px 18px rgba(106,47,224,.38),inset 0 1px 0 rgba(255,255,255,.35)}
+.pill.pri:hover{box-shadow:0 10px 26px rgba(106,47,224,.5),inset 0 1px 0 rgba(255,255,255,.35)}
+.pill.sm{padding:9px 16px;font-size:14px}
+.pill.ghost{color:var(--ink)}
+.store{display:inline-flex;align-items:center;gap:10px;padding:10px 18px 10px 14px;border-radius:16px;color:var(--ink);text-align:left;line-height:1.1;min-width:178px}
+.store svg{width:26px;height:26px;flex:none}
+.store small{display:block;font-size:11px;color:var(--ink2);font-weight:600}
+.store b{font-size:16px}
+.soon{font-size:10px;font-weight:800;background:var(--sun);color:#3b2600;border-radius:99px;padding:2px 7px;margin-left:6px;vertical-align:2px}
+
+/* hero */
+.hero{padding:56px 0 40px;display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 8px;border-radius:999px;font-size:14px;font-weight:600;color:var(--ink2)}
+.eyebrow b{background:linear-gradient(90deg,var(--brand),var(--pink));color:#fff;border-radius:99px;padding:3px 9px;font-size:12px}
+h1{font-size:clamp(44px,7vw,84px);line-height:.98;margin:18px 0 18px}
+h1 .grad{background:linear-gradient(95deg,#7b3fe4 0%,#e6479c 55%,#ff9a3d 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(18px,2vw,21px);color:var(--ink2);max-width:34ch}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.ctas .pill.pri{padding:16px 26px;font-size:17px}
+.stores{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.trust{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;color:var(--ink2);font-size:14px;font-weight:600}
+.trust span::before{content:"✓";color:var(--mint);font-weight:900;margin-right:6px}
+
+.stage{position:relative;height:640px}
+.phone{position:absolute;width:250px;aspect-ratio:440/956;border-radius:46px;padding:9px;background:#120c26;box-shadow:0 30px 60px rgba(50,20,120,.35),inset 0 0 0 1.5px #3a2f63}
+.phone img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:38px}
+.phone::after{content:"";position:absolute;top:17px;left:50%;transform:translateX(-50%);width:74px;height:21px;border-radius:99px;background:#000}
+.stage .p1{left:50%;top:10px;transform:translateX(-50%);z-index:3}
+.stage .p2{left:2%;top:90px;transform:rotate(-9deg) scale(.86);z-index:2;opacity:.98}
+.stage .p3{right:2%;top:90px;transform:rotate(9deg) scale(.86);z-index:2;opacity:.98}
+.float{position:absolute;z-index:4;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:20px;font-weight:700;font-size:14px;animation:bob 5s ease-in-out infinite}
+.float em{font-style:normal;font-size:22px}
+.float small{display:block;font-weight:600;font-size:12px;color:var(--ink2)}
+.f1{left:-2%;top:44%}.f2{right:-1%;top:20%;animation-delay:-1.6s}.f3{right:6%;bottom:6%;animation-delay:-3.2s}
+@keyframes bob{50%{transform:translateY(-10px)}}
+
+section{padding:72px 0}
+.kicker{font-weight:700;font-size:15px;color:var(--brand);letter-spacing:.02em}
+:root[data-theme="dark"] .kicker{color:#b894ff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kicker{color:#b894ff}}
+h2{font-size:clamp(34px,5vw,56px);line-height:1.03;margin:8px 0 14px;max-width:18ch}
+.sub{color:var(--ink2);font-size:19px;max-width:52ch}
+
+/* values */
+.values{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:36px}
+.val{border-radius:var(--r);padding:22px 18px 20px;position:relative;overflow:hidden}
+.val .ic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:28px;margin-bottom:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 6px 14px rgba(0,0,0,.12)}
+.val h3{font-size:18px;line-height:1.2;margin-bottom:6px}
+.val p{font-size:14.5px;color:var(--ink2);line-height:1.45}
+.val .n{position:absolute;right:16px;top:12px;font-size:13px;font-weight:800;color:var(--ink3)}
+
+/* how */
+.how{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:20px}
+.steps{display:grid;gap:14px}
+.step{display:flex;gap:16px;padding:18px;border-radius:24px;align-items:flex-start}
+.step b.num{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;background:linear-gradient(180deg,#8048ff,#5b22d6)}
+.step h3{font-size:18px;margin-bottom:2px}
+.step p{color:var(--ink2);font-size:15.5px}
+.how .phone{position:relative;margin:0 auto;width:300px}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(180px,auto);gap:16px;margin-top:36px}
+.tile{border-radius:var(--r);padding:24px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.tile h3{font-size:22px;line-height:1.15;margin-bottom:6px}
+.tile p{color:var(--ink2);font-size:15.5px}
+.tile .big{font-size:64px;line-height:1;margin-bottom:6px}
+.t-worlds{grid-column:span 4;grid-row:span 2;background:linear-gradient(160deg,#7b3fe4,#4a1fb0);color:#fff;border:0}
+.t-worlds p{color:rgba(255,255,255,.85)}
+.badges{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:auto;padding-top:18px}
+.badges img{width:100%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25));transition:transform .25s}
+.badges img:hover{transform:scale(1.1) rotate(-4deg)}
+.t-pray{grid-column:span 2;grid-row:span 2;background:linear-gradient(180deg,#14b886,#0b7f62);color:#fff;border:0}
+.t-pray p{color:rgba(255,255,255,.88)}
+.t-pray .mini{margin-top:auto;border-radius:22px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.25);height:220px}
+.t-pray .mini img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.t-age{grid-column:span 3}
+.ages{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:14px}
+.ages span{border-radius:14px;padding:8px 12px;font-weight:700;font-size:14px;color:#fff}
+.t-story{grid-column:span 3}
+.t-story .row{display:flex;gap:10px;margin-top:auto;padding-top:14px;flex-wrap:wrap}
+.t-story .row span{padding:6px 12px;border-radius:99px;background:var(--hair);font-weight:600;font-size:13.5px}
+.t-sm{grid-column:span 2}
+.stat{font-size:44px;line-height:1;font-weight:800;margin-bottom:6px;background:linear-gradient(95deg,#7b3fe4,#e6479c);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* gallery */
+.gal{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:24px 20px 30px;margin:0 -20px;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.gal figure{flex:none;width:230px;scroll-snap-align:center}
+.gal .phone{position:relative;width:230px;border-radius:42px;padding:8px}
+.gal .phone img{border-radius:35px}
+.gal .phone::after{top:15px;width:66px;height:19px}
+.gal figcaption{text-align:center;margin-top:14px;font-weight:700;font-size:15px}
+.gal figcaption small{display:block;color:var(--ink2);font-weight:500;font-size:13.5px}
+.galnav{display:flex;gap:10px;justify-content:flex-end;margin-top:-6px}
+.galnav button{width:44px;height:44px;border-radius:50%;border:0;cursor:pointer;color:var(--ink);font-size:20px}
+
+/* parents */
+.parents{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px}
+.pcard{border-radius:var(--r);padding:28px}
+.list{list-style:none;display:grid;gap:14px;margin-top:6px}
+.list li{display:flex;gap:14px;align-items:flex-start}
+.list li i{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-style:normal;font-size:18px;background:var(--hair)}
+.list li b{display:block;font-size:16.5px}
+.list li span{color:var(--ink2);font-size:15px}
+
+/* faq */
+.faq{max-width:780px;margin:36px auto 0;display:grid;gap:12px}
+.faq details{border-radius:22px;padding:4px 22px}
+.faq summary{list-style:none;cursor:pointer;padding:18px 30px 18px 0;font-weight:700;font-size:17px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:24px;font-weight:400;color:var(--ink3);transition:transform .25s}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq details p{color:var(--ink2);padding:0 0 20px;font-size:16px}
+
+/* final */
+.final{border-radius:40px;padding:56px 28px;text-align:center;background:linear-gradient(150deg,#6a2fe0,#9a3fd8 55%,#ff6fae);color:#fff;position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 0,rgba(255,255,255,.35),transparent 50%)}
+.final>*{position:relative}
+.final img.logo{width:min(340px,80%);margin:0 auto 10px;filter:drop-shadow(0 10px 20px rgba(0,0,0,.25))}
+.final h2{margin:0 auto 10px;color:#fff}
+.final p{color:rgba(255,255,255,.88);font-size:19px;max-width:44ch;margin:0 auto}
+.final .ctas{justify-content:center}
+.final .pill.white{background:#fff;color:#4a1fb0;box-shadow:0 10px 26px rgba(0,0,0,.2)}
+.final .store{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.final .store small{color:rgba(255,255,255,.8)}
+
+footer{padding:40px 0 60px;color:var(--ink3);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center}
+footer nav{all:unset;display:flex;gap:20px;flex-wrap:wrap}
+footer a:hover{color:var(--ink)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px) scale(.98);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.float,.mesh i{animation:none}}
+
+@media (max-width:980px){
+  .values{grid-template-columns:repeat(2,1fr)}
+  .values .val:last-child{grid-column:span 2}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .t-worlds,.t-pray,.t-age,.t-story{grid-column:span 2;grid-row:auto}
+  .t-sm{grid-column:span 1}
+  .badges{grid-template-columns:repeat(4,1fr)}
+}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:36px;text-align:center}
+  .lede{margin:0 auto}.ctas,.stores,.trust{justify-content:center}
+  .stage{height:520px;max-width:440px;margin:0 auto;width:100%}
+  .phone{width:210px;border-radius:40px}.phone img{border-radius:32px}
+  .how,.parents{grid-template-columns:1fr}
+  .how .phone{width:260px}
+}
+@media (max-width:520px){
+  body{font-size:16px}
+  .brand span{display:none}
+  .navin .pill.sm{padding:9px 13px}
+  .stage{height:450px}
+  .phone{width:184px;border-radius:36px;padding:7px}.phone img{border-radius:29px}
+  .phone::after{top:14px;width:56px;height:17px}
+  .stage .p2{left:-6%}.stage .p3{right:-6%}
+  .f1{left:0;top:58%}.f2{right:0;top:6%}.f3{display:none}
+  .values{grid-template-columns:1fr}.values .val:last-child{grid-column:auto}
+  .bento{grid-template-columns:1fr}.t-sm,.t-worlds,.t-pray,.t-age,.t-story{grid-column:auto}
+  .badges{grid-template-columns:repeat(4,1fr)}
+  section{padding:56px 0}
+  .store{min-width:0;flex:1 1 150px}
+}
+</style>
+</head>
+<body>
+<div class="mesh" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<nav><div class="navin glass">
+  <a class="brand" href="#top"><img src="../assets/icon-192.png?v=2" alt=""><span>Nur Connect</span></a>
+  <div class="seg" role="group" aria-label="Language"><button data-l="en" aria-pressed="true">EN</button><button data-l="id" aria-pressed="false">ID</button></div>
+  <a class="pill pri sm" href="../" data-t="navPlay">Play</a>
+</div></nav>
+
+<main id="top">
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <span class="eyebrow glass"><b data-t="new">New</b><span data-t="eyebrow">From Mo Games, the makers of Baby Mo</span></span>
+      <h1 class="disp"><span data-t="h1a">Play games</span><br><span class="grad" data-t="h1b">the Islamic way.</span></h1>
+      <p class="lede" data-t="lede">A joyful tile-matching puzzle for the whole Muslim family. Start with Bismillah, pause for salah, end with Alhamdulillah, and learn something about Islam every day.</p>
+      <div class="ctas">
+        <a class="pill pri" href="../"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg><span data-t="cta">Play free in your browser</span></a>
+      </div>
+      <div class="stores">
+        <span class="store glass"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.72-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.66-.39 6.59 1.1 8.75.73 1.05 1.6 2.24 2.73 2.2 1.1-.05 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.5zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg><span><small data-t="dlOn">Download on the</small><b>App Store</b><span class="soon" data-t="soon">SOON</span></span></span>
+        <span class="store glass"><svg viewBox="0 0 24 24"><path fill="#34a853" d="M3.6 2.3 13.4 12l-9.8 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#fbbc04" d="m16.9 15.5-3.5-3.5 3.5-3.5 4 2.3c1.1.6 1.1 1.8 0 2.4z"/><path fill="#ea4335" d="M16.9 15.5 13.4 12l-9.8 9.7c.4.2.9.2 1.4-.1z"/><path fill="#4285f4" d="M16.9 8.5 5 2.4c-.5-.3-1-.3-1.4-.1l9.8 9.7z"/></svg><span><small data-t="getOn">Get it on</small><b>Google Play</b><span class="soon" data-t="soon">SOON</span></span></span>
+      </div>
+      <div class="trust"><span data-t="tr1">No ads</span><span data-t="tr2">No accounts</span><span data-t="tr3">No data collected</span><span data-t="tr4">Ages 3+</span></div>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <div class="phone p2"><img data-src="10-little" alt=""></div>
+      <div class="phone p1"><img data-src="05-play" alt=""></div>
+      <div class="phone p3"><img data-src="06-win" alt=""></div>
+      <div class="float glass f1"><em>🕌</em><span><span data-t="fl1">Paused for Dhuhr</span><small data-t="fl1s">Your game waits for you</small></span></div>
+      <div class="float glass f2"><em>⭐</em><span><span>+3</span><small data-t="fl2s">stars on the path</small></span></div>
+      <div class="float glass f3"><em>🤲</em><span><span>Alhamdulillah!</span><small data-t="fl3s">Level cleared</small></span></div>
+    </div>
+  </header>
+</div>
+
+<section id="values"><div class="wrap">
+  <div class="rv"><div class="kicker" data-t="vK">Our five values</div>
+  <h2 class="disp" data-t="vH">Fun that fits a Muslim day.</h2>
+  <p class="sub" data-t="vS">Every game from Mo Games is built around five simple habits. They aren't banners in a menu: they're part of how you play.</p></div>
+  <div class="values">
+    <article class="val glass rv"><span class="n">01</span><div class="ic" style="background:linear-gradient(180deg,#1fd19b,#0b9b74)">🕌</div><h3 data-t="v1">Salah comes first</h3><p data-t="v1p">At prayer time the game pauses with the adhan call and waits until you've prayed.</p></article>
+    <article class="val glass rv"><span class="n">02</span><div class="ic" style="background:linear-gradient(180deg,#9f7bff,#6a2fe0)">📿</div><h3 data-t="v2">Remember Allah</h3><p data-t="v2p">Cheers are dzikir: MasyaAllah, SubhanAllah, Allahu Akbar. A slip-up brings a gentle Astaghfirullah.</p></article>
+    <article class="val glass rv"><span class="n">03</span><div class="ic" style="background:linear-gradient(180deg,#ffd45c,#ff9d1c)">🤲</div><h3 data-t="v3">Start with Bismillah</h3><p data-t="v3p">Every level opens with Bismillah and its meaning, read aloud.</p></article>
+    <article class="val glass rv"><span class="n">04</span><div class="ic" style="background:linear-gradient(180deg,#ff8ac4,#e6479c)">🌙</div><h3 data-t="v4">End with Alhamdulillah</h3><p data-t="v4p">Each win closes with Alhamdulillah: all praise is for Allah.</p></article>
+    <article class="val glass rv"><span class="n">05</span><div class="ic" style="background:linear-gradient(180deg,#5cb8ff,#2f6bff)">📖</div><h3 data-t="v5">Learn about Islam</h3><p data-t="v5p">"Did you know?" facts after levels, and stories of the Prophets before each boss.</p></article>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap how">
+  <div>
+    <div class="rv"><div class="kicker" data-t="hK">How to play</div>
+    <h2 class="disp" data-t="hH">Easy to learn. Hard to put down.</h2></div>
+    <div class="steps">
+      <div class="step glass rv"><b class="num">1</b><div><h3 data-t="s1">Find a matching pair</h3><p data-t="s1p">Tap or drag between two identical tiles: apples, kittens, lanterns, planets…</p></div></div>
+      <div class="step glass rv"><b class="num">2</b><div><h3 data-t="s2">Connect with up to two turns</h3><p data-t="s2p">The path can bend twice and travel around the board, but nothing may block it.</p></div></div>
+      <div class="step glass rv"><b class="num">3</b><div><h3 data-t="s3">Collect stars along the way</h3><p data-t="s3p">Every empty cell the path crosses pops a star. Longer clever paths earn more.</p></div></div>
+      <div class="step glass rv"><b class="num">4</b><div><h3 data-t="s4">Clear the board, beat the boss</h3><p data-t="s4p">Ice, stone, gold and bomb tiles, falling boards and shaped puzzles keep every level fresh.</p></div></div>
+    </div>
+  </div>
+  <div class="phone rv"><img data-src="05-play" alt="Gameplay: a star path connecting two matching tiles"></div>
+</div></section>
+
+<section id="features"><div class="wrap">
+  <div class="rv"><div class="kicker" data-t="fK">Inside the game</div>
+  <h2 class="disp" data-t="fH">So much to discover.</h2></div>
+  <div class="bento">
+    <div class="tile t-worlds rv">
+      <h3 class="fun" style="font-size:34px" data-t="w">12 colourful worlds</h3>
+      <p data-t="wp">From the Masjid to the bottom of the sea, a fruit garden, outer space and an ancient treasure hunt. Each world has its own tiles, backgrounds and journey map.</p>
+      <div class="badges" id="badges"></div>
+    </div>
+    <div class="tile t-pray rv">
+      <div class="big">🕌</div>
+      <h3 data-t="pr">Prayer-time pause</h3>
+      <p data-t="prp">Pick your city and the game knows each salah time (Kemenag method). It pauses, says "Hayya 'alas-salah", and opens again after you pray.</p>
+      <div class="mini"><img data-src="08-pray" alt=""></div>
+    </div>
+    <div class="tile t-age glass rv">
+      <h3 data-t="ag">Built for every age</h3>
+      <p data-t="agp">Choose who's playing and the game adapts board size, timer and number of levels.</p>
+      <div class="ages"><span style="background:#22b07d">🐣 <span data-t="a1">Little 3–5</span></span><span style="background:#ff9d1c">🧒 <span data-t="a2">Kids 6–8</span></span><span style="background:#2f8cff">👦 <span data-t="a3">Big Kids 9–12</span></span><span style="background:#7b3fe4">🧑 <span data-t="a4">Family 13+</span></span></div>
+    </div>
+    <div class="tile t-story glass rv">
+      <h3 data-t="st">Stories of the Prophets</h3>
+      <p data-t="stp">Short picture stories before each boss level, plus a "Did you know?" fact after each win.</p>
+      <div class="row"><span>Nabi Yunus</span><span>Nabi Nuh</span><span>Nabi Sulaiman</span><span>Nabi Musa</span><span data-t="more">+ more</span></div>
+    </div>
+    <div class="tile t-sm glass rv"><div class="stat">300+</div><h3 data-t="sk">Stickers to collect</h3><p data-t="skp">Trade stars for sticker packs and fill the album.</p></div>
+    <div class="tile t-sm glass rv"><div class="stat">7</div><h3 data-t="dg">Days of gifts</h3><p data-t="dgp">A daily gift, a daily puzzle and a prayer streak bring kids back.</p></div>
+    <div class="tile t-sm glass rv"><div class="stat">∞</div><h3 data-t="lh">Hints for little ones</h3><p data-t="lhp">No timer, unlimited hints and a guiding hand in Little mode.</p></div>
+  </div>
+</div></section>
+
+<section id="gallery"><div class="wrap">
+  <div class="rv" style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+    <div><div class="kicker" data-t="gK">Take a look</div><h2 class="disp" data-t="gH">Made to delight.</h2></div>
+    <div class="galnav"><button class="glass" id="gPrev" aria-label="Previous">‹</button><button class="glass" id="gNext" aria-label="Next">›</button></div>
+  </div>
+  <div class="gal" id="gal"></div>
+</div></section>
+
+<section id="parents"><div class="wrap">
+  <div class="rv"><div class="kicker" data-t="paK">For parents</div>
+  <h2 class="disp" data-t="paH">Screen time you can feel good about.</h2>
+  <p class="sub" data-t="paS">We're parents too. Nur Connect was play-tested by our own three-year-old.</p></div>
+  <div class="parents">
+    <div class="pcard glass rv"><ul class="list">
+      <li><i>🚫</i><div><b data-t="p1">No ads, ever</b><span data-t="p1p">No banners, no pop-ups, no videos to skip.</span></div></li>
+      <li><i>🔒</i><div><b data-t="p2">No accounts, no data collected</b><span data-t="p2p">Progress is saved only on your device. Nothing is sent to us or anyone else.</span></div></li>
+      <li><i>📍</i><div><b data-t="p3">No location permission</b><span data-t="p3p">You choose your city from a list. Prayer times are calculated on the device.</span></div></li>
+      <li><i>💬</i><div><b data-t="p4">No chat, no strangers</b><span data-t="p4p">There are no social features, links out or online players.</span></div></li>
+    </ul></div>
+    <div class="pcard glass rv"><ul class="list">
+      <li><i>🧠</i><div><b data-t="p5">Builds real skills</b><span data-t="p5p">Visual search, memory and planning, with gentle difficulty for each age.</span></div></li>
+      <li><i>🗣️</i><div><b data-t="p6">English &amp; Bahasa Indonesia</b><span data-t="p6p">Switch language anytime in Settings. Arabic phrases come with their meaning.</span></div></li>
+      <li><i>🔊</i><div><b data-t="p7">Original music &amp; sounds</b><span data-t="p7p">A calm, cheerful soundtrack you can mute with one tap.</span></div></li>
+      <li><i>🕰️</i><div><b data-t="p8">Natural breaks</b><span data-t="p8p">The prayer pause is a built-in moment to stop, stretch and pray together.</span></div></li>
+    </ul></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="rv" style="text-align:center"><div class="kicker" data-t="qK">Questions</div><h2 class="disp" style="margin-left:auto;margin-right:auto" data-t="qH">Good to know.</h2></div>
+  <div class="faq">
+    <details class="glass rv"><summary data-t="q1">Can I try it now?</summary><p data-t="q1a">Yes. Nur Connect plays right now in any modern browser on phone, tablet or computer. The App Store and Google Play versions are on the way.</p></details>
+    <details class="glass rv"><summary data-t="q2">What ages is it for?</summary><p data-t="q2a">Everyone from 3 years up. Little mode (3–5) uses small boards with no timer and a guiding hand. Family mode (13+) has big boards, timers and tricky special tiles.</p></details>
+    <details class="glass rv"><summary data-t="q3">How are prayer times calculated?</summary><p data-t="q3a">On your device, from the city you pick, using the Kemenag RI method (Fajr 20°, Isha 18°, Asr Shafi'i, +2 minutes ihtiyat). There are 27 cities across Indonesia, Malaysia, Singapore, Brunei, Saudi Arabia, the UAE and Türkiye.</p></details>
+    <details class="glass rv"><summary data-t="q4">Does it collect any data?</summary><p data-t="q4a">No. There are no accounts, analytics or ads. Stars, stickers and settings are stored only on your device, and "Reset progress" in Settings removes them.</p></details>
+    <details class="glass rv"><summary data-t="q5">Who made Nur Connect?</summary><p data-t="q5a">Mo Games by IBRAZ Group, the team behind Baby Mo. We make playful apps that help Muslim kids build good habits.</p></details>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="final rv">
+    <img class="logo" src="../assets/ui/logo.webp" alt="Nur Connect">
+    <h2 class="disp" data-t="zH">Ready? Bismillah!</h2>
+    <p data-t="zS">Connect your first pair in seconds. No sign-up, no download.</p>
+    <div class="ctas"><a class="pill white" href="../" style="padding:16px 28px;font-size:17px" data-t="cta">Play free in your browser</a></div>
+    <div class="stores" style="justify-content:center">
+      <span class="store"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.72-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.66-.39 6.59 1.1 8.75.73 1.05 1.6 2.24 2.73 2.2 1.1-.05 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.5zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg><span><small data-t="dlOn">Download on the</small><b>App Store</b><span class="soon" data-t="soon">SOON</span></span></span>
+      <span class="store"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3 13.4 12l-9.8 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1zm13.3 13.2-3.5-3.5 3.5-3.5 4 2.3c1.1.6 1.1 1.8 0 2.4zM5 21.6l11.9-6.1-3.5-3.5zM16.9 8.5 5 2.4c-.5-.3-1-.3-1.4-.1l9.8 9.7z"/></svg><span><small data-t="getOn">Get it on</small><b>Google Play</b><span class="soon" data-t="soon">SOON</span></span></span>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 Mo Games by IBRAZ Group. <span data-t="rights">All rights reserved.</span></span>
+  <nav><a href="../" data-t="fPlay">Play</a><a href="../privacy/" data-t="fPriv">Privacy</a><a href="../support/" data-t="fSup">Support</a></nav>
+</div></footer>
+
+<script>
+const IMG=n=>`img/${n}-${L}.webp`;
+const BADGES=['mosque','fruits','veggies','food','pets','animals','sea','balls','camping','space','ancient','treasure'];
+document.getElementById('badges').innerHTML=BADGES.map(b=>`<img loading="lazy" src="../assets/badges/${b}.webp" alt="">`).join('');
+const GAL={en:[['01-intro','Bismillah, let\'s play','The title screen'],['05-play','Star paths','Connect pairs, collect stars'],['10-little','Guided play','For ages 3–5'],['03-style','Who is playing?','Four age modes'],['02-worlds','12 worlds','Unlock them one by one'],['04-map','Journey map','Up to 3 stars per level'],['07-story','Prophet stories','Before each boss level'],['08-pray','Prayer pause','Salah comes first'],['06-win','Alhamdulillah!','Plus a fact to learn'],['09-album','Sticker book','300+ to collect']],
+ id:[['01-intro','Bismillah, ayo main','Layar pembuka'],['05-play','Jalur bintang','Hubungkan & kumpulkan bintang'],['10-little','Main dipandu','Untuk usia 3–5'],['03-style','Siapa yang main?','Empat mode usia'],['02-worlds','12 dunia','Buka satu per satu'],['04-map','Peta petualangan','Sampai 3 bintang per level'],['07-story','Kisah Nabi','Sebelum level bos'],['08-pray','Jeda salat','Salat nomor satu'],['06-win','Alhamdulillah!','Plus fakta untuk dipelajari'],['09-album','Buku stiker','300+ untuk dikoleksi']]};
+const T={id:{navPlay:'Main',new:'Baru',eyebrow:'Dari Mo Games, pembuat Baby Mo',h1a:'Bermain game',h1b:'dengan cara Islami.',
+lede:'Puzzle mencocokkan ubin yang seru untuk seluruh keluarga Muslim. Mulai dengan Bismillah, berhenti untuk salat, tutup dengan Alhamdulillah, dan belajar tentang Islam setiap hari.',
+cta:'Main gratis di browser',dlOn:'Unduh di',getOn:'Dapatkan di',soon:'SEGERA',tr1:'Tanpa iklan',tr2:'Tanpa akun',tr3:'Tanpa pengumpulan data',tr4:'Usia 3+',
+fl1:'Jeda untuk Dzuhur',fl1s:'Game menunggumu',fl2s:'bintang di jalur',fl3s:'Level selesai',
+vK:'Lima nilai kami',vH:'Seru, dan pas dengan hari seorang Muslim.',vS:'Setiap game Mo Games dibangun di atas lima kebiasaan sederhana. Bukan sekadar tulisan di menu: semuanya bagian dari cara bermain.',
+v1:'Salat nomor satu',v1p:'Saat masuk waktu salat, game berhenti dengan seruan azan dan menunggu sampai kamu selesai salat.',
+v2:'Ingat Allah',v2p:'Sorakannya adalah dzikir: MasyaAllah, SubhanAllah, Allahu Akbar. Salah langkah diingatkan dengan Astaghfirullah.',
+v3:'Mulai dengan Bismillah',v3p:'Setiap level dibuka dengan Bismillah beserta artinya, dibacakan dengan suara.',
+v4:'Akhiri dengan Alhamdulillah',v4p:'Setiap kemenangan ditutup dengan Alhamdulillah: segala puji bagi Allah.',
+v5:'Belajar tentang Islam',v5p:'Fakta "Tahukah kamu?" setelah level, dan kisah para Nabi sebelum setiap level bos.',
+hK:'Cara bermain',hH:'Mudah dipelajari. Susah berhenti.',s1:'Cari pasangan yang sama',s1p:'Ketuk atau tarik di antara dua ubin yang sama: apel, kucing, lentera, planet…',
+s2:'Hubungkan maksimal dua belokan',s2p:'Garis boleh berbelok dua kali dan memutari papan, asal tidak terhalang.',
+s3:'Kumpulkan bintang di jalan',s3p:'Setiap kotak kosong yang dilewati memunculkan bintang. Jalur pintar yang panjang dapat lebih banyak.',
+s4:'Bersihkan papan, kalahkan bos',s4p:'Ubin es, batu, emas dan bom, papan yang jatuh, dan bentuk unik membuat setiap level terasa baru.',
+fK:'Di dalam game',fH:'Banyak yang bisa ditemukan.',w:'12 dunia penuh warna',wp:'Dari Masjid sampai dasar laut, kebun buah, luar angkasa, dan perburuan harta karun kuno. Setiap dunia punya ubin, latar, dan peta petualangan sendiri.',
+pr:'Jeda waktu salat',prp:'Pilih kotamu dan game tahu setiap waktu salat (metode Kemenag). Game berhenti, menyerukan "Hayya \'alas-salah", dan terbuka lagi setelah kamu salat.',
+ag:'Untuk semua usia',agp:'Pilih siapa yang bermain, dan game menyesuaikan ukuran papan, waktu, dan jumlah level.',a1:'Balita 3–5',a2:'Anak 6–8',a3:'Anak Besar 9–12',a4:'Keluarga 13+',
+st:'Kisah para Nabi',stp:'Cerita bergambar singkat sebelum level bos, plus fakta "Tahukah kamu?" setiap menang.',more:'+ lainnya',
+sk:'Stiker untuk dikoleksi',skp:'Tukar bintang dengan paket stiker dan lengkapi albumnya.',dg:'Hari hadiah',dgp:'Hadiah harian, puzzle harian, dan streak salat membuat anak ingin kembali.',
+lh:'Petunjuk untuk si kecil',lhp:'Tanpa waktu, petunjuk tanpa batas, dan tangan pemandu di mode Balita.',
+gK:'Lihat-lihat',gH:'Dibuat untuk menyenangkan.',paK:'Untuk orang tua',paH:'Waktu layar yang bikin tenang.',paS:'Kami juga orang tua. Nur Connect diuji langsung oleh anak kami yang berusia tiga tahun.',
+p1:'Tanpa iklan, selamanya',p1p:'Tidak ada banner, pop-up, atau video yang harus dilewati.',p2:'Tanpa akun, tanpa pengumpulan data',p2p:'Progres hanya tersimpan di perangkatmu. Tidak ada yang dikirim ke kami atau pihak lain.',
+p3:'Tanpa izin lokasi',p3p:'Kamu memilih kota dari daftar. Waktu salat dihitung di perangkat.',p4:'Tanpa chat, tanpa orang asing',p4p:'Tidak ada fitur sosial, tautan keluar, atau pemain online.',
+p5:'Melatih kemampuan nyata',p5p:'Pencarian visual, memori, dan perencanaan, dengan tingkat kesulitan sesuai usia.',p6:'Bahasa Inggris & Indonesia',p6p:'Ganti bahasa kapan saja di Pengaturan. Kalimat Arab disertai artinya.',
+p7:'Musik & suara orisinal',p7p:'Musik yang tenang dan ceria, bisa dimatikan dengan satu ketukan.',p8:'Jeda alami',p8p:'Jeda salat menjadi momen untuk berhenti, peregangan, dan salat bersama.',
+qK:'Pertanyaan',qH:'Perlu diketahui.',q1:'Bisa dicoba sekarang?',q1a:'Bisa. Nur Connect bisa dimainkan sekarang di browser modern apa pun, di HP, tablet, atau komputer. Versi App Store dan Google Play segera hadir.',
+q2:'Untuk usia berapa?',q2a:'Semua orang mulai usia 3 tahun. Mode Balita (3–5) memakai papan kecil tanpa waktu dan dengan tangan pemandu. Mode Keluarga (13+) memakai papan besar, waktu, dan ubin spesial yang menantang.',
+q3:'Bagaimana waktu salat dihitung?',q3a:'Di perangkatmu, berdasarkan kota yang dipilih, dengan metode Kemenag RI (Subuh 20°, Isya 18°, Asar Syafi\'i, ihtiyat +2 menit). Ada 27 kota di Indonesia, Malaysia, Singapura, Brunei, Arab Saudi, UEA, dan Turki.',
+q4:'Apakah mengumpulkan data?',q4a:'Tidak. Tidak ada akun, analitik, atau iklan. Bintang, stiker, dan pengaturan hanya disimpan di perangkatmu, dan "Ulang progres" di Pengaturan akan menghapusnya.',
+q5:'Siapa pembuat Nur Connect?',q5a:'Mo Games by IBRAZ Group, tim di balik Baby Mo. Kami membuat aplikasi seru yang membantu anak Muslim membangun kebiasaan baik.',
+zH:'Siap? Bismillah!',zS:'Hubungkan pasangan pertamamu dalam hitungan detik. Tanpa daftar, tanpa unduh.',rights:'Hak cipta dilindungi.',fPlay:'Main',fPriv:'Privasi',fSup:'Bantuan'}};
+document.querySelectorAll('[data-t]').forEach(e=>e.dataset.en=e.innerHTML);
+let L='en';
+function setLang(l){L=l;try{localStorage.setItem('nurAboutLang',l)}catch(e){}
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-t]').forEach(e=>{const v=l==='en'?e.dataset.en:T.id[e.dataset.t];if(v!=null)e.innerHTML=v});
+  document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===l));
+  document.querySelectorAll('img[data-src]').forEach(i=>i.src=IMG(i.dataset.src));
+  document.getElementById('gal').innerHTML=GAL[l].map(([f,a,b])=>`<figure><div class="phone"><img src="${IMG(f)}" alt="${a}"></div><figcaption>${a}<small>${b}</small></figcaption></figure>`).join('');
+  document.title=l==='en'?'Nur Connect: Play Games the Islamic Way':'Nur Connect: Bermain dengan Cara Islami'}
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+let saved=null;try{saved=localStorage.getItem('nurAboutLang')}catch(e){}
+setLang(new URLSearchParams(location.search).get('lang')||saved||((navigator.language||'').startsWith('id')?'id':'en'));
+const g=document.getElementById('gal');
+document.getElementById('gPrev').onclick=()=>g.scrollBy({left:-500,behavior:'smooth'});
+document.getElementById('gNext').onclick=()=>g.scrollBy({left:500,behavior:'smooth'});
+const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12}):null;
+document.querySelectorAll('.rv').forEach((e,i)=>{e.style.transitionDelay=(i%5)*60+'ms';io?io.observe(e):e.classList.add('in')});
+</script>
+</body>
+</html>

@@ -42,3 +42,14 @@ Worlds are listed in `WORLDS` in `index.html`: 12 categories, each keeping its o
 - Combo meter (+10 s when full), "Last pairs!" with faster music.
 - Daily gift (7-day streak), Daily Puzzle (+30 stars and a sticker pack), prayer streak rewards (3/7/14/30 days).
 - Sticker book: 50-star packs of 3 stickers made from the tile art; completing a world's page gives +100 stars.
+
+## Marketing & store submission
+
+| Page | URL | Source |
+|---|---|---|
+| Marketing page (EN/ID) | https://roisa.github.io/app-ayah/about/ | `about/` |
+| Store kit (App Store + Google Play) | https://roisa.github.io/app-ayah/store-kit/ | `store-kit/` |
+| Privacy policy | https://roisa.github.io/app-ayah/privacy/ | `privacy/` |
+| Support | https://roisa.github.io/app-ayah/support/ | `support/` |
+
+Store images live in `store/`: captioned screenshots for iPhone 6.9" (1320×2868), iPhone 6.3" (1206×2622) and Google Play (1080×1920), raw game captures, the Play feature graphic (1024×500) and the 512 px Play icon. They were captured from the real game with Playwright.
