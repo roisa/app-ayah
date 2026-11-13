@@ -128,10 +128,9 @@ svg{display:block}
 .dock{flex:none;background:#fff;border-radius:30px 30px 0 0;box-shadow:0 -6px 20px rgba(176,92,0,.15);padding:8px 10px 0;display:grid;grid-template-columns:auto 1fr;grid-template-areas:"tools tools" "sizes colors";column-gap:6px;position:relative;z-index:2}
 .tools{grid-area:tools;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:flex-end;padding-top:6px;justify-content:center}
 .sizes{grid-area:sizes;display:flex;align-items:center;gap:0;padding:0 2px;border-top:3px dashed #ffe2b8;margin-left:-10px;padding-left:8px}
-.colorsW{grid-area:colors;display:flex;align-items:stretch;min-width:0;border-top:3px dashed #ffe2b8;margin-right:-10px}
-.colors{flex:1;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:flex-end;padding:8px 2px 0;height:calc(64px + var(--safeB));scroll-behavior:smooth}
-.arr{flex:none;width:30px;display:grid;place-items:center;color:#d07a00;font:400 30px/1 "Lilita One",sans-serif;padding-bottom:var(--safeB)}
-.arr:active{transform:scale(.85)}
+.colorsW{grid-area:colors;display:flex;align-items:center;gap:6px;min-width:0;border-top:3px dashed #ffe2b8;padding:6px 0 calc(4px + var(--safeB))}
+/* two rows of crayons, all visible, no sliding */
+.colors{flex:1;min-width:0;display:grid;grid-template-columns:repeat(15,minmax(0,1fr));grid-auto-rows:42px;column-gap:2px;row-gap:3px}
 .stamps{position:absolute;left:10px;right:10px;bottom:100%;margin-bottom:8px;background:#fff;border-radius:24px;box-shadow:0 6px 18px rgba(140,70,0,.22);display:none;gap:4px;overflow-x:auto;scrollbar-width:none;padding:6px 8px}
 .stamps.on{display:flex}
 .stamps::-webkit-scrollbar{display:none}
@@ -151,16 +150,19 @@ svg{display:block}
 .sz{width:clamp(28px,7.5vw,40px);height:40px;border-radius:50%;display:grid;place-items:center}
 .sz i{display:block;border-radius:50%;background:var(--cur,#ff3b30);box-shadow:inset 0 0 0 2px rgba(0,0,0,.12)}
 .sz.on{background:#fff1d6;box-shadow:inset 0 0 0 3px var(--yel)}
-.sw{flex:none;width:38px;height:calc(76px + var(--safeB));transform:translateY(18px);transition:transform .18s cubic-bezier(.3,1.6,.5,1);align-self:flex-start}
-.sw svg{width:38px;height:76px}
-.sw.on{transform:translateY(0)}
-.plus{flex:none;width:46px;height:46px;border-radius:50%;margin:2px 4px 0 0;align-self:flex-start;background:conic-gradient(#ff3b30,#ffd60a,#22b14c,#1ec8c8,#2f5bea,#a24bf0,#ff3b30);display:grid;place-items:center;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.sw{min-width:0;height:42px;overflow:hidden;display:flex;justify-content:center;align-items:flex-start;border-radius:8px 8px 4px 4px;position:relative}
+.sw svg{width:min(100%,30px);height:auto;aspect-ratio:1/2;flex:none;transform:translateY(9px);transition:transform .18s cubic-bezier(.3,1.6,.5,1)}
+.sw.on svg{transform:translateY(0)}
+.sw.on::after{content:"";position:absolute;left:15%;right:15%;bottom:0;height:4px;border-radius:2px;background:var(--ink)}
+.plus{flex:none;width:48px;height:48px;border-radius:50%;background:conic-gradient(#ff3b30,#ffd60a,#22b14c,#1ec8c8,#2f5bea,#a24bf0,#ff3b30);display:grid;place-items:center;box-shadow:0 3px 0 rgba(0,0,0,.15)}
 .plus span{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font:400 24px/1 "Lilita One",sans-serif;color:#d07a00}
+.plus.on{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--ink)}
+.plus.on span{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+/* phones: the 3 sizes stack up next to the colours */
+@media (max-width:999px){.sizes{flex-direction:column;justify-content:center;padding-right:2px}.sz{height:28px;width:30px}.sz i{max-width:22px;max-height:22px}}
 @media (min-width:1000px){
   .dock{grid-template-columns:auto auto 1fr;grid-template-areas:"tools sizes colors";padding-bottom:0}
-  .sizes,.colorsW{border-top:0;margin:0}.colorsW{border-left:3px dashed #ffe2b8}
-  .colors{height:auto;padding-top:0;align-self:end}
-  .sw{height:calc(86px + var(--safeB))}
+  .sizes,.colorsW{border-top:0;margin:0}.colorsW{border-left:3px dashed #ffe2b8;padding-left:8px}
   .tools{padding-bottom:calc(6px + var(--safeB))}
 }
 @media (max-height:520px) and (orientation:landscape){
@@ -168,7 +170,7 @@ svg{display:block}
   .tl{height:56px;width:42px}.tl svg{height:54px;width:34px}
   .dock{grid-template-columns:auto auto 1fr;grid-template-areas:"tools sizes colors"}
   .sizes,.colorsW{border-top:0;margin:0}
-  .colors{height:auto;padding-top:0}
+  .colors{grid-auto-rows:34px}.sw{height:34px}
   .sz{width:32px;height:32px}
 }
 
@@ -283,7 +285,7 @@ svg{display:block}
   <div class="dock">
     <div class="tools" id="tools"></div>
     <div class="sizes" id="sizes"></div>
-    <div class="colorsW"><button class="arr" id="arrL" aria-label="Back">‹</button><div class="colors" id="colors"></div><button class="arr" id="arrR" aria-label="More">›</button></div>
+    <div class="colorsW"><div class="colors" id="colors"></div><button class="plus" id="plusBtn" aria-label="Pick a color"><span>+</span></button></div>
     <div class="stamps" id="stamps"></div>
   </div>
 </section>
@@ -594,7 +596,7 @@ const pctx=cPaint.getContext('2d',{willReadFrequently:true}),lctx=cLive.getConte
 const cTmp=document.createElement('canvas'),tctx=cTmp.getContext('2d');
 const cMask=document.createElement('canvas'),mctx=cMask.getContext('2d');
 let E={};               // editor state
-let tool=store.get('tool','crayon'),color=store.get('color','#ff3b30'),size=store.get('size',1),customs=store.get('customs',[]);
+let tool=store.get('tool','crayon'),color=store.get('color','#ff3b30'),size=store.get('size',1);
 const toolDef=()=>TOOLS.find(x=>x.id===tool)||TOOLS[0];
 
 /* crayon grain texture */
@@ -842,17 +844,15 @@ function renderSizes(){
   $('#sizes').innerHTML=SIZES.map((s,i)=>`<button class="sz${i===size?' on':''}" data-size="${i}" aria-label="Size ${i+1}"><i style="width:${[8,15,24][i]}px;height:${[8,15,24][i]}px;background:${c}"></i></button>`).join('');
 }
 function renderColors(){
-  const all=[...customs.map(c=>[c,'','']),...COLORS];
-  $('#colors').innerHTML=`<button class="plus" id="plusBtn" aria-label="${t('pick')}"><span>+</span></button>`+
-    all.map(([c,en,id])=>`<button class="sw${c===color?' on':''}" data-color="${c}" aria-label="${(lang==='id'?id:en)||c}">${swatchSVG(c)}</button>`).join('');
+  // the free colour picker sits at the right; when a picked colour is in use it shows inside the + button
+  const pb=$('#plusBtn'),custom=!COLORS.some(x=>x[0]===color);pb.classList.toggle('on',custom);pb.querySelector('span').style.background=custom?color:'#fff';pb.setAttribute('aria-label',t('pick'));
+  $('#colors').innerHTML=COLORS.map(([c,en,id])=>`<button class="sw${c===color?' on':''}" data-color="${c}" aria-label="${(lang==='id'?id:en)||c}">${swatchSVG(c)}</button>`).join('');
 }
 $('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;tool=b.dataset.tool;store.set('tool',tool);renderTools();renderStamps();(TOOL_SFX[tool]||sfx.tap)()});
 $('#stamps').addEventListener('click',e=>{const b=e.target.closest('[data-stamp]');if(!b)return;stampId=b.dataset.stamp;store.set('stamp',stampId);renderStamps();sfx.tap()});
-$('#arrL').onclick=()=>{const c=$('#colors');c.scrollLeft-=c.clientWidth*.8;sfx.tap()};
-$('#arrR').onclick=()=>{const c=$('#colors');c.scrollLeft+=c.clientWidth*.8;sfx.tap()};
+$('#plusBtn').onclick=()=>openPicker();
 $('#sizes').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size',size);renderSizes();sfx.tap()});
 $('#colors').addEventListener('click',e=>{
-  if(e.target.closest('#plusBtn')){openPicker();return}
   const b=e.target.closest('[data-color]');if(!b)return;color=b.dataset.color;store.set('color',color);
   if(toolDef().eraser){tool='crayon';store.set('tool',tool)}
   renderColors();renderTools();renderSizes();renderStamps();colorNote(color);
@@ -871,7 +871,7 @@ function onDrag(el,fn){let on=false;el.addEventListener('pointerdown',e=>{on=tru
 onDrag(wheel,e=>{const r=wheel.getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2;pk.h=(Math.atan2(dy,dx)*180/Math.PI+360)%360;pk.s=Math.min(100,Math.hypot(dx,dy)/(r.width/2)*100);pk.l=50;drawLight()});
 onDrag(light,e=>{const r=light.getBoundingClientRect();pk.l=Math.max(5,Math.min(95,(e.clientX-r.left)/r.width*100));drawLight()});
 $('#pkClose').onclick=()=>ov('picker',false);
-$('#pkOk').onclick=()=>{const c=pkHex();customs=[c,...customs.filter(x=>x!==c)].slice(0,3);store.set('customs',customs);color=c;store.set('color',c);if(toolDef().eraser)tool='crayon';renderColors();renderTools();renderSizes();renderStamps();ov('picker',false);sfx.pop();$('#colors').scrollLeft=0};
+$('#pkOk').onclick=()=>{const c=pkHex();color=c;store.set('color',c);if(toolDef().eraser)tool='crayon';renderColors();renderTools();renderSizes();renderStamps();ov('picker',false);sfx.pop()};
 
 /* ---------- editor buttons ---------- */
 $('#undoBtn').onclick=undo;
