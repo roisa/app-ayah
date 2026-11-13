@@ -62,7 +62,26 @@ svg{display:block}
 #home .tag{font-weight:800;opacity:.95;font-size:clamp(14px,2.4vw,18px)}
 .modes{display:flex;justify-content:center;gap:clamp(14px,3vw,28px);padding:clamp(14px,3vh,28px) 16px 10px;flex-wrap:wrap}
 .mode{width:min(42vw,300px);aspect-ratio:1/1.08;background:#fff;border-radius:44px;padding:9px;box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.3,1.6,.5,1);display:flex;flex-direction:column}
+.mode{animation:bob 2.8s ease-in-out infinite}
+.mode.d{animation-delay:-1.4s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-8px) rotate(-1.5deg)}75%{transform:translateY(-3px) rotate(1.5deg)}}
 .mode:active{transform:scale(.95)}
+.mode.pick{animation:picked .55s cubic-bezier(.3,1.6,.5,1) forwards;z-index:2}
+@keyframes picked{0%{transform:scale(1)}35%{transform:scale(1.14) rotate(-3deg)}60%{transform:scale(1.08) rotate(3deg)}100%{transform:scale(1.12) rotate(0)}}
+.modes.chosen .mode:not(.pick){animation:fade .45s forwards}
+@keyframes fade{to{transform:scale(.85);opacity:.35}}
+.mode .scrib{stroke-dasharray:160;stroke-dashoffset:160;animation:drawit 3s ease-in-out infinite}
+.mode .scrib.s2{animation-delay:.4s}
+@keyframes drawit{0%{stroke-dashoffset:160}45%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:-160}}
+.mode .pc{animation:scribble 1.2s ease-in-out infinite}
+@keyframes scribble{0%,100%{transform:rotate(25deg) translate(0,0)}25%{transform:rotate(18deg) translate(-14px,-6px)}50%{transform:rotate(28deg) translate(-26px,4px)}75%{transform:rotate(20deg) translate(-10px,-2px)}}
+.mode.c .paperc{position:relative}
+.mode.c .paperc .wash{position:absolute;inset:0;background:linear-gradient(90deg,#ffd84d,#ff9a3d,#ff5fa8,#3fa9f5,#8bd346);background-size:100% 100%;background-repeat:no-repeat;mix-blend-mode:multiply;opacity:.75;animation:wash 3.2s ease-in-out infinite}
+@keyframes wash{0%{clip-path:inset(0 100% 0 0)}50%,80%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 0 100%)}}
+.mode .lbl span{display:inline-block}
+.mode.pick .lbl span{animation:boing .5s}
+@keyframes boing{40%{transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){.mode,.mode .pc,.mode .scrib,.mode.c .paperc .wash{animation:none}.mode .scrib{stroke-dashoffset:0}}
 .mode .in{flex:1;border-radius:36px;position:relative;overflow:hidden;display:grid;place-items:center}
 .mode.d .in{background:linear-gradient(160deg,#6fd0ff,#3f8cf5)}
 .mode.c .in{background:linear-gradient(160deg,#ffd84d,#ff9a3d 50%,#ff5fa8)}
@@ -97,20 +116,36 @@ svg{display:block}
 .tip{position:absolute;top:110%;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;font-weight:800;border-radius:10px;padding:4px 10px;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none;z-index:5}
 .tip.on{opacity:1}
 #stage{flex:1;min-height:0;position:relative;display:grid;place-items:center}
+#ed.stamping #stage{margin-bottom:76px}
 #paper{position:relative;background:#fff;border-radius:18px;box-shadow:0 2px 0 rgba(176,92,0,.12),0 10px 26px rgba(140,70,0,.16);overflow:hidden;touch-action:none}
 #paper canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
 #cLine{pointer-events:none}
 #cLive{pointer-events:none;-webkit-mask-repeat:repeat;mask-repeat:repeat}
 
-.dock{flex:none;background:#fff;border-radius:30px 30px 0 0;box-shadow:0 -6px 20px rgba(176,92,0,.15);padding:8px 10px 0;display:grid;grid-template-columns:1fr auto;grid-template-areas:"tools sizes" "colors colors";column-gap:8px;position:relative;z-index:2}
-.tools{grid-area:tools;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:flex-end;padding-top:6px}
-.sizes{grid-area:sizes;display:flex;align-items:center;gap:2px;padding:0 2px}
-.colors{grid-area:colors;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:flex-end;padding:8px 2px 0;margin:0 -10px;padding-left:10px;padding-right:10px;height:calc(64px + var(--safeB));border-top:3px dashed #ffe2b8}
+.dock{flex:none;background:#fff;border-radius:30px 30px 0 0;box-shadow:0 -6px 20px rgba(176,92,0,.15);padding:8px 10px 0;display:grid;grid-template-columns:auto 1fr;grid-template-areas:"tools tools" "sizes colors";column-gap:6px;position:relative;z-index:2}
+.tools{grid-area:tools;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:flex-end;padding-top:6px;justify-content:center}
+.sizes{grid-area:sizes;display:flex;align-items:center;gap:0;padding:0 2px;border-top:3px dashed #ffe2b8;margin-left:-10px;padding-left:8px}
+.colorsW{grid-area:colors;display:flex;align-items:stretch;min-width:0;border-top:3px dashed #ffe2b8;margin-right:-10px}
+.colors{flex:1;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:flex-end;padding:8px 2px 0;height:calc(64px + var(--safeB));scroll-behavior:smooth}
+.arr{flex:none;width:30px;display:grid;place-items:center;color:#d07a00;font:400 30px/1 "Lilita One",sans-serif;padding-bottom:var(--safeB)}
+.arr:active{transform:scale(.85)}
+.stamps{position:absolute;left:10px;right:10px;bottom:100%;margin-bottom:8px;background:#fff;border-radius:24px;box-shadow:0 6px 18px rgba(140,70,0,.22);display:none;gap:4px;overflow-x:auto;scrollbar-width:none;padding:6px 8px}
+.stamps.on{display:flex}
+.stamps::-webkit-scrollbar{display:none}
+.st{flex:none;width:54px;height:54px;border-radius:16px;display:grid;place-items:center}
+.st img{width:44px;height:44px}
+.st.on{background:#fff1d6;box-shadow:inset 0 0 0 3px var(--yel)}
+#paper{cursor:none}
+#cur{position:absolute;left:0;top:0;pointer-events:none;z-index:4;display:none;will-change:transform}
+#cur.on{display:block}
+#cur .rg{position:absolute;border-radius:50%;border:3px solid rgba(58,36,16,.75);box-shadow:0 0 0 2px #fff,inset 0 0 0 2px #fff}
+#cur .ic{position:absolute;left:-26px;top:0;width:52px;height:94px;transform-origin:50% 0;transform:rotate(210deg);filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+#cur .ic svg{width:100%;height:100%}
 .tools::-webkit-scrollbar,.colors::-webkit-scrollbar{display:none}
-.tl{flex:none;width:clamp(36px,calc((100vw - 132px)/7),48px);height:70px;border-radius:16px;display:flex;align-items:flex-end;justify-content:center;transition:transform .18s cubic-bezier(.3,1.6,.5,1),background .2s}
+.tl{flex:none;width:clamp(34px,calc((100vw - 24px)/9),48px);height:70px;border-radius:16px;display:flex;align-items:flex-end;justify-content:center;transition:transform .18s cubic-bezier(.3,1.6,.5,1),background .2s}
 .tl svg{width:100%;max-width:40px;height:66px}
 .tl.on{transform:translateY(-6px);background:#fff1d6;box-shadow:inset 0 0 0 3px var(--yel)}
-.sz{width:clamp(30px,8vw,40px);height:40px;border-radius:50%;display:grid;place-items:center}
+.sz{width:clamp(28px,7.5vw,40px);height:40px;border-radius:50%;display:grid;place-items:center}
 .sz i{display:block;border-radius:50%;background:var(--cur,#ff3b30);box-shadow:inset 0 0 0 2px rgba(0,0,0,.12)}
 .sz.on{background:#fff1d6;box-shadow:inset 0 0 0 3px var(--yel)}
 .sw{flex:none;width:38px;height:calc(76px + var(--safeB));transform:translateY(18px);transition:transform .18s cubic-bezier(.3,1.6,.5,1);align-self:flex-start}
@@ -120,7 +155,8 @@ svg{display:block}
 .plus span{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font:400 24px/1 "Lilita One",sans-serif;color:#d07a00}
 @media (min-width:1000px){
   .dock{grid-template-columns:auto auto 1fr;grid-template-areas:"tools sizes colors";padding-bottom:0}
-  .colors{border-top:0;border-left:3px dashed #ffe2b8;margin:0;height:auto;padding-top:0;align-self:end}
+  .sizes,.colorsW{border-top:0;margin:0}.colorsW{border-left:3px dashed #ffe2b8}
+  .colors{height:auto;padding-top:0;align-self:end}
   .sw{height:calc(86px + var(--safeB))}
   .tools{padding-bottom:calc(6px + var(--safeB))}
 }
@@ -128,7 +164,8 @@ svg{display:block}
   #ed .rb{width:44px;height:44px}#ed .rb svg{width:22px;height:22px}#ed .rb.save{width:50px;height:50px}
   .tl{height:56px;width:42px}.tl svg{height:54px;width:34px}
   .dock{grid-template-columns:auto auto 1fr;grid-template-areas:"tools sizes colors"}
-  .colors{border-top:0;margin:0;height:auto;padding-top:0}
+  .sizes,.colorsW{border-top:0;margin:0}
+  .colors{height:auto;padding-top:0}
   .sz{width:32px;height:32px}
 }
 
@@ -186,18 +223,18 @@ svg{display:block}
       <p class="tag" data-t="tag">Play Games the Islamic Way</p>
     </div>
     <div class="modes">
-      <button class="mode d" id="goDraw">
-        <span class="in">
-          <span class="paperc"><svg viewBox="0 0 120 90"><path d="M14 64c10-30 22-40 30-20s14 22 24 0 20-26 36-8" fill="none" stroke="#ff5fa8" stroke-width="7" stroke-linecap="round"/><path d="M20 30c8-8 16-8 24 0" fill="none" stroke="#ffc928" stroke-width="7" stroke-linecap="round"/><circle cx="94" cy="24" r="10" fill="#3fa9f5"/></svg></span>
-          <svg class="pc" viewBox="0 0 40 80"><path d="M12 22 20 3 28 22Z" fill="#22b14c"/><rect x="8" y="20" width="24" height="58" rx="4" fill="#22b14c"/><rect x="8" y="32" width="24" height="5" fill="#fff" opacity=".6"/><rect x="8" y="62" width="24" height="5" fill="#fff" opacity=".6"/></svg>
-        </span>
-        <span class="lbl"><span data-t="draw">Draw</span><small data-t="drawS">Blank paper</small></span>
-      </button>
       <button class="mode c" id="goColor">
-        <span class="in"><span class="paperc"><img src="pages/camel.svg" alt=""></span>
+        <span class="in"><span class="paperc"><img src="pages/camel.svg" alt=""><i class="wash"></i></span>
           <svg class="pc" viewBox="0 0 40 80"><path d="M12 22 20 3 28 22Z" fill="#2f5bea"/><rect x="8" y="20" width="24" height="58" rx="4" fill="#2f5bea"/><rect x="8" y="32" width="24" height="5" fill="#fff" opacity=".6"/><rect x="8" y="62" width="24" height="5" fill="#fff" opacity=".6"/></svg>
         </span>
         <span class="lbl"><span data-t="color">Color</span><small data-t="colorS">Coloring pages</small></span>
+      </button>
+      <button class="mode d" id="goDraw">
+        <span class="in">
+          <span class="paperc"><svg viewBox="0 0 120 90"><path class="scrib" pathLength="160" d="M14 64c10-30 22-40 30-20s14 22 24 0 20-26 36-8" fill="none" stroke="#ff5fa8" stroke-width="7" stroke-linecap="round"/><path class="scrib s2" pathLength="160" d="M20 30c8-8 16-8 24 0" fill="none" stroke="#ffc928" stroke-width="7" stroke-linecap="round"/><circle cx="94" cy="24" r="10" fill="#3fa9f5"/></svg></span>
+          <svg class="pc" viewBox="0 0 40 80"><path d="M12 22 20 3 28 22Z" fill="#22b14c"/><rect x="8" y="20" width="24" height="58" rx="4" fill="#22b14c"/><rect x="8" y="32" width="24" height="5" fill="#fff" opacity=".6"/><rect x="8" y="62" width="24" height="5" fill="#fff" opacity=".6"/></svg>
+        </span>
+        <span class="lbl"><span data-t="draw">Draw</span><small data-t="drawS">Blank paper</small></span>
       </button>
     </div>
     <div class="homeFoot">
@@ -235,12 +272,14 @@ svg{display:block}
     <button class="rb save" id="saveBtn" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M9 4 7.2 6H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.2L15 4zm3 4.5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></button>
   </div>
   <div id="stage">
+    <div id="cur"><span class="rg"></span><span class="ic"></span></div>
     <div id="paper"><canvas id="cPaint"></canvas><canvas id="cLive"></canvas><canvas id="cLine"></canvas></div>
   </div>
   <div class="dock">
     <div class="tools" id="tools"></div>
     <div class="sizes" id="sizes"></div>
-    <div class="colors" id="colors"></div>
+    <div class="colorsW"><button class="arr" id="arrL" aria-label="Back">‹</button><div class="colors" id="colors"></div><button class="arr" id="arrR" aria-label="More">›</button></div>
+    <div class="stamps" id="stamps"></div>
   </div>
 </section>
 
@@ -310,13 +349,13 @@ en:{tag:'Play Games the Islamic Way',draw:'Draw',drawS:'Blank paper',color:'Colo
  choose:'Choose a picture',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
  alh:'Alhamdulillah!',alhS:"What a beautiful picture! It's saved in My Art.",dyk:'Did you know?',pick:'Pick a color',ok:'OK',gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  saved:'Saved in My Art ✓',cleared:'All clean!',blank:'My drawing',deleted:'Deleted',
- tools:{crayon:'Crayon',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',fill:'Fill',eraser:'Eraser'},
+ tools:{crayon:'Crayon',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',glitter:'Glitter',stamp:'Stamps',fill:'Paint bucket',eraser:'Eraser'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! What a beautiful picture!'},
 id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',color:'Mewarnai',colorS:'Gambar mewarnai',myArt:'Karyaku',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
  choose:'Pilih gambar',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
  alh:'Alhamdulillah!',alhS:'Gambarnya bagus sekali! Sudah tersimpan di Karyaku.',dyk:'Tahukah kamu?',pick:'Pilih warna',ok:'OK',gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
  saved:'Tersimpan di Karyaku ✓',cleared:'Bersih lagi!',blank:'Gambarku',deleted:'Dihapus',
- tools:{crayon:'Krayon',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',fill:'Ember cat',eraser:'Penghapus'},
+ tools:{crayon:'Krayon',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',glitter:'Glitter',stamp:'Stempel',fill:'Ember cat',eraser:'Penghapus'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! Gambarnya bagus sekali!'}};
 // language: saved choice here, else the one picked on the Mo Games landing page, else the device language
 let lang=store.get('lang',(()=>{try{const l=localStorage.getItem('moLang');if(l==='en'||l==='id')return l}catch(e){}return /^id\b|^id-/i.test(navigator.language||'')?'id':'en'})());
@@ -338,16 +377,60 @@ const PAGES=[
 const COLORS=[
  ['#ff3b30','Red','Merah'],['#ff8a00','Orange','Oranye'],['#ffd60a','Yellow','Kuning'],['#8bd346','Light green','Hijau muda'],['#1fa64a','Green','Hijau'],
  ['#3fc6f5','Sky blue','Biru muda'],['#2f5bea','Blue','Biru'],['#9b4bf0','Purple','Ungu'],['#ff5fa8','Pink','Merah muda'],['#f6c49a','Peach','Krem'],
- ['#8b5a2b','Brown','Cokelat'],['#9aa0a6','Gray','Abu-abu'],['#222222','Black','Hitam'],['#ffffff','White','Putih'],['rainbow','Rainbow','Pelangi']];
+ ['#8b5a2b','Brown','Cokelat'],['#9aa0a6','Gray','Abu-abu'],['#222222','Black','Hitam'],['#ffffff','White','Putih'],['rainbow','Rainbow','Pelangi'],
+ ['#ffb3c7','Light pink','Merah muda terang'],['#ff7f6e','Coral','Koral'],['#ffb347','Light orange','Oranye muda'],['#fff08a','Light yellow','Kuning muda'],['#b8f28c','Mint green','Hijau mint'],
+ ['#0e7a3d','Dark green','Hijau tua'],['#14b8a6','Turquoise','Hijau toska'],['#a7dcff','Baby blue','Biru langit'],['#1e2f8a','Navy blue','Biru tua'],['#c8a2ff','Lavender','Ungu muda'],
+ ['#d6249f','Magenta','Magenta'],['#8b1e2d','Maroon','Merah marun'],['#d9a066','Tan','Sawo matang'],['#5c3a1e','Dark brown','Cokelat tua'],['#f9e4c8','Cream','Krem muda']];
 const TOOLS=[
+ {id:'fill',fill:true},
  {id:'crayon',wf:1,alpha:1,grain:true,snd:2600,vol:.10},
  {id:'marker',wf:2.4,alpha:.42,snd:1700,vol:.07},
  {id:'brush',wf:1.25,alpha:.92,soft:true,snd:700,vol:.06},
  {id:'pen',wf:.75,alpha:1,snd:1300,vol:.06},
  {id:'oil',wf:1.9,alpha:1,oil:true,snd:450,vol:.09},
- {id:'fill',fill:true},
+ {id:'glitter',wf:1.6,alpha:1,glitter:true,snd:3200,vol:.07},
+ {id:'stamp',alpha:1,stamp:true},
  {id:'eraser',wf:1.9,alpha:1,eraser:true,snd:1000,vol:.08}];
-const SIZES=[6,14,28];
+const SIZES=[6,14,28],STAMP_SIZES=[56,96,160];
+
+/* ---------- stamps (drawn as shapes in a 100x100 box, coloured with the chosen colour) ---------- */
+const circ=(x,y,r)=>`M${x-r} ${y}a${r} ${r} 0 1 0 ${2*r} 0a${r} ${r} 0 1 0 ${-2*r} 0z`;
+const ell=(x,y,rx,ry)=>`M${x-rx} ${y}a${rx} ${ry} 0 1 0 ${2*rx} 0a${rx} ${ry} 0 1 0 ${-2*rx} 0z`;
+function starP(cx,cy,R,r,n=5){let d='';for(let i=0;i<n*2;i++){const a=-Math.PI/2+i*Math.PI/n,q=i%2?r:R;d+=(i?'L':'M')+(cx+Math.cos(a)*q).toFixed(1)+' '+(cy+Math.sin(a)*q).toFixed(1)}return d+'Z'}
+const rays=(()=>{let d='';for(let i=0;i<8;i++){const a=i*Math.PI/4,b=.2,P=(r,t)=>(50+Math.cos(t)*r).toFixed(1)+' '+(50+Math.sin(t)*r).toFixed(1);d+=`M${P(47,a)}L${P(30,a-b)}L${P(30,a+b)}Z`}return d})();
+const petals=(()=>{let d='';for(let i=0;i<6;i++){const a=i*Math.PI/3;d+=circ(+(50+Math.cos(a)*25).toFixed(1),+(50+Math.sin(a)*25).toFixed(1),17)}return d})();
+// part fill: c = chosen colour, d = darker, w = white, g = warm light, y = flower centre, n = outline only
+const STAMPS=[
+ {id:'star',p:[[starP(50,53,47,21),'c']]},
+ {id:'heart',p:[['M50 90C20 68 5 52 5 32C5 18 16 8 29 8C39 8 46 14 50 23C54 14 61 8 71 8C84 8 95 18 95 32C95 52 80 68 50 90Z','c']]},
+ {id:'moon',p:[['M44 6a44 44 0 1 0 34 82a37 37 0 1 1-34-82z','c'],[starP(70,44,15,6.5),'c']]},
+ {id:'sun',p:[[rays,'c'],[circ(50,50,25),'c']]},
+ {id:'cloud',p:[['M26 78C12 78 5 68 5 58C5 46 15 38 27 40C29 24 41 15 55 17C68 19 76 29 77 40C89 38 96 49 95 60C94 71 85 78 74 78Z','c']]},
+ {id:'flower',p:[[petals,'c'],[circ(50,50,15),'y']]},
+ {id:'sparkle',p:[['M50 3C54 38 62 46 97 50C62 54 54 62 50 97C46 62 38 54 3 50C38 46 46 38 50 3Z','c']]},
+ {id:'masjid',p:[['M14 94V58H86V94Z','c'],['M22 58C22 34 38 24 50 14C62 24 78 34 78 58Z','c'],['M48 14V4H52V14Z','c'],['M43 94V81A7 7 0 0 1 57 81V94Z','w']]},
+ {id:'lantern',p:[[circ(50,8,5),'n'],['M38 14H62L57 22H43Z','c'],['M34 22H66L76 48L66 80H34L24 48Z','c'],['M43 31H57L63 48L57 71H43L37 48Z','g'],['M38 80H62L56 92H44Z','c']]},
+ {id:'butterfly',p:[[ell(30,34,21,20)+ell(70,34,21,20),'c'],[ell(32,68,17,15)+ell(68,68,17,15),'c'],[circ(30,34,7)+circ(70,34,7),'w'],[ell(50,52,6,30),'d'],['M47 24Q40 10 32 7M53 24Q60 10 68 7','n']]},
+ {id:'balloon',p:[['M50 74Q46 84 40 96','n'],[ell(50,40,30,35),'c'],['M44 74H56L53 80H47Z','c'],[ell(39,28,6,10),'w']]},
+ {id:'fish',p:[['M8 50C24 24 60 22 76 50C60 78 24 76 8 50Z','c'],['M74 50L96 30V70Z','c'],[circ(28,46,5),'d']]}];
+STAMPS.forEach(st=>st.paths=st.p.map(([d,f])=>[new Path2D(d),f]));
+let stampId=store.get('stamp','star');
+function drawStamp(ctx,st,x,y,sz,rgb){
+  ctx.save();ctx.translate(x,y);ctx.scale(sz/100,sz/100);ctx.translate(-50,-50);
+  let c,dark;
+  if(rgb){c=rgbStr(rgb);dark=rgbStr(shade(rgb,-.5))}else{c=ctx.createLinearGradient(0,0,100,100);['#ff3b30','#ffd60a','#1fa64a','#2f5bea','#9b4bf0'].forEach((h,i)=>c.addColorStop(i/4,h));dark='#5a3a8a'}
+  const yel=rgb&&rgb[0]>200&&rgb[1]>180&&rgb[2]<120;
+  ctx.lineJoin='round';ctx.lineCap='round';ctx.lineWidth=4;ctx.strokeStyle=dark;
+  for(const [p,f] of st.paths){const fs={c,d:dark,w:'#fff',g:'#fff3a8',y:yel?'#ff8a00':'#ffd60a'}[f];if(fs){ctx.fillStyle=fs;ctx.fill(p)}ctx.stroke(p)}
+  ctx.restore();
+}
+function stampIcon(st){const c=document.createElement('canvas');c.width=c.height=96;drawStamp(c.getContext('2d'),st,48,48,86,color==='rainbow'?null:hexRgb(color));return c.toDataURL()}
+function renderStamps(){
+  const el=$('#stamps'),on=tool==='stamp';el.classList.toggle('on',on);
+  if($('#ed').classList.contains('stamping')!==on){$('#ed').classList.toggle('stamping',on);if(cur==='ed')fitPaper()}
+  if(!on)return;
+  el.innerHTML=STAMPS.map(st=>`<button class="st${st.id===stampId?' on':''}" data-stamp="${st.id}" aria-label="${st.id}"><img src="${stampIcon(st)}" alt=""></button>`).join('');
+}
 
 function toolSVG(id,c){
   const o='stroke="rgba(0,0,0,.28)" stroke-width="1.5"';
@@ -360,6 +443,8 @@ function toolSVG(id,c){
    pen:`<rect x="11" y="24" width="18" height="46" rx="5" fill="${c}" ${o}/><path d="M14 25 16 12Q20 6 24 12L26 25Z" fill="#444"/><path d="M17 13Q20 8 23 13Z" fill="${c}"/><rect x="11" y="44" width="18" height="6" fill="#fff" opacity=".5"/>`,
    oil:`<rect x="16" y="40" width="8" height="30" rx="4" fill="#8b5a2b" ${o}/><rect x="10" y="28" width="20" height="14" rx="2" fill="#c9ced6" ${o}/><rect x="10" y="6" width="20" height="24" rx="3" fill="${c}" ${o}/><path d="M15 8v20M20 8v20M25 8v20" stroke="rgba(0,0,0,.18)" stroke-width="1.5"/>`,
    fill:`<path d="M7 30h26l-3 38H10Z" fill="#e9eef5" ${o}/><ellipse cx="20" cy="30" rx="13" ry="5" fill="${c}" ${o}/><path d="M28 31q4 10 0 18q-5-8 0-18" fill="${c}"/><path d="M9 30q11-22 22 0" fill="none" stroke="#777" stroke-width="2.5"/>`,
+   glitter:`<rect x="15" y="3" width="10" height="9" rx="2" fill="#666"/><path d="M12 12h16l5 14H7Z" fill="#e6ebf2" ${o}/><rect x="7" y="25" width="26" height="45" rx="7" fill="${c}" ${o}/><g fill="#fff"><circle cx="13" cy="33" r="1.8"/><circle cx="24" cy="37" r="1.4"/><circle cx="17" cy="46" r="2"/><circle cx="27" cy="52" r="1.6"/><circle cx="13" cy="59" r="1.4"/><circle cx="22" cy="63" r="1.9"/><path d="M27 41l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></g>`,
+   stamp:`<circle cx="20" cy="12" r="9" fill="#d38a4a" ${o}/><rect x="16" y="19" width="8" height="20" fill="#d38a4a" ${o}/><rect x="5" y="38" width="30" height="13" rx="3" fill="#8b5a2b" ${o}/><rect x="5" y="51" width="30" height="7" rx="2" fill="${c}" ${o}/><path d="M20 60l2.4 4.8 5.3.8-3.8 3.7.9 5.2-4.8-2.5-4.8 2.5.9-5.2-3.8-3.7 5.3-.8z" fill="${c}" ${o}/>`,
    eraser:`<rect x="8" y="22" width="24" height="48" rx="6" fill="#ff9ec0" ${o}/><rect x="8" y="44" width="24" height="26" rx="4" fill="#4aa3ff" ${o}/><rect x="12" y="27" width="5" height="12" rx="2.5" fill="#fff" opacity=".5"/>`};
   return `<svg viewBox="0 0 40 72">${defs}${s[id]}</svg>`;
 }
@@ -462,8 +547,8 @@ async function openEditor(mode,page,art){
   show('ed');
   E={mode,page:page||null,undo:[],bytes:0,dirty:false,savedId:art?art.id:null,hue:0,reg:null,maskL:0,ready:false};
   $('#edTitle').textContent=page?page.name[lang]:'';
-  if(mode==='color'&&!art)tool='fill';
-  renderTools();renderSizes();
+  if(!art)tool='fill';
+  renderTools();renderSizes();renderStamps();
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
   const st=$('#stage').getBoundingClientRect();
   let W,H,img=null;
@@ -582,11 +667,34 @@ function floodPaint(sx,sy){
 /* strokes */
 let S=null,active=null;
 function pos(e){const r=paper.getBoundingClientRect();return [(e.clientX-r.left)*E.W/r.width,(e.clientY-r.top)*E.H/r.height]}
+/* finger / mouse cursor: the current tool follows the finger, with a ring showing the brush size */
+const curEl=$('#cur');let curTool='';
+function showCursor(e,on){
+  const td=toolDef();
+  if(!on||td.stamp||!E.ready){curEl.classList.remove('on');return}
+  const sr=$('#stage').getBoundingClientRect(),x=e.clientX-sr.left,y=e.clientY-sr.top;
+  const key=td.id+color+size;
+  if(curTool!==key){curTool=key;curEl.querySelector('.ic').innerHTML=toolSVG(td.id,td.eraser?'#ff9ec0':color);
+    const rg=curEl.querySelector('.rg'),d=td.fill?0:SIZES[size]*td.wf;rg.style.display=d?'':'none';rg.style.width=rg.style.height=d+'px';rg.style.left=rg.style.top=(-d/2)+'px'}
+  curEl.style.transform=`translate(${x}px,${y}px)`;curEl.classList.add('on');
+}
+paper.addEventListener('pointerover',e=>{if(e.pointerType==='mouse'&&active===null)showCursor(e,true)});
+paper.addEventListener('pointerleave',e=>{if(active===null)showCursor(e,false)});
+paper.addEventListener('pointermove',e=>{if(active===null&&e.pointerType==='mouse')showCursor(e,true)});
+
+function stampAt(x,y){
+  const st=STAMPS.find(s=>s.id===stampId)||STAMPS[0],sz=STAMP_SIZES[size]*E.scale;
+  if(S.bb[2]>S.bb[0])lctx.clearRect(S.bb[0],S.bb[1],S.bb[2]-S.bb[0],S.bb[3]-S.bb[1]);
+  drawStamp(lctx,st,x,y,sz,color==='rainbow'?null:hexRgb(color));
+  const h=sz*.56;S.bb=[Math.max(0,Math.floor(x-h)),Math.max(0,Math.floor(y-h)),Math.min(E.W,Math.ceil(x+h)),Math.min(E.H,Math.ceil(y+h))];
+}
 paper.addEventListener('pointerdown',e=>{
   if(active!==null||!E.ready)return;e.preventDefault();
   const [x,y]=pos(e),td=toolDef();ac();
-  if(td.fill){doFill(x,y);return}
+  showCursor(e,true);
+  if(td.fill){doFill(x,y);if(e.pointerType!=='mouse')setTimeout(()=>showCursor(e,false),350);return}
   active=e.pointerId;try{paper.setPointerCapture(active)}catch(_){}
+  if(td.stamp){S={td,stamp:true,bb:[0,0,0,0]};cLive.style.opacity=1;cLive.style.webkitMaskImage=cLive.style.maskImage='none';stampAt(x,y);sfx.tap();return}
   S={td,w:SIZES[size]*E.scale*td.wf,lx:x,ly:y,mx:x,my:y,bb:[1e9,1e9,-1e9,-1e9],mask:false,n:0,t:performance.now(),v:0};
   if(E.mode==='color'&&E.reg){const L=regionAt(x,y);if(L){buildMask(L);S.mask=true}}
   S.base=td.eraser?[255,255,255]:color==='rainbow'?null:hexRgb(color);
@@ -599,6 +707,8 @@ paper.addEventListener('pointerdown',e=>{
 });
 paper.addEventListener('pointermove',e=>{
   if(e.pointerId!==active||!S)return;
+  showCursor(e,true);
+  if(S.stamp){const [x,y]=pos(e);stampAt(x,y);return}
   const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
   for(const ev of (evs.length?evs:[e])){const [x,y]=pos(ev),mx=(S.lx+x)/2,my=(S.ly+y)/2;
     const dist=Math.hypot(x-S.lx,y-S.ly);if(dist<.5)continue;
@@ -606,7 +716,7 @@ paper.addEventListener('pointermove',e=>{
     const now=performance.now(),dt=Math.max(1,now-S.t);S.t=now;S.v=S.v*.7+(dist/E.scale/dt)*.3;}
   scribbleSpeed(S.v);
 });
-['pointerup','pointercancel','lostpointercapture'].forEach(ev=>paper.addEventListener(ev,e=>{if(e.pointerId!==active)return;active=null;endStroke()}));
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>paper.addEventListener(ev,e=>{if(e.pointerId!==active)return;active=null;endStroke();showCursor(e,e.pointerType==='mouse')}));
 paper.addEventListener('contextmenu',e=>e.preventDefault());
 
 function seg(ax,ay,cx,cy,bx,by){
@@ -620,6 +730,16 @@ function seg(ax,ay,cx,cy,bx,by){
     const n=S.offs.length,bw=w/n*1.8;
     for(let j=0;j<n;j++){const o=(j/(n-1)-.5)*w*.9,ox=nx*o,oy=ny*o;ctx.strokeStyle=rgbStr(shade(col,S.offs[j]));ctx.lineWidth=bw;
       ctx.beginPath();ctx.moveTo(ax+ox,ay+oy);ctx.quadraticCurveTo(cx+ox,cy+oy,bx+ox,by+oy);ctx.stroke()}
+  }else if(td.glitter){
+    // glitter: a darker base with lots of tiny light, dark and white sparkles on top
+    ctx.strokeStyle=rgbStr(shade(col,-.2));ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(ax,ay);ctx.quadraticCurveTo(cx,cy,bx,by);ctx.stroke();
+    const L=Math.hypot(bx-ax,by-ay),n=Math.max(1,Math.ceil(L/(w*.18))),dot=Math.max(1.5,w*.07);
+    for(let i=0;i<n;i++){const f=i/n,px=ax+(bx-ax)*f,py=ay+(by-ay)*f;
+      for(let k=0;k<7;k++){const a=Math.random()*6.283,r=Math.sqrt(Math.random())*w*.5,q=Math.random();
+        ctx.fillStyle=q<.14?'#fff':rgbStr(shade(col,q<.5?-.5*Math.random():.75*Math.random()));
+        ctx.fillRect(px+Math.cos(a)*r-dot/2,py+Math.sin(a)*r-dot/2,dot,dot)}
+      if(Math.random()<.05){const r=Math.random()*w*.4,a=Math.random()*6.283,sx=px+Math.cos(a)*r,sy=py+Math.sin(a)*r,k=w*.22;
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(sx,sy-k);ctx.lineTo(sx+k*.25,sy-k*.25);ctx.lineTo(sx+k,sy);ctx.lineTo(sx+k*.25,sy+k*.25);ctx.lineTo(sx,sy+k);ctx.lineTo(sx-k*.25,sy+k*.25);ctx.lineTo(sx-k,sy);ctx.lineTo(sx-k*.25,sy-k*.25);ctx.fill()}}
   }else{
     const cs=rgbStr(col);ctx.strokeStyle=cs;ctx.lineWidth=w;
     if(td.soft){ctx.shadowColor=cs;ctx.shadowBlur=w*.5}
@@ -643,6 +763,7 @@ function endStroke(){
   pctx.globalAlpha=s.td.alpha;pctx.drawImage(src,x0,y0,w,h,x0,y0,w,h);pctx.globalAlpha=1;
   lctx.clearRect(0,0,E.W,E.H);
   E.dirty=true;
+  if(s.stamp)sfx.pop();
 }
 
 /* ---------- dock ---------- */
@@ -659,13 +780,16 @@ function renderColors(){
   $('#colors').innerHTML=`<button class="plus" id="plusBtn" aria-label="${t('pick')}"><span>+</span></button>`+
     all.map(([c,en,id])=>`<button class="sw${c===color?' on':''}" data-color="${c}" aria-label="${(lang==='id'?id:en)||c}">${swatchSVG(c)}</button>`).join('');
 }
-$('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;tool=b.dataset.tool;store.set('tool',tool);renderTools();sfx.tap()});
+$('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;tool=b.dataset.tool;store.set('tool',tool);renderTools();renderStamps();sfx.tap()});
+$('#stamps').addEventListener('click',e=>{const b=e.target.closest('[data-stamp]');if(!b)return;stampId=b.dataset.stamp;store.set('stamp',stampId);renderStamps();sfx.tap()});
+$('#arrL').onclick=()=>{const c=$('#colors');c.scrollLeft-=c.clientWidth*.8;sfx.tap()};
+$('#arrR').onclick=()=>{const c=$('#colors');c.scrollLeft+=c.clientWidth*.8;sfx.tap()};
 $('#sizes').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size',size);renderSizes();sfx.tap()});
 $('#colors').addEventListener('click',e=>{
   if(e.target.closest('#plusBtn')){openPicker();return}
   const b=e.target.closest('[data-color]');if(!b)return;color=b.dataset.color;store.set('color',color);
   if(toolDef().eraser){tool='crayon';store.set('tool',tool)}
-  renderColors();renderTools();renderSizes();sfx.pop();
+  renderColors();renderTools();renderSizes();renderStamps();sfx.pop();
   const nm=COLORS.find(x=>x[0]===color);if(nm)say(lang==='id'?nm[2]:nm[1]);
 });
 
@@ -681,7 +805,7 @@ function onDrag(el,fn){let on=false;el.addEventListener('pointerdown',e=>{on=tru
 onDrag(wheel,e=>{const r=wheel.getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2;pk.h=(Math.atan2(dy,dx)*180/Math.PI+360)%360;pk.s=Math.min(100,Math.hypot(dx,dy)/(r.width/2)*100);pk.l=50;drawLight()});
 onDrag(light,e=>{const r=light.getBoundingClientRect();pk.l=Math.max(5,Math.min(95,(e.clientX-r.left)/r.width*100));drawLight()});
 $('#pkClose').onclick=()=>ov('picker',false);
-$('#pkOk').onclick=()=>{const c=pkHex();customs=[c,...customs.filter(x=>x!==c)].slice(0,3);store.set('customs',customs);color=c;store.set('color',c);if(toolDef().eraser)tool='crayon';renderColors();renderTools();renderSizes();ov('picker',false);sfx.pop();$('#colors').scrollLeft=0};
+$('#pkOk').onclick=()=>{const c=pkHex();customs=[c,...customs.filter(x=>x!==c)].slice(0,3);store.set('customs',customs);color=c;store.set('color',c);if(toolDef().eraser)tool='crayon';renderColors();renderTools();renderSizes();renderStamps();ov('picker',false);sfx.pop();$('#colors').scrollLeft=0};
 
 /* ---------- editor buttons ---------- */
 $('#undoBtn').onclick=undo;
@@ -726,8 +850,13 @@ function renderPick(){
   $('#pickGrid').innerHTML=PAGES.map(p=>`<button class="card" data-page="${p.id}"><img src="${p.src}" alt="" loading="lazy"><b>${p.name[lang]}</b></button>`).join('');
 }
 $('#pickGrid').addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(!b)return;sfx.tap();openEditor('color',PAGES.find(p=>p.id===b.dataset.page))});
-$('#goDraw').onclick=()=>{sfx.tap();openEditor('draw')};
-$('#goColor').onclick=()=>{sfx.tap();show('pick')};
+let picking=false;
+function pickMode(btn,go){
+  if(picking)return;picking=true;sfx.pop();btn.classList.add('pick');btn.parentElement.classList.add('chosen');
+  setTimeout(()=>{go();btn.classList.remove('pick');btn.parentElement.classList.remove('chosen');picking=false},520);
+}
+$('#goDraw').onclick=e=>pickMode(e.currentTarget,()=>openEditor('draw'));
+$('#goColor').onclick=e=>pickMode(e.currentTarget,()=>show('pick'));
 $('#goGal').onclick=()=>{sfx.tap();show('gal');renderGal()};
 document.querySelectorAll('.back').forEach(b=>b.onclick=()=>{sfx.tap();goBack()});
 $('#langBtn').onclick=()=>{lang=lang==='en'?'id':'en';store.set('lang',lang);applyLang();sfx.tap()};
