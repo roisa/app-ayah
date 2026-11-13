@@ -1,0 +1,15 @@
+{
+  "name": "Mo Color & Draw",
+  "short_name": "Mo Color",
+  "description": "Islamic coloring and drawing game for kids. No ads, no data collected.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffa51f",
+  "theme_color": "#ffa51f",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

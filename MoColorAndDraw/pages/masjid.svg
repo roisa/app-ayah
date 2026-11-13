@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600"><g fill="#fff" stroke="#222" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M630 70a42 42 0 1 0 30 75a36 36 0 1 1-30-75z"/>
+<path d="M120 80l8 17l18 2l-13 12l4 18l-17-9l-17 9l4-18l-13-12l18-2z"/>
+<path d="M230 140l6 12l13 1l-10 9l3 13l-12-7l-12 7l3-13l-10-9l13-1z"/>
+<path d="M-10 500L810 500L810 610L-10 610Z"/>
+<path d="M95 500V250h50v250Z"/><path d="M85 250h70l-35-70Z"/><path d="M90 300h60v20h-60zM90 400h60v20h-60z"/>
+<path d="M655 500V250h50v250Z"/><path d="M645 250h70l-35-70Z"/><path d="M650 300h60v20h-60zM650 400h60v20h-60z"/>
+<path d="M120 180v-20M680 180v-20"/>
+<path d="M190 500V320h420v180Z"/>
+<path d="M180 330h440v-25h-440z"/>
+<path d="M250 305C250 210 320 160 400 140C480 160 550 210 550 305Z"/>
+<path d="M400 140v-40"/><path d="M400 70a16 16 0 1 0 10 30a13 13 0 1 1-10-30z"/>
+<path d="M355 500V420Q355 375 400 365Q445 375 445 420V500Z"/>
+<path fill="none" d="M400 365V500"/>
+<path d="M230 440V400q0-25 25-30q25 5 25 30v40Z"/><path d="M520 440V400q0-25 25-30q25 5 25 30v40Z"/>
+<path fill="none" d="M190 350h420"/>
+<path d="M300 240a14 14 0 0 1 28 0v30h-28zM386 220a14 14 0 0 1 28 0v40h-28zM472 240a14 14 0 0 1 28 0v30h-28z"/>
+<path d="M320 500v20h160v-20M300 520v20h200v-20" />
+</g></svg>

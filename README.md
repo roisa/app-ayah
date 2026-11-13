@@ -5,7 +5,7 @@
 | `/` | https://roisa.github.io/app-ayah/ | Mo Games landing page: game shelf, games, values, parents (art in `home/`) |
 | `NurConnect/` | https://roisa.github.io/app-ayah/NurConnect/ | Nur Connect, current version (v2) |
 | `NurConnect/v1/` | https://roisa.github.io/app-ayah/NurConnect/v1/ | Nur Connect, first simple version |
-| `MoColorAndDraw/` | https://roisa.github.io/app-ayah/MoColorAndDraw/ | Mo Color & Draw (coming soon) |
+| `MoColorAndDraw/` | https://roisa.github.io/app-ayah/MoColorAndDraw/ | Mo Color & Draw: coloring and drawing for kids 3+ (see below) |
 
 The old links (`/v1/`, `/about/`, `/store-kit/`, `/privacy/`, `/support/`) redirect to their new place under `NurConnect/`. Paths inside the Nur Connect README below are relative to `NurConnect/`.
 
@@ -64,3 +64,19 @@ Worlds are listed in `WORLDS` in `index.html`: 12 categories, each keeping its o
 | Support | https://roisa.github.io/app-ayah/NurConnect/support/ | `NurConnect/support/` |
 
 Store images live in `NurConnect/store/`: captioned screenshots for iPhone 6.9" (1320×2868), iPhone 6.3" (1206×2622) and Google Play (1080×1920), raw game captures, the Play feature graphic (1024×500) and the 512 px Play icon. They were captured from the real game with Playwright.
+
+# Mo Color & Draw
+
+Coloring and free drawing for kids aged 3+, in English and Bahasa Indonesia. Everything is in `MoColorAndDraw/index.html`.
+
+- **Draw:** blank paper. **Color:** coloring pages; paint stays inside the area where the finger started, and the Fill bucket fills a whole area.
+- Tools: crayon, highlighter (Stabilo), brush, bold pen, oil brush (paint mixes with the colour under it), fill and eraser; 3 sizes; 14 colours plus rainbow; the + button opens a colour wheel for any colour (the last 3 are kept).
+- Starts with a **Bismillah** button; the camera button saves the picture and celebrates with **Alhamdulillah**, plus a "Did you know?" fact on coloring pages.
+- Undo, hold-to-clear, and auto-save to **My Art** when leaving. Pictures are stored only on the device (IndexedDB). Saving/sharing to the photo library and deleting are behind a parent gate (hold 3 seconds).
+- Sounds are synthesised in the browser; colour names are spoken with the device's text-to-speech. Works offline (`sw.js`) and can be installed to the home screen (`manifest.webmanifest`).
+
+## Adding coloring pages
+
+Put the line art in `MoColorAndDraw/pages/` and add an entry to `PAGES` in `MoColorAndDraw/index.html` (name and "Did you know?" fact in EN and ID). Then add the file to `ASSETS` in `MoColorAndDraw/sw.js` and bump `VERSION`.
+
+Line art works best as **black outlines on a white or transparent background**, PNG/WebP/SVG, about 1600 px on the long side, any shape. Lines should be **fully closed** (no gaps), fairly thick, with no grey shading or texture, or the fill will leak into the next area. The six current pages (camel, bee, big fish, elephant, ant, masjid) are simple placeholders.

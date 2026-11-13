@@ -2,26 +2,771 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mo Color & Draw</title>
-<meta name="theme-color" content="#ff8a3d">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Mo Color &amp; Draw – Islamic Coloring &amp; Drawing Game for Kids | Mo Games</title>
+<meta name="description" content="Mo Color & Draw: a free Islamic coloring and drawing game for kids aged 3+. Color masjids and animals from the Qur'an, draw with crayons, brushes and markers. Start with Bismillah, finish with Alhamdulillah. No ads, no data collected. English and Bahasa Indonesia. Game mewarnai dan menggambar untuk anak muslim.">
+<meta name="keywords" content="Islamic coloring for kids, Muslim kids drawing app, toddler coloring game, coloring pages, mewarnai anak, menggambar anak, game anak muslim, mewarnai masjid, aplikasi anak islami">
+<link rel="canonical" href="https://roisa.github.io/app-ayah/MoColorAndDraw/">
+<meta name="theme-color" content="#ffa51f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mo Color & Draw – Islamic Coloring & Drawing for Kids">
+<meta property="og:description" content="Color masjids and animals from the Qur'an, draw with crayons and brushes. Start with Bismillah, finish with Alhamdulillah. No ads.">
+<meta property="og:url" content="https://roisa.github.io/app-ayah/MoColorAndDraw/">
+<meta property="og:image" content="https://roisa.github.io/app-ayah/MoColorAndDraw/icons/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="../NurConnect/fonts/fonts.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Mo Color & Draw","alternateName":"Mo Mewarnai & Menggambar","url":"https://roisa.github.io/app-ayah/MoColorAndDraw/","applicationCategory":"GameApplication","operatingSystem":"Any (web browser)","inLanguage":["en","id"],"description":"Islamic coloring and drawing game for kids aged 3+. No ads, no data collected.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"IBRAZ Group (Mo Games)"}}
+</script>
 <style>
-*{box-sizing:border-box;margin:0}
-body{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px 16px;color:#fff;background:linear-gradient(160deg,#ffcf4d,#ff8a3d 50%,#ff5fa8);font:18px/1.5 "Baloo 2",-apple-system,system-ui,sans-serif}
-.e{font-size:96px;animation:b 3s ease-in-out infinite}
-@keyframes b{50%{transform:translateY(-12px) rotate(-6deg)}}
-h1{font-family:"Lilita One",sans-serif;font-weight:400;font-size:clamp(40px,10vw,64px);line-height:1.05;margin:8px 0;text-shadow:0 4px 0 rgba(0,0,0,.12)}
-p{font-weight:700;opacity:.95}
-a{display:inline-block;margin-top:22px;background:#fff;color:#c2367a;font-weight:800;text-decoration:none;border-radius:999px;padding:12px 24px;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+:root{--or:#ffa51f;--or2:#ff9410;--ink:#3a2410;--ink2:#7a5a3a;--yel:#ffc928;--yel2:#f5a800;--pink:#ff5fa8;--grn:#22c08d;--blue:#3fa9f5;
+  --shadow:0 6px 0 rgba(176,92,0,.25),0 14px 30px rgba(140,70,0,.18);--safeB:env(safe-area-inset-bottom,0px);--safeT:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{background:var(--or);color:var(--ink);font:600 17px/1.4 "Baloo 2",-apple-system,system-ui,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overflow:hidden}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+.fun{font-family:"Lilita One","Baloo 2",sans-serif;font-weight:400;letter-spacing:.01em}
+.ar{font-family:"Baloo Bhaijaan 2","Baloo 2",sans-serif;direction:rtl}
+.scr{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden}
+.scr.on{display:flex}
+.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
+
+/* faded shapes on orange */
+.bgdeco{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.bgdeco i{position:absolute;border-radius:50%;background:rgba(255,255,255,.14)}
+
+/* round buttons */
+.rb{width:56px;height:56px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 5px var(--yel),0 5px 0 rgba(176,92,0,.25);display:grid;place-items:center;flex:none;transition:transform .15s}
+.rb:active{transform:scale(.9)}
+.rb svg{width:28px;height:28px;fill:#e98a00}
+.rb b{font:400 19px "Lilita One",sans-serif;color:#d07a00}
+.rb[disabled]{opacity:.45}
+.rb.save{background:radial-gradient(circle at 35% 30%,#ffe066,var(--yel) 55%,var(--yel2));box-shadow:inset 0 -4px 0 rgba(0,0,0,.12),0 5px 0 rgba(176,92,0,.3);width:64px;height:64px}
+.rb.save svg{fill:#fff;width:32px;height:32px;filter:drop-shadow(0 2px 0 rgba(176,92,0,.45))}
+.bar{display:flex;align-items:center;gap:10px;padding:calc(12px + var(--safeT)) 16px 8px;flex:none}
+.bar h2{color:#fff;font-size:clamp(24px,5vw,34px);text-shadow:0 3px 0 rgba(176,92,0,.35);margin-right:auto;line-height:1.1}
+.sp{flex:1}
+
+/* home */
+#home .hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 16px;color:#fff}
+#home .mo{height:clamp(110px,22vh,190px);width:auto;filter:drop-shadow(0 8px 10px rgba(120,60,0,.3));animation:wave 3s ease-in-out infinite;transform-origin:50% 90%}
+@keyframes wave{50%{transform:rotate(-4deg) translateY(-6px)}}
+#home h1{font-size:clamp(34px,8vw,58px);line-height:1;text-shadow:0 4px 0 rgba(176,92,0,.35);margin-top:4px}
+#home .tag{font-weight:800;opacity:.95;font-size:clamp(14px,2.4vw,18px)}
+.modes{display:flex;justify-content:center;gap:clamp(14px,3vw,28px);padding:clamp(14px,3vh,28px) 16px 10px;flex-wrap:wrap}
+.mode{width:min(42vw,300px);aspect-ratio:1/1.08;background:#fff;border-radius:44px;padding:9px;box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.3,1.6,.5,1);display:flex;flex-direction:column}
+.mode:active{transform:scale(.95)}
+.mode .in{flex:1;border-radius:36px;position:relative;overflow:hidden;display:grid;place-items:center}
+.mode.d .in{background:linear-gradient(160deg,#6fd0ff,#3f8cf5)}
+.mode.c .in{background:linear-gradient(160deg,#ffd84d,#ff9a3d 50%,#ff5fa8)}
+.mode .paperc{width:72%;aspect-ratio:4/3;background:#fff;border-radius:14px;box-shadow:0 8px 16px rgba(0,0,0,.18);transform:rotate(-4deg);overflow:hidden;display:grid;place-items:center}
+.mode .paperc img,.mode .paperc svg{width:100%;height:100%;object-fit:contain}
+.mode .lbl{font:400 clamp(22px,4.4vw,34px)/1 "Lilita One",sans-serif;color:var(--ink);padding:10px 6px 4px;text-align:center}
+.mode .lbl small{display:block;font:800 clamp(12px,2vw,15px) "Baloo 2",sans-serif;color:var(--ink2);margin-top:2px}
+.mode .pc{position:absolute;right:8%;bottom:6%;width:22%;transform:rotate(25deg);filter:drop-shadow(0 4px 4px rgba(0,0,0,.2))}
+.pill{display:inline-flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:10px 24px 10px 12px;box-shadow:var(--shadow);font:400 22px "Lilita One",sans-serif;color:#c2367a;transition:transform .15s}
+.pill:active{transform:scale(.94)}
+.pill i{width:42px;height:42px;border-radius:50%;background:var(--pink);display:grid;place-items:center}
+.pill i svg{width:24px;height:24px;fill:#fff}
+.homeFoot{text-align:center;padding:14px 16px calc(18px + var(--safeB))}
+.legal{color:#fff;opacity:.85;font-size:13px;font-weight:700;margin-top:14px}
+
+/* picker / gallery grids */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(42vw,220px),1fr));gap:16px;padding:8px 16px calc(24px + var(--safeB));max-width:1100px;margin:0 auto;width:100%}
+.card{background:#fff;border-radius:30px;padding:8px;box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.3,1.6,.5,1);text-align:center}
+.card:active{transform:scale(.95)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:contain;border-radius:22px;background:#fff;display:block}
+.card b{display:block;font:400 20px "Lilita One",sans-serif;padding:4px 0 2px}
+#galGrid .card img{object-fit:cover;background:#f4f4f4}
+.empty{color:#fff;text-align:center;padding:40px 20px;font-weight:800;font-size:20px;display:none}
+.empty em{font-style:normal;font-size:64px;display:block}
+
+/* editor */
+#ed{background:#fff3df}
+#ed .bar{padding:calc(8px + var(--safeT)) 12px 4px;background:transparent}
+#ed .ttl{flex:1;text-align:center;font:400 clamp(18px,3vw,26px) "Lilita One",sans-serif;color:#d07a00;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hold{position:relative}
+.hold .ring{position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(#ff5fa8 var(--p,0%),transparent 0);-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%);mask:radial-gradient(circle,transparent 58%,#000 60%);pointer-events:none}
+.tip{position:absolute;top:110%;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;font-weight:800;border-radius:10px;padding:4px 10px;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none;z-index:5}
+.tip.on{opacity:1}
+#stage{flex:1;min-height:0;position:relative;display:grid;place-items:center}
+#paper{position:relative;background:#fff;border-radius:18px;box-shadow:0 2px 0 rgba(176,92,0,.12),0 10px 26px rgba(140,70,0,.16);overflow:hidden;touch-action:none}
+#paper canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#cLine{pointer-events:none}
+#cLive{pointer-events:none;-webkit-mask-repeat:repeat;mask-repeat:repeat}
+
+.dock{flex:none;background:#fff;border-radius:30px 30px 0 0;box-shadow:0 -6px 20px rgba(176,92,0,.15);padding:8px 10px 0;display:grid;grid-template-columns:1fr auto;grid-template-areas:"tools sizes" "colors colors";column-gap:8px;position:relative;z-index:2}
+.tools{grid-area:tools;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:flex-end;padding-top:6px}
+.sizes{grid-area:sizes;display:flex;align-items:center;gap:2px;padding:0 2px}
+.colors{grid-area:colors;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:flex-end;padding:8px 2px 0;margin:0 -10px;padding-left:10px;padding-right:10px;height:calc(64px + var(--safeB));border-top:3px dashed #ffe2b8}
+.tools::-webkit-scrollbar,.colors::-webkit-scrollbar{display:none}
+.tl{flex:none;width:clamp(36px,calc((100vw - 132px)/7),48px);height:70px;border-radius:16px;display:flex;align-items:flex-end;justify-content:center;transition:transform .18s cubic-bezier(.3,1.6,.5,1),background .2s}
+.tl svg{width:100%;max-width:40px;height:66px}
+.tl.on{transform:translateY(-6px);background:#fff1d6;box-shadow:inset 0 0 0 3px var(--yel)}
+.sz{width:clamp(30px,8vw,40px);height:40px;border-radius:50%;display:grid;place-items:center}
+.sz i{display:block;border-radius:50%;background:var(--cur,#ff3b30);box-shadow:inset 0 0 0 2px rgba(0,0,0,.12)}
+.sz.on{background:#fff1d6;box-shadow:inset 0 0 0 3px var(--yel)}
+.sw{flex:none;width:38px;height:calc(76px + var(--safeB));transform:translateY(18px);transition:transform .18s cubic-bezier(.3,1.6,.5,1);align-self:flex-start}
+.sw svg{width:38px;height:76px}
+.sw.on{transform:translateY(0)}
+.plus{flex:none;width:46px;height:46px;border-radius:50%;margin:2px 4px 0 0;align-self:flex-start;background:conic-gradient(#ff3b30,#ffd60a,#22b14c,#1ec8c8,#2f5bea,#a24bf0,#ff3b30);display:grid;place-items:center;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.plus span{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font:400 24px/1 "Lilita One",sans-serif;color:#d07a00}
+@media (min-width:1000px){
+  .dock{grid-template-columns:auto auto 1fr;grid-template-areas:"tools sizes colors";padding-bottom:0}
+  .colors{border-top:0;border-left:3px dashed #ffe2b8;margin:0;height:auto;padding-top:0;align-self:end}
+  .sw{height:calc(86px + var(--safeB))}
+  .tools{padding-bottom:calc(6px + var(--safeB))}
+}
+@media (max-height:520px) and (orientation:landscape){
+  #ed .rb{width:44px;height:44px}#ed .rb svg{width:22px;height:22px}#ed .rb.save{width:50px;height:50px}
+  .tl{height:56px;width:42px}.tl svg{height:54px;width:34px}
+  .dock{grid-template-columns:auto auto 1fr;grid-template-areas:"tools sizes colors"}
+  .colors{border-top:0;margin:0;height:auto;padding-top:0}
+  .sz{width:32px;height:32px}
+}
+
+/* overlays */
+.ov{position:fixed;inset:0;z-index:20;display:none;place-items:center;padding:16px;background:rgba(58,36,16,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.ov.on{display:grid}
+.box{background:#fff;border-radius:40px;padding:22px 20px 20px;max-width:440px;width:100%;text-align:center;box-shadow:var(--shadow);position:relative;animation:pop .35s cubic-bezier(.3,1.6,.5,1);max-height:calc(100dvh - 32px);overflow-y:auto}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.box .mo{height:120px;margin:-6px auto 0;animation:bounce 1s ease-in-out infinite}
+@keyframes bounce{50%{transform:translateY(-10px)}}
+.box h3{font:400 clamp(28px,7vw,40px)/1.05 "Lilita One",sans-serif;color:#d07a00;margin:6px 0 2px}
+.box .arb{font-size:clamp(30px,7vw,44px);color:var(--grn);font-weight:800;line-height:1.3}
+.box p{color:var(--ink2);font-weight:700}
+.bigbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;background:linear-gradient(180deg,#38d39f,#13a876);color:#fff;border-radius:999px;padding:14px 28px;font:400 clamp(20px,5vw,26px) "Lilita One",sans-serif;box-shadow:inset 0 -5px 0 rgba(0,0,0,.15),0 6px 0 rgba(0,90,60,.3);transition:transform .15s;animation:pulse 1.8s ease-in-out infinite}
+.bigbtn:active{transform:scale(.94)}
+@keyframes pulse{50%{transform:scale(1.05)}}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.btns .rb{width:64px;height:64px}
+.btns .rb svg{width:30px;height:30px}
+.fact{margin-top:12px;background:#fff6e0;border-radius:22px;padding:10px 14px;text-align:left}
+.fact b{color:#d07a00;font:400 17px "Lilita One",sans-serif}
+.fact p{font-size:15px;color:var(--ink)}
+.artprev{width:100%;max-height:34vh;object-fit:contain;border-radius:18px;margin-top:8px;box-shadow:0 0 0 4px #fff1d6}
+#viewer .box{max-width:720px}
+#viewer img{width:100%;max-height:62vh;object-fit:contain;border-radius:18px;background:#fff;box-shadow:0 0 0 4px #fff1d6}
+.x{position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;background:#fff1d6;display:grid;place-items:center;z-index:2}
+.x svg{width:22px;height:22px;fill:#d07a00}
+#wheel{width:min(70vw,280px);height:min(70vw,280px);border-radius:50%;margin:8px auto 0;display:block;touch-action:none;box-shadow:0 0 0 6px #fff1d6}
+#light{width:100%;height:44px;margin-top:16px;border-radius:22px;display:block;touch-action:none}
+.pv{width:64px;height:64px;border-radius:50%;margin:12px auto 0;box-shadow:0 0 0 5px #fff1d6,0 4px 10px rgba(0,0,0,.15)}
+#gate .hb{position:relative;width:110px;height:110px;border-radius:50%;margin:16px auto 4px;background:radial-gradient(circle at 35% 30%,#ffe066,var(--yel) 55%,var(--yel2));display:grid;place-items:center;box-shadow:0 6px 0 rgba(176,92,0,.3);touch-action:none}
+#gate .hb svg{width:44px;height:44px;fill:#fff}
+#gate .hb .ring{inset:-8px}
+#toast{position:fixed;left:50%;bottom:calc(150px + var(--safeB));transform:translate(-50%,20px);background:var(--ink);color:#fff;font-weight:800;border-radius:999px;padding:10px 20px;opacity:0;transition:.25s;z-index:40;pointer-events:none;white-space:nowrap}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:30;width:100%;height:100%}
+.loading{position:absolute;inset:0;display:grid;place-items:center;font:400 22px "Lilita One",sans-serif;color:#d07a00;background:#fff}
 </style>
 </head>
 <body>
-<main>
-  <div class="e">🎨</div>
-  <h1>Mo Color &amp; Draw</h1>
-  <p>Coming soon, insya Allah!</p>
-  <a href="../">← Mo Games</a>
-</main>
+<div class="bgdeco" aria-hidden="true"><i style="width:340px;height:340px;left:-120px;bottom:-110px"></i><i style="width:220px;height:220px;right:-70px;top:12%"></i><i style="width:140px;height:140px;left:55%;top:-50px"></i></div>
+
+<!-- HOME -->
+<section id="home" class="scr on">
+  <div class="bar">
+    <a class="rb" href="../" aria-label="Mo Games"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></a>
+    <span class="sp"></span>
+    <button class="rb" id="langBtn" aria-label="Language"><b id="langLbl">EN</b></button>
+    <button class="rb" id="sndBtn" aria-label="Sound"><svg viewBox="0 0 24 24" id="sndIco"></svg></button>
+  </div>
+  <div class="scroll">
+    <div class="hero">
+      <img class="mo" src="../home/mo.webp" alt="Mo">
+      <h1 class="fun">Mo Color &amp; Draw</h1>
+      <p class="tag" data-t="tag">Play Games the Islamic Way</p>
+    </div>
+    <div class="modes">
+      <button class="mode d" id="goDraw">
+        <span class="in">
+          <span class="paperc"><svg viewBox="0 0 120 90"><path d="M14 64c10-30 22-40 30-20s14 22 24 0 20-26 36-8" fill="none" stroke="#ff5fa8" stroke-width="7" stroke-linecap="round"/><path d="M20 30c8-8 16-8 24 0" fill="none" stroke="#ffc928" stroke-width="7" stroke-linecap="round"/><circle cx="94" cy="24" r="10" fill="#3fa9f5"/></svg></span>
+          <svg class="pc" viewBox="0 0 40 80"><path d="M12 22 20 3 28 22Z" fill="#22b14c"/><rect x="8" y="20" width="24" height="58" rx="4" fill="#22b14c"/><rect x="8" y="32" width="24" height="5" fill="#fff" opacity=".6"/><rect x="8" y="62" width="24" height="5" fill="#fff" opacity=".6"/></svg>
+        </span>
+        <span class="lbl"><span data-t="draw">Draw</span><small data-t="drawS">Blank paper</small></span>
+      </button>
+      <button class="mode c" id="goColor">
+        <span class="in"><span class="paperc"><img src="pages/camel.svg" alt=""></span>
+          <svg class="pc" viewBox="0 0 40 80"><path d="M12 22 20 3 28 22Z" fill="#2f5bea"/><rect x="8" y="20" width="24" height="58" rx="4" fill="#2f5bea"/><rect x="8" y="32" width="24" height="5" fill="#fff" opacity=".6"/><rect x="8" y="62" width="24" height="5" fill="#fff" opacity=".6"/></svg>
+        </span>
+        <span class="lbl"><span data-t="color">Color</span><small data-t="colorS">Coloring pages</small></span>
+      </button>
+    </div>
+    <div class="homeFoot">
+      <button class="pill" id="goGal"><i><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 13h16l-5-7-4 5-3-3z"/></svg></i><span data-t="myArt">My Art</span></button>
+      <p class="legal" data-t="legal">No ads · No data collected · Works offline</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE PICKER -->
+<section id="pick" class="scr">
+  <div class="bar">
+    <button class="rb back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15.5 4 7.5 12l8 8 2-2-6-6 6-6z"/></svg></button>
+    <h2 class="fun" data-t="choose">Choose a picture</h2>
+  </div>
+  <div class="scroll"><div class="grid" id="pickGrid"></div></div>
+</section>
+
+<!-- GALLERY -->
+<section id="gal" class="scr">
+  <div class="bar">
+    <button class="rb back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15.5 4 7.5 12l8 8 2-2-6-6 6-6z"/></svg></button>
+    <h2 class="fun" data-t="myArt">My Art</h2>
+  </div>
+  <div class="scroll"><div class="grid" id="galGrid"></div><div class="empty" id="galEmpty"><em>🖍️</em><span data-t="empty">No pictures yet. Let's make one!</span></div></div>
+</section>
+
+<!-- EDITOR -->
+<section id="ed" class="scr">
+  <div class="bar">
+    <button class="rb" id="edHome" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></button>
+    <button class="rb" id="undoBtn" aria-label="Undo" disabled><svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62A7.9 7.9 0 0 1 12.5 10.5c3.54 0 6.55 2.31 7.6 5.5l2.37-.78A10.5 10.5 0 0 0 12.5 8z"/></svg></button>
+    <button class="rb hold" id="clearBtn" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 14H7zM9 3h6l1 2h4v2H4V5h4z"/></svg><span class="ring"></span><span class="tip" data-t="hold">Hold to clear</span></button>
+    <div class="ttl" id="edTitle"></div>
+    <button class="rb save" id="saveBtn" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M9 4 7.2 6H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.2L15 4zm3 4.5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></button>
+  </div>
+  <div id="stage">
+    <div id="paper"><canvas id="cPaint"></canvas><canvas id="cLive"></canvas><canvas id="cLine"></canvas></div>
+  </div>
+  <div class="dock">
+    <div class="tools" id="tools"></div>
+    <div class="sizes" id="sizes"></div>
+    <div class="colors" id="colors"></div>
+  </div>
+</section>
+
+<!-- BISMILLAH -->
+<div class="ov" id="bism"><div class="box">
+  <img class="mo" src="../home/mo.webp" alt="">
+  <div class="arb ar">بِسْمِ اللَّهِ</div>
+  <p data-t="bismS">Say Bismillah before we start</p>
+  <button class="bigbtn" id="bismBtn"><span id="bismLbl">Bismillah!</span></button>
+</div></div>
+
+<!-- DONE -->
+<div class="ov" id="done"><div class="box">
+  <img class="mo" src="../home/mo.webp" alt="">
+  <div class="arb ar">الْحَمْدُ لِلَّهِ</div>
+  <h3 data-t="alh">Alhamdulillah!</h3>
+  <p data-t="alhS">What a beautiful picture! It's saved in My Art.</p>
+  <img class="artprev" id="doneImg" alt="">
+  <div class="fact" id="doneFact"><b data-t="dyk">Did you know?</b><p id="factTxt"></p></div>
+  <div class="btns">
+    <button class="rb" id="doneHome" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></button>
+    <button class="rb" id="doneGal" aria-label="My Art"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 13h16l-5-7-4 5-3-3z"/></svg></button>
+    <button class="rb save" id="doneKeep" aria-label="Keep going"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg></button>
+  </div>
+</div></div>
+
+<!-- VIEWER -->
+<div class="ov" id="viewer"><div class="box">
+  <button class="x" id="vClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
+  <img id="vImg" alt="">
+  <div class="btns">
+    <button class="rb" id="vDel" aria-label="Delete"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 14H7zM9 3h6l1 2h4v2H4V5h4z"/></svg></button>
+    <button class="rb" id="vShare" aria-label="Save or share"><svg viewBox="0 0 24 24"><path d="M11 3h2v10l3.5-3.5 1.4 1.4L12 16.8 6.1 10.9l1.4-1.4L11 13zM4 18h16v3H4z"/></svg></button>
+    <button class="rb save" id="vEdit" aria-label="Keep going"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg></button>
+  </div>
+</div></div>
+
+<!-- COLOR PICKER -->
+<div class="ov" id="picker"><div class="box">
+  <button class="x" id="pkClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
+  <h3 data-t="pick">Pick a color</h3>
+  <canvas id="wheel" width="560" height="560"></canvas>
+  <canvas id="light" width="600" height="60"></canvas>
+  <div class="pv" id="pv"></div>
+  <button class="bigbtn" id="pkOk" style="animation:none">✓ <span data-t="ok">OK</span></button>
+</div></div>
+
+<!-- PARENT GATE -->
+<div class="ov" id="gate"><div class="box">
+  <button class="x" id="gClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
+  <h3 data-t="gateT">For grown-ups</h3>
+  <p data-t="gateS">Hold the button for 3 seconds</p>
+  <div class="hb hold" id="gHold"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H5v13h14V9h-2V6a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9z"/></svg><span class="ring"></span></div>
+</div></div>
+
+<canvas id="fx"></canvas>
+<div id="toast"></div>
+
+<script>
+'use strict';
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem('mocd.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('mocd.'+k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- Text (EN / ID) ---------- */
+const TXT={
+en:{tag:'Play Games the Islamic Way',draw:'Draw',drawS:'Blank paper',color:'Color',colorS:'Coloring pages',myArt:'My Art',legal:'No ads · No data collected · Works offline',
+ choose:'Choose a picture',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
+ alh:'Alhamdulillah!',alhS:"What a beautiful picture! It's saved in My Art.",dyk:'Did you know?',pick:'Pick a color',ok:'OK',gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
+ saved:'Saved in My Art ✓',cleared:'All clean!',blank:'My drawing',deleted:'Deleted',
+ tools:{crayon:'Crayon',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',fill:'Fill',eraser:'Eraser'},
+ sayBism:'Bismillah',sayAlh:'Alhamdulillah! What a beautiful picture!'},
+id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',color:'Mewarnai',colorS:'Gambar mewarnai',myArt:'Karyaku',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
+ choose:'Pilih gambar',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
+ alh:'Alhamdulillah!',alhS:'Gambarnya bagus sekali! Sudah tersimpan di Karyaku.',dyk:'Tahukah kamu?',pick:'Pilih warna',ok:'OK',gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
+ saved:'Tersimpan di Karyaku ✓',cleared:'Bersih lagi!',blank:'Gambarku',deleted:'Dihapus',
+ tools:{crayon:'Krayon',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',fill:'Ember cat',eraser:'Penghapus'},
+ sayBism:'Bismillah',sayAlh:'Alhamdulillah! Gambarnya bagus sekali!'}};
+// language: saved choice here, else the one picked on the Mo Games landing page, else the device language
+let lang=store.get('lang',(()=>{try{const l=localStorage.getItem('moLang');if(l==='en'||l==='id')return l}catch(e){}return /^id\b|^id-/i.test(navigator.language||'')?'id':'en'})());
+let soundOn=store.get('sound',true);
+const t=k=>TXT[lang][k]??TXT.en[k];
+
+/* ---------- Coloring pages ----------
+   To add a page: put line art (SVG, PNG or WebP; black lines on white or transparent) in pages/ and add it here. */
+const PAGES=[
+ {id:'camel',src:'pages/camel.svg',name:{en:'Camel',id:'Unta'},fact:{en:'Allah asks us to look at how the camel is created. (Surah Al-Ghashiyah 88:17)',id:'Allah mengajak kita memperhatikan bagaimana unta diciptakan. (QS Al-Ghasyiyah: 17)'}},
+ {id:'bee',src:'pages/bee.svg',name:{en:'Bee',id:'Lebah'},fact:{en:'A whole surah is named after the bee: An-Nahl. The honey bees make is a healing for people. (16:69)',id:'Ada surah yang dinamai lebah: An-Nahl. Madu dari lebah menjadi obat bagi manusia. (QS An-Nahl: 69)'}},
+ {id:'whale',src:'pages/whale.svg',name:{en:'Big Fish',id:'Ikan Besar'},fact:{en:'Nabi Yunus prayed to Allah from inside the big fish, and Allah saved him. (Surah Al-Anbiya 21:87-88)',id:'Nabi Yunus berdoa kepada Allah dari dalam perut ikan besar, dan Allah menyelamatkannya. (QS Al-Anbiya: 87-88)'}},
+ {id:'elephant',src:'pages/elephant.svg',name:{en:'Elephant',id:'Gajah'},fact:{en:"Surah Al-Fil tells how Allah protected the Ka'bah from an army that came with elephants.",id:"Surah Al-Fil menceritakan bagaimana Allah melindungi Ka'bah dari pasukan bergajah."}},
+ {id:'ant',src:'pages/ant.svg',name:{en:'Ant',id:'Semut'},fact:{en:"In Surah An-Naml, a little ant told its friends to go home so Nabi Sulaiman's army would not step on them. (27:18)",id:'Dalam Surah An-Naml, seekor semut kecil mengajak teman-temannya masuk ke sarang agar tidak terinjak pasukan Nabi Sulaiman. (QS An-Naml: 18)'}},
+ {id:'masjid',src:'pages/masjid.svg',name:{en:'Masjid',id:'Masjid'},fact:{en:'The masjid is the house of Allah. We enter with the right foot and say a du\'a.',id:'Masjid adalah rumah Allah. Kita masuk dengan kaki kanan sambil berdoa.'}},
+];
+
+/* ---------- Colors & tools ---------- */
+const COLORS=[
+ ['#ff3b30','Red','Merah'],['#ff8a00','Orange','Oranye'],['#ffd60a','Yellow','Kuning'],['#8bd346','Light green','Hijau muda'],['#1fa64a','Green','Hijau'],
+ ['#3fc6f5','Sky blue','Biru muda'],['#2f5bea','Blue','Biru'],['#9b4bf0','Purple','Ungu'],['#ff5fa8','Pink','Merah muda'],['#f6c49a','Peach','Krem'],
+ ['#8b5a2b','Brown','Cokelat'],['#9aa0a6','Gray','Abu-abu'],['#222222','Black','Hitam'],['#ffffff','White','Putih'],['rainbow','Rainbow','Pelangi']];
+const TOOLS=[
+ {id:'crayon',wf:1,alpha:1,grain:true,snd:2600,vol:.10},
+ {id:'marker',wf:2.4,alpha:.42,snd:1700,vol:.07},
+ {id:'brush',wf:1.25,alpha:.92,soft:true,snd:700,vol:.06},
+ {id:'pen',wf:.75,alpha:1,snd:1300,vol:.06},
+ {id:'oil',wf:1.9,alpha:1,oil:true,snd:450,vol:.09},
+ {id:'fill',fill:true},
+ {id:'eraser',wf:1.9,alpha:1,eraser:true,snd:1000,vol:.08}];
+const SIZES=[6,14,28];
+
+function toolSVG(id,c){
+  const o='stroke="rgba(0,0,0,.28)" stroke-width="1.5"';
+  if(c==='rainbow')c='url(#rbg)';
+  const defs='<defs><linearGradient id="rbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff3b30"/><stop offset=".25" stop-color="#ffd60a"/><stop offset=".5" stop-color="#1fa64a"/><stop offset=".75" stop-color="#2f5bea"/><stop offset="1" stop-color="#9b4bf0"/></linearGradient></defs>';
+  const s={
+   crayon:`<path d="M13 22 20 4 27 22Z" fill="${c}" ${o}/><rect x="10" y="20" width="20" height="50" rx="3" fill="${c}" ${o}/><rect x="10" y="32" width="20" height="5" fill="#fff" opacity=".6"/><rect x="10" y="58" width="20" height="5" fill="#fff" opacity=".6"/>`,
+   marker:`<path d="M13 20 15 6 27 10 27 20Z" fill="${c}" ${o}/><rect x="11" y="18" width="18" height="10" fill="#555"/><rect x="7" y="27" width="26" height="43" rx="7" fill="${c}" ${o}/><rect x="11" y="34" width="5" height="28" rx="2.5" fill="#fff" opacity=".45"/>`,
+   brush:`<rect x="16" y="36" width="8" height="34" rx="4" fill="#d38a4a" ${o}/><rect x="14" y="25" width="12" height="13" rx="2" fill="#c9ced6" ${o}/><path d="M14 26Q13 10 20 2Q27 10 26 26Z" fill="${c}" ${o}/>`,
+   pen:`<rect x="11" y="24" width="18" height="46" rx="5" fill="${c}" ${o}/><path d="M14 25 16 12Q20 6 24 12L26 25Z" fill="#444"/><path d="M17 13Q20 8 23 13Z" fill="${c}"/><rect x="11" y="44" width="18" height="6" fill="#fff" opacity=".5"/>`,
+   oil:`<rect x="16" y="40" width="8" height="30" rx="4" fill="#8b5a2b" ${o}/><rect x="10" y="28" width="20" height="14" rx="2" fill="#c9ced6" ${o}/><rect x="10" y="6" width="20" height="24" rx="3" fill="${c}" ${o}/><path d="M15 8v20M20 8v20M25 8v20" stroke="rgba(0,0,0,.18)" stroke-width="1.5"/>`,
+   fill:`<path d="M7 30h26l-3 38H10Z" fill="#e9eef5" ${o}/><ellipse cx="20" cy="30" rx="13" ry="5" fill="${c}" ${o}/><path d="M28 31q4 10 0 18q-5-8 0-18" fill="${c}"/><path d="M9 30q11-22 22 0" fill="none" stroke="#777" stroke-width="2.5"/>`,
+   eraser:`<rect x="8" y="22" width="24" height="48" rx="6" fill="#ff9ec0" ${o}/><rect x="8" y="44" width="24" height="26" rx="4" fill="#4aa3ff" ${o}/><rect x="12" y="27" width="5" height="12" rx="2.5" fill="#fff" opacity=".5"/>`};
+  return `<svg viewBox="0 0 40 72">${defs}${s[id]}</svg>`;
+}
+function swatchSVG(c){
+  const fill=c==='rainbow'?'url(#rbs)':c,o='stroke="rgba(0,0,0,.22)" stroke-width="1.2"';
+  return `<svg viewBox="0 0 40 80"><defs><linearGradient id="rbs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff3b30"/><stop offset=".25" stop-color="#ffd60a"/><stop offset=".5" stop-color="#1fa64a"/><stop offset=".75" stop-color="#2f5bea"/><stop offset="1" stop-color="#9b4bf0"/></linearGradient></defs><path d="M12 22 20 3 28 22Z" fill="${fill}" ${o}/><rect x="8" y="20" width="24" height="60" rx="4" fill="${fill}" ${o}/><rect x="8" y="33" width="24" height="5" fill="#fff" opacity=".55"/><rect x="8" y="62" width="24" height="5" fill="#fff" opacity=".55"/></svg>`;
+}
+
+/* ---------- Sound (synthesised, no files) ---------- */
+let AC=null,noiseBuf=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();const n=AC.sampleRate;noiseBuf=AC.createBuffer(1,n,n);const d=noiseBuf.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC}
+function tone(f,dur,type='sine',vol=.15,when=0,slide=0){const a=ac();if(!a||!soundOn)return;const t0=a.currentTime+when,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f,t0);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t0+dur);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol,t0+.01);g.gain.exponentialRampToValueAtTime(.001,t0+dur);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+dur+.05)}
+const sfx={
+ tap(){tone(660,.08,'triangle',.12)},
+ pop(){tone(520,.12,'sine',.18,0,900)},
+ fill(){tone(300,.25,'sine',.16,0,900);tone(900,.15,'triangle',.08,.12,1400)},
+ undo(){tone(700,.14,'sine',.14,0,350)},
+ clear(){tone(900,.4,'triangle',.12,0,180)},
+ win(){[523,659,784,1047].forEach((f,i)=>tone(f,.35,'triangle',.14,i*.11));tone(1568,.6,'sine',.08,.45)},
+ bism(){[392,523,659].forEach((f,i)=>tone(f,.4,'sine',.12,i*.09))}};
+let scr=null;
+function scribbleStart(tool){const a=ac();if(!a||!soundOn||!tool.snd)return;try{const s=a.createBufferSource();s.buffer=noiseBuf;s.loop=true;const f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=tool.snd;f.Q.value=1.1;const g=a.createGain();g.gain.value=0;s.connect(f).connect(g).connect(a.destination);s.start();scr={s,g,vol:tool.vol}}catch(e){}}
+function scribbleSpeed(v){if(!scr)return;scr.g.gain.setTargetAtTime(Math.min(scr.vol,v*scr.vol/1.2),AC.currentTime,.04)}
+function scribbleStop(){if(!scr)return;const {s,g}=scr;scr=null;try{g.gain.setTargetAtTime(0,AC.currentTime,.03);s.stop(AC.currentTime+.2)}catch(e){}}
+
+/* Voice (device text-to-speech) */
+const TTS='speechSynthesis' in window;let voices=[];
+function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
+if(TTS){loadVoices();try{speechSynthesis.addEventListener('voiceschanged',loadVoices)}catch(e){}}
+function say(text){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const L=lang==='id'?'id':'en';u.lang=L==='id'?'id-ID':'en-US';const v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(L));if(v)u.voice=v;u.rate=.95;u.pitch=1.2;speechSynthesis.speak(u)}catch(e){}}
+
+/* ---------- Storage (IndexedDB, on this device only) ---------- */
+let dbP=null;
+function db(){if(!dbP)dbP=new Promise((res,rej)=>{try{const r=indexedDB.open('mo-color-draw',1);r.onupgradeneeded=()=>r.result.createObjectStore('art',{keyPath:'id',autoIncrement:true});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}});return dbP}
+async function dbDo(mode,fn){const d=await db();return new Promise((res,rej)=>{const tx=d.transaction('art',mode);const r=fn(tx.objectStore('art'));tx.oncomplete=()=>res(r&&r.result);tx.onerror=()=>rej(tx.error)})}
+const dbPut=rec=>dbDo('readwrite',s=>s.put(rec));
+const dbAll=()=>dbDo('readonly',s=>s.getAll());
+const dbDel=id=>dbDo('readwrite',s=>s.delete(id));
+
+/* ---------- UI helpers ---------- */
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t(el.dataset.t)});
+  $('#langLbl').textContent=lang.toUpperCase();
+  renderTools();renderColors();renderPick();
+  if(E.page)$('#edTitle').textContent=E.page.name[lang];else if(E.mode)$('#edTitle').textContent='';
+}
+function renderSnd(){$('#sndIco').innerHTML=soundOn?'<path d="M3 9v6h4l5 5V4L7 9zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/>':'<path d="M3 9v6h4l5 5V4L7 9zm11.6.4 1.4-1.4 2.6 2.6 2.6-2.6 1.4 1.4-2.6 2.6 2.6 2.6-1.4 1.4-2.6-2.6-2.6 2.6-1.4-1.4 2.6-2.6z"/>'}
+let toastT;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),1800)}
+function ov(id,on){$('#'+id).classList.toggle('on',on)}
+
+/* screens + Android back button */
+let cur='home';
+function show(s,push=true){
+  document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===s));cur=s;
+  if(push){try{history.pushState({s},'')}catch(e){}}
+}
+try{history.replaceState({s:'home'},'')}catch(e){}
+window.addEventListener('popstate',e=>{
+  ['bism','done','viewer','picker','gate'].forEach(id=>ov(id,false));
+  const s=(e.state&&e.state.s)||'home';
+  if(cur==='ed'&&s!=='ed')leaveEditor();
+  if(s==='ed'&&!E.mode){show('home',false);return}
+  show(s,false);if(s==='gal')renderGal();
+});
+function goBack(){if(history.state&&history.state.s!=='home')history.back();else{if(cur==='ed')leaveEditor();show('home')}}
+
+/* hold-to-confirm buttons */
+function holdable(el,ms,done,onTap){
+  let tm=0,start=0,raf=0;const ring=el.querySelector('.ring');
+  const stop=()=>{cancelAnimationFrame(raf);tm=0;ring&&ring.style.setProperty('--p','0%')};
+  el.addEventListener('pointerdown',e=>{e.preventDefault();start=performance.now();tm=1;
+    const step=now=>{if(!tm)return;const p=Math.min(1,(now-start)/ms);ring&&ring.style.setProperty('--p',(p*100)+'%');if(p>=1){stop();done();return}raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)});
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>{if(tm&&performance.now()-start<300&&onTap)onTap();stop()}));
+  el.addEventListener('contextmenu',e=>e.preventDefault());
+}
+
+/* =================================================================
+   Drawing engine
+   ================================================================= */
+const paper=$('#paper'),cPaint=$('#cPaint'),cLive=$('#cLive'),cLine=$('#cLine');
+const pctx=cPaint.getContext('2d',{willReadFrequently:true}),lctx=cLive.getContext('2d'),nctx=cLine.getContext('2d');
+const cTmp=document.createElement('canvas'),tctx=cTmp.getContext('2d');
+const cMask=document.createElement('canvas'),mctx=cMask.getContext('2d');
+let E={};               // editor state
+let tool=store.get('tool','crayon'),color=store.get('color','#ff3b30'),size=store.get('size',1),customs=store.get('customs',[]);
+const toolDef=()=>TOOLS.find(x=>x.id===tool)||TOOLS[0];
+
+/* crayon grain texture */
+const GRAIN=96,cGrain=document.createElement('canvas');cGrain.width=cGrain.height=GRAIN;
+(()=>{const g=cGrain.getContext('2d'),im=g.createImageData(GRAIN,GRAIN);for(let i=0;i<GRAIN*GRAIN;i++){const r=Math.random();im.data[i*4+3]=r<.2?0:r<.35?120:175+Math.random()*80}g.putImageData(im,0,0)})();
+const grainURL=cGrain.toDataURL(),grainPat=tctx.createPattern(cGrain,'repeat');
+
+function hexRgb(h){const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255]}
+function hslRgb(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));return [f(0)*255|0,f(8)*255|0,f(4)*255|0]}
+const rgbStr=c=>`rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;
+function shade(c,k){return k>=0?c.map(v=>v+(255-v)*k):c.map(v=>v*(1+k))}
+
+async function openEditor(mode,page,art){
+  show('ed');
+  E={mode,page:page||null,undo:[],bytes:0,dirty:false,savedId:art?art.id:null,hue:0,reg:null,maskL:0,ready:false};
+  $('#edTitle').textContent=page?page.name[lang]:'';
+  if(mode==='color'&&!art)tool='fill';
+  renderTools();renderSizes();
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  const st=$('#stage').getBoundingClientRect();
+  let W,H,img=null;
+  if(art){W=art.w;H=art.h}
+  if(mode==='color'){
+    img=await loadImg(page.src);
+    if(!art){const a=img.naturalWidth/img.naturalHeight;if(a>=1){W=1600;H=Math.round(1600/a)}else{H=1600;W=Math.round(1600*a)}}
+  }else if(!art){
+    const k=Math.min(window.devicePixelRatio||1,2);W=Math.round((st.width-24)*k);H=Math.round((st.height-24)*k);
+    const cap=2.4e6;if(W*H>cap){const f=Math.sqrt(cap/(W*H));W=Math.round(W*f);H=Math.round(H*f)}
+    W=Math.max(W,300);H=Math.max(H,300);
+  }
+  E.W=W;E.H=H;
+  for(const c of [cPaint,cLive,cLine,cTmp,cMask]){c.width=W;c.height=H}
+  pctx.fillStyle='#fff';pctx.fillRect(0,0,W,H);
+  nctx.clearRect(0,0,W,H);
+  fitPaper();
+  if(mode==='color')prepareLines(img);
+  if(art&&art.paint){try{const im=await loadImg(URL.createObjectURL(art.paint));pctx.drawImage(im,0,0,W,H);URL.revokeObjectURL(im.src)}catch(e){}}
+  updUndo();
+  $('#bismLbl').textContent=t(mode==='color'?'bismC':'bismD');
+  ov('bism',true);
+}
+function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.decoding='async';i.onload=()=>res(i);i.onerror=rej;i.src=src})}
+
+function fitPaper(){
+  if(!E.W)return;
+  const r=$('#stage').getBoundingClientRect(),pad=window.innerWidth<600?8:16;
+  const sw=r.width-pad*2,sh=r.height-pad*2,a=E.W/E.H;
+  let w=sw,h=w/a;if(h>sh){h=sh;w=h*a}
+  paper.style.width=w+'px';paper.style.height=h+'px';
+  E.scale=E.W/w;
+  const ts=(GRAIN/E.scale)+'px';cLive.style.webkitMaskSize=cLive.style.maskSize=ts+' '+ts;
+}
+window.addEventListener('resize',()=>{if(cur==='ed')fitPaper()});
+
+/* line art -> dark lines with alpha, then split the picture into regions */
+function prepareLines(img){
+  const {W,H}=E;
+  nctx.drawImage(img,0,0,W,H);
+  const im=nctx.getImageData(0,0,W,H),d=im.data,N=W*H;
+  const reg=new Int32Array(N);
+  for(let i=0;i<N;i++){const k=i*4,lum=.3*d[k]+.59*d[k+1]+.11*d[k+2];let a=(255-lum)*d[k+3]/255*1.15;if(a>255)a=255;
+    d[k]=d[k+1]=d[k+2]=34;d[k+3]=a;reg[i]=a>100?-1:0}
+  nctx.putImageData(im,0,0);
+  // label connected areas
+  const stack=new Int32Array(N),box=[[0,0,0,0]];let id=0;
+  for(let i=0;i<N;i++){if(reg[i])continue;id++;let sp=0,x0=W,y0=H,x1=0,y1=0;reg[i]=id;stack[sp++]=i;
+    while(sp){const p=stack[--sp],x=p%W,y=(p-x)/W;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;
+      if(x>0&&reg[p-1]===0){reg[p-1]=id;stack[sp++]=p-1}
+      if(x<W-1&&reg[p+1]===0){reg[p+1]=id;stack[sp++]=p+1}
+      if(y>0&&reg[p-W]===0){reg[p-W]=id;stack[sp++]=p-W}
+      if(y<H-1&&reg[p+W]===0){reg[p+W]=id;stack[sp++]=p+W}}
+    box.push([Math.max(0,x0-5),Math.max(0,y0-5),Math.min(W,x1+6),Math.min(H,y1+6)])}
+  // grow each area a few pixels under the soft edge of the lines, so fills leave no white halo
+  for(let pass=0;pass<4;pass++){const c=reg.slice();
+    for(let i=0;i<N;i++){if(c[i]!==-1)continue;const x=i%W;let v=-1;
+      if(x>0&&c[i-1]>0)v=c[i-1];else if(x<W-1&&c[i+1]>0)v=c[i+1];else if(i>=W&&c[i-W]>0)v=c[i-W];else if(i<N-W&&c[i+W]>0)v=c[i+W];
+      if(v>0)reg[i]=v}}
+  E.reg=reg;E.box=box;E.maskL=0;
+}
+function regionAt(x,y){
+  const {W,H,reg}=E;x|=0;y|=0;
+  for(let r=0;r<=24;r+=2)for(let dy=-r;dy<=r;dy+=2)for(let dx=-r;dx<=r;dx+=2){
+    if(r&&Math.abs(dx)!==r&&Math.abs(dy)!==r)continue;const X=x+dx,Y=y+dy;if(X<0||Y<0||X>=W||Y>=H)continue;const v=reg[Y*W+X];if(v>0)return v}
+  return 0;
+}
+function buildMask(L){
+  if(E.maskL===L)return;const {W,reg}=E,[x0,y0,x1,y1]=E.box[L],w=x1-x0,h=y1-y0;
+  mctx.clearRect(0,0,E.W,E.H);const im=mctx.createImageData(w,h),d=im.data;
+  for(let y=0;y<h;y++){let i=(y0+y)*W+x0,k=y*w*4+3;for(let x=0;x<w;x++,i++,k+=4)if(reg[i]===L)d[k]=255}
+  mctx.putImageData(im,x0,y0);E.maskL=L;
+}
+
+/* undo: keep only the changed rectangle */
+function pushUndo(x,y,w,h){
+  const img=pctx.getImageData(x,y,w,h);E.undo.push({x,y,img});E.bytes+=w*h*4;
+  while(E.undo.length>30||(E.bytes>90e6&&E.undo.length>1)){const u=E.undo.shift();E.bytes-=u.img.width*u.img.height*4}
+  updUndo();
+}
+function updUndo(){$('#undoBtn').disabled=!(E.undo&&E.undo.length)}
+function undo(){const u=E.undo.pop();if(!u)return;E.bytes-=u.img.width*u.img.height*4;pctx.putImageData(u.img,u.x,u.y);E.dirty=true;updUndo();sfx.undo()}
+function clearAll(){pushUndo(0,0,E.W,E.H);pctx.fillStyle='#fff';pctx.fillRect(0,0,E.W,E.H);E.dirty=true;sfx.clear();toast(t('cleared'))}
+
+/* fill */
+function curRGB(x){if(color==='rainbow'){E.hue=(E.hue+47)%360;return hslRgb(E.hue,95,55)}return hexRgb(color)}
+function doFill(x,y){
+  if(E.mode==='color'&&E.reg){
+    const L=regionAt(x,y);if(!L)return;const [x0,y0,x1,y1]=E.box[L],w=x1-x0,h=y1-y0,{W,reg}=E;
+    pushUndo(x0,y0,w,h);const im=pctx.getImageData(x0,y0,w,h),d=im.data;
+    const rb=color==='rainbow',c=rb?null:hexRgb(color);
+    for(let yy=0;yy<h;yy++){let i=(y0+yy)*W+x0,k=yy*w*4;for(let xx=0;xx<w;xx++,i++,k+=4){if(reg[i]!==L)continue;const cc=rb?hslRgb((xx/w*300+yy/h*60)%360,95,56):c;d[k]=cc[0];d[k+1]=cc[1];d[k+2]=cc[2];d[k+3]=255}}
+    pctx.putImageData(im,x0,y0);
+  }else floodPaint(x|0,y|0);
+  E.dirty=true;sfx.fill();
+}
+function floodPaint(sx,sy){
+  const {W,H}=E,N=W*H;if(sx<0||sy<0||sx>=W||sy>=H)return;
+  const im=pctx.getImageData(0,0,W,H),d=im.data,vis=new Uint8Array(N),s0=(sy*W+sx)*4,sr=d[s0],sg=d[s0+1],sb=d[s0+2],tol=70;
+  const m=i=>{if(vis[i])return false;const k=i*4;return Math.abs(d[k]-sr)+Math.abs(d[k+1]-sg)+Math.abs(d[k+2]-sb)<=tol};
+  let x0=sx,x1=sx,y0=sy,y1=sy;const st=[sy*W+sx];
+  while(st.length){const i=st.pop();if(!m(i))continue;const x=i%W,y=(i-x)/W,row=y*W;let l=x,r=x;
+    while(l>0&&m(row+l-1))l--;while(r<W-1&&m(row+r+1))r++;
+    for(let xx=l;xx<=r;xx++)vis[row+xx]=1;
+    if(l<x0)x0=l;if(r>x1)x1=r;if(y<y0)y0=y;if(y>y1)y1=y;
+    for(const ny of [y-1,y+1]){if(ny<0||ny>=H)continue;const nr=ny*W;let inRun=false;for(let xx=l;xx<=r;xx++){const ok=m(nr+xx);if(ok&&!inRun)st.push(nr+xx);inRun=ok}}}
+  x0=Math.max(0,x0-1);y0=Math.max(0,y0-1);x1=Math.min(W-1,x1+1);y1=Math.min(H-1,y1+1);
+  const bw=x1-x0+1,bh=y1-y0+1;pushUndo(x0,y0,bw,bh);
+  const c=curRGB();
+  for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const i=y*W+x;
+    // filled pixels, plus a 1px edge so soft brush borders don't leave a halo
+    if(vis[i]||(x>0&&vis[i-1])||(x<W-1&&vis[i+1])||(y>0&&vis[i-W])||(y<H-1&&vis[i+W])){const k=i*4;d[k]=c[0];d[k+1]=c[1];d[k+2]=c[2];d[k+3]=255}}
+  pctx.putImageData(im,0,0,x0,y0,bw,bh);
+}
+
+/* strokes */
+let S=null,active=null;
+function pos(e){const r=paper.getBoundingClientRect();return [(e.clientX-r.left)*E.W/r.width,(e.clientY-r.top)*E.H/r.height]}
+paper.addEventListener('pointerdown',e=>{
+  if(active!==null||!E.ready)return;e.preventDefault();
+  const [x,y]=pos(e),td=toolDef();ac();
+  if(td.fill){doFill(x,y);return}
+  active=e.pointerId;try{paper.setPointerCapture(active)}catch(_){}
+  S={td,w:SIZES[size]*E.scale*td.wf,lx:x,ly:y,mx:x,my:y,bb:[1e9,1e9,-1e9,-1e9],mask:false,n:0,t:performance.now(),v:0};
+  if(E.mode==='color'&&E.reg){const L=regionAt(x,y);if(L){buildMask(L);S.mask=true}}
+  S.base=td.eraser?[255,255,255]:color==='rainbow'?null:hexRgb(color);
+  if(td.oil){S.offs=Array.from({length:9},()=>Math.random()*.5-.25)}
+  cLive.style.opacity=td.alpha;
+  cLive.style.webkitMaskImage=cLive.style.maskImage=td.grain?`url(${grainURL})`:'none';
+  lctx.lineCap='round';lctx.lineJoin='round';
+  seg(x,y,x+.01,y,x+.02,y+.01);
+  scribbleStart(td);
+});
+paper.addEventListener('pointermove',e=>{
+  if(e.pointerId!==active||!S)return;
+  const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
+  for(const ev of (evs.length?evs:[e])){const [x,y]=pos(ev),mx=(S.lx+x)/2,my=(S.ly+y)/2;
+    const dist=Math.hypot(x-S.lx,y-S.ly);if(dist<.5)continue;
+    seg(S.mx,S.my,S.lx,S.ly,mx,my);S.mx=mx;S.my=my;S.lx=x;S.ly=y;
+    const now=performance.now(),dt=Math.max(1,now-S.t);S.t=now;S.v=S.v*.7+(dist/E.scale/dt)*.3;}
+  scribbleSpeed(S.v);
+});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>paper.addEventListener(ev,e=>{if(e.pointerId!==active)return;active=null;endStroke()}));
+paper.addEventListener('contextmenu',e=>e.preventDefault());
+
+function seg(ax,ay,cx,cy,bx,by){
+  const td=S.td,ctx=lctx,w=S.w;let col;
+  if(!S.base){E.hue=(E.hue+Math.hypot(bx-ax,by-ay)/E.scale*.6)%360;col=hslRgb(E.hue,95,55)}else col=S.base;
+  if(td.oil){
+    // paint pick-up: the brush slowly takes on the colour under it
+    if(S.base&&!td.eraser&&++S.n%5===0){try{const p=pctx.getImageData(bx|0,by|0,1,1).data;if(p[0]+p[1]+p[2]<735){S.base=S.base.map((v,i)=>v*.8+p[i]*.2);col=S.base}}catch(_){}}
+    let dx=bx-ax,dy=by-ay,len=Math.hypot(dx,dy);
+    let nx,ny;if(len<.5){[nx,ny]=S.nrm||[0.7,0.7]}else{nx=-dy/len;ny=dx/len;S.nrm=[nx,ny]}
+    const n=S.offs.length,bw=w/n*1.8;
+    for(let j=0;j<n;j++){const o=(j/(n-1)-.5)*w*.9,ox=nx*o,oy=ny*o;ctx.strokeStyle=rgbStr(shade(col,S.offs[j]));ctx.lineWidth=bw;
+      ctx.beginPath();ctx.moveTo(ax+ox,ay+oy);ctx.quadraticCurveTo(cx+ox,cy+oy,bx+ox,by+oy);ctx.stroke()}
+  }else{
+    const cs=rgbStr(col);ctx.strokeStyle=cs;ctx.lineWidth=w;
+    if(td.soft){ctx.shadowColor=cs;ctx.shadowBlur=w*.5}
+    ctx.beginPath();ctx.moveTo(ax,ay);ctx.quadraticCurveTo(cx,cy,bx,by);ctx.stroke();
+    if(td.soft){ctx.shadowBlur=0;ctx.shadowColor='transparent'}
+  }
+  const pad=w*(td.soft?1.3:.75)+4;
+  const x0=Math.max(0,Math.floor(Math.min(ax,bx,cx)-pad)),y0=Math.max(0,Math.floor(Math.min(ay,by,cy)-pad)),
+        x1=Math.min(E.W,Math.ceil(Math.max(ax,bx,cx)+pad)),y1=Math.min(E.H,Math.ceil(Math.max(ay,by,cy)+pad));
+  if(x1<=x0||y1<=y0)return;
+  const bb=S.bb;if(x0<bb[0])bb[0]=x0;if(y0<bb[1])bb[1]=y0;if(x1>bb[2])bb[2]=x1;if(y1>bb[3])bb[3]=y1;
+  if(S.mask){ctx.save();ctx.beginPath();ctx.rect(x0,y0,x1-x0,y1-y0);ctx.clip();ctx.globalCompositeOperation='destination-in';ctx.drawImage(cMask,x0,y0,x1-x0,y1-y0,x0,y0,x1-x0,y1-y0);ctx.restore()}
+}
+function endStroke(){
+  scribbleStop();if(!S)return;const s=S;S=null;
+  const [x0,y0,x1,y1]=s.bb,w=x1-x0,h=y1-y0;if(w<=0||h<=0)return;
+  pushUndo(x0,y0,w,h);
+  let src=cLive;
+  if(s.td.grain){tctx.clearRect(x0,y0,w,h);tctx.globalCompositeOperation='source-over';tctx.drawImage(cLive,x0,y0,w,h,x0,y0,w,h);
+    tctx.globalCompositeOperation='destination-in';tctx.fillStyle=grainPat;tctx.fillRect(x0,y0,w,h);tctx.globalCompositeOperation='source-over';src=cTmp}
+  pctx.globalAlpha=s.td.alpha;pctx.drawImage(src,x0,y0,w,h,x0,y0,w,h);pctx.globalAlpha=1;
+  lctx.clearRect(0,0,E.W,E.H);
+  E.dirty=true;
+}
+
+/* ---------- dock ---------- */
+function renderTools(){
+  const el=$('#tools');if(!el)return;const c=color;
+  el.innerHTML=TOOLS.map(x=>`<button class="tl${x.id===tool?' on':''}" data-tool="${x.id}" aria-label="${TXT[lang].tools[x.id]}" title="${TXT[lang].tools[x.id]}">${toolSVG(x.id,x.eraser?'#ff9ec0':c)}</button>`).join('');
+}
+function renderSizes(){
+  const c=color==='rainbow'?'linear-gradient(135deg,#ff3b30,#ffd60a,#1fa64a,#2f5bea,#9b4bf0)':color;
+  $('#sizes').innerHTML=SIZES.map((s,i)=>`<button class="sz${i===size?' on':''}" data-size="${i}" aria-label="Size ${i+1}"><i style="width:${[8,15,24][i]}px;height:${[8,15,24][i]}px;background:${c}"></i></button>`).join('');
+}
+function renderColors(){
+  const all=[...customs.map(c=>[c,'','']),...COLORS];
+  $('#colors').innerHTML=`<button class="plus" id="plusBtn" aria-label="${t('pick')}"><span>+</span></button>`+
+    all.map(([c,en,id])=>`<button class="sw${c===color?' on':''}" data-color="${c}" aria-label="${(lang==='id'?id:en)||c}">${swatchSVG(c)}</button>`).join('');
+}
+$('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;tool=b.dataset.tool;store.set('tool',tool);renderTools();sfx.tap()});
+$('#sizes').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size',size);renderSizes();sfx.tap()});
+$('#colors').addEventListener('click',e=>{
+  if(e.target.closest('#plusBtn')){openPicker();return}
+  const b=e.target.closest('[data-color]');if(!b)return;color=b.dataset.color;store.set('color',color);
+  if(toolDef().eraser){tool='crayon';store.set('tool',tool)}
+  renderColors();renderTools();renderSizes();sfx.pop();
+  const nm=COLORS.find(x=>x[0]===color);if(nm)say(lang==='id'?nm[2]:nm[1]);
+});
+
+/* ---------- color wheel ---------- */
+const wheel=$('#wheel'),wctx=wheel.getContext('2d'),light=$('#light'),gctx=light.getContext('2d');
+let pk={h:0,s:100,l:50};
+(function drawWheel(){const R=280,im=wctx.createImageData(560,560);for(let y=0;y<560;y++)for(let x=0;x<560;x++){const dx=x-R,dy=y-R,d=Math.hypot(dx,dy);if(d>R)continue;const h=(Math.atan2(dy,dx)*180/Math.PI+360)%360,c=hslRgb(h,Math.min(100,d/R*100),50),k=(y*560+x)*4;im.data[k]=c[0];im.data[k+1]=c[1];im.data[k+2]=c[2];im.data[k+3]=255}wctx.putImageData(im,0,0)})();
+function pkHex(){const c=hslRgb(pk.h,pk.s,pk.l);return '#'+c.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('')}
+function drawLight(){const g=gctx.createLinearGradient(0,0,600,0);g.addColorStop(0,'#000');g.addColorStop(.5,`hsl(${pk.h},${pk.s}%,50%)`);g.addColorStop(1,'#fff');gctx.fillStyle=g;gctx.beginPath();gctx.roundRect?gctx.roundRect(0,0,600,60,30):gctx.rect(0,0,600,60);gctx.fill();
+  const x=pk.l/100*600;gctx.lineWidth=6;gctx.strokeStyle='#fff';gctx.beginPath();gctx.arc(Math.max(30,Math.min(570,x)),30,22,0,7);gctx.stroke();gctx.strokeStyle='#3a2410';gctx.lineWidth=3;gctx.stroke();$('#pv').style.background=pkHex()}
+function openPicker(){ov('picker',true);drawLight();sfx.tap()}
+function onDrag(el,fn){let on=false;el.addEventListener('pointerdown',e=>{on=true;try{el.setPointerCapture(e.pointerId)}catch(_){}fn(e)});el.addEventListener('pointermove',e=>on&&fn(e));['pointerup','pointercancel'].forEach(v=>el.addEventListener(v,()=>on=false))}
+onDrag(wheel,e=>{const r=wheel.getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2;pk.h=(Math.atan2(dy,dx)*180/Math.PI+360)%360;pk.s=Math.min(100,Math.hypot(dx,dy)/(r.width/2)*100);pk.l=50;drawLight()});
+onDrag(light,e=>{const r=light.getBoundingClientRect();pk.l=Math.max(5,Math.min(95,(e.clientX-r.left)/r.width*100));drawLight()});
+$('#pkClose').onclick=()=>ov('picker',false);
+$('#pkOk').onclick=()=>{const c=pkHex();customs=[c,...customs.filter(x=>x!==c)].slice(0,3);store.set('customs',customs);color=c;store.set('color',c);if(toolDef().eraser)tool='crayon';renderColors();renderTools();renderSizes();ov('picker',false);sfx.pop();$('#colors').scrollLeft=0};
+
+/* ---------- editor buttons ---------- */
+$('#undoBtn').onclick=undo;
+holdable($('#clearBtn'),900,clearAll,()=>{const tp=$('#clearBtn .tip');tp.classList.add('on');setTimeout(()=>tp.classList.remove('on'),1400)});
+$('#bismBtn').onclick=()=>{ac();sfx.bism();say(t('sayBism'));ov('bism',false);E.ready=true};
+$('#edHome').onclick=()=>goBack();
+$('#saveBtn').onclick=async()=>{if(!E.ready)return;await saveArt();celebrate()};
+
+function toBlob(c,type,q){return new Promise(r=>c.toBlob(r,type,q))}
+async function saveArt(st=E){
+  const {W,H}=st,ex=document.createElement('canvas');ex.width=W;ex.height=H;const x=ex.getContext('2d');
+  let pc=null;if(st.mode==='color'){pc=document.createElement('canvas');pc.width=W;pc.height=H;pc.getContext('2d').drawImage(cPaint,0,0)}
+  x.drawImage(cPaint,0,0);if(st.mode==='color')x.drawImage(cLine,0,0);
+  st.dirty=false;
+  const blob=await toBlob(ex,'image/jpeg',.9),paint=pc?await toBlob(pc,'image/jpeg',.92):blob;
+  const tw=360,th=Math.round(360*H/W),tc=document.createElement('canvas');tc.width=tw;tc.height=th;tc.getContext('2d').drawImage(ex,0,0,tw,th);
+  const rec={mode:st.mode,page:st.page?st.page.id:null,w:W,h:H,blob,paint,thumb:tc.toDataURL('image/jpeg',.8),t:Date.now()};
+  if(st.savedId)rec.id=st.savedId;
+  st.lastThumb=rec.thumb;
+  try{st.savedId=await dbPut(rec)}catch(e){console.warn(e);st.dirty=true}
+}
+function celebrate(){
+  sfx.win();say(t('sayAlh'));confetti();
+  $('#doneImg').src=E.lastThumb||'';
+  const f=E.page&&E.page.fact;$('#doneFact').style.display=f?'':'none';if(f)$('#factTxt').textContent=f[lang];
+  ov('done',true);
+}
+$('#doneKeep').onclick=()=>ov('done',false);
+$('#doneHome').onclick=()=>{ov('done',false);goBack()};
+$('#doneGal').onclick=async()=>{ov('done',false);await leaveEditor();show('gal',false);try{history.replaceState({s:'gal'},'')}catch(e){}renderGal()};
+
+// leaving the editor (home button, Android back) auto-saves the picture to My Art
+async function leaveEditor(){
+  const st=E;if(!st.mode)return;
+  ov('bism',false);ov('done',false);st.ready=false;E={};
+  if(st.dirty){await saveArt(st);toast(t('saved'))}
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&E.mode&&E.dirty)saveArt()});
+
+/* ---------- home / picker / gallery ---------- */
+function renderPick(){
+  $('#pickGrid').innerHTML=PAGES.map(p=>`<button class="card" data-page="${p.id}"><img src="${p.src}" alt="" loading="lazy"><b>${p.name[lang]}</b></button>`).join('');
+}
+$('#pickGrid').addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(!b)return;sfx.tap();openEditor('color',PAGES.find(p=>p.id===b.dataset.page))});
+$('#goDraw').onclick=()=>{sfx.tap();openEditor('draw')};
+$('#goColor').onclick=()=>{sfx.tap();show('pick')};
+$('#goGal').onclick=()=>{sfx.tap();show('gal');renderGal()};
+document.querySelectorAll('.back').forEach(b=>b.onclick=()=>{sfx.tap();goBack()});
+$('#langBtn').onclick=()=>{lang=lang==='en'?'id':'en';store.set('lang',lang);applyLang();sfx.tap()};
+$('#sndBtn').onclick=()=>{soundOn=!soundOn;store.set('sound',soundOn);renderSnd();if(soundOn)sfx.tap();else try{speechSynthesis.cancel()}catch(e){}};
+
+let galRecs=[],vRec=null,vURL=null;
+async function renderGal(){
+  try{galRecs=(await dbAll()).sort((a,b)=>b.t-a.t)}catch(e){galRecs=[]}
+  $('#galGrid').innerHTML=galRecs.map(r=>`<button class="card" data-id="${r.id}"><img src="${r.thumb}" alt=""></button>`).join('');
+  $('#galEmpty').style.display=galRecs.length?'none':'block';
+}
+$('#galGrid').addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(!b)return;vRec=galRecs.find(r=>r.id===+b.dataset.id);if(!vRec)return;
+  if(vURL)URL.revokeObjectURL(vURL);vURL=URL.createObjectURL(vRec.blob);$('#vImg').src=vURL;ov('viewer',true);sfx.tap()});
+$('#vClose').onclick=()=>ov('viewer',false);
+$('#vEdit').onclick=()=>{ov('viewer',false);const p=vRec.page?PAGES.find(x=>x.id===vRec.page):null;if(vRec.mode==='color'&&!p)return;openEditor(vRec.mode,p,vRec)};
+$('#vDel').onclick=()=>gate(async()=>{await dbDel(vRec.id);ov('viewer',false);toast(t('deleted'));renderGal()});
+$('#vShare').onclick=()=>gate(async()=>{
+  const name='mo-color-draw-'+new Date(vRec.t).toISOString().slice(0,10)+'.jpg';
+  try{const f=new File([vRec.blob],name,{type:'image/jpeg'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Mo Color & Draw'});return}}catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=vURL;a.download=name;document.body.appendChild(a);a.click();a.remove();
+});
+
+/* parent gate: hold for 3 seconds */
+let gateFn=null;
+function gate(fn){gateFn=fn;ov('gate',true)}
+holdable($('#gHold'),3000,()=>{ov('gate',false);const f=gateFn;gateFn=null;f&&f()});
+$('#gClose').onclick=()=>{ov('gate',false);gateFn=null};
+
+/* confetti */
+function confetti(){
+  const c=$('#fx'),x=c.getContext('2d'),W=c.width=innerWidth,H=c.height=innerHeight,cols=['#ff3b30','#ffd60a','#1fa64a','#3fc6f5','#9b4bf0','#ff5fa8','#ff8a00'];
+  const ps=Array.from({length:140},()=>({x:W/2+(Math.random()-.5)*W*.3,y:H*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,r:Math.random()*6+5,c:cols[Math.random()*cols.length|0],a:Math.random()*6,va:(Math.random()-.5)*.4}));
+  let t0=performance.now();(function f(now){const k=(now-t0)/1000;x.clearRect(0,0,W,H);for(const p of ps){p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/3,p.r,p.r*.66);x.restore()}if(k<3)requestAnimationFrame(f);else x.clearRect(0,0,W,H)})(t0);
+}
+
+/* start */
+renderSnd();applyLang();renderSizes();
+document.addEventListener('pointerdown',()=>ac(),{once:true});
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
 </body>
 </html>
