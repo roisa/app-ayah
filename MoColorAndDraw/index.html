@@ -424,10 +424,11 @@ const PAGES=[
 
 /* ---------- Colors & tools ---------- */
 const COLORS=[
+ ['rainbow','Rainbow','Pelangi'],
  ['#ff3b30','Red','Merah'],['#ff8a00','Orange','Oranye'],['#ffd60a','Yellow','Kuning'],['#8bd346','Light green','Hijau muda'],['#1fa64a','Green','Hijau'],
  ['#3fc6f5','Sky blue','Biru muda'],['#2f5bea','Blue','Biru'],['#9b4bf0','Purple','Ungu'],['#ff5fa8','Pink','Merah muda'],['#f6c49a','Peach','Krem'],
- ['#8b5a2b','Brown','Cokelat'],['#9aa0a6','Gray','Abu-abu'],['#222222','Black','Hitam'],['#ffffff','White','Putih'],['rainbow','Rainbow','Pelangi'],
- ['#ffb3c7','Light pink','Merah muda terang'],['#ff7f6e','Coral','Koral'],['#fff08a','Light yellow','Kuning muda'],['#b8f28c','Mint green','Hijau mint'],
+ ['#8b5a2b','Brown','Cokelat'],['#9aa0a6','Gray','Abu-abu'],['#222222','Black','Hitam'],['#ffffff','White','Putih'],
+ ['#ffb3c7','Light pink','Merah muda terang'],['#ff7f6e','Coral','Koral'],['#ffb347','Light orange','Oranye muda'],['#fff08a','Light yellow','Kuning muda'],['#b8f28c','Mint green','Hijau mint'],
  ['#0e7a3d','Dark green','Hijau tua'],['#14b8a6','Turquoise','Hijau toska'],['#a7dcff','Baby blue','Biru langit'],['#1e2f8a','Navy blue','Biru tua'],['#c8a2ff','Lavender','Ungu muda'],
  ['#d6249f','Magenta','Magenta'],['#8b1e2d','Maroon','Merah marun'],['#d9a066','Tan','Sawo matang'],['#5c3a1e','Dark brown','Cokelat tua']];
 const TOOLS=[
@@ -638,7 +639,7 @@ const pctx=cPaint.getContext('2d',{willReadFrequently:true}),lctx=cLive.getConte
 const cTmp=document.createElement('canvas'),tctx=cTmp.getContext('2d');
 const cMask=document.createElement('canvas'),mctx=cMask.getContext('2d');
 let E={};               // editor state
-let tool=store.get('tool','crayon'),color=store.get('color','#ff3b30'),size=store.get('size',1);
+let tool=store.get('tool','crayon'),color=store.get('color','rainbow'),size=store.get('size',1);
 const toolDef=()=>TOOLS.find(x=>x.id===tool)||TOOLS[0];
 
 /* crayon grain texture */
@@ -660,7 +661,7 @@ async function openEditor(mode,page,art){
   E={mode,page:page||null,undo:[],bytes:0,dirty:false,savedId:art?art.id:null,hue:0,reg:null,maskL:0,ready:false};
 
   // default tool: paint bucket for coloring pages, bold pen for drawing; no stamps on coloring pages
-  if(!art)tool=mode==='color'?'fill':'pen';
+  if(!art){tool=mode==='color'?'fill':'pen';color='rainbow'}  // every new picture starts with the rainbow colour
   if(mode==='color'&&tool==='stamp')tool='fill';
   renderTools();renderSizes(false);renderStamps();renderColors();
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
