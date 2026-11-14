@@ -1,6 +1,6 @@
 // Mo Color & Draw: offline support. Bump VERSION when files change.
-const VERSION='mocd-v10';
-const ASSETS=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png',
+const VERSION='mocd-v11';
+const ASSETS=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png','icons/cursor-hand.png','icons/cursor-hand@2x.png',
   'pages/camel.svg','pages/bee.svg','pages/whale.svg','pages/elephant.svg','pages/ant.svg','pages/masjid.svg',
   '../home/mo.webp','../NurConnect/fonts/fonts.css',
   '../NurConnect/fonts/lilita-one-latin-400-normal.woff2','../NurConnect/fonts/baloo-2-latin-600-normal.woff2',

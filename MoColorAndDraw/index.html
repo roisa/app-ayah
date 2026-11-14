@@ -204,6 +204,23 @@ svg{display:block}
   .edmo{display:none}
 }
 
+/* computer mouse: a cartoon pointing hand instead of the system cursor (only inside the game page) */
+@media (pointer:fine){
+  html,body,html *{cursor:url(icons/cursor-hand.png) 11 1,pointer;cursor:-webkit-image-set(url(icons/cursor-hand.png) 1x,url(icons/cursor-hand@2x.png) 2x) 11 1,pointer}
+  #paper,#paper *{cursor:none}
+}
+/* every tap or click (except on the drawing board): a pointing hand and a little firework */
+.tapfx{position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:60}
+.tapfx i{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;animation:spark .7s cubic-bezier(.2,.7,.3,1) forwards}
+.tapfx i.st{width:13px;height:13px;left:-6.5px;top:-6.5px;border-radius:0;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+@keyframes spark{0%{transform:translate(0,0) scale(.3);opacity:1}65%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1) rotate(var(--r,0deg));opacity:0}}
+.tapfx b{position:absolute;left:-24px;top:-24px;width:48px;height:48px;border-radius:50%;border:4px solid #ffc928;animation:tapring .5s ease-out forwards}
+@keyframes tapring{from{transform:scale(.2);opacity:1}to{transform:scale(1.5);opacity:0}}
+.tapfx em{position:absolute;left:-19px;top:-1px;width:56px;height:56px;transform-origin:34% 2%;animation:taphand .8s ease-out forwards;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+.tapfx em svg{width:100%;height:100%}
+@keyframes taphand{0%{transform:translate(16px,22px) rotate(-14deg);opacity:0}22%{transform:translate(0,0) rotate(-14deg);opacity:1}38%{transform:translate(0,0) rotate(-14deg) scale(.82)}55%{transform:translate(0,0) rotate(-14deg) scale(1);opacity:1}100%{transform:translate(8px,14px) rotate(-14deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.tapfx{display:none}}
+
 /* overlays */
 .ov{position:fixed;inset:0;z-index:20;display:none;place-items:center;padding:16px;background:rgba(58,36,16,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 .ov.on{display:grid}
@@ -1038,6 +1055,19 @@ function confetti(){
   const ps=Array.from({length:140},()=>({x:W/2+(Math.random()-.5)*W*.3,y:H*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,r:Math.random()*6+5,c:cols[Math.random()*cols.length|0],a:Math.random()*6,va:(Math.random()-.5)*.4}));
   let t0=performance.now();(function f(now){const k=(now-t0)/1000;x.clearRect(0,0,W,H);for(const p of ps){p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/3,p.r,p.r*.66);x.restore()}if(k<3)requestAnimationFrame(f);else x.clearRect(0,0,W,H)})(t0);
 }
+
+/* tap effect: on touch screens a pointing hand taps the spot; with a mouse (the cursor is already a hand) just the firework */
+const HAND_SVG='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g stroke="#4a2c14" stroke-width="5" stroke-linejoin="round" fill="#4a2c14"><rect x="16" y="3" width="12" height="32" rx="6"/><rect x="14" y="25" width="34" height="31" rx="11"/><circle cx="33" cy="29" r="6"/><circle cx="41" cy="30" r="6"/><circle cx="47.5" cy="33" r="5.5"/><ellipse cx="13" cy="40" rx="6" ry="9" transform="rotate(-25 13 40)"/><rect x="17" y="52" width="28" height="9" rx="3"/></g><g fill="#ffd9b8"><rect x="16" y="3" width="12" height="32" rx="6"/><rect x="14" y="25" width="34" height="31" rx="11"/><circle cx="33" cy="29" r="6"/><circle cx="41" cy="30" r="6"/><circle cx="47.5" cy="33" r="5.5"/><ellipse cx="13" cy="40" rx="6" ry="9" transform="rotate(-25 13 40)"/></g><rect x="17" y="52" width="28" height="9" rx="3" fill="#3fc6f5"/><path d="M27 29v6M35 30v5M42 32v4" stroke="#e8a77a" stroke-width="2" stroke-linecap="round"/><ellipse cx="20" cy="9" rx="2.2" ry="3.5" fill="#fff" opacity=".7"/></svg>';
+const FX_COLS=['#ff3b30','#ff8a00','#ffd60a','#1fa64a','#3fc6f5','#2f5bea','#9b4bf0','#ff5fa8'];
+function tapFx(x,y,hand){
+  const w=document.createElement('div');w.className='tapfx';w.style.left=x+'px';w.style.top=y+'px';
+  let h='<b></b>';const n=14;
+  for(let i=0;i<n;i++){const a=i/n*6.283+Math.random()*.4,d=34+Math.random()*30,c=FX_COLS[(Math.random()*FX_COLS.length)|0];
+    h+=`<i class="${i%3===0?'st':''}" style="--dx:${(Math.cos(a)*d).toFixed(1)}px;--dy:${(Math.sin(a)*d).toFixed(1)}px;--r:${(Math.random()*360)|0}deg;background:${c};animation-delay:${(Math.random()*60)|0}ms"></i>`}
+  if(hand)h+=`<em>${HAND_SVG}</em>`;
+  w.innerHTML=h;document.body.appendChild(w);setTimeout(()=>w.remove(),900);
+}
+document.addEventListener('pointerdown',e=>{if(e.target.closest('#paper'))return;tapFx(e.clientX,e.clientY,e.pointerType!=='mouse')},true);
 
 /* start */
 renderSnd();renderMus();applyLang();renderSizes();
