@@ -34,6 +34,34 @@ If your AI image generator can't make transparent backgrounds: generate on a **p
   - optionally a short "Did you know?" fact in EN and ID, with the surah and ayah if it quotes the Qur'an.
 - Ideas: masjids (Masjid al-Haram, Nabawi, Al-Aqsa, Istiqlal), animals in the Qur'an (camel, bee, ant, elephant, the big fish, cow, spider, hoopoe, the dog of the cave), Ramadan and Eid, wudu and salah steps, fruits from the Qur'an, Mo and friends.
 
+### Categories
+
+Pages are grouped into categories. Put each page in a sub-folder named after its category, for example `pages/pets/cat.png`. A page can be in more than one category; say so in your list.
+
+| id | Category (EN / ID) |
+|---|---|
+| `surprise` | Surprise Me! / Kejutan! (always first, picks a random page; no pages needed) |
+| `masjid` | Masjid |
+| `quran` | Animals in the Qur'an / Hewan dalam Al-Qur'an |
+| `ramadan` | Ramadan & Eid / Ramadan & Lebaran |
+| `pets` | Pets / Hewan Peliharaan |
+| `dino` | Dinosaurs / Dinosaurus |
+| `sea` | Sea Animals / Hewan Laut |
+| `farm` | Farm Animals / Hewan Ternak |
+| `bugs` | Bugs & Butterflies / Serangga & Kupu-kupu |
+| `birds` | Birds / Burung |
+| `flowers` | Flowers & Garden / Bunga & Taman |
+| `food` | Fruits & Food / Buah & Makanan |
+| `vehicles` | Cars & Vehicles / Mobil & Kendaraan |
+| `space` | Space / Luar Angkasa |
+| `hijaiyah` | Hijaiyah Letters / Huruf Hijaiyah |
+| `numbers` | Numbers & Shapes / Angka & Bentuk |
+| `patterns` | Islamic Patterns / Pola Islami |
+| `jobs` | Jobs & Helpers / Profesi |
+| `mo` | Mo & Friends / Mo & Teman |
+
+Category card art: `cats/<id>.png`, **400 × 330 px**, full colour, filling the whole card (no text). For Surprise Me: `cats/surprise.png`, 1200 × 360 (a wide banner). Add, rename, reorder or remove categories freely; just send the new list.
+
 ## 2. Home screen
 
 | File | Size | Notes |

@@ -107,6 +107,29 @@ svg{display:block}
 .card img{width:100%;aspect-ratio:4/3;object-fit:contain;border-radius:22px;background:#fff;display:block}
 .card b{display:block;font:400 20px "Lilita One",sans-serif;padding:4px 0 2px}
 #galGrid .card img{object-fit:cover;background:#f4f4f4}
+/* category cards */
+.cgrid{grid-template-columns:repeat(auto-fill,minmax(min(42vw,190px),1fr))}
+.cat{position:relative;border-radius:30px;padding:7px;background:#fff;box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.3,1.6,.5,1);text-align:center}
+.cat:active{transform:scale(.94)}
+.cat .ci{display:grid;place-items:center;aspect-ratio:1/.82;border-radius:24px;overflow:hidden;position:relative}
+.cat .ci span{font-size:clamp(46px,12vw,72px);line-height:1;filter:drop-shadow(0 5px 6px rgba(0,0,0,.18));transition:transform .2s}
+.cat .ci span.ar{font:800 clamp(52px,13vw,78px)/1 "Baloo Bhaijaan 2",sans-serif;color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.15)}
+.cat .ci img{width:100%;height:100%;object-fit:cover}
+.cat .ci img.mo{width:auto;height:88%;object-fit:contain}
+.cat b{display:block;font:400 clamp(16px,4vw,20px)/1.1 "Lilita One",sans-serif;padding:7px 4px 4px;color:var(--ink)}
+.cat .n{position:absolute;right:12px;top:12px;min-width:30px;height:30px;padding:0 8px;border-radius:15px;background:#fff;color:#d07a00;font:400 16px/30px "Lilita One",sans-serif;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+.cat.soon .ci{filter:saturate(.35) brightness(1.05);opacity:.75}
+.cat.soon .n{color:#9a8a7a;font:800 12px/30px "Baloo 2",sans-serif}
+.cat.surprise{grid-column:1/-1}
+.cat.surprise .ci{aspect-ratio:auto;height:clamp(120px,24vw,180px);background:linear-gradient(120deg,#ff5fa8,#ff9a3d,#ffd84d,#5fd36a,#3fc6f5,#9b4bf0);background-size:300% 100%;animation:rbshift 6s linear infinite}
+.cat.surprise .ci span{animation:gift 1.6s ease-in-out infinite}
+.cat.surprise .ci img.roll{position:absolute;inset:10% 25%;width:50%;height:80%;object-fit:contain;background:#fff;border-radius:16px;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+@keyframes rbshift{to{background-position:300% 0}}
+@keyframes gift{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.1)}}
+.cat.surprise b{font-size:clamp(20px,5vw,26px)}
+.cat.shake{animation:shake .4s}
+.cat.pick{animation:picked .55s cubic-bezier(.3,1.6,.5,1) forwards;z-index:2}
+@keyframes shake{25%{transform:translateX(-6px) rotate(-2deg)}75%{transform:translateX(6px) rotate(2deg)}}
 .empty{color:#fff;text-align:center;padding:40px 20px;font-weight:800;font-size:20px;display:none}
 .empty em{font-style:normal;font-size:64px;display:block}
 
@@ -301,10 +324,18 @@ svg{display:block}
 </section>
 
 <!-- PAGE PICKER -->
+<section id="cats" class="scr">
+  <div class="bar">
+    <button class="rb back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15.5 4 7.5 12l8 8 2-2-6-6 6-6z"/></svg></button>
+    <h2 class="fun" data-t="chooseCat">Choose a category</h2>
+  </div>
+  <div class="scroll"><div class="grid cgrid" id="catGrid"></div></div>
+</section>
+
 <section id="pick" class="scr">
   <div class="bar">
     <button class="rb back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15.5 4 7.5 12l8 8 2-2-6-6 6-6z"/></svg></button>
-    <h2 class="fun" data-t="choose">Choose a picture</h2>
+    <h2 class="fun" id="pickTitle">Choose a picture</h2>
   </div>
   <div class="scroll"><div class="grid" id="pickGrid"></div></div>
 </section>
@@ -415,13 +446,13 @@ const store={get(k,d){try{const v=localStorage.getItem('mocd.'+k);return v==null
 /* ---------- Text (EN / ID) ---------- */
 const TXT={
 en:{tag:'Play Games the Islamic Way',draw:'Draw',drawS:'Blank paper',color:'Color',colorS:'Coloring pages',myArt:'My Art',legal:'No ads · No data collected · Works offline',
- choose:'Choose a picture',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
+ choose:'Choose a picture',chooseCat:'Choose a category',soonCat:'Soon',soonMsg:'New pictures are coming soon, insya Allah!',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
  alh:'Alhamdulillah!',alhS:"What a beautiful picture! It's saved in My Art.",dyk:'Did you know?',pick:'Pick a color',ok:'OK',gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  saved:'Saved in My Art ✓',cleared:'All clean!',blank:'My drawing',deleted:'Deleted',
  tools:{crayon:'Crayon',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',glitter:'Glitter',stamp:'Stamps',fill:'Paint bucket',eraser:'Eraser'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! What a beautiful picture!'},
 id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',color:'Mewarnai',colorS:'Gambar mewarnai',myArt:'Karyaku',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
- choose:'Pilih gambar',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
+ choose:'Pilih gambar',chooseCat:'Pilih kategori',soonCat:'Segera',soonMsg:'Gambar baru segera hadir, insya Allah!',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
  alh:'Alhamdulillah!',alhS:'Gambarnya bagus sekali! Sudah tersimpan di Karyaku.',dyk:'Tahukah kamu?',pick:'Pilih warna',ok:'OK',gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
  saved:'Tersimpan di Karyaku ✓',cleared:'Bersih lagi!',blank:'Gambarku',deleted:'Dihapus',
  tools:{crayon:'Krayon',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',glitter:'Glitter',stamp:'Stempel',fill:'Ember cat',eraser:'Penghapus'},
@@ -433,13 +464,37 @@ const t=k=>TXT[lang][k]??TXT.en[k];
 
 /* ---------- Coloring pages ----------
    To add a page: put line art (SVG, PNG or WebP; black lines on white or transparent) in pages/ and add it here. */
+/* Categories for the coloring pages. "Surprise Me" is always first and picks a random picture.
+   To add art for a category card: put an image in cats/<id>.png and set img:'cats/<id>.png'.
+   Categories without pictures yet show as "Soon" (set SHOW_EMPTY_CATS=false to hide them). */
+const SHOW_EMPTY_CATS=true;
+const CATS=[
+ {id:'surprise',icon:'🎁',name:{en:'Surprise Me!',id:'Kejutan!'}},
+ {id:'masjid',icon:'🕌',bg:'#22c08d,#0e9a6f',name:{en:'Masjid',id:'Masjid'}},
+ {id:'quran',icon:'🐪',bg:'#ffb347,#ff7f50',name:{en:"Animals in the Qur'an",id:"Hewan dalam Al-Qur'an"}},
+ {id:'ramadan',icon:'🌙',bg:'#3b2f8f,#7a5cff',name:{en:'Ramadan & Eid',id:'Ramadan & Lebaran'}},
+ {id:'pets',icon:'🐱',bg:'#ff9ad5,#ff5fa8',name:{en:'Pets',id:'Hewan Peliharaan'}},
+ {id:'dino',icon:'🦕',bg:'#8bd346,#2fa36b',name:{en:'Dinosaurs',id:'Dinosaurus'}},
+ {id:'sea',icon:'🐠',bg:'#3fc6f5,#1b7fe0',name:{en:'Sea Animals',id:'Hewan Laut'}},
+ {id:'farm',icon:'🐄',bg:'#f4c36a,#e08a3c',name:{en:'Farm Animals',id:'Hewan Ternak'}},
+ {id:'bugs',icon:'🦋',bg:'#c8a2ff,#9b4bf0',name:{en:'Bugs & Butterflies',id:'Serangga & Kupu-kupu'}},
+ {id:'birds',icon:'🐦',bg:'#7fd6ff,#2f8bff',name:{en:'Birds',id:'Burung'}},
+ {id:'flowers',icon:'🌸',bg:'#ffc2e6,#ff7ab8',name:{en:'Flowers & Garden',id:'Bunga & Taman'}},
+ {id:'food',icon:'🍉',bg:'#ff7f6e,#ff3b30',name:{en:'Fruits & Food',id:'Buah & Makanan'}},
+ {id:'vehicles',icon:'🚗',bg:'#ffd23f,#ff9f1c',name:{en:'Cars & Vehicles',id:'Mobil & Kendaraan'}},
+ {id:'space',icon:'🚀',bg:'#1d1b5e,#6b52c4',name:{en:'Space',id:'Luar Angkasa'}},
+ {id:'hijaiyah',icon:'ب',ar:true,bg:'#14b8a6,#0e7a3d',name:{en:'Hijaiyah Letters',id:'Huruf Hijaiyah'}},
+ {id:'numbers',icon:'🔢',bg:'#ff8a00,#ff5f1f',name:{en:'Numbers & Shapes',id:'Angka & Bentuk'}},
+ {id:'patterns',icon:'✨',bg:'#0fb5ba,#1e2f8a',name:{en:'Islamic Patterns',id:'Pola Islami'}},
+ {id:'jobs',icon:'🚒',bg:'#ff6b4a,#d9482b',name:{en:'Jobs & Helpers',id:'Profesi'}},
+ {id:'mo',img:'../home/mo.webp',bg:'#ffd84d,#ffa51f',name:{en:'Mo & Friends',id:'Mo & Teman'}}];
 const PAGES=[
- {id:'camel',src:'pages/camel.svg',name:{en:'Camel',id:'Unta'},fact:{en:'Allah asks us to look at how the camel is created. (Surah Al-Ghashiyah 88:17)',id:'Allah mengajak kita memperhatikan bagaimana unta diciptakan. (QS Al-Ghasyiyah: 17)'}},
- {id:'bee',src:'pages/bee.svg',name:{en:'Bee',id:'Lebah'},fact:{en:'A whole surah is named after the bee: An-Nahl. The honey bees make is a healing for people. (16:69)',id:'Ada surah yang dinamai lebah: An-Nahl. Madu dari lebah menjadi obat bagi manusia. (QS An-Nahl: 69)'}},
- {id:'whale',src:'pages/whale.svg',name:{en:'Big Fish',id:'Ikan Besar'},fact:{en:'Nabi Yunus prayed to Allah from inside the big fish, and Allah saved him. (Surah Al-Anbiya 21:87-88)',id:'Nabi Yunus berdoa kepada Allah dari dalam perut ikan besar, dan Allah menyelamatkannya. (QS Al-Anbiya: 87-88)'}},
- {id:'elephant',src:'pages/elephant.svg',name:{en:'Elephant',id:'Gajah'},fact:{en:"Surah Al-Fil tells how Allah protected the Ka'bah from an army that came with elephants.",id:"Surah Al-Fil menceritakan bagaimana Allah melindungi Ka'bah dari pasukan bergajah."}},
- {id:'ant',src:'pages/ant.svg',name:{en:'Ant',id:'Semut'},fact:{en:"In Surah An-Naml, a little ant told its friends to go home so Nabi Sulaiman's army would not step on them. (27:18)",id:'Dalam Surah An-Naml, seekor semut kecil mengajak teman-temannya masuk ke sarang agar tidak terinjak pasukan Nabi Sulaiman. (QS An-Naml: 18)'}},
- {id:'masjid',src:'pages/masjid.svg',name:{en:'Masjid',id:'Masjid'},fact:{en:'The masjid is the house of Allah. We enter with the right foot and say a du\'a.',id:'Masjid adalah rumah Allah. Kita masuk dengan kaki kanan sambil berdoa.'}},
+ {id:'camel',cat:['quran'],src:'pages/camel.svg',name:{en:'Camel',id:'Unta'},fact:{en:'Allah asks us to look at how the camel is created. (Surah Al-Ghashiyah 88:17)',id:'Allah mengajak kita memperhatikan bagaimana unta diciptakan. (QS Al-Ghasyiyah: 17)'}},
+ {id:'bee',cat:['quran','bugs'],src:'pages/bee.svg',name:{en:'Bee',id:'Lebah'},fact:{en:'A whole surah is named after the bee: An-Nahl. The honey bees make is a healing for people. (16:69)',id:'Ada surah yang dinamai lebah: An-Nahl. Madu dari lebah menjadi obat bagi manusia. (QS An-Nahl: 69)'}},
+ {id:'whale',cat:['quran','sea'],src:'pages/whale.svg',name:{en:'Big Fish',id:'Ikan Besar'},fact:{en:'Nabi Yunus prayed to Allah from inside the big fish, and Allah saved him. (Surah Al-Anbiya 21:87-88)',id:'Nabi Yunus berdoa kepada Allah dari dalam perut ikan besar, dan Allah menyelamatkannya. (QS Al-Anbiya: 87-88)'}},
+ {id:'elephant',cat:['quran'],src:'pages/elephant.svg',name:{en:'Elephant',id:'Gajah'},fact:{en:"Surah Al-Fil tells how Allah protected the Ka'bah from an army that came with elephants.",id:"Surah Al-Fil menceritakan bagaimana Allah melindungi Ka'bah dari pasukan bergajah."}},
+ {id:'ant',cat:['quran','bugs'],src:'pages/ant.svg',name:{en:'Ant',id:'Semut'},fact:{en:"In Surah An-Naml, a little ant told its friends to go home so Nabi Sulaiman's army would not step on them. (27:18)",id:'Dalam Surah An-Naml, seekor semut kecil mengajak teman-temannya masuk ke sarang agar tidak terinjak pasukan Nabi Sulaiman. (QS An-Naml: 18)'}},
+ {id:'masjid',cat:['masjid'],src:'pages/masjid.svg',name:{en:'Masjid',id:'Masjid'},fact:{en:'The masjid is the house of Allah. We enter with the right foot and say a du\'a.',id:'Masjid adalah rumah Allah. Kita masuk dengan kaki kanan sambil berdoa.'}},
 ];
 
 /* ---------- Colors & tools ---------- */
@@ -1044,9 +1099,35 @@ async function leaveEditor(){
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&E.mode&&E.dirty)saveArt()});
 
 /* ---------- home / picker / gallery ---------- */
-function renderPick(){
-  $('#pickGrid').innerHTML=PAGES.map(p=>`<button class="card" data-page="${p.id}"><img src="${p.src}" alt="" loading="lazy"><b>${p.name[lang]}</b></button>`).join('');
+let curCat=null;
+const catPages=id=>PAGES.filter(p=>p.cat&&p.cat.includes(id));
+function renderCats(){
+  $('#catGrid').innerHTML=CATS.filter(c=>c.id==='surprise'||SHOW_EMPTY_CATS||catPages(c.id).length).map(c=>{
+    const n=c.id==='surprise'?PAGES.length:catPages(c.id).length,soon=c.id!=='surprise'&&!n;
+    const art=c.img?`<img src="${c.img}" alt=""${c.img.includes('mo.webp')?' class="mo"':''}>`:`<span${c.ar?' class="ar"':''}>${c.icon}</span>`;
+    return `<button class="cat${c.id==='surprise'?' surprise':''}${soon?' soon':''}" data-cat="${c.id}"><span class="ci" style="${c.bg?`background:linear-gradient(150deg,${c.bg})`:''}">${art}</span>${c.id==='surprise'?'':`<span class="n">${soon?t('soonCat'):n}</span>`}<b>${c.name[lang]}</b></button>`}).join('');
 }
+function renderPick(){
+  renderCats();if(!curCat)return;
+  $('#pickTitle').textContent=curCat.name[lang];
+  $('#pickGrid').innerHTML=catPages(curCat.id).map(p=>`<button class="card" data-page="${p.id}"><img src="${p.src}" alt="" loading="lazy"><b>${p.name[lang]}</b></button>`).join('');
+}
+/* Surprise Me: the card flicks through pictures for a moment, then opens a random one (never the same twice in a row) */
+let rolling=false;
+function surprise(card){
+  if(rolling)return;rolling=true;
+  let pick;do{pick=PAGES[(Math.random()*PAGES.length)|0]}while(PAGES.length>1&&pick.id===store.get('lastSurprise',''));store.set('lastSurprise',pick.id);
+  const ci=card.querySelector('.ci'),im=document.createElement('img');im.className='roll';ci.appendChild(im);
+  let k=0;const steps=10,tick=()=>{if(k<steps){im.src=PAGES[(k*5+((Math.random()*2)|0))%PAGES.length].src;tone(500+k*60,.06,'triangle',.08);k++;setTimeout(tick,70+k*12)}
+    else{im.src=pick.src;sfx.win();card.classList.add('pick');setTimeout(()=>{card.classList.remove('pick');im.remove();rolling=false;openEditor('color',pick)},650)}};
+  tick();
+}
+$('#catGrid').addEventListener('click',e=>{
+  const b=e.target.closest('[data-cat]');if(!b)return;const c=CATS.find(x=>x.id===b.dataset.cat);
+  if(c.id==='surprise'){surprise(b);return}
+  if(!catPages(c.id).length){b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');toast(t('soonMsg'));sfx.undo();return}
+  sfx.tap();curCat=c;renderPick();$('#pickGrid').parentElement.scrollTop=0;show('pick');
+});
 $('#pickGrid').addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(!b)return;sfx.tap();openEditor('color',PAGES.find(p=>p.id===b.dataset.page))});
 let picking=false;
 function pickMode(btn,go){
@@ -1054,7 +1135,7 @@ function pickMode(btn,go){
   setTimeout(()=>{go();btn.classList.remove('pick');btn.parentElement.classList.remove('chosen');picking=false},520);
 }
 $('#goDraw').onclick=e=>pickMode(e.currentTarget,()=>openEditor('draw'));
-$('#goColor').onclick=e=>pickMode(e.currentTarget,()=>show('pick'));
+$('#goColor').onclick=e=>pickMode(e.currentTarget,()=>{renderCats();show('cats')});
 $('#goGal').onclick=()=>{sfx.tap();show('gal');renderGal()};
 document.querySelectorAll('.back').forEach(b=>b.onclick=()=>{sfx.tap();goBack()});
 $('#langBtn').onclick=()=>{lang=lang==='en'?'id':'en';store.set('lang',lang);applyLang();sfx.tap()};
