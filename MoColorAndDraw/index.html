@@ -277,6 +277,31 @@ svg{display:block}
 #gate .hb{position:relative;width:110px;height:110px;border-radius:50%;margin:16px auto 4px;background:radial-gradient(circle at 35% 30%,#ffe066,var(--yel) 55%,var(--yel2));display:grid;place-items:center;box-shadow:0 6px 0 rgba(176,92,0,.3);touch-action:none}
 #gate .hb svg{width:44px;height:44px;fill:#fff}
 #gate .hb .ring{inset:-8px}
+/* prayer pause */
+.pchip{margin-top:8px;display:inline-block;background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:5px 14px;font-weight:700;font-size:clamp(13px,2.4vw,15px);box-shadow:0 3px 0 rgba(176,92,0,.2)}
+.pchip:empty{display:none}
+.pchip b{color:#0e9a6f}
+.lockov{z-index:50;background:linear-gradient(180deg,rgba(14,80,60,.88),rgba(10,50,40,.92))}
+.lockov .box{border:6px solid #b8f0d8}
+.lrib{display:inline-block;background:linear-gradient(180deg,#38d39f,#13a876);color:#fff;font:400 18px "Lilita One",sans-serif;padding:6px 20px;border-radius:999px;margin-top:-4px}
+.lmasjid{font-size:76px;line-height:1.1;margin-top:6px;animation:bounce 1.6s ease-in-out infinite}
+.lcount{margin-top:10px;font-weight:800;color:#0e9a6f;font-size:17px}
+.bigbtn[disabled]{filter:grayscale(.7);opacity:.6}
+.bigbtn.sm{font-size:18px;padding:10px 20px;margin-top:10px}
+.setbox{text-align:left}
+.setbox h3{text-align:center}
+.fld{margin-top:14px}
+.fld label{display:block;font-weight:800;color:var(--ink);margin-bottom:6px}
+.fld small{display:block;color:var(--ink2);font-size:12px;margin-top:6px}
+.fld select,.fld input{width:100%;font:700 16px "Baloo 2",sans-serif;padding:10px 12px;border-radius:14px;border:3px solid #ffe2b8;background:#fff;color:var(--ink);-webkit-user-select:text;user-select:text}
+.ll{display:none;gap:8px;margin-top:8px}.ll.on{display:flex}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;padding:8px 0;border-radius:14px;background:#fff6e0;font-weight:800;box-shadow:inset 0 0 0 3px #ffe2b8}
+.seg button.on{background:#ffc928;box-shadow:inset 0 0 0 3px #f5a800}
+.ptimes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center}
+.ptimes div{background:#fff6e0;border-radius:14px;padding:6px 2px;font-size:13px;font-weight:700;color:var(--ink2)}
+.ptimes div b{display:block;font:400 18px "Lilita One",sans-serif;color:var(--ink)}
+.ptimes div.now{background:#d6f7ea;box-shadow:inset 0 0 0 3px #38d39f}
 #toast{position:fixed;left:50%;bottom:calc(150px + var(--safeB));transform:translate(-50%,20px);background:var(--ink);color:#fff;font-weight:800;border-radius:999px;padding:10px 20px;opacity:0;transition:.25s;z-index:40;pointer-events:none;white-space:nowrap}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:30;width:100%;height:100%}
@@ -291,6 +316,7 @@ svg{display:block}
   <div class="bar">
     <a class="rb" href="../" aria-label="Mo Games"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></a>
     <span class="sp"></span>
+    <button class="rb" id="setBtn" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg></button>
     <button class="rb" id="langBtn" aria-label="Language"><b id="langLbl">EN</b></button>
     <button class="rb mus" aria-label="Music"><svg viewBox="0 0 24 24"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="#e98a00" stroke-width="2.6" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2"/><circle cx="17.4" cy="15" r="3.2"/><path class="sl" d="M3 3l18 18" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/></svg></button>
     <button class="rb" id="sndBtn" aria-label="Sound"><svg viewBox="0 0 24 24" id="sndIco"></svg></button>
@@ -300,6 +326,7 @@ svg{display:block}
       <img class="mo" src="../home/mo.webp" alt="Mo">
       <h1 class="fun">Mo Color &amp; Draw</h1>
       <p class="tag" data-t="tag">Play Games the Islamic Way</p>
+      <p class="pchip" id="pchip"></p>
     </div>
     <div class="modes">
       <button class="mode c" id="goColor">
@@ -427,6 +454,28 @@ svg{display:block}
   <button class="bigbtn" id="pkOk" style="animation:none">✓ <span data-t="ok">OK</span></button>
 </div></div>
 
+<!-- PRAYER PAUSE -->
+<div class="ov lockov" id="lock"><div class="box">
+  <div class="lrib" id="lockRib">Time to pray</div>
+  <div class="lmasjid">🕌</div>
+  <div class="arb ar">حَيَّ عَلَى الصَّلَاةِ</div>
+  <h3 id="lockTitle"></h3>
+  <p id="lockBody"></p>
+  <div class="lcount" id="lockCount"></div>
+  <button class="bigbtn" id="bPrayed" style="animation:none"></button>
+</div></div>
+
+<!-- SETTINGS (parents) -->
+<div class="ov" id="settings"><div class="box setbox">
+  <button class="x" id="sClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
+  <h3 data-t="setT">For parents</h3>
+  <div class="fld"><label data-t="city">City</label><select id="citySel"></select>
+    <div class="ll" id="llRow"><input id="latIn" inputmode="decimal" placeholder="-7.98"><input id="lngIn" inputmode="decimal" placeholder="112.63"></div></div>
+  <div class="fld"><label data-t="wait">Prayer pause lasts at least</label><div class="seg" id="segWait"></div></div>
+  <div class="fld"><label data-t="today">Prayer times today</label><div class="ptimes" id="ptimes"></div><small data-t="method">Kemenag RI method</small></div>
+  <button class="bigbtn sm" id="bPreview" style="animation:none" data-t="preview">Preview the prayer pause</button>
+</div></div>
+
 <!-- PARENT GATE -->
 <div class="ov" id="gate"><div class="box">
   <button class="x" id="gClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
@@ -446,13 +495,13 @@ const store={get(k,d){try{const v=localStorage.getItem('mocd.'+k);return v==null
 /* ---------- Text (EN / ID) ---------- */
 const TXT={
 en:{tag:'Play Games the Islamic Way',draw:'Draw',drawS:'Blank paper',color:'Color',colorS:'Coloring pages',myArt:'My Art',legal:'No ads · No data collected · Works offline',
- choose:'Choose a picture',chooseCat:'Choose a category',soonCat:'Soon',soonMsg:'New pictures are coming soon, insya Allah!',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
+ choose:'Choose a picture',pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your picture is saved.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},chooseCat:'Choose a category',soonCat:'Soon',soonMsg:'New pictures are coming soon, insya Allah!',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
  alh:'Alhamdulillah!',alhS:"What a beautiful picture! It's saved in My Art.",dyk:'Did you know?',pick:'Pick a color',ok:'OK',gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  saved:'Saved in My Art ✓',cleared:'All clean!',blank:'My drawing',deleted:'Deleted',
  tools:{crayon:'Crayon',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',glitter:'Glitter',stamp:'Stamps',fill:'Paint bucket',eraser:'Eraser'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! What a beautiful picture!'},
 id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',color:'Mewarnai',colorS:'Gambar mewarnai',myArt:'Karyaku',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
- choose:'Pilih gambar',chooseCat:'Pilih kategori',soonCat:'Segera',soonMsg:'Gambar baru segera hadir, insya Allah!',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
+ choose:'Pilih gambar',pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Gambarmu sudah tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},chooseCat:'Pilih kategori',soonCat:'Segera',soonMsg:'Gambar baru segera hadir, insya Allah!',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
  alh:'Alhamdulillah!',alhS:'Gambarnya bagus sekali! Sudah tersimpan di Karyaku.',dyk:'Tahukah kamu?',pick:'Pilih warna',ok:'OK',gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
  saved:'Tersimpan di Karyaku ✓',cleared:'Bersih lagi!',blank:'Gambarku',deleted:'Dihapus',
  tools:{crayon:'Krayon',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',glitter:'Glitter',stamp:'Stempel',fill:'Ember cat',eraser:'Penghapus'},
@@ -461,6 +510,7 @@ id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',col
 let lang=store.get('lang',(()=>{try{const l=localStorage.getItem('moLang');if(l==='en'||l==='id')return l}catch(e){}return /^id\b|^id-/i.test(navigator.language||'')?'id':'en'})());
 let soundOn=store.get('sound',true),musicPref=store.get('music',true);
 const t=k=>TXT[lang][k]??TXT.en[k];
+const tf=(k,v)=>t(k).replace(/\{(\w+)\}/g,(_,x)=>v[x]??'');
 
 /* ---------- Coloring pages ----------
    To add a page: put line art (SVG, PNG or WebP; black lines on white or transparent) in pages/ and add it here. */
@@ -635,7 +685,7 @@ function mSchedule(){if(!AC||AC.state!=='running'||!MUS.on)return;const e=60/MUS
     mHit(t,7000,beat%2?.04:.02,.04);
     MUS.t0+=e;MUS.step++}}
 const musVol=()=>cur==='ed'?.2:.34;
-function musicOn(){const a=ac();if(!a||!musicPref||MUS.on||document.hidden)return;MUS.on=true;
+function musicOn(){const a=ac();if(!a||!musicPref||MUS.on||document.hidden||window.praying)return;MUS.on=true;
   MUS.gain=a.createGain();MUS.gain.gain.setValueAtTime(.0001,a.currentTime);MUS.gain.gain.exponentialRampToValueAtTime(musVol(),a.currentTime+1.2);MUS.gain.connect(a.destination);
   MUS.t0=a.currentTime+.1;MUS.step=0;mSchedule();MUS.timer=setInterval(mSchedule,90)}
 function musicOff(){if(!MUS.on)return;MUS.on=false;clearInterval(MUS.timer);const g=MUS.gain;
@@ -1186,8 +1236,101 @@ function tapFx(x,y,hand){
 }
 document.addEventListener('pointerdown',e=>{if(e.target.closest('#paper'))return;tapFx(e.clientX,e.clientY,e.pointerType!=='mouse')},true);
 
+/* =================================================================
+   Prayer pause (same calculation as Nur Connect: Kemenag RI, Fajr 20°, Isha 18°, Asr Shafi'i, +2 min ihtiyat).
+   Worked out on the device; nothing is sent anywhere. The city and the "I have prayed" record are shared
+   with Nur Connect, so a prayer confirmed in one Mo game counts in the other.
+   ================================================================= */
+const CITIES=[
+['malang','Malang',-7.9797,112.6304,'Asia/Jakarta'],['jakarta','Jakarta',-6.2088,106.8456,'Asia/Jakarta'],['bandung','Bandung',-6.9175,107.6191,'Asia/Jakarta'],
+['semarang','Semarang',-6.9667,110.4167,'Asia/Jakarta'],['yogyakarta','Yogyakarta',-7.7956,110.3695,'Asia/Jakarta'],['surabaya','Surabaya',-7.2575,112.7521,'Asia/Jakarta'],
+['medan','Medan',3.5952,98.6722,'Asia/Jakarta'],['bandaaceh','Banda Aceh',5.5483,95.3238,'Asia/Jakarta'],['palembang','Palembang',-2.9761,104.7754,'Asia/Jakarta'],
+['pekanbaru','Pekanbaru',0.5071,101.4478,'Asia/Jakarta'],['pontianak','Pontianak',-0.0263,109.3425,'Asia/Jakarta'],['banjarmasin','Banjarmasin',-3.3194,114.5908,'Asia/Makassar'],
+['balikpapan','Balikpapan',-1.2379,116.8529,'Asia/Makassar'],['makassar','Makassar',-5.1477,119.4327,'Asia/Makassar'],['denpasar','Denpasar',-8.6705,115.2126,'Asia/Makassar'],
+['mataram','Mataram',-8.5833,116.1167,'Asia/Makassar'],['manado','Manado',1.4748,124.8421,'Asia/Makassar'],['ambon','Ambon',-3.6954,128.1814,'Asia/Jayapura'],
+['jayapura','Jayapura',-2.5337,140.7181,'Asia/Jayapura'],['kl','Kuala Lumpur',3.139,101.6869,'Asia/Kuala_Lumpur'],['singapore','Singapore',1.3521,103.8198,'Asia/Singapore'],
+['bsb','Bandar Seri Begawan',4.9031,114.9398,'Asia/Brunei'],['makkah','Makkah',21.3891,39.8579,'Asia/Riyadh'],['madinah','Madinah',24.5247,39.5692,'Asia/Riyadh'],
+['dubai','Dubai',25.2048,55.2708,'Asia/Dubai'],['istanbul','Istanbul',41.0082,28.9784,'Europe/Istanbul'],['custom','',0,0,'']];
+const nurGet=(k,d)=>{try{const v=localStorage.getItem('nur:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}};
+const nurSet=(k,v)=>{try{localStorage.setItem('nur:'+k,JSON.stringify(v))}catch(e){}};
+const PS=(()=>{const n=nurGet('settings',{})||{};const o=Object.assign({city:n.city,lat:n.lat,lng:n.lng,wait:n.wait||10},store.get('prayer',{}));
+  if(!o.city){let tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(e){}const c=CITIES.find(x=>x[4]===tz);o.city=c?c[0]:'malang'}
+  return o})();
+function savePS(){store.set('prayer',PS);const n=nurGet('settings',null);if(n){n.city=PS.city;n.lat=PS.lat;n.lng=PS.lng;nurSet('settings',n)}pCache={}}
+const R2D=180/Math.PI,D2R=Math.PI/180,sn=d=>Math.sin(d*D2R),cs=d=>Math.cos(d*D2R),tn=d=>Math.tan(d*D2R),fix=(a,b)=>a-b*Math.floor(a/b);
+function julian(y,m,d){if(m<=2){y--;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
+function sunPos(jd){const D=jd-2451545,g=fix(357.529+.98560028*D,360),q=fix(280.459+.98564736*D,360),L=fix(q+1.915*sn(g)+.02*sn(2*g),360),e=23.439-.00000036*D;
+  const RA=Math.atan2(cs(e)*sn(L),cs(L))*R2D/15;return{decl:Math.asin(sn(e)*sn(L))*R2D,eqt:q/15-fix(RA,24)}}
+function prayerTimes(y,m,d,lat,lng){
+  const jd=julian(y,m,d)-lng/(15*24),mid=p=>fix(12-sunPos(jd+p).eqt,24);
+  const ang=(a,p,ccw)=>{const dc=sunPos(jd+p).decl,n=mid(p),T=Math.acos((-sn(a)-sn(dc)*sn(lat))/(cs(dc)*cs(lat)))*R2D/15;return n+(ccw?-T:T)};
+  const asr=p=>{const dc=sunPos(jd+p).decl,a=-Math.atan(1/(1+tn(Math.abs(lat-dc))))*R2D;return ang(a,p)};
+  let h={fajr:5,sunrise:6,dhuhr:12,asr:13,maghrib:18,isha:18};
+  for(let i=0;i<2;i++){const p=k=>h[k]/24;h={fajr:ang(20,p('fajr'),1),sunrise:ang(.833,p('sunrise'),1),dhuhr:mid(p('dhuhr')),asr:asr(p('asr')),maghrib:ang(.833,p('maghrib')),isha:ang(18,p('isha'))}}
+  const base=Date.UTC(y,m-1,d),out={};
+  for(const k in h){const adj=k==='sunrise'?-2/60:2/60;out[k]=isFinite(h[k])?base+(h[k]-lng/15+adj)*3600e3:null}
+  return out}
+function cityInfo(){const c=CITIES.find(x=>x[0]===PS.city)||CITIES[0];
+  if(c[0]==='custom'){let tz='UTC';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}catch(e){}return{name:t('customCity'),lat:+PS.lat||0,lng:+PS.lng||0,tz}}
+  return{name:c[1],lat:c[2],lng:c[3],tz:c[4]}}
+function localYMD(tz,off){const s=new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(Date.now()));
+  const [y,m,d]=s.split('-').map(Number);const dt=new Date(Date.UTC(y,m-1,d+(off||0)));return[dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate()]}
+const fmtT=(ms,tz)=>new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit'}).format(new Date(ms));
+let pCache={};
+function sched(off){const c=cityInfo(),ymd=localYMD(c.tz,off),k=PS.city+PS.lat+PS.lng+ymd.join('-');if(!pCache[k])pCache[k]={key:ymd.join('-'),t:prayerTimes(ymd[0],ymd[1],ymd[2],c.lat,c.lng)};return pCache[k]}
+const FIVE=['fajr','dhuhr','asr','maghrib','isha'];
+function activePrayer(now){const td=sched(0),T0=td.t;
+  if(T0.fajr&&now<T0.fajr){const yd=sched(-1);return yd.t.isha?{p:'isha',start:yd.t.isha,key:yd.key+':isha'}:null}
+  if(T0.sunrise&&now<T0.sunrise)return{p:'fajr',start:T0.fajr,key:td.key+':fajr'};
+  let a=null;for(const p of ['dhuhr','asr','maghrib','isha'])if(T0[p]&&now>=T0[p])a={p,start:T0[p],key:td.key+':'+p};return a}
+function nextPrayer(now){const td=sched(0).t;for(const p of FIVE)if(td[p]&&td[p]>now)return{p,at:td[p]};return{p:'fajr',at:sched(1).t.fajr}}
+const prayedNow=()=>nurGet('prayed',{})||{};
+function markPrayed(key){const pr=prayedNow();pr[key]=1;const keep={},today=sched(0).key,yest=sched(-1).key;for(const k in pr)if(k.startsWith(today)||k.startsWith(yest))keep[k]=1;nurSet('prayed',keep)}
+function dur(ms){const m=Math.max(0,Math.ceil(ms/60000)),h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
+const pn=p=>t('P')[p];
+
+let lock=null,lastCheck=0;window.praying=false;
+function tickPrayer(now){
+  if(now-lastCheck>5000||lock){if(!lock||!lock.demo){lastCheck=now;const a=activePrayer(now);
+    if(a&&!prayedNow()[a.key]){if(!lock||lock.key!==a.key){lock={...a,demo:false};openLock()}}else if(lock)closeLock(false)}}
+  if(lock)renderLock(now);
+  if(cur==='home')renderChip(now);
+}
+function bell(){[[1046,0],[784,.35],[1046,.7]].forEach(([f,w])=>{tone(f,1.6,'sine',.16,w);tone(f*2.01,.8,'sine',.04,w)})}
+function openLock(){
+  window.praying=true;musicOff();try{speechSynthesis.cancel()}catch(e){}
+  if(S){active=null;endStroke()}
+  if(E.mode&&E.dirty)saveArt();                 // keep the picture safe before the pause
+  ov('lock',true);bell();setTimeout(()=>say(tf('sayPray',{p:pn(lock.p)})),900);renderLock(Date.now());
+}
+function renderLock(now){const p=pn(lock.p);$('#lockRib').textContent=t('pray');$('#lockTitle').textContent=tf('lockT',{p});$('#lockBody').textContent=tf('lockB',{p});
+  const ready=lock.demo?lock.readyAt:lock.start+(+PS.wait||10)*60000,rem=ready-now,b=$('#bPrayed');b.textContent='✓ '+tf('prayed',{p});
+  if(rem>0){b.disabled=true;const s=Math.ceil(rem/1000);$('#lockCount').textContent=tf('lockWait',{m:Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})}else{b.disabled=false;$('#lockCount').textContent=t('lockReady')}}
+function closeLock(thanks){ov('lock',false);lock=null;window.praying=false;
+  if(thanks){say(t('taq'));toast(t('taq'));confetti();sfx.win()}
+  setTimeout(()=>{if(musicPref)musicOn()},1500);renderChip(Date.now())}
+$('#bPrayed').onclick=()=>{if(!lock||$('#bPrayed').disabled)return;if(!lock.demo)markPrayed(lock.key);closeLock(true);lastCheck=0};
+function renderChip(now){try{const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo();
+  $('#pchip').innerHTML=(a&&prayedNow()[a.key]?'✓ '+pn(a.p)+' · ':'')+`🕌 ${t('nextP')}: <b>${pn(nx.p)}</b> ${nx.at?fmtT(nx.at,c.tz):'—'} · ${nx.at?dur(nx.at-now):''} · ${c.name}`}catch(e){}}
+
+/* parent settings: city, minimum pause, today's times, preview */
+function renderSettings(){
+  $('#citySel').innerHTML=CITIES.map(c=>`<option value="${c[0]}"${c[0]===PS.city?' selected':''}>${c[0]==='custom'?t('customCity'):c[1]}</option>`).join('');
+  $('#llRow').classList.toggle('on',PS.city==='custom');$('#latIn').value=PS.lat||'';$('#lngIn').value=PS.lng||'';
+  $('#segWait').innerHTML=[5,10,15,20].map(m=>`<button data-v="${m}" class="${+PS.wait===m?'on':''}">${m} min</button>`).join('');
+  const now=Date.now(),T0=sched(0).t,c=cityInfo(),a=activePrayer(now);
+  $('#ptimes').innerHTML=FIVE.map(p=>`<div class="${a&&a.p===p&&a.key.startsWith(sched(0).key)?'now':''}"><b>${T0[p]?fmtT(T0[p],c.tz):'—'}</b>${pn(p)}</div>`).join('');
+}
+$('#setBtn').onclick=()=>gate(()=>{renderSettings();ov('settings',true)});
+$('#sClose').onclick=()=>{ov('settings',false);lastCheck=0;renderChip(Date.now())};
+$('#citySel').onchange=e=>{PS.city=e.target.value;savePS();renderSettings()};
+['latIn','lngIn'].forEach(id=>$('#'+id).addEventListener('change',()=>{PS.lat=$('#latIn').value.trim();PS.lng=$('#lngIn').value.trim();savePS();renderSettings()}));
+$('#segWait').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;PS.wait=+b.dataset.v;savePS();renderSettings()});
+$('#bPreview').onclick=()=>{ov('settings',false);lock={p:'asr',demo:true,readyAt:Date.now()+10000,key:'demo'};openLock()};
+setInterval(()=>tickPrayer(Date.now()),1000);
+
 /* start */
-renderSnd();renderMus();applyLang();renderSizes();
+renderSnd();renderMus();applyLang();renderSizes();setTimeout(()=>tickPrayer(Date.now()),300);
 document.addEventListener('pointerdown',()=>ac(),{once:true});
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>

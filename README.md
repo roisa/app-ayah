@@ -71,6 +71,7 @@ Coloring and free drawing for kids aged 3+, in English and Bahasa Indonesia. Eve
 
 - **Draw:** blank paper. **Color:** coloring pages; paint stays inside the area where the finger started, and the Fill bucket fills a whole area.
 - Tools: crayon, highlighter (Stabilo), brush, bold pen, oil brush (paint mixes with the colour under it), fill and eraser; 3 sizes; 14 colours plus rainbow; the + button opens a colour wheel for any colour (the last 3 are kept).
+- **Prayer pause:** at every prayer time (Kemenag RI method, same as Nur Connect) the picture is saved and a "Time to pray" screen stays until the child has prayed (at least 5–20 minutes after the prayer starts, set by parents). City, minimum pause, today's times and a preview are in the parents' settings (gear button, behind the parent gate). The city and the "I have prayed" record are shared with Nur Connect.
 - Starts with a **Bismillah** button; the camera button saves the picture and celebrates with **Alhamdulillah**, plus a "Did you know?" fact on coloring pages.
 - Undo, hold-to-clear, and auto-save to **My Art** when leaving. Pictures are stored only on the device (IndexedDB). Saving/sharing to the photo library and deleting are behind a parent gate (hold 3 seconds).
 - Sounds are synthesised in the browser; colour names are spoken with the device's text-to-speech. Works offline (`sw.js`) and can be installed to the home screen (`manifest.webmanifest`).
