@@ -632,14 +632,25 @@ function show(s,push=true){
   if(push){try{history.pushState({s},'')}catch(e){}}
 }
 try{history.replaceState({s:'home'},'')}catch(e){}
+/* going back happens only with the game's own buttons (home / back).
+   A swipe from the screen edge (iPhone Safari) or the phone's back button is ignored inside the game,
+   so a child colouring near the edge never loses the picture. */
+let btnNav=false;
 window.addEventListener('popstate',e=>{
+  if(!btnNav&&cur!=='home'){try{history.pushState({s:cur},'')}catch(_){}return}
+  btnNav=false;
   ['bism','done','viewer','picker','gate'].forEach(id=>ov(id,false));
   const s=(e.state&&e.state.s)||'home';
   if(cur==='ed'&&s!=='ed')leaveEditor();
   if(s==='ed'&&!E.mode){show('home',false);return}
   show(s,false);if(s==='gal')renderGal();
 });
-function goBack(){if(history.state&&history.state.s!=='home')history.back();else{if(cur==='ed')leaveEditor();show('home')}}
+function goBack(){if(history.state&&history.state.s!=='home'){btnNav=true;history.back()}else{if(cur==='ed')leaveEditor();show('home')}}
+/* while drawing, a touch that starts right at the left or right screen edge must not start the browser's back swipe */
+document.addEventListener('touchstart',e=>{
+  if(cur!=='ed'||!e.touches.length)return;const x=e.touches[0].clientX;
+  if((x<28||x>innerWidth-28)&&!e.target.closest('button'))e.preventDefault();
+},{passive:false});
 
 /* hold-to-confirm buttons */
 function holdable(el,ms,done,onTap){
