@@ -684,15 +684,15 @@ function ov(id,on){$('#'+id).classList.toggle('on',on)}
 let cur='home';
 function show(s,push=true){
   document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===s));cur=s;try{musicLevel()}catch(e){}
-  if(push){try{history.pushState({s},'')}catch(e){}}
+  if(push){try{history.pushState({s,i:((history.state&&history.state.i)||0)+1},'')}catch(e){}}
 }
-try{history.replaceState({s:'home'},'')}catch(e){}
+try{history.replaceState({s:'home',i:0},'')}catch(e){}
 /* going back happens only with the game's own buttons (home / back).
    A swipe from the screen edge (iPhone Safari) or the phone's back button is ignored inside the game,
    so a child colouring near the edge never loses the picture. */
 let btnNav=false;
 window.addEventListener('popstate',e=>{
-  if(!btnNav&&cur!=='home'){try{history.pushState({s:cur},'')}catch(_){}return}
+  if(!btnNav&&cur!=='home'){try{history.pushState({s:cur,i:((e.state&&e.state.i)||0)+1},'')}catch(_){}return}
   btnNav=false;
   ['bism','done','viewer','picker','gate'].forEach(id=>ov(id,false));
   const s=(e.state&&e.state.s)||'home';
@@ -701,6 +701,8 @@ window.addEventListener('popstate',e=>{
   show(s,false);if(s==='gal')renderGal();
 });
 function goBack(){if(history.state&&history.state.s!=='home'){btnNav=true;history.back()}else{if(cur==='ed')leaveEditor();show('home')}}
+/* the house button always goes straight to the main menu (Color / Draw), however many screens deep */
+function goHome(){const i=(history.state&&history.state.i)||0;if(i>0&&history.state.s!=='home'){btnNav=true;history.go(-i)}else{if(cur==='ed')leaveEditor();show('home',false)}}
 /* while drawing, a touch that starts right at the left or right screen edge must not start the browser's back swipe */
 document.addEventListener('touchstart',e=>{
   if(cur!=='ed'||!e.touches.length)return;const x=e.touches[0].clientX;
@@ -1063,7 +1065,7 @@ $('#pkOk').onclick=()=>{const c=pkHex();color=c;store.set('color',c);if(toolDef(
 $('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;
 holdable($('#clearBtn'),900,clearAll,()=>{const tp=$('#clearBtn .tip');tp.classList.add('on');setTimeout(()=>tp.classList.remove('on'),1400)});
 $('#bismBtn').onclick=()=>{ac();sfx.bism();say(t('sayBism'));ov('bism',false);E.ready=true};
-$('#edHome').onclick=()=>goBack();
+$('#edHome').onclick=()=>goHome();
 $('#saveBtn').onclick=async()=>{if(!E.ready)return;await saveArt();celebrate()};
 
 function toBlob(c,type,q){return new Promise(r=>c.toBlob(r,type,q))}
@@ -1086,8 +1088,8 @@ function celebrate(){
   ov('done',true);
 }
 $('#doneKeep').onclick=()=>ov('done',false);
-$('#doneHome').onclick=()=>{ov('done',false);goBack()};
-$('#doneGal').onclick=async()=>{ov('done',false);await leaveEditor();show('gal',false);try{history.replaceState({s:'gal'},'')}catch(e){}renderGal()};
+$('#doneHome').onclick=()=>{ov('done',false);goHome()};
+$('#doneGal').onclick=async()=>{ov('done',false);await leaveEditor();show('gal',false);try{history.replaceState({s:'gal',i:(history.state&&history.state.i)||1},'')}catch(e){}renderGal()};
 
 // leaving the editor (home button, Android back) auto-saves the picture to My Art
 async function leaveEditor(){
