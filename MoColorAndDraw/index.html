@@ -155,15 +155,17 @@ svg{display:block}
 .lower{display:flex;align-items:flex-end;gap:6px;min-width:0}
 .edmo{flex:none;width:clamp(80px,22vw,140px);margin:-44px -6px -8px -10px;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(0,60,0,.25));align-self:flex-end}
 .colP{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:8px 10px}
-.tabs{display:flex;flex-direction:column;gap:4px;padding-right:8px;border-right:3px solid #f3e2b0}
-.tab{width:clamp(32px,8.6vw,42px);height:clamp(32px,8.6vw,42px);border-radius:50%;background:#fff;box-shadow:0 3px 0 rgba(176,120,0,.18);display:grid;place-items:center}
-.tab svg{width:62%;height:62%}
-.tab.on{box-shadow:0 0 0 3px #ffc928,0 3px 0 rgba(176,120,0,.18)}
-.colors{flex:1;min-width:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(4px,1.2vw,8px) clamp(3px,1vw,8px);align-items:center;justify-items:center}
+.colors{flex:1;min-width:0;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:clamp(4px,1.2vw,8px) clamp(3px,1vw,8px);align-items:center;justify-items:center}
 .dot{width:100%;max-width:46px;aspect-ratio:1;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 0 rgba(0,0,0,.13),0 4px 8px rgba(0,0,0,.08);background-image:radial-gradient(circle at 34% 30%,rgba(255,255,255,.6),rgba(255,255,255,0) 38%);transition:transform .15s cubic-bezier(.3,1.6,.5,1)}
 .dot.w{border-color:#e9e2d0}
 .dot.on{box-shadow:0 0 0 3px #ffc928,0 3px 0 rgba(0,0,0,.13);transform:scale(1.12)}
 .dot:active{transform:scale(.9)}
+/* free colour: palette button, the last cell of the colour grid */
+.dot.pk{background:#fff;border-color:#fff;display:grid;place-items:center;padding:0}
+.dot.pk svg{width:78%;height:78%}
+.dot.pk i{position:absolute;right:-3px;bottom:-3px;width:42%;height:42%;border-radius:50%;border:2px solid #fff;display:none}
+.dot.pk.on i{display:block}
+.dot{position:relative}
 .szPop{position:absolute;bottom:100%;display:none;gap:6px;padding:6px 8px;background:#fff;border-radius:22px;box-shadow:0 6px 18px rgba(0,60,120,.22);margin-bottom:8px;transform:translateX(-50%);z-index:6}
 .szPop.on{display:flex}
 .szPop::after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-8px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}
@@ -183,13 +185,12 @@ svg{display:block}
   #stage{padding:2px 16px 0}
   .dock{flex-direction:row;align-items:flex-end;margin-top:-16px;padding:0 16px calc(8px + var(--safeB)) 0;gap:12px}
   .tl{height:clamp(60px,9vh,84px)}
-  .tab{width:36px;height:36px}.tabs{gap:5px}.colP{padding:6px 10px}.dot{max-width:40px}
+  .colP{padding:8px 12px;flex:0 1 auto}.colors{grid-template-columns:repeat(15,minmax(0,1fr));width:clamp(300px,44vw,620px);gap:6px 4px}.dot{max-width:40px}.colP{flex:0 0 auto}
   .toolsP{order:2;flex:1 1 auto;max-width:560px;align-self:flex-end}
   .lower{display:contents}
   .edmo{position:absolute;left:0;bottom:0;width:clamp(110px,14vw,190px);margin:0}
   .dock{padding-left:clamp(100px,13vw,176px)}
-  .colP{order:3;flex:0 1 auto}
-  .colors{width:clamp(250px,28vw,360px)}
+  .colP{order:3}
 
 }
 /* phones held sideways: everything smaller so the board stays big; Mo steps aside */
@@ -198,8 +199,8 @@ svg{display:block}
   #ed .rb{width:38px;height:38px}#ed .rb.save{width:54px;height:40px;border-radius:14px}
   .dock{margin-top:-8px;padding-left:12px;gap:8px}
   .tl{height:46px;border-radius:14px}.toolsP{padding:2px 4px}
-  .tab{width:24px;height:24px}.tabs{gap:2px;padding-right:6px}.colP{padding:3px 8px}
-  .colors{width:clamp(200px,30vw,260px);gap:2px 3px}.dot{max-width:24px;border-width:2px}
+  .colP{padding:3px 8px}
+  .colors{width:clamp(280px,46vw,400px);gap:2px 3px}.dot{max-width:24px;border-width:2px}
   .edmo{display:none}
 }
 
@@ -325,11 +326,6 @@ svg{display:block}
     <div class="lower">
       <img class="edmo" src="../home/mo.webp" alt="">
       <div class="colP panel">
-        <div class="tabs">
-          <button class="tab" data-tab="0" aria-label="Colors"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#fff3d6"/><circle cx="8" cy="9" r="2.6" fill="#ff3b30"/><circle cx="12.5" cy="6.8" r="2.6" fill="#ffd60a"/><circle cx="16.5" cy="10" r="2.6" fill="#1fa64a"/><circle cx="15.5" cy="15" r="2.6" fill="#2f5bea"/><circle cx="9.5" cy="15" r="2.6" fill="#ff5fa8"/></svg></button>
-          <button class="tab" data-tab="1" aria-label="More colors"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="#ffc928" stroke="#e8a200" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
-          <button class="tab" id="plusBtn" aria-label="Pick a color"><svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="3" fill="#bfe9ff" stroke="#2f8bff" stroke-width="1.6"/><path d="M3.5 18l5.5-6 4 4 3-3 4.5 5z" fill="#1fa64a"/><circle cx="16.5" cy="8.5" r="2" fill="#ffd60a"/></svg></button>
-        </div>
         <div class="colors" id="colors"></div>
       </div>
     </div>
@@ -434,9 +430,6 @@ const COLORS=[
  ['#ffb3c7','Light pink','Merah muda terang'],['#ff7f6e','Coral','Koral'],['#fff08a','Light yellow','Kuning muda'],['#b8f28c','Mint green','Hijau mint'],
  ['#0e7a3d','Dark green','Hijau tua'],['#14b8a6','Turquoise','Hijau toska'],['#a7dcff','Baby blue','Biru langit'],['#1e2f8a','Navy blue','Biru tua'],['#c8a2ff','Lavender','Ungu muda'],
  ['#d6249f','Magenta','Magenta'],['#8b1e2d','Maroon','Merah marun'],['#d9a066','Tan','Sawo matang'],['#5c3a1e','Dark brown','Cokelat tua']];
-// colour panel: tab 0 = main colours, tab 1 = rainbow + more shades; the picture button opens the colour wheel
-const SETS=[COLORS.slice(0,14).map(c=>c[0]),COLORS.slice(14).map(c=>c[0])];
-let colTab=store.get('colTab',0);
 const TOOLS=[
  {id:'fill',fill:true},
  {id:'crayon',wf:1.1,alpha:1,grain:true,rough:true,snd:2600,vol:.10},
@@ -669,7 +662,6 @@ async function openEditor(mode,page,art){
   // default tool: paint bucket for coloring pages, bold pen for drawing; no stamps on coloring pages
   if(!art)tool=mode==='color'?'fill':'pen';
   if(mode==='color'&&tool==='stamp')tool='fill';
-  if(SETS[0].includes(color))colTab=0;else if(SETS[1].includes(color))colTab=1;
   renderTools();renderSizes(false);renderStamps();renderColors();
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
   const bd=$('#board'),st={width:bd.clientWidth,height:bd.clientHeight};
@@ -928,18 +920,19 @@ function renderSizes(show){
   const b=document.querySelector('.tl.on'),host=$('.toolsP');
   if(b){const r=b.getBoundingClientRect(),h=host.getBoundingClientRect();let x=r.left+r.width/2-h.left;const half=pop.offsetWidth/2;x=Math.max(half,Math.min(h.width-half,x));pop.style.left=x+'px'}
 }
+// all 28 colours in one grid, plus the free colour (palette) button as the last cell
+const PALETTE_SVG='<svg viewBox="0 0 24 24"><path d="M12 2.5C6.5 2.5 2.5 6.6 2.5 11.6c0 4.5 3.6 8.4 8 8.4 1.4 0 2-.8 2-1.7 0-1.4-1.3-1.7-1.3-3 0-1 .8-1.6 1.9-1.6h2.6c3.4 0 5.8-2.4 5.8-5.2 0-3.6-4.3-6-9.5-6z" fill="#fff3d6" stroke="#d9a04a" stroke-width="1.2"/><circle cx="7.3" cy="11" r="1.9" fill="#ff3b30"/><circle cx="9.6" cy="6.9" r="1.9" fill="#ffd60a"/><circle cx="14.4" cy="6.4" r="1.9" fill="#1fa64a"/><circle cx="18" cy="9.6" r="1.9" fill="#2f5bea"/></svg>';
 function renderColors(){
-  document.querySelectorAll('.tab[data-tab]').forEach(b=>b.classList.toggle('on',+b.dataset.tab===colTab));
-  const custom=!COLORS.some(x=>x[0]===color),pb=$('#plusBtn');pb.classList.toggle('on',custom);pb.setAttribute('aria-label',t('pick'));
-  $('#colors').innerHTML=SETS[colTab].map(c=>{const nm=COLORS.find(x=>x[0]===c);return `<button class="dot${c==='#ffffff'?' w':''}${c===color?' on':''}" data-color="${c}" aria-label="${nm?(lang==='id'?nm[2]:nm[1]):c}" style="background-color:${c==='rainbow'?'transparent':c}${c==='rainbow'?';background-image:radial-gradient(circle at 34% 30%,rgba(255,255,255,.6),rgba(255,255,255,0) 38%),'+RAINBOW_BG:''}"></button>`}).join('');
+  const custom=!COLORS.some(x=>x[0]===color);
+  $('#colors').innerHTML=COLORS.map(([c,en,id])=>`<button class="dot${c==='#ffffff'?' w':''}${c===color?' on':''}" data-color="${c}" aria-label="${lang==='id'?id:en}" style="background-color:${c==='rainbow'?'transparent':c}${c==='rainbow'?';background-image:radial-gradient(circle at 34% 30%,rgba(255,255,255,.6),rgba(255,255,255,0) 38%),'+RAINBOW_BG:''}"></button>`).join('')
+    +`<button class="dot pk${custom?' on':''}" id="plusBtn" aria-label="${t('pick')}">${PALETTE_SVG}<i style="background:${custom?color:'transparent'}"></i></button>`;
 }
 $('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;const again=b.dataset.tool===tool;tool=b.dataset.tool;store.set('tool',tool);renderTools();renderStamps();renderSizes(again?!$('#szPop').classList.contains('on'):true);(TOOL_SFX[tool]||sfx.tap)()});
-document.querySelectorAll('.tab[data-tab]').forEach(b=>b.onclick=()=>{colTab=+b.dataset.tab;store.set('colTab',colTab);renderColors();sfx.tap()});
 $('#szPop').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size',size);renderSizes(false);sfx.tap()});
 $('#stamps').addEventListener('click',e=>{const b=e.target.closest('[data-stamp]');if(!b)return;stampId=b.dataset.stamp;store.set('stamp',stampId);renderStamps();sfx.tap()});
-$('#plusBtn').onclick=()=>{openPicker()};
 $('#stamps').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size',size);renderStamps();sfx.tap()},true);
 $('#colors').addEventListener('click',e=>{
+  if(e.target.closest('#plusBtn')){openPicker();return}
   const b=e.target.closest('[data-color]');if(!b)return;color=b.dataset.color;store.set('color',color);
   if(toolDef().eraser){tool='crayon';store.set('tool',tool)}
   renderColors();renderTools();renderSizes();renderStamps();colorNote(color);
