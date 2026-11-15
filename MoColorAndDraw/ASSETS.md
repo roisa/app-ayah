@@ -110,34 +110,57 @@ Send each as the **finished button** (button shape + icon). The game adds the pr
 
 Also send a wide button, `btn/pill.png` (900 × 260), for "My Art" and "Bismillah, let's draw!". The game writes the words on it, so leave the middle plain.
 
-## 5. Drawing tools: 9 tools, two layers each
+## 5. Drawing tools (9 tools)
 
-Canvas **300 × 540 px**, tool **standing straight up, tip at the top centre** (the tip should touch the top-centre point, about 10 px from the top edge). The same image is used as the finger cursor while drawing, so the tip position matters.
+The tool bar under the board. Each image is also the **finger cursor** while drawing: the game tilts it and puts its tip exactly under the finger.
 
-Each tool part that shows the chosen colour is tinted by the game. For each tool send **two files with the same size and position**:
+### The 9 tools, in order
 
-- `tools/<name>.png`: the whole tool, with the colour part drawn in **plain light grey or white**, with soft shading.
+| # | File name | Tool | What it does | Colour part (tinted, option A) |
+|---|---|---|---|---|
+| 1 | `fill` | Paint bucket | Fills a whole area in one tap | Paint inside the bucket + a drip |
+| 2 | `crayon` | Crayon | Rough, waxy line | Tip + body (keep the wrapper stripes white) |
+| 3 | `marker` | Highlighter (Stabilo) | Wide see-through line | Body + chisel tip |
+| 4 | `brush` | Round paint brush | Soft line | The wet tip of the bristles |
+| 5 | `pen` | Bold marker pen | Thick solid line (default tool in Draw) | Body + round felt tip |
+| 6 | `oil` | Flat oil brush | Thick paint with streaks | The flat bristles |
+| 7 | `glitter` | Glitter tube / shaker | Sparkly line | The glitter inside |
+| 8 | `stamp` | Rubber stamp | Places stamps (Draw mode only) | The stamp face / ink pad |
+| 9 | `eraser` | Eraser | Erases | None (always pink/white) |
+
+Each tool should have a **clearly different shape**, so a 3-year-old can tell them apart by outline alone. The brush and the oil brush in particular: round, pointy tip vs. wide, flat bristles.
+
+### Size and position (same for all 9)
+
+- **Canvas: 300 × 540 px** (portrait, 5 : 9), PNG, transparent background.
+- The tool **stands straight up, tip pointing up**, centred left-right.
+- The **very tip touches the top centre**, about 10 px below the top edge. The game uses this point as the drawing point under the finger.
+- The tool fills the height (about 500 px tall); the width can be narrower, kept centred.
+- On screen it is shown **small**: 40–64 px wide, 58–84 px tall, and about 50 × 94 px as the cursor. Use a **thick dark outline, big simple shapes, and no tiny details or text**.
+- **No glow, ring or background behind the tool.** The game draws the yellow "selected" ring and the bounce itself.
+
+### Colour: pick option A or B
+
+**A. Tinted (recommended).** The tool shows the colour the child picked (red crayon, blue crayon…), so kids see which colour they are holding. The game does this now. Send **two files per tool**, same size and position:
+- `tools/<name>.png`: the whole tool, with the colour part drawn in **light grey (#d9d9d9) with soft shading**.
 - `tools/<name>-color.png`: **only** the colour part, solid white, everything else transparent.
 
-| Name | Tool | The colour part |
-|---|---|---|
-| `fill` | Paint bucket | The paint in the bucket and a drip |
-| `crayon` | Crayon | Tip and body (keep the paper wrapper stripes white) |
-| `marker` | Highlighter (Stabilo) | Cap/body and chisel tip |
-| `brush` | Round paint brush | The wet tip |
-| `pen` | Bold marker pen | Body and pen tip |
-| `oil` | Flat oil brush | The bristles |
-| `glitter` | Glitter tube or bottle | The glitter inside |
-| `stamp` | Rubber stamp | The ink pad / stamp face |
-| `eraser` | Eraser | None: send just `eraser.png` |
+**B. Fixed colours** (like your mockup: red crayon, yellow highlighter, blue brush…). One file per tool, `tools/<name>.png`. Simpler to make, but the tools no longer show the chosen colour.
 
-## 6. Colour crayon (one template makes all 30 colours)
+### Optional extras
 
-- `ui/swatch.png` + `ui/swatch-color.png`: **160 × 320**, crayon standing up, tip at the top. Same two-layer rule as the tools.
-- `ui/swatch-rainbow.png`: optional, a rainbow crayon in full colour.
-- `ui/picker.png`: 300 × 300, the "free colour" button (a rainbow wheel or palette with a + sign).
+- `tools/<name>-on.png`: a "selected" version (for example a bit brighter, or with the cap off). Without it, the game uses the normal image plus its yellow ring.
+- If your style needs the cursor at an angle different from the tool bar, send `tools/<name>-cursor.png` (200 × 200, tip in the **top-left corner**).
 
-Only the **top 40%** of the crayon shows in the two-row colour bar, so make the tip and top look nice.
+### Style tips for AI image generators
+
+- Generate all 9 in **one session with the same style words**, for example: *"cute 3D cartoon kids app icon, soft shading, thick dark-brown outline, standing upright, tip pointing up, centred, plain flat bright green (#00FF00) background, no text"*.
+- If the tool can't be on a transparent background, use **flat bright green** (no shadow on the background) and Claude will cut it out. Avoid green in the tool itself, except for the colour part, which is grey anyway in option A.
+- Send big (1024 px tall is fine). Claude scales and positions them.
+
+## 6. Colours
+
+The colour dots and the palette button are drawn by the game (round glossy dots), so no art is needed. Optional: `ui/palette.png` (300 × 300), a palette icon for the "any colour" button.
 
 ## 7. Sizes
 
