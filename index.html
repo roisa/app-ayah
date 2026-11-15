@@ -238,7 +238,7 @@ footer a{text-decoration:underline}
       </article>
       <article class="panel game">
         <div class="hd"><img src="MoBlockGo/icons/icon-192.png" alt=""><div><h3>Mo Block Go!</h3><div class="chips"><span data-t="c1">Puzzle</span><span data-t="c2">Ages 3+</span><span data-t="c3">EN · ID</span></div></div></div>
-        <p data-t="bgD">Slide each colourful block to the door of its own colour and help every block go home. 90 levels for Little and Big Kids, plus Endless puzzles. Cheers are dzikir, and every level ends with a fact about Islam.</p>
+        <p data-t="bgD">Slide each colourful block to the door of its own colour and help every block go home. Levels for Little and Big Kids, plus Endless puzzles. Cheers are dzikir, and every level ends with a fact about Islam.</p>
         <div class="btns"><a class="btn" href="MoBlockGo/">▶ <span data-t="play">Play</span></a></div>
       </article>
     </div>
@@ -291,7 +291,7 @@ v4:'Akhiri dengan Alhamdulillah',v4p:'Setiap menang ditutup dengan syukur kepada
 pH:'Untuk orang tua',pS:'Waktu layar yang bikin tenang',p1:'Tanpa iklan',p1p:'Tidak ada banner, pop-up, atau video yang harus dilewati.',p2:'Tanpa akun, tanpa pengumpulan data',p2p:'Progres tersimpan di perangkat anak.',
 p3:'Tanpa chat, tanpa orang asing',p3p:'Tidak ada fitur sosial atau pemain online.',p4:'Sesuai usia',p4p:'Mode lembut untuk si kecil, tantangan seru untuk anak besar.',
 p5:'Jeda salat bawaan',p5p:'Momen alami untuk berhenti, peregangan, dan salat bersama.',p6:'Bahasa Inggris & Indonesia',p6p:'Kalimat Arab selalu disertai artinya.',
-contact:'Ada pertanyaan atau ide? Kami senang mendengarnya.',bpS:'Geser, penuhi baris, letuskan · Usia 3+',bgS:'Geser balok ke pintunya · Usia 3+',bgD:'Geser setiap balok warna-warni ke pintu yang warnanya sama, dan bantu semua balok pulang. 90 level untuk anak Kecil dan Besar, plus teka-teki Tanpa Batas. Sorakannya dzikir, dan setiap level ditutup dengan fakta tentang Islam.',bpD:'Geser balok warna-warni ke papan, penuhi satu baris atau kolom, lalu letuskan! Kumpulkan bulan, bintang, dan lentera di 30 level, atau main tanpa batas. Sorakannya dzikir, dan setiap level ditutup dengan fakta tentang Islam.',priv:'Privasi',sup:'Bantuan',nHome:'Beranda',nGames:'Game',nAbout:'Tentang',nParents:'Orang tua'};
+contact:'Ada pertanyaan atau ide? Kami senang mendengarnya.',bpS:'Geser, penuhi baris, letuskan · Usia 3+',bgS:'Geser balok ke pintunya · Usia 3+',bgD:'Geser setiap balok warna-warni ke pintu yang warnanya sama, dan bantu semua balok pulang. Level untuk anak Kecil dan Besar, plus teka-teki Tanpa Batas. Sorakannya dzikir, dan setiap level ditutup dengan fakta tentang Islam.',bpD:'Geser balok warna-warni ke papan, penuhi satu baris atau kolom, lalu letuskan! Kumpulkan bulan, bintang, dan lentera di 30 level, atau main tanpa batas. Sorakannya dzikir, dan setiap level ditutup dengan fakta tentang Islam.',priv:'Privasi',sup:'Bantuan',nHome:'Beranda',nGames:'Game',nAbout:'Tentang',nParents:'Orang tua'};
 const els=[...document.querySelectorAll('[data-t]')];els.forEach(e=>e.dataset.en=e.innerHTML);
 let L='en';
 function setLang(l){L=l;document.documentElement.lang=l;els.forEach(e=>{const v=l==='id'?ID[e.dataset.t]:e.dataset.en;if(v!=null)e.innerHTML=v});
