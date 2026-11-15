@@ -87,6 +87,8 @@ The game writes the labels "Color / Mewarnai" and "Draw / Menggambar" itself, an
 
 ## 4. Round buttons, 300 × 300 each (icon on its button)
 
+**Status: done** (Nov 2026). 27 icons from the owner (Drive `ui/icons-1..3.png`, 9 per sheet) are in `ui/<name>.webp`: home, undo, redo, music-on/off, trash, camera, back, close, gear, sound-on/off, gallery, pencil, download, ok, lock, palette, lang-en/id, masjid, gift, games, hand, play, star, help. The game draws the white round buttons; the hand is also the mouse cursor and tap animation.
+
 Send each as the **finished button** (button shape + icon). The game adds the press animation.
 
 | File | Icon |

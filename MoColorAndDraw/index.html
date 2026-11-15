@@ -48,6 +48,20 @@ svg{display:block}
 .rb svg{width:28px;height:28px;fill:#e98a00}
 .rb b{font:400 19px "Lilita One",sans-serif;color:#d07a00}
 .rb[disabled]{opacity:.45}
+/* owner's 3D icons on the round buttons */
+.rb img.ico{width:66%;height:66%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;filter:drop-shadow(0 2px 1px rgba(0,0,0,.12))}
+#ed .rb img.ico{width:70%;height:70%}
+.rb.save img.ico{width:72%;height:72%}
+.rb.mus .moff{display:none}.rb.mus.off .mon{display:none}.rb.mus.off .moff{display:block}
+.rb.mus:not(.off) img.mon{animation:note 1s ease-in-out infinite alternate}
+.pill i img.ico{width:30px;height:30px}
+.pill i{background:#fff!important;box-shadow:inset 0 0 0 3px #ffd1e6}
+#gate .hb img.ico{width:60px;height:60px}
+.x img.ico{width:24px;height:24px}
+.bigbtn img.bi{width:28px;height:28px;vertical-align:-6px}
+img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
+.pchip img{width:20px;height:20px;vertical-align:-4px}
+.cat .ci img.gift{width:auto;height:clamp(84px,17vw,130px);object-fit:contain;animation:gift 1.6s ease-in-out infinite;filter:drop-shadow(0 6px 8px rgba(0,0,0,.2))}
 .rb.mus .sl{display:none}.rb.mus.off .sl{display:block}.rb.mus.off svg{opacity:.75}
 .rb.mus:not(.off) svg{animation:note 1s ease-in-out infinite alternate}
 @keyframes note{to{transform:rotate(-10deg) scale(1.08)}}
@@ -236,7 +250,7 @@ svg{display:block}
 
 /* computer mouse: a cartoon pointing hand instead of the system cursor (only inside the game page) */
 @media (pointer:fine){
-  html,body,html *{cursor:url(icons/cursor-hand.png) 11 1,pointer;cursor:-webkit-image-set(url(icons/cursor-hand.png) 1x,url(icons/cursor-hand@2x.png) 2x) 11 1,pointer}
+  html,body,html *{cursor:url(icons/cursor-hand.png) 18 1,pointer;cursor:-webkit-image-set(url(icons/cursor-hand.png) 1x,url(icons/cursor-hand@2x.png) 2x) 18 1,pointer}
   #paper,#paper *{cursor:none}
 }
 /* every tap or click (except on the drawing board): a pointing hand and a little firework */
@@ -246,7 +260,7 @@ svg{display:block}
 @keyframes spark{0%{transform:translate(0,0) scale(.3);opacity:1}65%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1) rotate(var(--r,0deg));opacity:0}}
 .tapfx b{position:absolute;left:-24px;top:-24px;width:48px;height:48px;border-radius:50%;border:4px solid #ffc928;animation:tapring .5s ease-out forwards}
 @keyframes tapring{from{transform:scale(.2);opacity:1}to{transform:scale(1.5);opacity:0}}
-.tapfx em{position:absolute;left:-19px;top:-1px;width:56px;height:56px;transform-origin:34% 2%;animation:taphand .8s ease-out forwards;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+.tapfx em{position:absolute;left:-32px;top:-2px;width:56px;height:56px;transform-origin:58% 3%;animation:taphand .8s ease-out forwards;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
 .tapfx em svg{width:100%;height:100%}
 @keyframes taphand{0%{transform:translate(16px,22px) rotate(-14deg);opacity:0}22%{transform:translate(0,0) rotate(-14deg);opacity:1}38%{transform:translate(0,0) rotate(-14deg) scale(.82)}55%{transform:translate(0,0) rotate(-14deg) scale(1);opacity:1}100%{transform:translate(8px,14px) rotate(-14deg);opacity:0}}
 @media (prefers-reduced-motion:reduce){.tapfx{display:none}}
@@ -288,7 +302,7 @@ svg{display:block}
 .lockov{z-index:50;background:linear-gradient(180deg,rgba(14,80,60,.88),rgba(10,50,40,.92))}
 .lockov .box{border:6px solid #b8f0d8}
 .lrib{display:inline-block;background:linear-gradient(180deg,#38d39f,#13a876);color:#fff;font:400 18px "Lilita One",sans-serif;padding:6px 20px;border-radius:999px;margin-top:-4px}
-.lmasjid{font-size:76px;line-height:1.1;margin-top:6px;animation:bounce 1.6s ease-in-out infinite}
+.lmasjid{animation:bounce 1.6s ease-in-out infinite}
 .lcount{margin-top:10px;font-weight:800;color:#0e9a6f;font-size:17px}
 .bigbtn[disabled]{filter:grayscale(.7);opacity:.6}
 .bigbtn.sm{font-size:18px;padding:10px 20px;margin-top:10px}
@@ -318,12 +332,12 @@ svg{display:block}
 <!-- HOME -->
 <section id="home" class="scr on">
   <div class="bar">
-    <a class="rb" href="../" aria-label="Mo Games"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></a>
+    <a class="rb" href="../" aria-label="Mo Games"><img class="ico" src="ui/games.webp" alt="" draggable="false"></a>
     <span class="sp"></span>
-    <button class="rb" id="setBtn" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg></button>
-    <button class="rb" id="langBtn" aria-label="Language"><b id="langLbl">EN</b></button>
-    <button class="rb mus" aria-label="Music"><svg viewBox="0 0 24 24"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="#e98a00" stroke-width="2.6" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2"/><circle cx="17.4" cy="15" r="3.2"/><path class="sl" d="M3 3l18 18" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/></svg></button>
-    <button class="rb" id="sndBtn" aria-label="Sound"><svg viewBox="0 0 24 24" id="sndIco"></svg></button>
+    <button class="rb" id="setBtn" aria-label="Settings"><img class="ico" src="ui/gear.webp" alt="" draggable="false"></button>
+    <button class="rb" id="langBtn" aria-label="Language"><img class="ico" id="langIco" src="ui/lang-en.webp" alt="" draggable="false"><b id="langLbl" hidden>EN</b></button>
+    <button class="rb mus" aria-label="Music"><img class="ico mon" src="ui/music-on.webp" alt="" draggable="false"><img class="ico moff" src="ui/music-off.webp" alt="" draggable="false"></button>
+    <button class="rb" id="sndBtn" aria-label="Sound"><img class="ico" id="sndIco" src="ui/sound-on.webp" alt="" draggable="false"></button>
   </div>
   <div class="scroll">
     <div class="hero">
@@ -348,7 +362,7 @@ svg{display:block}
       </button>
     </div>
     <div class="homeFoot">
-      <button class="pill" id="goGal"><i><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 13h16l-5-7-4 5-3-3z"/></svg></i><span data-t="myArt">My Art</span></button>
+      <button class="pill" id="goGal"><i><img class="ico" src="ui/gallery.webp" alt="" draggable="false"></i><span data-t="myArt">My Art</span></button>
       <p class="legal" data-t="legal">No ads · No data collected · Works offline</p>
     </div>
   </div>
@@ -357,7 +371,7 @@ svg{display:block}
 <!-- PAGE PICKER -->
 <section id="cats" class="scr">
   <div class="bar">
-    <button class="rb back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15.5 4 7.5 12l8 8 2-2-6-6 6-6z"/></svg></button>
+    <button class="rb back" aria-label="Back"><img class="ico" src="ui/back.webp" alt="" draggable="false"></button>
     <h2 class="fun" data-t="chooseCat">Choose a category</h2>
   </div>
   <div class="scroll"><div class="grid cgrid" id="catGrid"></div></div>
@@ -365,7 +379,7 @@ svg{display:block}
 
 <section id="pick" class="scr">
   <div class="bar">
-    <button class="rb back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15.5 4 7.5 12l8 8 2-2-6-6 6-6z"/></svg></button>
+    <button class="rb back" aria-label="Back"><img class="ico" src="ui/back.webp" alt="" draggable="false"></button>
     <h2 class="fun" id="pickTitle">Choose a picture</h2>
   </div>
   <div class="scroll"><div class="grid" id="pickGrid"></div></div>
@@ -374,7 +388,7 @@ svg{display:block}
 <!-- GALLERY -->
 <section id="gal" class="scr">
   <div class="bar">
-    <button class="rb back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15.5 4 7.5 12l8 8 2-2-6-6 6-6z"/></svg></button>
+    <button class="rb back" aria-label="Back"><img class="ico" src="ui/back.webp" alt="" draggable="false"></button>
     <h2 class="fun" data-t="myArt">My Art</h2>
   </div>
   <div class="scroll"><div class="grid" id="galGrid"></div><div class="empty" id="galEmpty"><em>🖍️</em><span data-t="empty">No pictures yet. Let's make one!</span></div></div>
@@ -390,13 +404,13 @@ svg{display:block}
     <svg class="fl1" viewBox="0 0 40 40"><g fill="#fff"><circle cx="20" cy="9" r="8"/><circle cx="31" cy="17" r="8"/><circle cx="27" cy="30" r="8"/><circle cx="13" cy="30" r="8"/><circle cx="9" cy="17" r="8"/></g><circle cx="20" cy="21" r="6" style="fill:var(--fc)"/></svg><svg class="fl2" viewBox="0 0 40 40"><g fill="#fff"><circle cx="20" cy="9" r="8"/><circle cx="31" cy="17" r="8"/><circle cx="27" cy="30" r="8"/><circle cx="13" cy="30" r="8"/><circle cx="9" cy="17" r="8"/></g><circle cx="20" cy="21" r="6" style="fill:var(--fc)"/></svg>
   </div>
   <div class="bar">
-    <button class="rb" id="edHome" aria-label="Home"><svg viewBox="0 0 24 24" class="ic-home"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></button>
-    <button class="rb" id="undoBtn" aria-label="Undo" disabled><svg viewBox="0 0 24 24" class="ic-undo"><path d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62A7.9 7.9 0 0 1 12.5 10.5c3.54 0 6.55 2.31 7.6 5.5l2.37-.78A10.5 10.5 0 0 0 12.5 8z"/></svg></button>
-    <button class="rb" id="redoBtn" aria-label="Redo" disabled><svg viewBox="0 0 24 24" class="ic-redo" style="transform:scaleX(-1)"><path d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62A7.9 7.9 0 0 1 12.5 10.5c3.54 0 6.55 2.31 7.6 5.5l2.37-.78A10.5 10.5 0 0 0 12.5 8z"/></svg></button>
-    <button class="rb mus" aria-label="Music"><svg viewBox="0 0 24 24"><path d="M9 17.5V5.2l11-2.2v11.8" fill="none" stroke="#e98a00" stroke-width="2.6" stroke-linejoin="round"/><circle cx="6.4" cy="17.6" r="3.2"/><circle cx="17.4" cy="15" r="3.2"/><path class="sl" d="M3 3l18 18" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/></svg></button>
-    <button class="rb hold" id="clearBtn" aria-label="Clear"><svg viewBox="0 0 24 24" class="ic-trash"><path d="M6 7h12l-1 14H7zM9 3h6l1 2h4v2H4V5h4z"/></svg><span class="ring"></span><span class="tip" data-t="hold">Hold to clear</span></button>
+    <button class="rb" id="edHome" aria-label="Home"><img class="ico" src="ui/home.webp" alt="" draggable="false"></button>
+    <button class="rb" id="undoBtn" aria-label="Undo" disabled><img class="ico" src="ui/undo.webp" alt="" draggable="false"></button>
+    <button class="rb" id="redoBtn" aria-label="Redo" disabled><img class="ico" src="ui/redo.webp" alt="" draggable="false"></button>
+    <button class="rb mus" aria-label="Music"><img class="ico mon" src="ui/music-on.webp" alt="" draggable="false"><img class="ico moff" src="ui/music-off.webp" alt="" draggable="false"></button>
+    <button class="rb hold" id="clearBtn" aria-label="Clear"><img class="ico" src="ui/trash.webp" alt="" draggable="false"><span class="ring"></span><span class="tip" data-t="hold">Hold to clear</span></button>
     <span class="sp"></span>
-    <button class="rb save" id="saveBtn" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M9 4 7.2 6H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.2L15 4zm3 4.5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></button>
+    <button class="rb save" id="saveBtn" aria-label="Save"><img class="ico" src="ui/camera.webp" alt="" draggable="false"></button>
   </div>
   <div id="stage">
     <div id="cur"><span class="rg"></span><span class="ic"></span></div>
@@ -431,37 +445,37 @@ svg{display:block}
   <img class="artprev" id="doneImg" alt="">
   <div class="fact" id="doneFact"><b data-t="dyk">Did you know?</b><p id="factTxt"></p></div>
   <div class="btns">
-    <button class="rb" id="doneHome" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg></button>
-    <button class="rb" id="doneGal" aria-label="My Art"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 13h16l-5-7-4 5-3-3z"/></svg></button>
-    <button class="rb save" id="doneKeep" aria-label="Keep going"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg></button>
+    <button class="rb" id="doneHome" aria-label="Home"><img class="ico" src="ui/home.webp" alt="" draggable="false"></button>
+    <button class="rb" id="doneGal" aria-label="My Art"><img class="ico" src="ui/gallery.webp" alt="" draggable="false"></button>
+    <button class="rb save" id="doneKeep" aria-label="Keep going"><img class="ico" src="ui/pencil.webp" alt="" draggable="false"></button>
   </div>
 </div></div>
 
 <!-- VIEWER -->
 <div class="ov" id="viewer"><div class="box">
-  <button class="x" id="vClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
+  <button class="x" id="vClose" aria-label="Close"><img class="ico" src="ui/close.webp" alt="" draggable="false"></button>
   <img id="vImg" alt="">
   <div class="btns">
-    <button class="rb" id="vDel" aria-label="Delete"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 14H7zM9 3h6l1 2h4v2H4V5h4z"/></svg></button>
-    <button class="rb" id="vShare" aria-label="Save or share"><svg viewBox="0 0 24 24"><path d="M11 3h2v10l3.5-3.5 1.4 1.4L12 16.8 6.1 10.9l1.4-1.4L11 13zM4 18h16v3H4z"/></svg></button>
-    <button class="rb save" id="vEdit" aria-label="Keep going"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg></button>
+    <button class="rb" id="vDel" aria-label="Delete"><img class="ico" src="ui/trash.webp" alt="" draggable="false"></button>
+    <button class="rb" id="vShare" aria-label="Save or share"><img class="ico" src="ui/download.webp" alt="" draggable="false"></button>
+    <button class="rb save" id="vEdit" aria-label="Keep going"><img class="ico" src="ui/pencil.webp" alt="" draggable="false"></button>
   </div>
 </div></div>
 
 <!-- COLOR PICKER -->
 <div class="ov" id="picker"><div class="box">
-  <button class="x" id="pkClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
+  <button class="x" id="pkClose" aria-label="Close"><img class="ico" src="ui/close.webp" alt="" draggable="false"></button>
   <h3 data-t="pick">Pick a color</h3>
   <canvas id="wheel" width="560" height="560"></canvas>
   <canvas id="light" width="600" height="60"></canvas>
   <div class="pv" id="pv"></div>
-  <button class="bigbtn" id="pkOk" style="animation:none">✓ <span data-t="ok">OK</span></button>
+  <button class="bigbtn" id="pkOk" style="animation:none"><img class="bi" src="ui/ok.webp" alt=""> <span data-t="ok">OK</span></button>
 </div></div>
 
 <!-- PRAYER PAUSE -->
 <div class="ov lockov" id="lock"><div class="box">
   <div class="lrib" id="lockRib">Time to pray</div>
-  <div class="lmasjid">🕌</div>
+  <img class="lmasjid" src="ui/masjid.webp" alt="">
   <div class="arb ar">حَيَّ عَلَى الصَّلَاةِ</div>
   <h3 id="lockTitle"></h3>
   <p id="lockBody"></p>
@@ -471,7 +485,7 @@ svg{display:block}
 
 <!-- SETTINGS (parents) -->
 <div class="ov" id="settings"><div class="box setbox">
-  <button class="x" id="sClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
+  <button class="x" id="sClose" aria-label="Close"><img class="ico" src="ui/close.webp" alt="" draggable="false"></button>
   <h3 data-t="setT">For parents</h3>
   <div class="fld"><label data-t="city">City</label><select id="citySel"></select>
     <div class="ll" id="llRow"><input id="latIn" inputmode="decimal" placeholder="-7.98"><input id="lngIn" inputmode="decimal" placeholder="112.63"></div></div>
@@ -482,10 +496,10 @@ svg{display:block}
 
 <!-- PARENT GATE -->
 <div class="ov" id="gate"><div class="box">
-  <button class="x" id="gClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6 10.6 12 5 6.4z"/></svg></button>
+  <button class="x" id="gClose" aria-label="Close"><img class="ico" src="ui/close.webp" alt="" draggable="false"></button>
   <h3 data-t="gateT">For grown-ups</h3>
   <p data-t="gateS">Hold the button for 3 seconds</p>
-  <div class="hb hold" id="gHold"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H5v13h14V9h-2V6a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9z"/></svg><span class="ring"></span></div>
+  <div class="hb hold" id="gHold"><img class="ico" src="ui/lock.webp" alt="" draggable="false"><span class="ring"></span></div>
 </div></div>
 
 <canvas id="fx"></canvas>
@@ -523,7 +537,7 @@ const tf=(k,v)=>t(k).replace(/\{(\w+)\}/g,(_,x)=>v[x]??'');
    Categories without pictures yet show as "Soon" (set SHOW_EMPTY_CATS=false to hide them). */
 const SHOW_EMPTY_CATS=true;
 const CATS=[
- {id:'surprise',icon:'🎁',name:{en:'Surprise Me!',id:'Kejutan!'}},
+ {id:'surprise',img:'ui/gift.webp',name:{en:'Surprise Me!',id:'Kejutan!'}},
  {id:'masjid',icon:'🕌',bg:'#22c08d,#0e9a6f',name:{en:'Masjid',id:'Masjid'}},
  {id:'quran',icon:'🐪',bg:'#ffb347,#ff7f50',name:{en:"Animals in the Qur'an",id:"Hewan dalam Al-Qur'an"}},
  {id:'ramadan',icon:'🌙',bg:'#3b2f8f,#7a5cff',name:{en:'Ramadan & Eid',id:'Ramadan & Lebaran'}},
@@ -724,11 +738,11 @@ const dbDel=id=>dbDo('readwrite',s=>s.delete(id));
 function applyLang(){
   document.documentElement.lang=lang;
   document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t(el.dataset.t)});
-  $('#langLbl').textContent=lang.toUpperCase();
+  $('#langLbl').textContent=lang.toUpperCase();$('#langIco').src='ui/lang-'+lang+'.webp';
   renderTools();renderColors();renderPick();
 
 }
-function renderSnd(){$('#sndIco').innerHTML=soundOn?'<path d="M3 9v6h4l5 5V4L7 9zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/>':'<path d="M3 9v6h4l5 5V4L7 9zm11.6.4 1.4-1.4 2.6 2.6 2.6-2.6 1.4 1.4-2.6 2.6 2.6 2.6-1.4 1.4-2.6-2.6-2.6 2.6-1.4-1.4 2.6-2.6z"/>'}
+function renderSnd(){$('#sndIco').src=soundOn?'ui/sound-on.webp':'ui/sound-off.webp'}
 let toastT;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),1800)}
 function ov(id,on){$('#'+id).classList.toggle('on',on)}
 
@@ -1085,7 +1099,7 @@ const PALETTE_SVG='<svg viewBox="0 0 24 24"><path d="M12 2.5C6.5 2.5 2.5 6.6 2.5
 function renderColors(){
   const custom=!COLORS.some(x=>x[0]===color);
   $('#colors').innerHTML=COLORS.map(([c,en,id])=>`<button class="dot${c==='#ffffff'?' w':''}${c===color?' on':''}" data-color="${c}" aria-label="${lang==='id'?id:en}" style="background-color:${c==='rainbow'?'transparent':c}${c==='rainbow'?';background-image:radial-gradient(circle at 34% 30%,rgba(255,255,255,.6),rgba(255,255,255,0) 38%),'+RAINBOW_BG:''}"></button>`).join('')
-    +`<button class="dot pk${custom?' on':''}" id="plusBtn" aria-label="${t('pick')}">${PALETTE_SVG}<i style="background:${custom?color:'transparent'}"></i></button>`;
+    +`<button class="dot pk${custom?' on':''}" id="plusBtn" aria-label="${t('pick')}"><img src="ui/palette.webp" alt="" style="width:86%;height:86%;object-fit:contain"><i style="background:${custom?color:'transparent'}"></i></button>`;
 }
 $('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;const again=b.dataset.tool===tool;tool=b.dataset.tool;store.set('tool',tool);renderTools();renderStamps();renderSizes(again?!$('#szPop').classList.contains('on'):true);(TOOL_SFX[tool]||sfx.tap)()});
 $('#szPop').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size',size);renderSizes(false);sfx.tap()});
@@ -1158,7 +1172,7 @@ const catPages=id=>PAGES.filter(p=>p.cat&&p.cat.includes(id));
 function renderCats(){
   $('#catGrid').innerHTML=CATS.filter(c=>c.id==='surprise'||SHOW_EMPTY_CATS||catPages(c.id).length).map(c=>{
     const n=c.id==='surprise'?PAGES.length:catPages(c.id).length,soon=c.id!=='surprise'&&!n;
-    const art=c.img?`<img src="${c.img}" alt=""${c.img.includes('mo.webp')?' class="mo"':''}>`:`<span${c.ar?' class="ar"':''}>${c.icon}</span>`;
+    const art=c.img?`<img src="${c.img}" alt=""${c.img.includes('mo.webp')?' class="mo"':c.id==='surprise'?' class="gift"':''}>`:`<span${c.ar?' class="ar"':''}>${c.icon}</span>`;
     return `<button class="cat${c.id==='surprise'?' surprise':''}${soon?' soon':''}" data-cat="${c.id}"><span class="ci" style="${c.bg?`background:linear-gradient(150deg,${c.bg})`:''}">${art}</span>${c.id==='surprise'?'':`<span class="n">${soon?t('soonCat'):n}</span>`}<b>${c.name[lang]}</b></button>`}).join('');
 }
 function renderPick(){
@@ -1233,7 +1247,7 @@ function tapFx(x,y,hand){
   let h='<b></b>';const n=14;
   for(let i=0;i<n;i++){const a=i/n*6.283+Math.random()*.4,d=34+Math.random()*30,c=FX_COLS[(Math.random()*FX_COLS.length)|0];
     h+=`<i class="${i%3===0?'st':''}" style="--dx:${(Math.cos(a)*d).toFixed(1)}px;--dy:${(Math.sin(a)*d).toFixed(1)}px;--r:${(Math.random()*360)|0}deg;background:${c};animation-delay:${(Math.random()*60)|0}ms"></i>`}
-  if(hand)h+=`<em>${HAND_SVG}</em>`;
+  if(hand)h+=`<em><img src="ui/hand.webp" alt="" style="width:100%;height:100%"></em>`;
   w.innerHTML=h;document.body.appendChild(w);setTimeout(()=>w.remove(),900);
 }
 document.addEventListener('pointerdown',e=>{if(e.target.closest('#paper'))return;tapFx(e.clientX,e.clientY,e.pointerType!=='mouse')},true);
@@ -1303,7 +1317,7 @@ function openLock(){
   window.praying=true;musicOff();try{speechSynthesis.cancel()}catch(e){}
   if(S){active=null;endStroke()}
   if(E.mode&&E.dirty)saveArt();                 // keep the picture safe before the pause
-  ov('lock',true);bell();setTimeout(()=>say(tf('sayPray',{p:pn(lock.p)})),900);renderLock(Date.now());
+  ov('lock',true);bell();const pName=pn(lock.p);setTimeout(()=>{if(lock)say(tf('sayPray',{p:pName}))},900);renderLock(Date.now());
 }
 function renderLock(now){const p=pn(lock.p);$('#lockRib').textContent=t('pray');$('#lockTitle').textContent=tf('lockT',{p});$('#lockBody').textContent=tf('lockB',{p});
   const ready=lock.demo?lock.readyAt:lock.start+(+PS.wait||10)*60000,rem=ready-now,b=$('#bPrayed');b.textContent='✓ '+tf('prayed',{p});
@@ -1313,7 +1327,7 @@ function closeLock(thanks){ov('lock',false);lock=null;window.praying=false;
   setTimeout(()=>{if(musicPref)musicOn()},1500);renderChip(Date.now())}
 $('#bPrayed').onclick=()=>{if(!lock||$('#bPrayed').disabled)return;if(!lock.demo)markPrayed(lock.key);closeLock(true);lastCheck=0};
 function renderChip(now){try{const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo();
-  $('#pchip').innerHTML=(a&&prayedNow()[a.key]?'✓ '+pn(a.p)+' · ':'')+`🕌 ${t('nextP')}: <b>${pn(nx.p)}</b> ${nx.at?fmtT(nx.at,c.tz):'—'} · ${nx.at?dur(nx.at-now):''} · ${c.name}`}catch(e){}}
+  $('#pchip').innerHTML=(a&&prayedNow()[a.key]?'✓ '+pn(a.p)+' · ':'')+`<img src="ui/masjid.webp" alt=""> ${t('nextP')}: <b>${pn(nx.p)}</b> ${nx.at?fmtT(nx.at,c.tz):'—'} · ${nx.at?dur(nx.at-now):''} · ${c.name}`}catch(e){}}
 
 /* parent settings: city, minimum pause, today's times, preview */
 function renderSettings(){
