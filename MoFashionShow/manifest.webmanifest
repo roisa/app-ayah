@@ -1,0 +1,15 @@
+{
+  "name": "Mo Fashion Show",
+  "short_name": "Fashion Show",
+  "description": "Islamic dress-up game for kids with modest outfits. No ads, no shop, no data collected.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ff6fae",
+  "theme_color": "#ff6fae",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
