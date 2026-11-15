@@ -170,6 +170,8 @@ The colour dots and the palette button are drawn by the game (round glossy dots)
 
 ## 8. Stamps, 400 × 400 each (Draw mode only)
 
+**Status: done** (Nov 2026). 20 stamps from the owner (Drive `stamps/stamps-1..5.png`, 4 per sheet) are in `stamps/` as `<id>.webp` + `<id>-color.webp` (tint layer). Rainbow keeps its own colours. To add stamps, make new 2×2 sheets with the same ChatGPT setup prompt and list the 4 names.
+
 Now: star, heart, moon & star, sun, cloud, flower, sparkle, masjid, lantern, butterfly, balloon, fish.
 
 New ideas: camel, Ka'bah, date palm, dates, Qur'an on a stand, prayer mat, ketupat, rainbow, Mo's face, cat, bird, tree, house, car.

@@ -208,7 +208,7 @@ svg{display:block}
 .stamps .sz{flex:none}
 .stamps .sep{flex:none;width:3px;height:36px;background:var(--div);border-radius:2px;margin:0 4px}
 .st{flex:none;width:52px;height:52px;border-radius:16px;display:grid;place-items:center}
-.st img{width:42px;height:42px}
+.st .tw{width:44px;height:44px}
 .st.on{background:#fff1d6;box-shadow:inset 0 0 0 3px var(--yel)}
 /* wide screens (tablets, landscape): tool bar and colours side by side, overlapping the bottom of the board */
 @media (orientation:landscape) and (min-width:700px){
@@ -572,48 +572,41 @@ const TOOLS=[
  {id:'eraser',wf:1.9,alpha:1,eraser:true,snd:1000,vol:.08}];
 const SIZES=[6,14,28],STAMP_SIZES=[56,96,160];
 
-/* ---------- stamps (drawn as shapes in a 100x100 box, coloured with the chosen colour) ---------- */
-const circ=(x,y,r)=>`M${x-r} ${y}a${r} ${r} 0 1 0 ${2*r} 0a${r} ${r} 0 1 0 ${-2*r} 0z`;
-const ell=(x,y,rx,ry)=>`M${x-rx} ${y}a${rx} ${ry} 0 1 0 ${2*rx} 0a${rx} ${ry} 0 1 0 ${-2*rx} 0z`;
-function starP(cx,cy,R,r,n=5){let d='';for(let i=0;i<n*2;i++){const a=-Math.PI/2+i*Math.PI/n,q=i%2?r:R;d+=(i?'L':'M')+(cx+Math.cos(a)*q).toFixed(1)+' '+(cy+Math.sin(a)*q).toFixed(1)}return d+'Z'}
-const rays=(()=>{let d='';for(let i=0;i<8;i++){const a=i*Math.PI/4,b=.2,P=(r,t)=>(50+Math.cos(t)*r).toFixed(1)+' '+(50+Math.sin(t)*r).toFixed(1);d+=`M${P(47,a)}L${P(30,a-b)}L${P(30,a+b)}Z`}return d})();
-const petals=(()=>{let d='';for(let i=0;i<6;i++){const a=i*Math.PI/3;d+=circ(+(50+Math.cos(a)*25).toFixed(1),+(50+Math.sin(a)*25).toFixed(1),17)}return d})();
-// part fill: c = chosen colour, d = darker, w = white, g = warm light, y = flower centre, n = outline only
-const STAMPS=[
- {id:'star',p:[[starP(50,53,47,21),'c']]},
- {id:'heart',p:[['M50 90C20 68 5 52 5 32C5 18 16 8 29 8C39 8 46 14 50 23C54 14 61 8 71 8C84 8 95 18 95 32C95 52 80 68 50 90Z','c']]},
- {id:'moon',p:[['M44 6a44 44 0 1 0 34 82a37 37 0 1 1-34-82z','c'],[starP(70,44,15,6.5),'c']]},
- {id:'sun',p:[[rays,'c'],[circ(50,50,25),'c']]},
- {id:'cloud',p:[['M26 78C12 78 5 68 5 58C5 46 15 38 27 40C29 24 41 15 55 17C68 19 76 29 77 40C89 38 96 49 95 60C94 71 85 78 74 78Z','c']]},
- {id:'flower',p:[[petals,'c'],[circ(50,50,15),'y']]},
- {id:'sparkle',p:[['M50 3C54 38 62 46 97 50C62 54 54 62 50 97C46 62 38 54 3 50C38 46 46 38 50 3Z','c']]},
- {id:'masjid',p:[['M14 94V58H86V94Z','c'],['M22 58C22 34 38 24 50 14C62 24 78 34 78 58Z','c'],['M48 14V4H52V14Z','c'],['M43 94V81A7 7 0 0 1 57 81V94Z','w']]},
- {id:'lantern',p:[[circ(50,8,5),'n'],['M38 14H62L57 22H43Z','c'],['M34 22H66L76 48L66 80H34L24 48Z','c'],['M43 31H57L63 48L57 71H43L37 48Z','g'],['M38 80H62L56 92H44Z','c']]},
- {id:'butterfly',p:[[ell(30,34,21,20)+ell(70,34,21,20),'c'],[ell(32,68,17,15)+ell(68,68,17,15),'c'],[circ(30,34,7)+circ(70,34,7),'w'],[ell(50,52,6,30),'d'],['M47 24Q40 10 32 7M53 24Q60 10 68 7','n']]},
- {id:'balloon',p:[['M50 74Q46 84 40 96','n'],[ell(50,40,30,35),'c'],['M44 74H56L53 80H47Z','c'],[ell(39,28,6,10),'w']]},
- {id:'fish',p:[['M8 50C24 24 60 22 76 50C60 78 24 76 8 50Z','c'],['M74 50L96 30V70Z','c'],[circ(28,46,5),'d']]}];
-STAMPS.forEach(st=>st.paths=st.p.map(([d,f])=>[new Path2D(d),f]));
-let stampId=store.get('stamp','star');
-function drawStamp(ctx,st,x,y,sz,rgb){
-  ctx.save();ctx.translate(x,y);ctx.scale(sz/100,sz/100);ctx.translate(-50,-50);
-  let c,dark;
-  if(rgb){c=rgbStr(rgb);dark=rgbStr(shade(rgb,-.5))}else{c=ctx.createLinearGradient(0,0,100,100);['#ff3b30','#ffd60a','#1fa64a','#2f5bea','#9b4bf0'].forEach((h,i)=>c.addColorStop(i/4,h));dark='#5a3a8a'}
-  const yel=rgb&&rgb[0]>200&&rgb[1]>180&&rgb[2]<120;
-  ctx.lineJoin='round';ctx.lineCap='round';ctx.lineWidth=4;ctx.strokeStyle=dark;
-  for(const [p,f] of st.paths){const fs={c,d:dark,w:'#fff',g:'#fff3a8',y:yel?'#ff8a00':'#ffd60a'}[f];if(fs){ctx.fillStyle=fs;ctx.fill(p)}ctx.stroke(p)}
-  ctx.restore();
+/* ---------- stamps: the owner's art (stamps/<id>.webp) + a tint layer (<id>-color.webp) that takes the chosen colour ---------- */
+const STAMP_IDS=['star','heart','moon','sun','rainbow','cloud','flower','butterfly','sparkle','balloon','smile','cat','fish','bird','dino','camel','palm','masjid','lantern','car'];
+const FULL_STAMPS=new Set(['rainbow']);   // these keep their own colours
+const STAMPS=STAMP_IDS.map(id=>{const st={id,full:FULL_STAMPS.has(id),img:new Image(),mask:null};st.img.src=`stamps/${id}.webp`;
+  if(!st.full){st.mask=new Image();st.mask.src=`stamps/${id}-color.webp`}return st});
+let stampId=store.get('stamp','star');if(!STAMP_IDS.includes(stampId))stampId='star';
+const stampCache=new Map();
+function stampCanvas(st,c){
+  const key=st.id+'|'+c;if(stampCache.has(key))return stampCache.get(key);
+  if(!st.img.complete||!st.img.naturalWidth)return null;
+  const N=st.img.naturalWidth,cv=document.createElement('canvas');cv.width=cv.height=N;const x=cv.getContext('2d');x.drawImage(st.img,0,0);
+  if(!st.full){if(!st.mask.complete||!st.mask.naturalWidth)return null;
+    const t=document.createElement('canvas');t.width=t.height=N;const tc=t.getContext('2d');tc.drawImage(st.mask,0,0);tc.globalCompositeOperation='source-in';
+    if(c==='rainbow'){const g=tc.createLinearGradient(0,0,N,N);RB_STOPS.forEach((h,i)=>g.addColorStop(i/6,boost(h)));tc.fillStyle=g}else tc.fillStyle=boost(c);
+    tc.fillRect(0,0,N,N);x.globalCompositeOperation='multiply';x.drawImage(t,0,0);x.globalCompositeOperation='destination-in';x.drawImage(st.img,0,0)}
+  if(stampCache.size>80)stampCache.clear();stampCache.set(key,cv);return cv;
 }
-function stampIcon(st){const c=document.createElement('canvas');c.width=c.height=96;drawStamp(c.getContext('2d'),st,48,48,86,color==='rainbow'?null:hexRgb(color));return c.toDataURL()}
+function drawStamp(ctx,st,x,y,sz,c){const cv=stampCanvas(st,c);if(cv)ctx.drawImage(cv,x-sz/2,y-sz/2,sz,sz)}
+function stampHTML(st,c){
+  const tint=st.full?'':`<i class="tt" style="--tc:${c==='rainbow'?RAINBOW_LIN:boost(c)};-webkit-mask-image:url(stamps/${st.id}-color.webp);mask-image:url(stamps/${st.id}-color.webp)"></i>`;
+  return `<span class="tw sq"><img src="stamps/${st.id}.webp" alt="" draggable="false">${tint}</span>`;
+}
 function renderStamps(){
   const el=$('#stamps'),on=tool==='stamp';el.classList.toggle('on',on);
   if($('#ed').classList.contains('stamping')!==on){$('#ed').classList.toggle('stamping',on);if(cur==='ed')fitPaper()}
   if(!on)return;
-  el.innerHTML=sizeDots()+'<span class="sep"></span>'+STAMPS.map(st=>`<button class="st${st.id===stampId?' on':''}" data-stamp="${st.id}" aria-label="${st.id}"><img src="${stampIcon(st)}" alt=""></button>`).join('');
+  el.innerHTML=sizeDots()+'<span class="sep"></span>'+STAMPS.map(st=>`<button class="st${st.id===stampId?' on':''}" data-stamp="${st.id}" aria-label="${st.id}">${stampHTML(st,color)}</button>`).join('');
 }
 
-const RAINBOW_LIN='linear-gradient(180deg,#ff3b30,#ff8a00,#ffd60a,#1fa64a,#3fc6f5,#2f5bea,#9b4bf0)';
+/* the art's colour part is light grey (about 85% bright), so the tint is brightened to land on the real colour after multiply */
+const boost=h=>'#'+hexRgb(h).map(v=>Math.min(255,Math.round(v/.85)).toString(16).padStart(2,'0')).join('');
+const RB_STOPS=['#ff3b30','#ff8a00','#ffd60a','#1fa64a','#3fc6f5','#2f5bea','#9b4bf0'];
+const RAINBOW_LIN='linear-gradient(180deg,'+RB_STOPS.map(boost).join(',')+')';
 function toolHTML(id,c){
-  const tint=id==='eraser'?'':`<i class="tt" style="--tc:${c==='rainbow'?RAINBOW_LIN:c};-webkit-mask-image:url(tools/${id}-color.webp);mask-image:url(tools/${id}-color.webp)"></i>`;
+  const tint=id==='eraser'?'':`<i class="tt" style="--tc:${c==='rainbow'?RAINBOW_LIN:boost(c)};-webkit-mask-image:url(tools/${id}-color.webp);mask-image:url(tools/${id}-color.webp)"></i>`;
   return `<span class="tw"><img src="tools/${id}.webp" alt="" draggable="false">${tint}</span>`;
 }
 function toolSVG(id,c){
@@ -967,8 +960,8 @@ paper.addEventListener('pointermove',e=>{if(active===null&&e.pointerType==='mous
 function stampAt(x,y){
   const st=STAMPS.find(s=>s.id===stampId)||STAMPS[0],sz=STAMP_SIZES[size]*E.scale;
   if(S.bb[2]>S.bb[0])lctx.clearRect(S.bb[0],S.bb[1],S.bb[2]-S.bb[0],S.bb[3]-S.bb[1]);
-  drawStamp(lctx,st,x,y,sz,color==='rainbow'?null:hexRgb(color));
-  const h=sz*.56;S.bb=[Math.max(0,Math.floor(x-h)),Math.max(0,Math.floor(y-h)),Math.min(E.W,Math.ceil(x+h)),Math.min(E.H,Math.ceil(y+h))];
+  drawStamp(lctx,st,x,y,sz,color);
+  const h=sz*.52+2;S.bb=[Math.max(0,Math.floor(x-h)),Math.max(0,Math.floor(y-h)),Math.min(E.W,Math.ceil(x+h)),Math.min(E.H,Math.ceil(y+h))];
 }
 paper.addEventListener('pointerdown',e=>{
   if(active!==null||!E.ready)return;e.preventDefault();
