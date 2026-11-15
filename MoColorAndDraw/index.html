@@ -168,7 +168,7 @@ svg{display:block}
 #cur.on{display:block}
 #cur .rg{position:absolute;border-radius:50%;border:3px solid rgba(58,36,16,.75);box-shadow:0 0 0 2px #fff,inset 0 0 0 2px #fff}
 #cur .ic{position:absolute;left:-26px;top:0;width:52px;height:94px;transform-origin:50% 0;transform:rotate(210deg);filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
-#cur .ic svg{width:100%;height:100%}
+#cur .ic .tw{width:100%;height:100%}
 
 /* bottom: tool bar + colour panel (phones: stacked; tablets/landscape: side by side, overlapping the board edge) */
 .dock{flex:none;position:relative;display:flex;flex-direction:column;gap:8px;padding:8px 10px calc(8px + var(--safeB))}
@@ -176,7 +176,11 @@ svg{display:block}
 .toolsP{display:flex;justify-content:center;padding:4px 6px;position:relative}
 .tools{display:flex;gap:2px;align-items:flex-end;justify-content:center;min-width:0;width:100%}
 .tl{flex:1 1 0;min-width:0;max-width:64px;height:clamp(58px,15vw,76px);border-radius:20px;display:flex;align-items:center;justify-content:center;transition:transform .18s cubic-bezier(.3,1.6,.5,1),background .2s;padding:4px 2px}
-.tl svg{width:100%;max-width:40px;height:100%}
+.tl .tw{height:100%;aspect-ratio:5/9;max-width:100%}
+/* tool art: the picture + its colour part, tinted with the chosen colour (multiply keeps the shading) */
+.tw{position:relative;display:block;isolation:isolate}
+.tw img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;-webkit-user-drag:none}
+.tw .tt{position:absolute;inset:0;background:var(--tc);mix-blend-mode:multiply;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;pointer-events:none}
 .tl.on{background:var(--sel);box-shadow:inset 0 0 0 4px var(--ring);transform:translateY(-3px)}
 .lower{display:flex;align-items:flex-end;gap:6px;min-width:0}
 .edmo{flex:none;width:clamp(80px,22vw,140px);margin:-44px -6px -8px -10px;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(0,60,0,.25));align-self:flex-end}
@@ -607,6 +611,11 @@ function renderStamps(){
   el.innerHTML=sizeDots()+'<span class="sep"></span>'+STAMPS.map(st=>`<button class="st${st.id===stampId?' on':''}" data-stamp="${st.id}" aria-label="${st.id}"><img src="${stampIcon(st)}" alt=""></button>`).join('');
 }
 
+const RAINBOW_LIN='linear-gradient(180deg,#ff3b30,#ff8a00,#ffd60a,#1fa64a,#3fc6f5,#2f5bea,#9b4bf0)';
+function toolHTML(id,c){
+  const tint=id==='eraser'?'':`<i class="tt" style="--tc:${c==='rainbow'?RAINBOW_LIN:c};-webkit-mask-image:url(tools/${id}-color.webp);mask-image:url(tools/${id}-color.webp)"></i>`;
+  return `<span class="tw"><img src="tools/${id}.webp" alt="" draggable="false">${tint}</span>`;
+}
 function toolSVG(id,c){
   const o='stroke="rgba(0,0,0,.28)" stroke-width="1.5"';
   if(c==='rainbow')c='url(#rbg)';
@@ -947,7 +956,7 @@ function showCursor(e,on){
   if(!on||td.stamp||!E.ready){curEl.classList.remove('on');return}
   const sr=$('#stage').getBoundingClientRect(),x=e.clientX-sr.left,y=e.clientY-sr.top;
   const key=td.id+color+size;
-  if(curTool!==key){curTool=key;curEl.querySelector('.ic').innerHTML=toolSVG(td.id,td.eraser?'#ff9ec0':color);
+  if(curTool!==key){curTool=key;curEl.querySelector('.ic').innerHTML=toolHTML(td.id,color);
     const rg=curEl.querySelector('.rg'),d=td.fill?0:SIZES[size]*td.wf;rg.style.display=d?'':'none';rg.style.width=rg.style.height=d+'px';rg.style.left=rg.style.top=(-d/2)+'px'}
   curEl.style.transform=`translate(${x}px,${y}px)`;curEl.classList.add('on');
 }
@@ -1064,7 +1073,7 @@ function endStroke(){
 /* ---------- dock ---------- */
 function renderTools(){
   const el=$('#tools');if(!el)return;const c=color;
-  el.innerHTML=TOOLS.filter(x=>!(x.stamp&&E.mode==='color')).map(x=>`<button class="tl${x.id===tool?' on':''}" data-tool="${x.id}" aria-label="${TXT[lang].tools[x.id]}" title="${TXT[lang].tools[x.id]}">${toolSVG(x.id,x.eraser?'#ff9ec0':c)}</button>`).join('');
+  el.innerHTML=TOOLS.filter(x=>!(x.stamp&&E.mode==='color')).map(x=>`<button class="tl${x.id===tool?' on':''}" data-tool="${x.id}" aria-label="${TXT[lang].tools[x.id]}" title="${TXT[lang].tools[x.id]}">${toolHTML(x.id,c)}</button>`).join('');
 }
 const RAINBOW_BG='conic-gradient(#ff3b30,#ffd60a,#1fa64a,#3fc6f5,#2f5bea,#9b4bf0,#ff3b30)';
 function sizeDots(){const c=color==='rainbow'?RAINBOW_BG:color;return SIZES.map((s,i)=>`<button class="sz${i===size?' on':''}" data-size="${i}" aria-label="Size ${i+1}"><i style="width:${[10,18,28][i]}px;height:${[10,18,28][i]}px;background:${c}"></i></button>`).join('')}

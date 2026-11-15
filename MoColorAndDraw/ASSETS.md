@@ -112,6 +112,8 @@ Also send a wide button, `btn/pill.png` (900 × 260), for "My Art" and "Bismilla
 
 ## 5. Drawing tools (9 tools)
 
+**Status: done** (Nov 2026). The owner's 9 tool images are in `tools/` (`<name>.webp` + `<name>-color.webp`, the tint layer cut from the light-grey part). To replace a tool, send a new image made with the same rules and Claude reprocesses it.
+
 The tool bar under the board. Each image is also the **finger cursor** while drawing: the game tilts it and puts its tip exactly under the finger.
 
 ### The 9 tools, in order

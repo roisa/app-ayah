@@ -1,6 +1,6 @@
 // Mo Color & Draw: offline support. Bump VERSION when files change.
-const VERSION='mocd-v16';
-const ASSETS=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png','icons/cursor-hand.png','icons/cursor-hand@2x.png',
+const VERSION='mocd-v17';
+const ASSETS=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png','icons/cursor-hand.png','tools/fill.webp','tools/crayon.webp','tools/marker.webp','tools/brush.webp','tools/pen.webp','tools/oil.webp','tools/glitter.webp','tools/stamp.webp','tools/eraser.webp','tools/fill-color.webp','tools/crayon-color.webp','tools/marker-color.webp','tools/brush-color.webp','tools/pen-color.webp','tools/oil-color.webp','tools/glitter-color.webp','tools/stamp-color.webp','icons/cursor-hand@2x.png',
   'pages/camel.svg','pages/bee.svg','pages/whale.svg','pages/elephant.svg','pages/ant.svg','pages/masjid.svg',
   '../home/mo.webp','../NurConnect/fonts/fonts.css',
   '../NurConnect/fonts/lilita-one-latin-400-normal.woff2','../NurConnect/fonts/baloo-2-latin-600-normal.woff2',
