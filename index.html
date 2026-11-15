@@ -198,6 +198,14 @@ footer a{text-decoration:underline}
       </div>
       <span class="go"><i><svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg></i></span>
     </a>
+    <a class="big" href="MoBlockPop/" aria-label="Play Mo Block Pop">
+      <div class="in">
+        <img class="bg" src="home/blockpop.webp" alt="">
+        <span class="tag">🧱 <span data-t="puzzle">Puzzle</span></span>
+        <div class="name">Mo Block Pop<small data-t="bpS">Drag, fill a line, pop · Ages 3+</small></div>
+      </div>
+      <span class="go"><i><svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg></i></span>
+    </a>
     <div class="more"><div><em>🎁</em><b data-t="moreT">More games on the way</b><span data-t="moreS">Insya Allah!</span></div></div>
   </div>
   <div class="track" aria-hidden="true"><i id="thumb"></i></div>
@@ -214,6 +222,11 @@ footer a{text-decoration:underline}
         <div class="hd"><span class="ico">🎨</span><div><h3>Mo Color &amp; Draw</h3><div class="chips"><span data-t="c4">Create</span><span data-t="c5">Ages 3+</span><span data-t="c3">EN · ID</span></div></div></div>
         <p data-t="cdD">A coloring and drawing game for little hands. Color masjids and animals from the Qur'an, draw freely with crayons, brushes and markers, and keep every picture in My Art.</p>
         <div class="btns"><a class="btn" href="MoColorAndDraw/">▶ <span data-t="play">Play</span></a></div>
+      </article>
+      <article class="panel game">
+        <div class="hd"><img src="MoBlockPop/icons/icon-192.png" alt=""><div><h3>Mo Block Pop</h3><div class="chips"><span data-t="c1">Puzzle</span><span data-t="c2">Ages 3+</span><span data-t="c3">EN · ID</span></div></div></div>
+        <p data-t="bpD">Drag colourful blocks onto the board, fill a row or column and pop! Collect moons, stars and lanterns in 30 levels, or play endless. Cheers are dzikir, and every level ends with a fact about Islam.</p>
+        <div class="btns"><a class="btn" href="MoBlockPop/">▶ <span data-t="play">Play</span></a></div>
       </article>
     </div>
   </section>
@@ -265,7 +278,7 @@ v4:'Akhiri dengan Alhamdulillah',v4p:'Setiap menang ditutup dengan syukur kepada
 pH:'Untuk orang tua',pS:'Waktu layar yang bikin tenang',p1:'Tanpa iklan',p1p:'Tidak ada banner, pop-up, atau video yang harus dilewati.',p2:'Tanpa akun, tanpa pengumpulan data',p2p:'Progres tersimpan di perangkat anak.',
 p3:'Tanpa chat, tanpa orang asing',p3p:'Tidak ada fitur sosial atau pemain online.',p4:'Sesuai usia',p4p:'Mode lembut untuk si kecil, tantangan seru untuk anak besar.',
 p5:'Jeda salat bawaan',p5p:'Momen alami untuk berhenti, peregangan, dan salat bersama.',p6:'Bahasa Inggris & Indonesia',p6p:'Kalimat Arab selalu disertai artinya.',
-contact:'Ada pertanyaan atau ide? Kami senang mendengarnya.',priv:'Privasi',sup:'Bantuan',nHome:'Beranda',nGames:'Game',nAbout:'Tentang',nParents:'Orang tua'};
+contact:'Ada pertanyaan atau ide? Kami senang mendengarnya.',bpS:'Geser, penuhi baris, letuskan · Usia 3+',bpD:'Geser balok warna-warni ke papan, penuhi satu baris atau kolom, lalu letuskan! Kumpulkan bulan, bintang, dan lentera di 30 level, atau main tanpa batas. Sorakannya dzikir, dan setiap level ditutup dengan fakta tentang Islam.',priv:'Privasi',sup:'Bantuan',nHome:'Beranda',nGames:'Game',nAbout:'Tentang',nParents:'Orang tua'};
 const els=[...document.querySelectorAll('[data-t]')];els.forEach(e=>e.dataset.en=e.innerHTML);
 let L='en';
 function setLang(l){L=l;document.documentElement.lang=l;els.forEach(e=>{const v=l==='id'?ID[e.dataset.t]:e.dataset.en;if(v!=null)e.innerHTML=v});
