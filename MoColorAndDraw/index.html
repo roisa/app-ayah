@@ -174,6 +174,8 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 #stage{flex:1;min-height:0;position:relative;padding:2px 12px 0;display:flex}
 
 .board{flex:1;min-width:0;min-height:0;background:#fff;border:clamp(7px,1.2vw,12px) solid var(--frame);border-radius:clamp(26px,4vw,44px);box-shadow:0 5px 0 var(--frameSh),0 14px 30px rgba(0,40,90,.2);display:grid;place-items:center;overflow:hidden;position:relative}
+#ed.cmode .board{flex:none;margin:auto}
+#ed.cmode #paper{border-radius:clamp(18px,3vw,32px)}
 #paper{position:relative;background:#fff;border-radius:clamp(18px,3vw,32px);overflow:hidden;touch-action:none;cursor:none}
 #paper canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
 #cLine{pointer-events:none}
@@ -892,6 +894,7 @@ function applyTheme(i){
 async function openEditor(mode,page,art){
   applyTheme();
   show('ed');
+  $('#ed').classList.toggle('cmode',mode==='color');$('#board').style.width=$('#board').style.height='';
   E={mode,page:page||null,undo:[],bytes:0,dirty:false,savedId:art?art.id:null,hue:0,reg:null,maskL:0,ready:false};
 
   // default tool: paint bucket for coloring pages, bold pen for drawing; no stamps on coloring pages
@@ -925,9 +928,18 @@ function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.decod
 
 function fitPaper(){
   if(!E.W)return;
-  const bd=$('#board'),pad=E.mode==='color'?8:0;
-  const sw=bd.clientWidth-pad*2,sh=bd.clientHeight-pad*2,a=E.W/E.H;
-  let w=sw,h=w/a;if(h>sh){h=sh;w=h*a}
+  const bd=$('#board'),a=E.W/E.H;let w,h;
+  if(E.mode==='color'){
+    // coloring pages: the board shrinks to the picture's shape, so there is no white space around it
+    const st=$('#stage'),cs=getComputedStyle(st),bs=getComputedStyle(bd);
+    const aw=st.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),ah=st.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+    const bx=parseFloat(bs.borderLeftWidth)+parseFloat(bs.borderRightWidth),by=parseFloat(bs.borderTopWidth)+parseFloat(bs.borderBottomWidth);
+    w=aw-bx;h=w/a;if(h>ah-by){h=ah-by;w=h*a}
+    bd.style.width=(w+bx)+'px';bd.style.height=(h+by)+'px';
+  }else{
+    bd.style.width=bd.style.height='';
+    w=bd.clientWidth;h=w/a;if(h>bd.clientHeight){h=bd.clientHeight;w=h*a}
+  }
   paper.style.width=w+'px';paper.style.height=h+'px';
   E.scale=E.W/w;
   const ts=(GRAIN/E.scale)+'px';cLive.style.webkitMaskSize=cLive.style.maskSize=ts+' '+ts;
