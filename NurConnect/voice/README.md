@@ -1,7 +1,7 @@
 # Voice clips
 
-**AI voice:** the clips are made with Google text-to-speech, voice **Leda** (chosen 17 Nov 2026 on `voice/compare.html`), in
-Google Cloud Shell: `bash NurConnect/tools/voice/cloudshell.sh lines Leda`. The lines live in `NurConnect/tools/voice/lines.json`.
+**AI voice:** the clips are made with Google text-to-speech, voice **Algenib**, the same voice as Baby Mo (chosen 17 Nov 2026 on `voice/compare.html`), in
+Google Cloud Shell: `bash NurConnect/tools/voice/cloudshell.sh lines Algenib`. Arabic phrases marked `ar:` in lines.json are spoken by the Arabic voice. The lines live in `NurConnect/tools/voice/lines.json`.
 A real recording dropped in with the same file name replaces the AI clip (the script never overwrites existing files unless `FORCE=1`).
 
 Put one MP3 per line below in `voice/en/` (English) and `voice/id/` (Indonesian), named exactly as the file column.

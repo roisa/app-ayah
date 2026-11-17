@@ -87,9 +87,14 @@ def lines(voice):
     global HUMAN
     try:
         import re
-        HUMAN = json.loads(re.search(r"window\.NC_VOICE=(\{.*\});", open(os.path.join(ROOT, "voice", "voice.js"), encoding="utf-8").read(), re.S).group(1)).get("human", {})
+        NV = json.loads(re.search(r"window\.NC_VOICE=(\{.*\});", open(os.path.join(ROOT, "voice", "voice.js"), encoding="utf-8").read(), re.S).group(1))
+        HUMAN = NV.get("human", {})
     except Exception:
-        HUMAN = {}
+        NV, HUMAN = {}, {}
+    # a different voice than the clips were made with: remake every clip (real recordings are still kept)
+    if NV.get("voice") and NV.get("voice") != voice and not os.environ.get("ONLY"):
+        print(f"voice changes {NV.get('voice')} -> {voice}: remaking every clip", flush=True)
+        os.environ["FORCE"] = "1"
     data = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lines.json"), encoding="utf-8"))
     global ONLY
     ONLY = set(x for x in os.environ.get("ONLY", "").split(",") if x)
