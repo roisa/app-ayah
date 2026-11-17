@@ -1,0 +1,119 @@
+{
+ "lines": {
+  "en": [
+   "Bismillah! Let's go!",
+   "Masha Allah! Great!",
+   "Subhanallah! Amazing!",
+   "Alhamdulillah! Well done!",
+   "It is time to pray Dhuhr."
+  ],
+  "id": [
+   "Bismillah! Ayo mulai!",
+   "Masya Allah! Hebat!",
+   "Subhanallah! Keren!",
+   "Alhamdulillah! Berhasil!",
+   "Waktunya sholat Dzuhur."
+  ]
+ },
+ "voices": [
+  {
+   "voice": "Algenib",
+   "gender": "male",
+   "desc": "Baby Mo's voice (gravelly)",
+   "files": {
+    "en": "Algenib-en.mp3",
+    "id": "Algenib-id.mp3"
+   }
+  },
+  {
+   "voice": "Puck",
+   "gender": "male",
+   "desc": "upbeat",
+   "files": {
+    "en": "Puck-en.mp3",
+    "id": "Puck-id.mp3"
+   }
+  },
+  {
+   "voice": "Fenrir",
+   "gender": "male",
+   "desc": "excitable",
+   "files": {
+    "en": "Fenrir-en.mp3",
+    "id": "Fenrir-id.mp3"
+   }
+  },
+  {
+   "voice": "Achird",
+   "gender": "male",
+   "desc": "friendly",
+   "files": {
+    "en": "Achird-en.mp3",
+    "id": "Achird-id.mp3"
+   }
+  },
+  {
+   "voice": "Sadachbia",
+   "gender": "male",
+   "desc": "lively",
+   "files": {
+    "en": "Sadachbia-en.mp3",
+    "id": "Sadachbia-id.mp3"
+   }
+  },
+  {
+   "voice": "Leda",
+   "gender": "female",
+   "desc": "youthful",
+   "files": {
+    "en": "Leda-en.mp3",
+    "id": "Leda-id.mp3"
+   }
+  },
+  {
+   "voice": "Laomedeia",
+   "gender": "female",
+   "desc": "upbeat",
+   "files": {
+    "en": "Laomedeia-en.mp3",
+    "id": "Laomedeia-id.mp3"
+   }
+  },
+  {
+   "voice": "Autonoe",
+   "gender": "female",
+   "desc": "bright",
+   "files": {
+    "en": "Autonoe-en.mp3",
+    "id": "Autonoe-id.mp3"
+   }
+  },
+  {
+   "voice": "Zephyr",
+   "gender": "female",
+   "desc": "bright",
+   "files": {
+    "en": "Zephyr-en.mp3",
+    "id": "Zephyr-id.mp3"
+   }
+  },
+  {
+   "voice": "Aoede",
+   "gender": "female",
+   "desc": "breezy",
+   "files": {
+    "en": "Aoede-en.mp3",
+    "id": "Aoede-id.mp3"
+   }
+  },
+  {
+   "voice": "Sulafat",
+   "gender": "female",
+   "desc": "warm",
+   "files": {
+    "en": "Sulafat-en.mp3",
+    "id": "Sulafat-id.mp3"
+   }
+  }
+ ]
+}
