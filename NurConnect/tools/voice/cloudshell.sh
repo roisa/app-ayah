@@ -3,6 +3,7 @@
 #   bash NurConnect/tools/voice/cloudshell.sh compare       -> samples of 11 voices, pushes a nc-voice-compare-… branch
 #   bash NurConnect/tools/voice/cloudshell.sh lines Leda    -> all 38 game clips (19 EN + 19 ID) with that voice,
 #                                                             pushes a nc-voice-clips-… branch
+#   bash NurConnect/tools/voice/cloudshell.sh lines Leda barak  -> remake only those lines (comma-separated keys)
 set -euo pipefail
 MODE="${1:-compare}"
 echo "▶ Project: $(gcloud config get-value project 2>/dev/null)"
@@ -18,9 +19,9 @@ case "$MODE" in
     ;;
   lines)
     V="${2:-Leda}"
-    python3 NurConnect/tools/voice/compare.py lines "$V"
+    ONLY="${3:-}" python3 NurConnect/tools/voice/compare.py lines "$V"
     BR="nc-voice-clips-$(date +%Y%m%d-%H%M)"; git checkout -q -b "$BR"
-    git "${G[@]}" add NurConnect/voice/en NurConnect/voice/id NurConnect/voice/voice.json && git "${G[@]}" commit -q -m "Nur Connect voice: game clips with $V"
+    git "${G[@]}" add NurConnect/voice/en NurConnect/voice/id NurConnect/voice/voice.js && git "${G[@]}" commit -q -m "Nur Connect voice: game clips with $V"
     ;;
   *) echo "unknown mode: $MODE (use: compare, lines <Voice>)"; exit 1 ;;
 esac

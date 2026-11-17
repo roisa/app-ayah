@@ -24,8 +24,14 @@
   "Subhanallah! Keren!"
  ],
  "barak": [
-  "Barakallahu fik! Awesome!",
-  "Barakallahu fik! Luar biasa!"
+  [
+   "ar:بَارَكَ ٱللَّٰهُ فِيكُمْ|Barakallahu fiikum!",
+   "Awesome!"
+  ],
+  [
+   "ar:بَارَكَ ٱللَّٰهُ فِيكُمْ|Barakallahu fiikum!",
+   "Luar biasa!"
+  ]
  ],
  "akbar": [
   "Allahu Akbar! Unstoppable!",

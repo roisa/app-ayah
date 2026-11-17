@@ -18,7 +18,7 @@ Tips: short (under 2 s), cheerful, no music or background noise, start speaking 
 | masya1.mp3 | 3 matches in a row | Masha Allah! Great! | Masya Allah! Hebat! |
 | masya2.mp3 | 5 in a row | Masha Allah! Well done! | Masya Allah! Bagus sekali! |
 | subhan.mp3 | 7 in a row | Subhanallah! Amazing! | Subhanallah! Keren! |
-| barak.mp3 | 9 in a row | Barakallahu fik! Awesome! | Barakallahu fik! Luar biasa! |
+| barak.mp3 | 9 in a row | Barakallahu fiikum! Awesome! | Barakallahu fiikum! Luar biasa! |
 | akbar.mp3 | 12, 15... in a row | Allahu Akbar! Unstoppable! | Allahu Akbar! Mantap! |
 | shuffle.mp3 | Shuffle | Tawakkaltu alallah | Tawakkaltu alallah |
 | win.mp3 | Level cleared | Alhamdulillah! Well done! | Alhamdulillah! Berhasil! |

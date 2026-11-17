@@ -36,7 +36,7 @@ LINES = {
     "id": ["Bismillah! Ayo mulai!", "Masya Allah! Hebat!", "Subhanallah! Keren!", "Alhamdulillah! Berhasil!",
            "Waktunya sholat Dzuhur."],
 }
-LANG = {"en": "en-US", "id": "id-ID"}
+LANG = {"en": "en-US", "id": "id-ID", "ar": "ar-XA"}
 
 def gcloud(*a):
     try: return subprocess.run(["gcloud", *a], capture_output=True, text=True, timeout=60).stdout.strip()
@@ -84,17 +84,37 @@ def main():
     print(f"done: {len(out)} voices in {OUT}")
 
 def lines(voice):
-    data = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lines.json")))
+    global HUMAN
+    try:
+        import re
+        HUMAN = json.loads(re.search(r"window\.NC_VOICE=(\{.*\});", open(os.path.join(ROOT, "voice", "voice.js"), encoding="utf-8").read(), re.S).group(1)).get("human", {})
+    except Exception:
+        HUMAN = {}
+    data = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lines.json"), encoding="utf-8"))
+    global ONLY
+    ONLY = set(x for x in os.environ.get("ONLY", "").split(",") if x)
     made = kept = 0
     for lang, i in (("en", 0), ("id", 1)):
         d = os.path.join(ROOT, "voice", lang); os.makedirs(d, exist_ok=True)
         for key, texts in data.items():
             f = os.path.join(d, key + ".mp3")
-            if os.path.exists(f) and os.environ.get("FORCE") != "1":
+            redo = os.environ.get("FORCE") == "1" or key in ONLY
+            if os.path.exists(f) and (not redo or (lang + "/" + key + ".mp3") in HUMAN):
                 kept += 1; continue
-            open(f, "wb").write(synth(texts[i], lang, voice)); made += 1
+            if ONLY and key not in ONLY:
+                kept += 1; continue
+            parts = texts[i] if isinstance(texts[i], list) else [texts[i]]
+            # "ar:<arabic>|<latin>" parts are spoken by the same voice in Arabic, so the Arabic words sound right
+            audio = b"".join(synth(x[3:].split("|")[0], "ar", voice) if x.startswith("ar:") else synth(x, lang, voice) for x in parts)
+            open(f, "wb").write(audio); made += 1
             print("clip", lang, key, "-", texts[i], flush=True)
-    json.dump({"voice": voice}, open(os.path.join(ROOT, "voice", "voice.json"), "w"))
+    vj = os.path.join(ROOT, "voice", "voice.js"); human = {}
+    if os.path.exists(vj):
+        import re
+        m = re.search(r"window\.NC_VOICE=(\{.*\});", open(vj, encoding="utf-8").read(), re.S)
+        if m: human = json.loads(m.group(1)).get("human", {})
+    open(vj, "w", encoding="utf-8").write("/* which voice the game clips use; \"human\" lists the clips replaced by a real recording "
+        "(file: take number). Updated by tools/voice/import-recordings.sh */\nwindow.NC_VOICE=" + json.dumps({"voice": voice, "human": human}) + ";\n")
     print(f"done: {made} clips made with {voice}, {kept} existing kept")
 
 if __name__ == "__main__":
