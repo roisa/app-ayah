@@ -90,7 +90,7 @@ pre.code{white-space:pre-wrap;word-break:break-word;background:var(--chip);borde
 
   <h2 id="listing">App Store listing text</h2>
   <p class="lead">Paste each field into App Store Connect. The counter shows Apple's limit (keywords count in bytes, so don't add spaces after commas). Words already in the name and subtitle are left out of the keywords, because Apple indexes those already.</p>
-  <div class="tabs" role="group" aria-label="Listing language"><button type="button" data-llang="id" aria-pressed="true">Bahasa Indonesia (primary)</button><button type="button" data-llang="en" aria-pressed="false">English (U.S.)</button></div>
+  <div class="tabs" role="group" aria-label="Listing language"><button type="button" data-llang="en" aria-pressed="true">English (U.S.) (primary)</button><button type="button" data-llang="id" aria-pressed="false">Bahasa Indonesia</button></div>
   <div id="fields"></div>
 
   <h2 id="info">App information</h2>
@@ -236,8 +236,8 @@ const PLAY=l=>[
  ['Short description',l==='en'?'Match tiles, pause for salah and learn about Islam. No ads. For ages 3+.':'Cocokkan ubin, berhenti saat salat, dan belajar Islam. Tanpa iklan. Usia 3+.',80,0,'Main store listing'],
  ['Full description',DESC[l],4000,0,'Main store listing']];
 const FACTS=[
- ['Primary language','Indonesian','App Information','Add English (U.S.) as a second localization. Google Play: default language Indonesian, plus an English (United States) translation.'],
- ['Bundle ID / package name','id.babymo.nurconnect','Xcode → Signing & Capabilities; Android applicationId','Suggested, matching Baby Mo (id.babymo.app). It can never be changed after the first upload, so pick it once.'],
+ ['Primary language','English (U.S.)','App Information','Add Indonesian as a second localization. Google Play: default language English (United States), plus an Indonesian translation.'],
+ ['Bundle ID','babymo.Nur-Connect','Xcode → Signing & Capabilities','Set in Xcode and used for the first upload; it can never change. Android applicationId can be different (Android does not allow the dash; use babymo.nurconnect).'],
  ['SKU','nurconnect-ios-001','New App form','Any unique code you like.'],
  ['Version','1.0 (build 1)','Xcode → General → Identity',''],
  ['Primary category','Games → Puzzle','App Information → Category','Second game subcategory: Family.'],
@@ -309,7 +309,7 @@ document.getElementById('check').innerHTML=CHECK.map(([t,d],i)=>`<li><input type
 function prog(){const a=[...document.querySelectorAll('.check input')];document.getElementById('prog').textContent=a.filter(x=>x.checked).length+' of '+a.length+' done'}
 document.querySelectorAll('.check input').forEach(cb=>{const k='nurkit-'+cb.id;try{cb.checked=localStorage.getItem(k)==='1'}catch(e){}cb.closest('li').classList.toggle('done',cb.checked);
  cb.addEventListener('change',()=>{try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){}cb.closest('li').classList.toggle('done',cb.checked);prog()})});prog();
-renderGroups();renderFields('id');renderPlay('id');
+renderGroups();renderFields('en');renderPlay('id');
 
 const toast=document.getElementById('toast');let tt;
 function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),1600)}
