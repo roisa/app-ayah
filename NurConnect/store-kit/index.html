@@ -166,17 +166,17 @@ MORE TO DISCOVER
 • A Daily Puzzle, a 7-day gift and a prayer streak
 • A sticker book with 300+ stickers to collect
 • English and Bahasa Indonesia
+• A friendly recorded voice, with Arabic phrases spoken in Arabic
 • Original music and sound effects
 
 PRAYER TIMES
-Pick your city in Settings: 27 cities across Indonesia, Malaysia, Singapore, Brunei, Saudi Arabia, the UAE and Türkiye. Times are calculated on your device using the Kemenag RI method.
+Pick your city in Settings: 27 cities across Indonesia, Malaysia, Singapore, Brunei, Saudi Arabia, the UAE and Türkiye. Times are calculated on your device using the Kemenag RI method. Allow notifications and the app reminds you at every prayer time, even when it is closed.
 
 SAFE FOR KIDS
 • No ads
 • No accounts or sign-in
 • No data collected: progress stays on your device
 • No chat, links or online players
-• Works offline
 
 Made with love by Mo Games by IBRAZ Group, the team behind Baby Mo.`,
 id:`Nur Connect adalah puzzle mencocokkan ubin yang seru untuk keluarga Muslim. Cari dua ubin yang sama, hubungkan dengan garis maksimal dua belokan, dan lihat bintang bermunculan di sepanjang jalan. Cukup mudah untuk anak 3 tahun, cukup menantang untuk orang dewasa.
@@ -204,17 +204,17 @@ BANYAK YANG BISA DITEMUKAN
 • Puzzle Harian, hadiah 7 hari, dan streak salat
 • Buku stiker dengan 300+ stiker untuk dikoleksi
 • Bahasa Inggris dan Bahasa Indonesia
+• Suara rekaman yang ramah, dengan kalimat Arab dilafalkan dalam bahasa Arab
 • Musik dan efek suara orisinal
 
 WAKTU SALAT
-Pilih kotamu di Pengaturan: 27 kota di Indonesia, Malaysia, Singapura, Brunei, Arab Saudi, UEA, dan Turki. Waktu dihitung di perangkatmu dengan metode Kemenag RI.
+Pilih kotamu di Pengaturan: 27 kota di Indonesia, Malaysia, Singapura, Brunei, Arab Saudi, UEA, dan Turki. Waktu dihitung di perangkatmu dengan metode Kemenag RI. Izinkan notifikasi, dan aplikasi mengingatkanmu di setiap waktu salat, bahkan saat aplikasi ditutup.
 
 AMAN UNTUK ANAK
 • Tanpa iklan
 • Tanpa akun atau login
 • Tanpa pengumpulan data: progres tersimpan di perangkatmu
 • Tanpa chat, tautan, atau pemain online
-• Bisa dimainkan offline
 
 Dibuat dengan cinta oleh Mo Games by IBRAZ Group, tim di balik Baby Mo.`};
 const LST={name:{id:'Nur Connect: Puzzle Islami',en:'Nur Connect: Islamic Puzzle'},
@@ -251,8 +251,8 @@ const FACTS=[
  ['Content rights','No third-party content','App Information → Content Rights','The art, music and sounds are your own or generated for you. Fonts are open-licensed (SIL OFL).'],
 ];
 const AGE=[['Cartoon or fantasy violence','None'],['Realistic violence','None'],['Prolonged graphic or sadistic violence','None'],['Profanity or crude humor','None'],['Mature or suggestive themes','None'],['Horror or fear themes','None'],['Medical or treatment information','None'],['Alcohol, tobacco or drug use or references','None'],['Sexual content or nudity','None'],['Simulated gambling','None'],['Contests','None'],['Unrestricted web access','No'],['User-generated content','No'],['Messaging and chat','No'],['Advertising','No'],['Parental controls','No'],['Age assurance','No'],['Loot boxes / paid random items','No (sticker packs cost in-game stars only, never money)']];
-const PRIV=[['Do you or your third-party partners collect data from this app?','No'],['Resulting label','Data Not Collected'],['Tracking (App Tracking Transparency)','No: no tracking and no ATT prompt'],['Where progress is stored','Only on the device (web storage inside the app)'],['Third-party SDKs','None (no analytics, ads or crash reporting)']];
-const REVIEW=`Nur Connect is a tile-matching puzzle (Onet / Shisen-sho style) for Muslim families, ages 3 and up. Tap or drag between two identical tiles; they connect if a path with at most two turns joins them. There are no accounts, ads, in-app purchases, chat, links out or network requests. All content is bundled and works offline.
+const PRIV=[['Do you or your third-party partners collect data from this app?','No'],['Resulting label','Data Not Collected'],['Tracking (App Tracking Transparency)','No: no tracking and no ATT prompt'],['Where progress is stored','Only on the device (web storage inside the app)'],['Third-party SDKs','None (no analytics, ads or crash reporting)'],['Notifications','Local prayer reminders scheduled on the device; no push server, nothing sent anywhere']];
+const REVIEW=`Nur Connect is a tile-matching puzzle (Onet / Shisen-sho style) for Muslim families, ages 3 and up. Tap or drag between two identical tiles; they connect if a path with at most two turns joins them. There are no accounts, ads, in-app purchases, chat, social features or links out.
 
 How to test:
 • Tap the green Play button, choose who is playing (Little, Kids, Big Kids or Family) and pick the first world.
@@ -262,33 +262,34 @@ Prayer-time pause:
 • The game includes an Islamic prayer-time reminder. At each prayer time for the city chosen in Settings, play pauses with a full-screen "Time to pray" card. The "I have prayed" button unlocks after the minimum pause (5–20 minutes, set in Settings, default 10).
 • If your review session falls on a prayer time, this card is expected behaviour, not a freeze. Settings (gear icon) → "Preview the prayer pause" shows it on demand, and that preview unlocks after 8 seconds.
 • Prayer times are calculated on the device from the chosen city (Kemenag RI method). The app does not request location permission.
+• Native prayer reminders: the app asks for notification permission and schedules a local notification for each of the next 7 days' prayers (refreshed when the app opens or the city changes). No push server is used.
 
 Other notes:
 • Stars and sticker packs are earned in play; nothing is sold.
-• Spoken phrases use the device's built-in speech voices.
+• Spoken lines and the Prophet stories are recorded audio clips in English and Indonesian.
 
 Privacy policy: ${BASE}privacy/ · Support: ${BASE}support/`;
 const PLAYQA=[['App access','All functionality is available without special access'],['Ads','No, my app does not contain ads'],['Content rating (IARC questionnaire)','Category: Game. Answer No to violence, fear, sexuality, language, controlled substances, crude humour, gambling, user interaction, sharing location, digital purchases. Expected: Everyone / PEGI 3 / SU (Indonesia)'],['Target audience','Select 5 & under, 6–8, 9–12, 13–15, 16–17 and 18+ (this puts the app in the Families programme, which is fine: no ads, no data)'],['Appeals to children?','Yes'],['Data safety: collects or shares user data?','No (answer No to collection and No to sharing)'],['Data safety: encryption in transit / deletion request','Not applicable: no data leaves the device'],['News app / Government app / Financial features / Health','No / No / None / None'],['Category','Game → Puzzle. Tags: Puzzle, Casual, Family-friendly, Offline'],['Contact details','Email (required), website: '+BASE+'about/'],['Graphics','Icon 512 × 512 PNG, feature graphic 1024 × 500, 2–8 phone screenshots (from the Screenshots section above)']];
 const CHECK=[
- ['Wrap the game as an iOS and Android app','Make a Capacitor project like babymo-app: <code>npm i @capacitor/core @capacitor/cli @capacitor/ios @capacitor/android</code>, appId <code>id.babymo.nurconnect</code>, appName <code>Nur Connect</code>, webDir <code>www</code>. Copy index.html, assets/, fonts/, voice/ and manifest.webmanifest into www (not v1/, about/, store/ or store-kit/), then <code>npx cap add ios</code> and <code>npx cap add android</code>.'],
- ['iPhone only, portrait only (for 1.0)','Xcode → General → Supported Destinations: remove iPad, so the app installs on iPhone and runs on iPad in compatibility mode. The game\'s layout isn\'t tuned for iPad screens yet, so no iPad screenshots are needed. Device Orientation: Portrait only.'],
+ ['App icon','Xcode → Assets → AppIcon → drag <code>NurConnect/store/app-icon-1024.png</code> (1024 × 1024, no transparency) into the 1024 slot. Download: '+BASE+'store/app-icon-1024.png'],
+ ['Prayer-time notifications (native feature)','Add <code>NurConnect/ios/PrayerReminders.swift</code> to the Xcode project, and where the <code>WKWebViewConfiguration</code> is created add <code>PrayerReminders.install(on: configuration)</code>. Steps: NurConnect/ios/README.md in the repo.'],
+ ['Game files inside the app (recommended for Guideline 4.2)','Apple rejects apps that only show a website. Loading the game files bundled in the app (not roisa.github.io) is the safest; ask Claude for the Swift code.'],
+ ['iPhone only, portrait only (for 1.0)','Xcode → General → Supported Destinations: keep iPhone; remove iPad, Mac and Apple Vision (or, to keep Mac, Signing & Capabilities → App Sandbox → Outgoing Connections). Device Orientation: Portrait only.'],
  ['Info.plist','Add <code>ITSAppUsesNonExemptEncryption</code> = NO (Boolean). No location, camera or microphone usage strings are needed.'],
- ['App icon','Use store/app-icon-1024.png (1024 × 1024, no transparency) in the Xcode asset catalog, and <code>npx @capacitor/assets generate</code> for Android.'],
- ['Test on a real iPhone and Android phone','Airplane mode, music and the mute button, sound with the ring/silent switch, Little mode guided levels, the prayer pause (Settings → Preview), a boss level story, and switching EN/ID.'],
- ['Archive and upload (iOS)','Xcode → Product → Archive → Distribute App → App Store Connect. Wait for processing, then select the build on the version page.'],
- ['Fill in the App Store listing','Paste the text from this page for Indonesian and English, upload the 6.9" screenshots for both languages, and add URLs, category, copyright and price.'],
+ ['Test on a real iPhone','Allow notifications and check one arrives (pick a city whose next prayer is a few minutes away), music and the mute button, the ring/silent switch, Little mode guided levels, the prayer pause (Settings → Preview), a boss level story with its voice, and switching EN/ID.'],
+ ['Archive and upload','Xcode → Product → Archive → Distribute App → App Store Connect. New app record: name Nur Connect, SKU nurconnect-ios-001, primary language English (U.S.), bundle ID babymo.Nur-Connect. Wait for processing, then select the build on the version page.'],
+ ['Fill in the App Store listing','Paste the English (U.S.) text, add Indonesian as a localization and paste its text, upload the 6.9" screenshots for both languages, and add URLs, category, copyright and price.'],
  ['Age Rating and App Privacy','Use the answers above. Rating 4+, label Data Not Collected.'],
  ['App Review details','Your name, phone and email, then paste the review notes.'],
  ['Choose manual release','Version Release → Manually release this version, so you can launch together with the marketing page buttons.'],
- ['Google Play: upload an AAB','Android Studio → Build → Generate Signed Bundle. Keep the upload keystore safe and backed up. Upload to a testing track first.'],
- ['Google Play: App content and listing','Data safety, content rating, target audience, ads and the store listing from the Google Play section above.'],
+ ['Google Play (later)','An Android app still needs to be made (package name babymo.nurconnect: Android does not allow the dash). Then upload a signed AAB to a testing track and fill in the Google Play section above.'],
  ['After approval: update the marketing page','Replace the "SOON" store badges in about/index.html with the real App Store and Google Play links.'],
 ];
 const NOTES=[
  '<b>Price vs. the free web version.</b> The full game is free at roisa.github.io/app-ayah/NurConnect. If you sell the app, most buyers will find the free version. Options: make the store apps free (and use them to grow Mo Games), or keep them paid and limit the web version to a demo (for example the first 2 worlds). Decide before release, because a paid app can be made free later but switching a free app to paid upsets users.',
  '<b>Google Play testing rule.</b> A personal developer account created after November 2023 must run a closed test with at least 12 testers for 14 days before it can publish to production. An organisation account (with a D-U-N-S number for IBRAZ Group) skips this.',
  '<b>Kids Category (Apple) and Teacher Approved (Google).</b> Nur Connect has no ads, analytics, links out or purchases, so it meets the rules. Joining is optional: it brings more visibility with parents but stricter review. You can leave it off for 1.0 and opt in later.',
- '<b>Guideline 4.2 (minimum functionality).</b> Apple rejects apps that only load a website. Bundle the game files inside the app (Capacitor\'s webDir) and don\'t point it at the GitHub Pages URL.',
+ '<b>Guideline 4.2 (minimum functionality).</b> Apple rejects apps that only load a website. The prayer notifications, haptics and share help; loading the game files from inside the app instead of roisa.github.io makes it much safer (and lets the review notes say it works offline).',
  '<b>Review during prayer time.</b> The review notes explain the prayer pause and how to preview it, so a reviewer who meets it won\'t report a freeze.',
  '<b>Religious content.</b> Have an ustadz check the Prophet stories, "Did you know?" facts and Arabic phrases before release. Reviews from Muslim parents will notice any mistake.',
  '<b>Name check.</b> Search the App Store and Google Play for "Nur Connect" before you create the app record. If the name is taken, try "Nur Connect: Tile Match".',
