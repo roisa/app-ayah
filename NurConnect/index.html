@@ -801,9 +801,12 @@ function dur(ms){const m=Math.max(0,Math.ceil(ms/60000));const h=Math.floor(m/60
    Any clip that is missing falls back to the phone's text-to-speech (which makes the phone lower the music). */
 const VOICE_KEYS=['astagh','bism','bismillah','masya1','masya2','subhan','barak','akbar','taqabbal','shuffle','win','lose','hurry','hurry30','pray-fajr','pray-dhuhr','pray-asr','pray-maghrib','pray-isha'];
 const VOICE_FILES={},VBUF={};let vLoaded=false,vSrc=null;
+/* clips download as soon as the page opens (so the first "Bismillah" on Play is already here) and are decoded once
+   the audio is unlocked; VPEND holds each clip's promise so voice() can wait a moment for one still loading */
+const VRAW={},VPEND={};
+['en','id'].forEach(l=>VOICE_KEYS.forEach(k=>{VRAW[l+'/'+k]=fetch(`voice/${l}/${k}.mp3`).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null)}));
 function loadClips(){if(vLoaded||!ac)return;vLoaded=true;
-  ['en','id'].forEach(l=>VOICE_KEYS.forEach(k=>{const url=`voice/${l}/${k}.mp3`;
-    fetch(url).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((res,rej)=>ac.decodeAudioData(b,res,rej))).then(buf=>{VBUF[l+'/'+k]=buf}).catch(()=>{})}))}
+  Object.keys(VRAW).forEach(id=>{VPEND[id]=VRAW[id].then(b=>b?new Promise((res,rej)=>ac.decodeAudioData(b,res,rej)):null).then(buf=>{if(buf)VBUF[id]=buf;return !!buf}).catch(()=>false)})}
 let ac=null,master=null,verb=null;
 function impulse(sec,decay){const n=Math.floor(ac.sampleRate*sec),b=ac.createBuffer(2,n,ac.sampleRate);
   for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,decay)}return b}
@@ -954,8 +957,9 @@ function pickVoice(lang){const pre=lang==='id'?'id':'en';
   return L.find(v=>/natural|neural|enhanced|premium|siri|google/i.test(v.name))||L.find(v=>v.localService)||L[0]||null}
 function stopVoice(){try{TTS&&speechSynthesis.cancel()}catch(e){}if(clip){try{clip.pause()}catch(e){}clip=null}if(vSrc){try{vSrc.stop()}catch(e){}vSrc=null}}
 /* key: a PR or VO key; text: what to say; vars: {p:...} for VO lines */
-function voice(k,text,vars,key2){if(!S.voice)return;
-  const buf=VBUF[S.lang+'/'+(key2||k)];
+function voice(k,text,vars,key2,waited){if(!S.voice)return;
+  const vid=S.lang+'/'+(key2||k),buf=VBUF[vid];
+  if(!buf&&!waited&&VPEND[vid]){Promise.race([VPEND[vid],new Promise(r=>setTimeout(()=>r(false),1500))]).then(()=>voice(k,text,vars,key2,true));return}
   if(buf&&ac){stopVoice();setTimeout(()=>{try{vSrc=ac.createBufferSource();vSrc.buffer=buf;const g=ac.createGain();g.gain.value=1;vSrc.connect(g);g.connect(ac.destination);vSrc.start()}catch(e){}},150);return}
   if(text==null){text=VO[S.lang][k]||'';if(vars)for(const x in vars)text=text.replace('{'+x+'}',vars[x])}
   if(!text)return;stopVoice();
