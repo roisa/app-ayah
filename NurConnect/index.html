@@ -787,6 +787,17 @@ function activePrayer(now){
   return a;
 }
 function nextPrayer(now){const td=sched(0).t;for(const p of FIVE)if(td[p]&&td[p]>now)return{p,at:td[p]};const tm=sched(1).t;return{p:'fajr',at:tm.fajr}}
+/* iOS app only: hand the next 7 days of prayer times to the native layer (message handler "nurPrayer"), which
+   schedules local notifications. On the web this does nothing. Sent at start, after Settings change, and when the
+   app comes back to the front, so the schedule always follows the chosen city. */
+function sendPrayerSchedule(){const h=window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.nurPrayer;if(!h)return;
+  try{const now=Date.now(),c=cityInfo(),items=[];
+    for(let off=0;off<7;off++){const d=sched(off);for(const p of FIVE){const at=d.t[p];if(!at||at<=now+30000)continue;const nm=pn(p);
+      items.push({id:'nc-pray-'+d.key+'-'+p,at,
+        title:S.lang==='id'?`Waktunya sholat ${nm} 🕌`:`Time to pray ${nm} 🕌`,
+        body:S.lang==='id'?`Yuk berhenti sebentar dan sholat ${nm} dulu. Game-mu menunggu! (${c.name})`:`Pause and pray ${nm} first. Your game will wait for you! (${c.name})`})}}
+    h.postMessage({items,lang:S.lang,city:c.name})}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)sendPrayerSchedule()});setTimeout(sendPrayerSchedule,1500);
 let prayed=store.get('prayed',{});
 function markPrayed(key){prayed[key]=1;const keep={};const today=sched(0).key,yest=sched(-1).key;for(const k in prayed)if(k.startsWith(today)||k.startsWith(yest))keep[k]=1;prayed=keep;store.set('prayed',prayed)}
 function dur(ms){const m=Math.max(0,Math.ceil(ms/60000));const h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
@@ -1685,7 +1696,7 @@ function openSettings(){returnTo=OVS.find(o=>!$('#'+o).hidden)||(G.running?null:
   $('#city').innerHTML=CITIES.map(c=>`<option value="${c[0]}">${c[0]==='custom'?t('custom'):c[1]}</option>`).join('');$('#city').value=S.city;
   $('#lat').value=S.lat;$('#lng').value=S.lng;$('#customRow').hidden=S.city!=='custom';segs();show('ovSet')}
 function segs(){[['segLang','lang'],['segWait','wait'],['segSound','sound'],['segVoice','voice'],['segMusic','music']].forEach(([id,k])=>[...$('#'+id).children].forEach(b=>b.classList.toggle('on',String(S[k])===b.dataset.v)))}
-function save(){store.set('settings',S);cache={};lastCheck=0}
+function save(){store.set('settings',S);cache={};lastCheck=0;sendPrayerSchedule()}
 $('#city').onchange=e=>{S.city=e.target.value;$('#customRow').hidden=S.city!=='custom';save()};
 $('#lat').oninput=e=>{S.lat=parseFloat(e.target.value)||0;save()};$('#lng').oninput=e=>{S.lng=parseFloat(e.target.value)||0;save()};
 $('#bStyle').onclick=()=>{ensureAudio();$('#ovSet').hidden=true;openStyle(()=>openSettings())};
