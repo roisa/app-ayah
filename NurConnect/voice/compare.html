@@ -14,7 +14,8 @@
 *{box-sizing:border-box;margin:0}
 body{background:var(--bg);color:var(--ink);font:600 16px/1.45 "Baloo 2",system-ui,sans-serif;padding:24px 16px 60px}
 .w{max-width:860px;margin:0 auto}
-h1{font:400 clamp(30px,6vw,42px)/1.05 "Lilita One",sans-serif;margin-bottom:6px}
+h1{font:400 clamp(30px,6vw,42px)/1.05 "Lilita One",sans-serif;margin-bottom:6px;display:flex;align-items:center;gap:14px}
+h1 img{width:64px;height:64px;border-radius:16px;box-shadow:0 6px 16px rgba(0,0,0,.25);flex:none}
 .lead{color:var(--soft)}
 .lines{margin:16px 0 4px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;color:var(--soft)}
 .lines b{color:var(--ink);display:block;margin-bottom:2px}
@@ -39,7 +40,7 @@ h1{font:400 clamp(30px,6vw,42px)/1.05 "Lilita One",sans-serif;margin-bottom:6px}
 </style>
 </head>
 <body><main class="w">
-<h1>Pick Nur Connect's voice</h1>
+<h1><img src="../assets/icon-192.png?v=2" alt="">Pick Nur Connect's voice</h1>
 <p class="lead">Every voice says the same game cheers. Tap 🇬🇧 or 🇮🇩 to listen, then tap "This one" on your favourite.</p>
 <div class="lines" id="lines"></div>
 <div class="f" role="group" aria-label="Filter"><button data-g="all" aria-pressed="true">All</button><button data-g="female" aria-pressed="false">Female</button><button data-g="male" aria-pressed="false">Male</button></div>
