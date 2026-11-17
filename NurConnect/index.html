@@ -1689,7 +1689,7 @@ function renderHome(){const c=cityInfo(),td=sched(0),now=Date.now(),a=activePray
 
 /* ---------- Settings ---------- */
 let returnTo='ovHome';
-function openSettings(){returnTo=OVS.find(o=>!$('#'+o).hidden)||(G.running?null:'ovHome');
+function openSettings(){if($('#ovSet').hidden)returnTo=OVS.find(o=>!$('#'+o).hidden)||(G.running?null:'ovHome');
   $('#setTitle').textContent=t('setT');$('#lCity').textContent=t('city');$('#lLang').textContent=t('lang');$('#lStyle').textContent=t('styleL');$('#bStyle').textContent=sty().em+' '+t('st_'+(S.style||'family'))+' · '+t('lvlsN',{n:lpw()});$('#lWait').textContent=t('wait');$('#lSound').textContent=t('sound');$('#lVoice').textContent=t('voice');$('#lMusic').textContent=t('music');
   $('#bPreview').textContent=t('preview');$('#bReset').textContent=t('reset');$('#bSetDone').textContent=t('done');
   for(const id of ['segSound','segVoice','segMusic']){const sb=$('#'+id).children;sb[0].textContent=t('on');sb[1].textContent=t('off')}
