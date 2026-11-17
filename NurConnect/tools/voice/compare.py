@@ -5,7 +5,10 @@ Each candidate voice says the same cheers in English and Indonesian. Output:
   NurConnect/voice/compare/<Voice>-en.mp3, <Voice>-id.mp3 and compare.json (read by NurConnect/voice/compare.html)
 
 Auth: run in Google Cloud Shell (uses the signed-in gcloud account), or set GOOGLE_TTS_API_KEY.
-Usage: python3 NurConnect/tools/voice/compare.py
+Usage: python3 NurConnect/tools/voice/compare.py                -> samples of every candidate voice
+       python3 NurConnect/tools/voice/compare.py lines Leda     -> every game clip (lines.json) with one voice, into
+                                                                   NurConnect/voice/<en|id>/<key>.mp3. Existing files are
+                                                                   kept (e.g. real recordings) unless FORCE=1.
 """
 import base64, json, os, subprocess, time, urllib.request, urllib.error
 
@@ -80,5 +83,23 @@ def main():
     json.dump({"lines": LINES, "voices": out}, open(os.path.join(OUT, "compare.json"), "w"), ensure_ascii=False, indent=1)
     print(f"done: {len(out)} voices in {OUT}")
 
+def lines(voice):
+    data = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lines.json")))
+    made = kept = 0
+    for lang, i in (("en", 0), ("id", 1)):
+        d = os.path.join(ROOT, "voice", lang); os.makedirs(d, exist_ok=True)
+        for key, texts in data.items():
+            f = os.path.join(d, key + ".mp3")
+            if os.path.exists(f) and os.environ.get("FORCE") != "1":
+                kept += 1; continue
+            open(f, "wb").write(synth(texts[i], lang, voice)); made += 1
+            print("clip", lang, key, "-", texts[i], flush=True)
+    json.dump({"voice": voice}, open(os.path.join(ROOT, "voice", "voice.json"), "w"))
+    print(f"done: {made} clips made with {voice}, {kept} existing kept")
+
 if __name__ == "__main__":
-    main()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "lines":
+        lines(sys.argv[2] if len(sys.argv) > 2 else "Leda")
+    else:
+        main()

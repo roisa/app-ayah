@@ -1,0 +1,78 @@
+{
+ "astagh": [
+  "Astaghfirullah. Let's try again!",
+  "Astaghfirullah. Ayo coba lagi!"
+ ],
+ "bism": [
+  "Bismillah!",
+  "Bismillah!"
+ ],
+ "bismillah": [
+  "Bismillah! Let's go!",
+  "Bismillah! Ayo mulai!"
+ ],
+ "masya1": [
+  "Masha Allah! Great!",
+  "Masya Allah! Hebat!"
+ ],
+ "masya2": [
+  "Masha Allah! Well done!",
+  "Masya Allah! Bagus sekali!"
+ ],
+ "subhan": [
+  "Subhanallah! Amazing!",
+  "Subhanallah! Keren!"
+ ],
+ "barak": [
+  "Barakallahu fik! Awesome!",
+  "Barakallahu fik! Luar biasa!"
+ ],
+ "akbar": [
+  "Allahu Akbar! Unstoppable!",
+  "Allahu Akbar! Mantap!"
+ ],
+ "shuffle": [
+  "Tawakkaltu alallah",
+  "Tawakkaltu alallah"
+ ],
+ "win": [
+  "Alhamdulillah! Well done!",
+  "Alhamdulillah! Berhasil!"
+ ],
+ "lose": [
+  "Astaghfirullah. Let's try again!",
+  "Astaghfirullah. Ayo coba lagi!"
+ ],
+ "hurry30": [
+  "30 seconds left, hurry!",
+  "30 detik lagi, ayo cepat!"
+ ],
+ "hurry": [
+  "Hurry up!",
+  "Ayo, cepat!"
+ ],
+ "taqabbal": [
+  "Taqabbalallahu minna wa minkum",
+  "Taqabbalallahu minna wa minkum"
+ ],
+ "pray-fajr": [
+  "It is time to pray Fajr.",
+  "Waktunya sholat Subuh."
+ ],
+ "pray-dhuhr": [
+  "It is time to pray Dhuhr.",
+  "Waktunya sholat Dzuhur."
+ ],
+ "pray-asr": [
+  "It is time to pray Asr.",
+  "Waktunya sholat Ashar."
+ ],
+ "pray-maghrib": [
+  "It is time to pray Maghrib.",
+  "Waktunya sholat Maghrib."
+ ],
+ "pray-isha": [
+  "It is time to pray Isha.",
+  "Waktunya sholat Isya."
+ ]
+}

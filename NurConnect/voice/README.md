@@ -1,5 +1,9 @@
 # Voice clips
 
+**AI voice:** the clips are made with Google text-to-speech, voice **Leda** (chosen 17 Nov 2026 on `voice/compare.html`), in
+Google Cloud Shell: `bash NurConnect/tools/voice/cloudshell.sh lines Leda`. The lines live in `NurConnect/tools/voice/lines.json`.
+A real recording dropped in with the same file name replaces the AI clip (the script never overwrites existing files unless `FORCE=1`).
+
 Put one MP3 per line below in `voice/en/` (English) and `voice/id/` (Indonesian), named exactly as the file column.
 They play through the game's own audio engine, so the background music keeps playing at full volume.
 Any clip that is missing falls back to the phone's text-to-speech (which makes the phone lower the music while it speaks).

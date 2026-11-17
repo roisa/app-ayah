@@ -74,6 +74,11 @@ nav{position:sticky;top:10px;z-index:50;margin:10px auto 0;max-width:1120px;padd
 .soon{font-size:10px;font-weight:800;background:var(--sun);color:#3b2600;border-radius:99px;padding:2px 7px;margin-left:6px;vertical-align:2px}
 
 /* hero */
+.apph{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.apph img{width:84px;height:84px;border-radius:20px;box-shadow:0 0 0 1px var(--hair),0 10px 24px rgba(60,30,130,.22)}
+.apph b{display:block;font-size:22px;font-weight:800;letter-spacing:-.01em}
+.apph span{color:var(--ink2);font-size:15px;font-weight:600}
+@media (max-width:860px){.apph{justify-content:center;text-align:left}}
 .hero{padding:56px 0 40px;display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 8px;border-radius:999px;font-size:14px;font-weight:600;color:var(--ink2)}
 .eyebrow b{background:linear-gradient(90deg,var(--brand),var(--pink));color:#fff;border-radius:99px;padding:3px 9px;font-size:12px}
@@ -236,7 +241,7 @@ footer a:hover{color:var(--ink)}
 <div class="mesh" aria-hidden="true"><i></i><i></i><i></i></div>
 
 <nav><div class="navin glass">
-  <a class="brand" href="#top"><img src="../assets/icon-192.png?v=2" alt=""><span>Nur Connect</span></a>
+  <a class="brand" href="#top"><img src="../assets/ui/app-icon.webp" alt=""><span>Nur Connect</span></a>
   <div class="seg" role="group" aria-label="Language"><button data-l="en" aria-pressed="true">EN</button><button data-l="id" aria-pressed="false">ID</button></div>
   <a class="pill pri sm" href="../" data-t="navPlay">Play</a>
 </div></nav>
@@ -245,6 +250,7 @@ footer a:hover{color:var(--ink)}
 <div class="wrap">
   <header class="hero">
     <div>
+      <div class="apph"><img src="../assets/ui/app-icon.webp" alt="Nur Connect app icon"><div><b>Nur Connect</b><span>Mo Games · <span data-t="cat">Puzzle · Ages 3+</span></span></div></div>
       <span class="eyebrow glass"><b data-t="new">New</b><span data-t="eyebrow">From Mo Games, the makers of Baby Mo</span></span>
       <h1 class="disp"><span data-t="h1a">Play games</span><br><span class="grad" data-t="h1b">the Islamic way.</span></h1>
       <p class="lede" data-t="lede">A joyful tile-matching puzzle for the whole Muslim family. Start with Bismillah, pause for salah, end with Alhamdulillah, and learn something about Islam every day.</p>
@@ -390,7 +396,7 @@ const BADGES=['mosque','fruits','veggies','food','pets','animals','sea','balls',
 document.getElementById('badges').innerHTML=BADGES.map(b=>`<img loading="lazy" src="../assets/badges/${b}.webp" alt="">`).join('');
 const GAL={en:[['01-intro','Bismillah, let\'s play','The title screen'],['05-play','Star paths','Connect pairs, collect stars'],['10-little','Guided play','For ages 3–5'],['03-style','Who is playing?','Four age modes'],['02-worlds','12 worlds','Unlock them one by one'],['04-map','Journey map','Up to 3 stars per level'],['07-story','Prophet stories','Before each boss level'],['08-pray','Prayer pause','Salah comes first'],['06-win','Alhamdulillah!','Plus a fact to learn'],['09-album','Sticker book','300+ to collect']],
  id:[['01-intro','Bismillah, ayo main','Layar pembuka'],['05-play','Jalur bintang','Hubungkan & kumpulkan bintang'],['10-little','Main dipandu','Untuk usia 3–5'],['03-style','Siapa yang main?','Empat mode usia'],['02-worlds','12 dunia','Buka satu per satu'],['04-map','Peta petualangan','Sampai 3 bintang per level'],['07-story','Kisah Nabi','Sebelum level bos'],['08-pray','Jeda salat','Salat nomor satu'],['06-win','Alhamdulillah!','Plus fakta untuk dipelajari'],['09-album','Buku stiker','300+ untuk dikoleksi']]};
-const T={id:{navPlay:'Main',new:'Baru',eyebrow:'Dari Mo Games, pembuat Baby Mo',h1a:'Bermain game',h1b:'dengan cara Islami.',
+const T={id:{cat:'Puzzle · Usia 3+',navPlay:'Main',new:'Baru',eyebrow:'Dari Mo Games, pembuat Baby Mo',h1a:'Bermain game',h1b:'dengan cara Islami.',
 lede:'Puzzle mencocokkan ubin yang seru untuk seluruh keluarga Muslim. Mulai dengan Bismillah, berhenti untuk salat, tutup dengan Alhamdulillah, dan belajar tentang Islam setiap hari.',
 cta:'Main gratis di browser',dlOn:'Unduh di',getOn:'Dapatkan di',soon:'SEGERA',tr1:'Tanpa iklan',tr2:'Tanpa akun',tr3:'Tanpa pengumpulan data',tr4:'Usia 3+',
 fl1:'Jeda untuk Dzuhur',fl1s:'Game menunggumu',fl2s:'bintang di jalur',fl3s:'Level selesai',

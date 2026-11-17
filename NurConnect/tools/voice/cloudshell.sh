@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Nur Connect voice, run in Google Cloud Shell (https://shell.cloud.google.com):
-#   bash NurConnect/tools/voice/cloudshell.sh compare   -> samples of 11 voices, pushes a nc-voice-compare-… branch
+#   bash NurConnect/tools/voice/cloudshell.sh compare       -> samples of 11 voices, pushes a nc-voice-compare-… branch
+#   bash NurConnect/tools/voice/cloudshell.sh lines Leda    -> all 38 game clips (19 EN + 19 ID) with that voice,
+#                                                             pushes a nc-voice-clips-… branch
 set -euo pipefail
 MODE="${1:-compare}"
 echo "▶ Project: $(gcloud config get-value project 2>/dev/null)"
@@ -14,7 +16,13 @@ case "$MODE" in
     BR="nc-voice-compare-$(date +%Y%m%d-%H%M)"; git checkout -q -b "$BR"
     git "${G[@]}" add NurConnect/voice/compare && git "${G[@]}" commit -q -m "Nur Connect voice: samples to choose a voice"
     ;;
-  *) echo "unknown mode: $MODE (use: compare)"; exit 1 ;;
+  lines)
+    V="${2:-Leda}"
+    python3 NurConnect/tools/voice/compare.py lines "$V"
+    BR="nc-voice-clips-$(date +%Y%m%d-%H%M)"; git checkout -q -b "$BR"
+    git "${G[@]}" add NurConnect/voice/en NurConnect/voice/id NurConnect/voice/voice.json && git "${G[@]}" commit -q -m "Nur Connect voice: game clips with $V"
+    ;;
+  *) echo "unknown mode: $MODE (use: compare, lines <Voice>)"; exit 1 ;;
 esac
 git push -q -u origin "$BR"
 echo ""
