@@ -98,15 +98,19 @@ def lines(voice):
     data = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lines.json"), encoding="utf-8"))
     global ONLY
     ONLY = set(x for x in os.environ.get("ONLY", "").split(",") if x)
+    # the boss-level Prophet stories (tools/voice/stories.json, made by build-stories.js): one clip per page
+    sp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "stories.json")
+    if os.path.exists(sp):
+        for k, v in json.load(open(sp, encoding="utf-8")).items(): data[k] = v["t"]
     made = kept = 0
     for lang, i in (("en", 0), ("id", 1)):
         d = os.path.join(ROOT, "voice", lang); os.makedirs(d, exist_ok=True)
         for key, texts in data.items():
             f = os.path.join(d, key + ".mp3")
-            redo = os.environ.get("FORCE") == "1" or key in ONLY
+            redo = os.environ.get("FORCE") == "1" or key in ONLY or ("story" in ONLY and key.startswith("story-"))
             if os.path.exists(f) and (not redo or (lang + "/" + key + ".mp3") in HUMAN):
                 kept += 1; continue
-            if ONLY and key not in ONLY:
+            if ONLY and not redo:
                 kept += 1; continue
             parts = texts[i] if isinstance(texts[i], list) else [texts[i]]
             # "ar:<arabic>|<latin>" parts are spoken by the same voice in Arabic, so the Arabic words sound right

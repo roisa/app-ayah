@@ -955,11 +955,13 @@ function unlockSpeech(){if(!TTS||spoke)return;spoke=true;try{const u=new SpeechS
 function pickVoice(lang){const pre=lang==='id'?'id':'en';
   const L=voices.filter(v=>(v.lang||'').toLowerCase().replace('_','-').startsWith(pre));
   return L.find(v=>/natural|neural|enhanced|premium|siri|google/i.test(v.name))||L.find(v=>v.localService)||L[0]||null}
-function stopVoice(){try{TTS&&speechSynthesis.cancel()}catch(e){}if(clip){try{clip.pause()}catch(e){}clip=null}if(vSrc){try{vSrc.stop()}catch(e){}vSrc=null}}
+function stopVoice(){++vSeq;try{TTS&&speechSynthesis.cancel()}catch(e){}if(clip){try{clip.pause()}catch(e){}clip=null}if(vSrc){try{vSrc.stop()}catch(e){}vSrc=null}}
 /* key: a PR or VO key; text: what to say; vars: {p:...} for VO lines */
+let vSeq=0;  /* a newer line (or stopVoice) cancels one still waiting for its clip */
 function voice(k,text,vars,key2,waited){if(!S.voice)return;
   const vid=S.lang+'/'+(key2||k),buf=VBUF[vid];
-  if(!buf&&!waited&&VPEND[vid]){Promise.race([VPEND[vid],new Promise(r=>setTimeout(()=>r(false),1500))]).then(()=>voice(k,text,vars,key2,true));return}
+  if(!buf&&!waited&&VPEND[vid]){const my=++vSeq;Promise.race([VPEND[vid],new Promise(r=>setTimeout(()=>r(false),1500))]).then(()=>{if(my===vSeq)voice(k,text,vars,key2,true)});return}
+  if(!waited)++vSeq;
   if(buf&&ac){stopVoice();setTimeout(()=>{try{vSrc=ac.createBufferSource();vSrc.buffer=buf;const g=ac.createGain();g.gain.value=1;vSrc.connect(g);g.connect(ac.destination);vSrc.start()}catch(e){}},150);return}
   if(text==null){text=VO[S.lang][k]||'';if(vars)for(const x in vars)text=text.replace('{'+x+'}',vars[x])}
   if(!text)return;stopVoice();
@@ -1299,7 +1301,7 @@ function gateTip(){const C=G.cfg,seen=store.get('seen',{});let k=null;
   const el=$('#bisTip');if(!k){el.hidden=true;return}seen[k]=1;store.set('seen',seen);el.hidden=false;
   el.innerHTML=`<i>${TIPS[k][0]}</i><span>${t(TIPS[k][1])}</span>`}
 function gate(){if(!G.daily&&G.cfg&&G.cfg.boss&&STORIES[curWorld().id]&&!store.get('story:'+curWorld().id,0)){openStory(gate0);return}gate0()}
-function gate0(){$('#bisStory').hidden=!(!G.daily&&G.cfg&&G.cfg.boss&&STORIES[curWorld().id]);$('#bisStory').textContent='📖 '+t('storyRe');$('#bStorySkip').textContent=t('skip');$('#bisLvl').textContent=G.daily?t('dailyT'):G.cfg&&G.cfg.boss?t('bossT',{n:G.level}):t('level')+' '+G.level;gateTip();$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
+function gate0(){$('#bisStory').hidden=!(!G.daily&&G.cfg&&G.cfg.boss&&STORIES[curWorld().id]);if(!$('#bisStory').hidden)loadStoryClips(curWorld().id);$('#bisStory').textContent='📖 '+t('storyRe');$('#bStorySkip').textContent=t('skip');$('#bisLvl').textContent=G.daily?t('dailyT'):G.cfg&&G.cfg.boss?t('bossT',{n:G.level}):t('level')+' '+G.level;gateTip();$('#bisArt').src=`assets/badges/${curWorld().id}.webp`;show('ovBis')}
 /* confetti: paper strips, dots and little stars from two cannons and a shower from the top */
 let cf={parts:[],raf:0};
 function confetti(kind){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=$('#confetti'),x=c.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1);
@@ -1649,11 +1651,14 @@ treasure:{who:['Qarun','Qarun'],p:[
  ['But Qarun was proud. He said: "I got all this by myself!"','Tapi Qarun sombong. Ia berkata: "Semua ini kudapat sendiri!"'],
  ['Allah took his treasure away. All we have is from Allah, so be thankful and share!','Allah melenyapkan hartanya. Semua yang kita punya dari Allah, maka bersyukur dan berbagilah!']]}};
 let stPage=0,stAfter=null;
-function openStory(after){const st=STORIES[curWorld().id];if(!st){after&&after();return}stPage=0;stAfter=after;$('#storyImg').src=`assets/badges/${curWorld().id}.webp`;
+/* story clips (voice/<lang>/story-<world>-<page>.mp3) load when the boss gate or the story opens */
+function loadStoryClips(w){const st=STORIES[w];if(!st||!ac)return;st.p.forEach((_,i)=>{const id=S.lang+'/story-'+w+'-'+(i+1);if(VPEND[id]||VBUF[id])return;
+  VPEND[id]=fetch(`voice/${id}.mp3`).then(r=>r.ok?r.arrayBuffer():null).then(b=>b?new Promise((res,rej)=>ac.decodeAudioData(b,res,rej)):null).then(buf=>{if(buf)VBUF[id]=buf;return !!buf}).catch(()=>false)})}
+function openStory(after){const st=STORIES[curWorld().id];if(!st){after&&after();return}ensureAudio();loadStoryClips(curWorld().id);stPage=0;stAfter=after;$('#storyImg').src=`assets/badges/${curWorld().id}.webp`;
   $('#storyRib').textContent=st.who[S.lang==='id'?1:0];$('#ovStory').hidden=false;renderStory()}
 function renderStory(){const st=STORIES[curWorld().id],L=S.lang==='id'?1:0,last=stPage===st.p.length-1,tx=st.p[stPage][L];
   $('#storyTx').textContent=tx;$('#storyTx').classList.remove('in');void $('#storyTx').offsetWidth;$('#storyTx').classList.add('in');
-  $('#storyDots').innerHTML=st.p.map((_,i)=>`<i class="${i===stPage?'on':''}"></i>`).join('');$('#bStory').textContent=last?t('storyGo'):t('storyNext');voice('story',tx)}
+  $('#storyDots').innerHTML=st.p.map((_,i)=>`<i class="${i===stPage?'on':''}"></i>`).join('');$('#bStory').textContent=last?t('storyGo'):t('storyNext');voice('story',tx,null,'story-'+curWorld().id+'-'+(stPage+1))}
 $('#bStory').onclick=()=>{ensureAudio();const st=STORIES[curWorld().id];sfx.click();if(stPage<st.p.length-1){stPage++;renderStory()}
   else{stopVoice();store.set('story:'+curWorld().id,1);$('#ovStory').hidden=true;const f=stAfter;stAfter=null;f&&f()}};
 $('#bStorySkip').onclick=()=>{stPage=STORIES[curWorld().id].p.length-1;$('#bStory').click()};

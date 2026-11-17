@@ -18,6 +18,14 @@ def show(t):
     return " ".join(x[3:].split("|")[1] if x.startswith("ar:") else x for x in t)
 items = [{"id": lang + "-" + k, "s": lang, "g": grp(k), "t": show(t[i]), "h": when.get(k, ""), "l": lang, "k": "line",
           "f": lang + "/" + k + ".mp3", "key": lang + "|" + k} for lang, i in (("en", 0), ("id", 1)) for k, t in L.items()]
+sp = os.path.join(HERE, "stories.json")
+if os.path.exists(sp):
+    for k, v in json.load(open(sp, encoding="utf-8")).items():
+        for lang, i in (("en", 0), ("id", 1)):
+            items.append({"id": lang + "-" + k, "s": lang, "g": ("Story · " if lang == "en" else "Kisah · ") + v["who"][i], "t": v["t"][i],
+                          "h": ("Boss level story, page " if lang == "en" else "Cerita level bos, halaman ") + k.rsplit("-", 1)[1], "l": lang, "k": "story",
+                          "f": lang + "/" + k + ".mp3", "key": lang + "|" + k})
+    items.sort(key=lambda x: (x["s"], x["k"] == "story"))
 secs = [{"s": "en", "id": "Bahasa Inggris", "en": "English", "ic": "🇬🇧"}, {"s": "id", "id": "Bahasa Indonesia", "en": "Indonesian", "ic": "🇮🇩"}]
 open(os.path.join(HERE, "rekam-data.js"), "w", encoding="utf-8").write(
     "/* Clip list for NurConnect/voice/rekam.html, made from lines.json by tools/voice/build-rekam-data.py; do not edit. */\n"

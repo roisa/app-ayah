@@ -12,7 +12,7 @@ command -v ffmpeg >/dev/null || { echo "ffmpeg is needed (Cloud Shell: sudo apt-
 ZIP="$(cd "$(dirname "$ZIP")" && pwd)/$(basename "$ZIP")"
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 python3 -I -m zipfile -e "$ZIP" "$TMP"
-KEYS="$(python3 -I -c 'import json,sys;print(" ".join(json.load(open(sys.argv[1]))))' "$NC/tools/voice/lines.json")"
+KEYS="$(python3 -I -c 'import json,sys;print(" ".join(list(json.load(open(sys.argv[1])))+list(json.load(open(sys.argv[2])))))' "$NC/tools/voice/lines.json" "$NC/tools/voice/stories.json")"
 DONE=(); N=0
 while IFS= read -r -d '' F; do
   REL="${F#"$TMP"/}"; LANG_="$(basename "$(dirname "$REL")")"; NAME="$(basename "$REL")"; KEY="${NAME%.*}"

@@ -1,7 +1,9 @@
 # Voice clips
 
 **AI voice:** the clips are made with Google text-to-speech, voice **Algenib**, the same voice as Baby Mo (chosen 17 Nov 2026 on `voice/compare.html`), in
-Google Cloud Shell: `bash NurConnect/tools/voice/cloudshell.sh lines Algenib`. Arabic phrases marked `ar:` in lines.json are spoken by the Arabic voice. The lines live in `NurConnect/tools/voice/lines.json`.
+Google Cloud Shell: `bash NurConnect/tools/voice/cloudshell.sh lines Algenib`. Arabic phrases marked `ar:` in lines.json are spoken by the Arabic voice.
+The boss-level Prophet stories are clips too: `story-<world>-<page>.mp3` (48 pages × EN/ID), listed in
+`NurConnect/tools/voice/stories.json` (run `node NurConnect/tools/voice/build-stories.js` after editing a story). The lines live in `NurConnect/tools/voice/lines.json`.
 A real recording dropped in with the same file name replaces the AI clip (the script never overwrites existing files unless `FORCE=1`).
 
 Put one MP3 per line below in `voice/en/` (English) and `voice/id/` (Indonesian), named exactly as the file column.
