@@ -8,6 +8,7 @@ set -euo pipefail
 MODE="${1:-compare}"
 echo "▶ Project: $(gcloud config get-value project 2>/dev/null)"
 gcloud services enable texttospeech.googleapis.com >/dev/null
+command -v ffmpeg >/dev/null || { echo "▶ Installing ffmpeg (to trim and join the clips)…"; sudo apt-get install -y -qq ffmpeg >/dev/null; }
 git fetch -q origin && git checkout -q "${BASE:-claude/gifted-planck-szcayq}" && git pull -q
 LOGIN="$(gh api user -q .login 2>/dev/null || echo mogames)"; UID_="$(gh api user -q .id 2>/dev/null || echo 0)"
 G=(-c user.name="$LOGIN" -c user.email="${UID_}+${LOGIN}@users.noreply.github.com")

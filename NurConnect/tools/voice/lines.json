@@ -1,27 +1,61 @@
 {
  "astagh": [
-  "Astaghfirullah. Let's try again!",
-  "Astaghfirullah. Ayo coba lagi!"
+  [
+   "ar:أَسْتَغْفِرُ ٱللَّٰهَ|Astaghfirullah.",
+   "Let's try again!"
+  ],
+  [
+   "ar:أَسْتَغْفِرُ ٱللَّٰهَ|Astaghfirullah.",
+   "Ayo coba lagi!"
+  ]
  ],
  "bism": [
-  "Bismillah!",
-  "Bismillah!"
+  [
+   "ar:بِسْمِ ٱللَّٰهِ|Bismillah!"
+  ],
+  [
+   "ar:بِسْمِ ٱللَّٰهِ|Bismillah!"
+  ]
  ],
  "bismillah": [
-  "Bismillah! Let's go!",
-  "Bismillah! Ayo mulai!"
+  [
+   "ar:بِسْمِ ٱللَّٰهِ|Bismillah!",
+   "Let's go!"
+  ],
+  [
+   "ar:بِسْمِ ٱللَّٰهِ|Bismillah!",
+   "Ayo mulai!"
+  ]
  ],
  "masya1": [
-  "Masha Allah! Great!",
-  "Masya Allah! Hebat!"
+  [
+   "ar:مَا شَاءَ ٱللَّٰهُ|Masya Allah!",
+   "Great!"
+  ],
+  [
+   "ar:مَا شَاءَ ٱللَّٰهُ|Masya Allah!",
+   "Hebat!"
+  ]
  ],
  "masya2": [
-  "Masha Allah! Well done!",
-  "Masya Allah! Bagus sekali!"
+  [
+   "ar:مَا شَاءَ ٱللَّٰهُ|Masya Allah!",
+   "Well done!"
+  ],
+  [
+   "ar:مَا شَاءَ ٱللَّٰهُ|Masya Allah!",
+   "Bagus sekali!"
+  ]
  ],
  "subhan": [
-  "Subhanallah! Amazing!",
-  "Subhanallah! Keren!"
+  [
+   "ar:سُبْحَانَ ٱللَّٰهِ|Subhanallah!",
+   "Amazing!"
+  ],
+  [
+   "ar:سُبْحَانَ ٱللَّٰهِ|Subhanallah!",
+   "Keren!"
+  ]
  ],
  "barak": [
   [
@@ -34,20 +68,42 @@
   ]
  ],
  "akbar": [
-  "Allahu Akbar! Unstoppable!",
-  "Allahu Akbar! Mantap!"
+  [
+   "ar:ٱللَّٰهُ أَكْبَرُ|Allahu Akbar!",
+   "Unstoppable!"
+  ],
+  [
+   "ar:ٱللَّٰهُ أَكْبَرُ|Allahu Akbar!",
+   "Mantap!"
+  ]
  ],
  "shuffle": [
-  "Tawakkaltu alallah",
-  "Tawakkaltu alallah"
+  [
+   "ar:تَوَكَّلْتُ عَلَى ٱللَّٰهِ|Tawakkaltu ʿalallah"
+  ],
+  [
+   "ar:تَوَكَّلْتُ عَلَى ٱللَّٰهِ|Tawakkaltu ʿalallah"
+  ]
  ],
  "win": [
-  "Alhamdulillah! Well done!",
-  "Alhamdulillah! Berhasil!"
+  [
+   "ar:ٱلْحَمْدُ لِلَّٰهِ|Alhamdulillah!",
+   "Well done!"
+  ],
+  [
+   "ar:ٱلْحَمْدُ لِلَّٰهِ|Alhamdulillah!",
+   "Berhasil!"
+  ]
  ],
  "lose": [
-  "Astaghfirullah. Let's try again!",
-  "Astaghfirullah. Ayo coba lagi!"
+  [
+   "ar:أَسْتَغْفِرُ ٱللَّٰهَ|Astaghfirullah.",
+   "Let's try again!"
+  ],
+  [
+   "ar:أَسْتَغْفِرُ ٱللَّٰهَ|Astaghfirullah.",
+   "Ayo coba lagi!"
+  ]
  ],
  "hurry30": [
   "30 seconds left, hurry!",
@@ -58,8 +114,12 @@
   "Ayo, cepat!"
  ],
  "taqabbal": [
-  "Taqabbalallahu minna wa minkum",
-  "Taqabbalallahu minna wa minkum"
+  [
+   "ar:تَقَبَّلَ ٱللَّٰهُ مِنَّا وَمِنْكُمْ|Taqabbalallahu minna wa minkum"
+  ],
+  [
+   "ar:تَقَبَّلَ ٱللَّٰهُ مِنَّا وَمِنْكُمْ|Taqabbalallahu minna wa minkum"
+  ]
  ],
  "pray-fajr": [
   "It is time to pray Fajr.",

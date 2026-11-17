@@ -83,6 +83,31 @@ def main():
     json.dump({"lines": LINES, "voices": out}, open(os.path.join(OUT, "compare.json"), "w"), ensure_ascii=False, indent=1)
     print(f"done: {len(out)} voices in {OUT}")
 
+def assemble(parts):
+    """Trim the silence around each part, match their loudness (about -19 LUFS, like Baby Mo's clips) and join them
+    with a short natural pause, so an Arabic phrase and the English / Indonesian words flow as one sentence.
+    Needs ffmpeg (cloudshell.sh installs it); without it the parts are simply joined."""
+    import shutil, tempfile
+    if not shutil.which("ffmpeg"):
+        return b"".join(parts)
+    d = tempfile.mkdtemp(); ins = []
+    for n, a in enumerate(parts):
+        f = os.path.join(d, f"p{n}.mp3"); open(f, "wb").write(a); ins += ["-i", f]
+    trim = "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.03,areverse," \
+           "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.06,areverse"
+    fl = [f"[{n}:a]aresample=48000,{trim},loudnorm=I=-19:TP=-1.5:LRA=11,aresample=24000[p{n}]" for n in range(len(parts))]
+    seq = ""
+    for n in range(len(parts)):
+        if n: fl.append(f"anullsrc=r=24000:cl=mono,atrim=duration=0.16[g{n}]"); seq += f"[g{n}]"
+        seq += f"[p{n}]"
+    k = 2 * len(parts) - 1
+    fl.append(f"{seq}concat=n={k}:v=0:a=1,apad=pad_dur=0.12[out]")
+    out = os.path.join(d, "out.mp3")
+    subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", *ins, "-filter_complex", ";".join(fl), "-map", "[out]",
+                    "-ac", "1", "-ar", "24000", "-codec:a", "libmp3lame", "-b:a", "64k", out], check=True)
+    data = open(out, "rb").read(); shutil.rmtree(d, ignore_errors=True)
+    return data
+
 def lines(voice):
     global HUMAN
     try:
@@ -102,6 +127,11 @@ def lines(voice):
     sp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "stories.json")
     if os.path.exists(sp):
         for k, v in json.load(open(sp, encoding="utf-8")).items(): data[k] = v["t"]
+    # story pages whose Arabic words (du'as, Alhamdulillah, ﷺ) are spoken by the Arabic voice: tools/voice/story-voice.json
+    ov = os.path.join(os.path.dirname(os.path.abspath(__file__)), "story-voice.json")
+    if os.path.exists(ov):
+        for k, v in json.load(open(ov, encoding="utf-8")).items():
+            if k in data: data[k] = v
     made = kept = 0
     for lang, i in (("en", 0), ("id", 1)):
         d = os.path.join(ROOT, "voice", lang); os.makedirs(d, exist_ok=True)
@@ -114,8 +144,8 @@ def lines(voice):
                 kept += 1; continue
             parts = texts[i] if isinstance(texts[i], list) else [texts[i]]
             # "ar:<arabic>|<latin>" parts are spoken by the same voice in Arabic, so the Arabic words sound right
-            audio = b"".join(synth(x[3:].split("|")[0], "ar", voice) if x.startswith("ar:") else synth(x, lang, voice) for x in parts)
-            open(f, "wb").write(audio); made += 1
+            audio = [synth(x[3:].split("|")[0], "ar", voice) if x.startswith("ar:") else synth(x, lang, voice) for x in parts]
+            open(f, "wb").write(assemble(audio)); made += 1
             print("clip", lang, key, "-", texts[i], flush=True)
     vj = os.path.join(ROOT, "voice", "voice.js"); human = {}
     if os.path.exists(vj):
