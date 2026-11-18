@@ -112,7 +112,31 @@ img{-webkit-user-drag:none}
 .mode.e .in{background:linear-gradient(160deg,#c77dff,#7a3bd6)}
 
 /* ---------- game ---------- */
-#game{background:radial-gradient(120% 80% at 50% 0%,#ffbd4a 0%,#ffa51f 45%,#ff8f1a 100%)}
+/* the garden scene behind every screen */
+.scene{position:fixed;inset:0;z-index:-3;background:#7cc8ff url(art/bg-portrait.webp) center bottom/cover no-repeat}
+@media (orientation:landscape){.scene{background-image:url(art/bg-landscape.webp)}}
+.deco{position:fixed;pointer-events:none;z-index:-1;filter:drop-shadow(0 4px 6px rgba(0,60,0,.25))}
+.deco.bl{left:-14px;bottom:-10px;width:min(30vw,230px)}.deco.br{right:-14px;bottom:-10px;width:min(30vw,230px);transform:scaleX(-1)}
+.deco.vl{left:-8px;top:-8px;width:min(22vw,150px)}.deco.vr{right:-8px;top:-8px;width:min(22vw,150px)}
+.soapf{position:absolute;pointer-events:none;z-index:0;opacity:.85;animation:soapUp linear infinite}
+@keyframes soapUp{0%{transform:translate(0,0) scale(.7);opacity:0}10%{opacity:.85}90%{opacity:.85}100%{transform:translate(30px,-110vh) scale(1);opacity:0}}
+.scr .bar h2,.mapsum,#home .tag,.legal{text-shadow:0 2px 4px rgba(0,50,110,.6),0 0 2px rgba(0,50,110,.5)}
+#home .logo{display:block;width:min(88vw,500px);max-height:25vh;object-fit:contain;margin:0 auto;filter:drop-shadow(0 8px 10px rgba(0,40,90,.3));animation:wave 3s ease-in-out infinite;transform-origin:50% 90%}
+#home h1{margin:0}
+.howto{display:flex;align-items:flex-end;justify-content:center;gap:6px;margin:16px auto 0;padding:0 12px;max-width:520px}
+.howto .mp{height:clamp(120px,22vh,170px);width:auto;flex:none;filter:drop-shadow(0 6px 6px rgba(0,40,0,.3))}
+.htips{display:flex;flex-direction:column;gap:8px;padding-bottom:6px}
+.htip{display:flex;align-items:center;gap:6px;height:50px;padding:0 18px 0 6px;background:center/100% 100% no-repeat;font:400 clamp(16px,4vw,19px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:1px rgba(74,44,20,.6);paint-order:stroke fill;text-shadow:0 2px 0 rgba(0,0,0,.25);white-space:nowrap}
+.htip img{width:42px;height:42px;object-fit:contain;flex:none}
+.htip.p{background-image:url(art/badge-purple.webp)}.htip.g{background-image:url(art/badge-green.webp)}.htip.o{background-image:url(art/badge-orange.webp)}
+#game{background:none}
+.age{background:rgba(0,70,140,.28)!important}
+#lvlChip{display:none!important}
+#sign{position:relative;flex:none;height:74px;width:71px}
+#sign img{height:100%;width:auto;display:block}
+#sign b{position:absolute;left:4%;right:4%;top:9%;height:40%;display:grid;place-items:center;text-align:center;font:400 22px/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px #6b3a10;paint-order:stroke fill;text-shadow:0 2px 0 #6b3a10;transition:transform .15s}
+#sign b.lvl{font-size:13px;line-height:1.05}
+#sign b.bump{transform:scale(1.18)}
 #game .bar{padding:calc(8px + var(--safeT)) 12px 4px;gap:clamp(6px,1.6vw,12px)}
 #game .rb{width:clamp(44px,11vw,56px);height:clamp(44px,11vw,56px)}
 .chipL{background:#fff;border-radius:999px;padding:4px 16px;font:400 clamp(17px,4vw,22px) "Lilita One",sans-serif;color:#d07a00;box-shadow:0 4px 0 rgba(176,92,0,.25);white-space:nowrap}
@@ -121,8 +145,6 @@ img{-webkit-user-drag:none}
 #playArea{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:0 8px calc(6px + var(--safeB))}
 #playIn{display:flex;flex-direction:column;align-items:center;gap:6px}
 #hud{display:flex;align-items:center;justify-content:center;gap:10px;position:relative;min-height:52px;width:100%}
-#score{font:400 clamp(34px,8vw,50px)/1 "Lilita One",sans-serif;color:#fff;text-shadow:0 4px 0 rgba(176,92,0,.4);transition:transform .15s}
-#score.bump{transform:scale(1.18)}
 #goals{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .goal{display:flex;align-items:center;gap:2px;background:#fff;border-radius:22px;padding:3px 12px 3px 6px;box-shadow:0 4px 0 rgba(176,92,0,.25);font:400 22px "Lilita One",sans-serif;color:var(--ink);transition:transform .15s}
 .goal img{width:36px;height:36px;object-fit:contain}
@@ -130,8 +152,8 @@ img{-webkit-user-drag:none}
 .goal.done{background:#d6f7ea;color:#0e9a6f}
 .goal.done b::before{content:"✓"}
 .goal.done b span{display:none}
-#bwrap{position:relative;flex:none;border-radius:22px;box-shadow:0 0 0 5px #fff3d6,0 0 0 8px var(--brown),0 12px 0 4px rgba(176,92,0,.3);overflow:visible}
-#bc{display:block;touch-action:none;border-radius:20px}
+#bwrap{position:relative;flex:none;background:url(art/frame.webp) 0 0/100% 100% no-repeat;filter:drop-shadow(0 10px 12px rgba(0,40,0,.35))}
+#bc{position:absolute;display:block;touch-action:none}
 #moBox{position:absolute;pointer-events:none}
 .gmo{height:100%;width:auto;display:block;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35));transform-origin:50% 100%}
 .gmo.yay{animation:yay .7s cubic-bezier(.3,1.6,.5,1)}
@@ -232,10 +254,15 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
 </style>
 </head>
 <body>
-<div class="bgdeco" aria-hidden="true"><i style="width:340px;height:340px;left:-120px;bottom:-110px"></i><i style="width:220px;height:220px;right:-70px;top:12%"></i><i style="width:140px;height:140px;left:55%;top:-50px"></i></div>
+<div class="scene" aria-hidden="true"></div>
+<img class="deco bl" src="art/bush-l.webp" alt="" aria-hidden="true"><img class="deco br" src="art/bush-l.webp" alt="" aria-hidden="true">
 
 <!-- HOME -->
 <section id="home" class="scr on">
+  <img class="deco vl" src="art/vine-l.webp" alt="" style="position:absolute"><img class="deco vr" src="art/vine-r.webp" alt="" style="position:absolute">
+  <img class="soapf" src="art/soap.webp" alt="" style="width:46px;left:8%;bottom:-60px;animation-duration:14s">
+  <img class="soapf" src="art/soap.webp" alt="" style="width:30px;left:78%;bottom:-60px;animation-duration:11s;animation-delay:-5s">
+  <img class="soapf" src="art/soap.webp" alt="" style="width:38px;left:55%;bottom:-60px;animation-duration:17s;animation-delay:-9s">
   <div class="bar">
     <a class="rb" href="../" aria-label="Mo Games"><img class="ico" src="ui/games.webp" alt="" draggable="false"></a>
     <span class="sp"></span>
@@ -246,8 +273,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   </div>
   <div class="scroll">
     <div class="hero">
-      <img class="mo" src="../home/mo.webp" alt="Mo">
-      <h1 class="fun"><span>Mo</span> <span>Bubble</span> <span>Shot</span></h1>
+      <h1><img class="logo" src="art/logo.webp" alt="Mo Bubble Shot"></h1>
       <p class="tag" data-t="tag">Play Games the Islamic Way</p>
       <p class="pchip" id="pchip"></p>
     </div>
@@ -264,6 +290,14 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
     <div class="age" id="age">
       <button data-a="little"><span data-t="little">Little</span><small data-t="littleS">Ages 3+</small></button>
       <button data-a="big"><span data-t="big">Big Kid</span><small data-t="bigS">Ages 6+</small></button>
+    </div>
+    <div class="howto">
+      <img class="mp" src="art/mo-point.webp" alt="">
+      <div class="htips">
+        <div class="htip p"><img src="art/icon-target.webp" alt=""><span data-t="tip1">Aim carefully</span></div>
+        <div class="htip g"><img src="art/icon-trio.webp" alt=""><span data-t="tip2">Match colours</span></div>
+        <div class="htip o"><img src="art/star.webp" alt=""><span data-t="tip3">Free the treasures</span></div>
+      </div>
     </div>
     <div class="homeFoot">
       <p class="legal" data-t="legal">No ads · No data collected · Works offline</p>
@@ -295,10 +329,10 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   <div id="playArea">
     <div id="playIn">
       <div id="hud">
-        <div id="score">0</div>
+        <div id="sign"><img src="art/sign.webp" alt=""><b id="score">0</b></div>
         <div id="goals"></div>
       </div>
-      <div id="bwrap"><canvas id="bc"></canvas><div id="moBox"><img class="gmo" id="gmo" src="../home/mo.webp" alt=""><span class="bub" id="bub"></span></div></div>
+      <div id="bwrap"><canvas id="bc"></canvas><div id="moBox"><img class="gmo" id="gmo" src="art/mo-point.webp" alt=""><span class="bub" id="bub"></span></div></div>
     </div>
   </div>
 </section>
@@ -397,7 +431,7 @@ en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Free the treasures',e
  newBest:'New best!',best:'Best: {n}',cleanT:'All clean!',makeSpace:"Let's make space!",
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
  cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
- sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Aim, then let go!',swapHint:'Tap to swap',rainbow:'Rainbow bubble!',newRow:'Here come more bubbles!',
+ tip1:'Aim carefully',tip2:'Match colours',tip3:'Free the treasures',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Aim, then let go!',swapHint:'Tap to swap',rainbow:'Rainbow bubble!',newRow:'Here come more bubbles!',
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your game will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
@@ -411,7 +445,7 @@ id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'Bebaskan hartanya',
  newBest:'Rekor baru!',best:'Rekor: {n}',cleanT:'Bersih semua!',makeSpace:'Ayo buat ruang!',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
  cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
- sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Bidik, lalu lepaskan!',swapHint:'Ketuk untuk tukar',rainbow:'Gelembung pelangi!',newRow:'Gelembung baru datang!',
+ tip1:'Bidik dengan teliti',tip2:'Cocokkan warna',tip3:'Bebaskan hartanya',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Bidik, lalu lepaskan!',swapHint:'Ketuk untuk tukar',rainbow:'Gelembung pelangi!',newRow:'Gelembung baru datang!',
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Permainanmu akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
  setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
@@ -558,10 +592,16 @@ function paintBubble(x,s,col,it){
   x.beginPath();x.ellipse(cx-r*.36,cy-r*.44,r*.3,r*.17,-.6,0,7);x.fillStyle='rgba(255,255,255,.8)';x.fill();
   x.beginPath();x.arc(cx+r*.42,cy+r*.36,r*.07,0,7);x.fillStyle='rgba(255,255,255,.5)';x.fill();
 }
+/* the owner's art (bubbles, launcher, Mo) */
+const ART={};['b0','b1','b2','b3','b4','b5','b-rainbow','launcher-base','launcher-barrel','launcher-stone','mo-jump','mo-point'].forEach(k=>{const i=new Image();i.onload=()=>{i.ok=1;sprites.clear();if(typeof renderHomeArt==='function')renderHomeArt()};i.src='art/'+k+'.webp';ART[k]=i});
+const artB=col=>{const i=ART[col===RB?'b-rainbow':'b'+col];return i&&i.ok?i:null};
 const sprites=new Map();
 function sprite(col,it,s){
   const d=DPR(),px=Math.max(4,Math.round(s*d)),k=col+'|'+(it||'')+'|'+px;let c=sprites.get(k);
-  if(!c){c=document.createElement('canvas');c.width=c.height=px;paintBubble(c.getContext('2d'),px,col,it);if(sprites.size>300)sprites.clear();sprites.set(k,c)}
+  if(!c){c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),ab=artB(col);
+    if(ab){x.drawImage(ab,0,0,px,px);if(it){const r=px/2;x.beginPath();x.arc(r,r,r*.66,0,7);x.fillStyle='rgba(255,255,255,.6)';x.fill();const im=itemImg[it];if(im&&im.complete&&im.naturalWidth){const q=r*.64;x.drawImage(im,r-q,r-q,q*2,q*2)}
+      x.beginPath();x.ellipse(r*.66,r*.5,r*.26,r*.13,-.6,0,7);x.fillStyle='rgba(255,255,255,.55)';x.fill()}}
+    else paintBubble(x,px,col,it);if(sprites.size>300)sprites.clear();sprites.set(k,c)}
   return c}
 
 /* =================================================================
@@ -571,8 +611,8 @@ function sprite(col,it,s){
 const SQ3=Math.sqrt(3);
 let G=null;
 let C=8,ROWS=10;          // columns and rows (depend on Little / Big Kid)
-const unitsW=()=>2*C, dangerY=()=>2+(ROWS-1)*SQ3, unitsH=()=>dangerY()+5.6;
-const shooter=()=>[unitsW()/2,unitsH()-2.5];
+const unitsW=()=>2*C, dangerY=()=>2+(ROWS-1)*SQ3, unitsH=()=>dangerY()+6.2;
+const shooter=()=>[unitsW()/2,unitsH()-3.2];
 const shifted=r=>((r+G.off)&1)===1;
 const ncols=r=>shifted(r)?C-1:C;
 const cellXY=(r,c)=>[1+2*c+(shifted(r)?1:0),1+r*SQ3];
@@ -600,9 +640,9 @@ function snapCell(x,y){const r0=Math.round((y-1)/SQ3);let best=null,bd=1e9;
     for(let r=0;r<=G.grid.length;r++)for(let c=0;c<ncols(r);c++)if(!get(r,c)){const [cx,cy]=cellXY(r,c),d=(cx-x)**2+(cy-y)**2;if(d<bd){bd=d;best=[r,c]}}}
   return best}
 /* follow a shot from the launcher: bounces off the side walls, stops at the ceiling or a bubble */
-const HIT=1.7;
+const HIT=1.7,MOUTH=3.05;   // shots leave from the mouth of the launcher's barrel
 function trace(ang){
-  const W=unitsW();let [x,y]=shooter();let dx=Math.cos(ang),dy=-Math.sin(ang);const pts=[[x,y]],step=.12;
+  const W=unitsW();let dx=Math.cos(ang),dy=-Math.sin(ang);let [x,y]=shooter();x+=dx*MOUTH;y+=dy*MOUTH;const pts=[[x,y]],step=.12;
   for(let i=0;i<4000;i++){
     x+=dx*step;y+=dy*step;
     if(x<1){x=2-x;dx=-dx;pts.push([1,y])}else if(x>W-1){x=2*(W-1)-x;dx=-dx;pts.push([W-1,y])}
@@ -672,39 +712,25 @@ let best=store.get('best',{little:0,big:0});
    Layout (portrait / landscape, phones and tablets)
    ================================================================= */
 const bc=$('#bc'),bx=bc.getContext('2d'),fx=$('#fx'),fxx=fx.getContext('2d');
-let U=20,land=false,bgCv=null;   // U = pixels per bubble unit
+let U=20,land=false;   // U = pixels per bubble unit
+/* the stone frame picture (art/frame.webp, 720x1077): the blue glass starts 62px left, 91 top, 63 right, 51 bottom */
+const FR=[62/720,91/1077,63/720,51/1077],FKX=1/(1-FR[0]-FR[2]),FKY=1/(1-FR[1]-FR[3]);
 function layout(){
   const W=innerWidth,H=innerHeight;land=W>H*1.15;$('#game').classList.toggle('land',land);
   const area=$('#playArea'),aw=area.clientWidth-20,ah=area.clientHeight-(land?26:16);
-  const uw=unitsW(),uh=unitsH();
+  const uw=unitsW()*FKX,uh=unitsH()*FKY;   // board plus the stone frame around it
   if(!land){const hudH=$('#hud').offsetHeight||52;U=Math.min(aw/uw,(ah-hudH-10)/uh,46)}
   else{const hudW=Math.max(96,$('#hud').offsetWidth||96);U=Math.min((aw-hudW-20)/uw,ah/uh,46)}
   U=Math.max(8,U);
-  const d=DPR(),cw=uw*U,ch=uh*U;bc.width=Math.round(cw*d);bc.height=Math.round(ch*d);bc.style.width=cw+'px';bc.style.height=ch+'px';
-  $('#hud').style.width=land?'':cw+'px';
-  const mb=$('#moBox'),mh=U*4.3;mb.style.height=mh+'px';mb.style.left=U*.25+'px';mb.style.bottom=U*.15+'px';
+  const d=DPR(),cw=unitsW()*U,ch=unitsH()*U;bc.width=Math.round(cw*d);bc.height=Math.round(ch*d);bc.style.width=cw+'px';bc.style.height=ch+'px';
+  const bw=cw*FKX,bh=ch*FKY,bw_=$('#bwrap');bw_.style.width=bw+'px';bw_.style.height=bh+'px';bc.style.left=bw*FR[0]+'px';bc.style.top=bh*FR[1]+'px';
+  $('#hud').style.width=land?'':bw+'px';
+  const mb=$('#moBox'),mh=U*5.2;mb.style.height=mh+'px';mb.style.left=bw*FR[0]+U*.1+'px';mb.style.bottom=bh*FR[3]+U*.1+'px';
   fx.width=Math.round(W*d);fx.height=Math.round(H*d);fx.style.width=W+'px';fx.style.height=H+'px';
-  sprites.clear();bgCv=makeBg(cw,ch,d);
+  sprites.clear();
 }
 addEventListener('resize',()=>{if(cur==='game')layout()});
 addEventListener('orientationchange',()=>setTimeout(()=>{if(cur==='game')layout()},250));
-/* the night sky behind the bubbles (drawn once per size) */
-function makeBg(cw,ch,d){
-  const c=document.createElement('canvas');c.width=Math.round(cw*d);c.height=Math.round(ch*d);const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);
-  const g=x.createLinearGradient(0,0,0,ch);g.addColorStop(0,'#2b2370');g.addColorStop(.7,'#3c2f8f');g.addColorStop(1,'#5a3aa0');x.fillStyle=g;x.fillRect(0,0,cw,ch);
-  const r=seeded(7);for(let i=0;i<40;i++){const sx=r()*cw,sy=r()*ch*.85,s=(.6+r()*1.4)*U*.08;x.globalAlpha=.25+r()*.4;star5(x,sx,sy,s*2);x.fillStyle='#fff6c8';x.fill()}
-  x.globalAlpha=1;
-  // a big soft crescent moon
-  const mr=U*2.6,mc=document.createElement('canvas');mc.width=mc.height=Math.ceil(mr*2*d)+2;const m=mc.getContext('2d');m.scale(d,d);
-  m.beginPath();m.arc(mr,mr,mr,0,7);m.fillStyle='rgba(255,230,140,.16)';m.fill();m.globalCompositeOperation='destination-out';m.beginPath();m.arc(mr*1.45,mr*.8,mr*.85,0,7);m.fill();
-  x.drawImage(mc,cw*.8-mr,ch*.42-mr,mr*2,mr*2);
-  // masjid skyline at the bottom
-  const base=ch,gy=ch-U*1.5;x.fillStyle='rgba(20,12,60,.45)';x.beginPath();x.moveTo(0,base);x.lineTo(0,gy);
-  const dome=(cx,w,h)=>{x.lineTo(cx-w,gy);x.quadraticCurveTo(cx-w,gy-h*.9,cx,gy-h);x.quadraticCurveTo(cx+w,gy-h*.9,cx+w,gy)};
-  const tower=(cx,w,h)=>{x.lineTo(cx-w,gy);x.lineTo(cx-w,gy-h);x.lineTo(cx,gy-h-w*2.2);x.lineTo(cx+w,gy-h);x.lineTo(cx+w,gy)};
-  tower(cw*.1,U*.28,U*3.2);dome(cw*.24,U*1.1,U*1.6);dome(cw*.78,U*1.3,U*1.9);tower(cw*.93,U*.28,U*3.6);
-  x.lineTo(cw,gy);x.lineTo(cw,base);x.closePath();x.fill();
-  return c}
 
 /* =================================================================
    Drawing
@@ -713,7 +739,7 @@ let pops=[],drops=[],parts=[],flys=[];
 function drawBubble(x,col,it,cx,cy,s){const sp=sprite(col,it,s);x.drawImage(sp,cx-s/2,cy-s/2,s,s)}
 function drawGame(now){
   const d=DPR(),x=bx,cw=unitsW()*U,ch=unitsH()*U;x.setTransform(d,0,0,d,0,0);
-  if(bgCv)x.drawImage(bgCv,0,0,cw,ch);else x.clearRect(0,0,cw,ch);
+  x.clearRect(0,0,cw,ch);
   if(!G)return;
   const S=U*2;
   // danger line
@@ -753,6 +779,13 @@ function drawGame(now){
   if(G.shot){const p=shotPos(now);if(p)drawBubble(x,G.shot.col,null,p[0]*U,p[1]*U,S)}
 }
 function drawLauncher(x,now,sx,sy){
+  const B=ART['launcher-base'],T=ART['launcher-barrel'],S=ART['launcher-stone'];
+  if(B.ok&&T.ok&&S.ok){const X=sx*U,Y=sy*U;
+    const sw=U*4.6,sh=sw*S.height/S.width;x.drawImage(S,X-sw/2,Y+U*1.55,sw,sh);
+    const tw=U*1.8,th=U*3;x.save();x.translate(X,Y);x.rotate(Math.PI/2-G.aim);x.drawImage(T,-tw/2,-th+U*.3,tw,th);x.restore();
+    const bw=U*3.1,bh=bw*B.height/B.width;x.drawImage(B,X-bw/2,Y-U*.55,bw,bh);
+    if(!G.shot){const a=G.aim;drawBubble(x,G.cur,null,X+Math.cos(a)*MOUTH*U,Y-Math.sin(a)*MOUTH*U,U*2*(1+.03*Math.sin(now/300)))}
+    drawNext(x,sx,sy);return}
   const ang=G.aim;const X=sx*U,Y=sy*U,lw=Math.max(2,U*.13);
   x.lineJoin='round';x.lineWidth=lw;x.strokeStyle=OUT;
   // pedestal
@@ -767,6 +800,9 @@ function drawLauncher(x,now,sx,sy){
   x.beginPath();x.arc(X,Y,U*1.3,0,7);g=x.createRadialGradient(X-U*.4,Y-U*.5,U*.2,X,Y,U*1.3);g.addColorStop(0,'#8ff5ff');g.addColorStop(1,'#1a8ccc');x.fillStyle=g;x.fill();x.stroke();
   // current bubble sits in the launcher
   if(!G.shot)drawBubble(x,G.cur,null,X,Y,U*2*(1+.03*Math.sin(now/300)));
+  drawNext(x,sx,sy);
+}
+function drawNext(x,sx,sy){
   // next bubble (tap it to swap)
   const [nx,ny]=nextXY();x.beginPath();x.arc(nx*U,ny*U,U*.98,0,7);x.fillStyle='rgba(255,255,255,.18)';x.fill();
   drawBubble(x,G.next,null,nx*U,ny*U,U*1.5);
@@ -775,7 +811,7 @@ function drawLauncher(x,now,sx,sy){
   x.beginPath();x.arc(0,U*.9,U*1.05,-Math.PI*.78,-Math.PI*.25);x.stroke();
   const ea=-Math.PI*.25,ex=Math.cos(ea)*U*1.05,ey=U*.9+Math.sin(ea)*U*1.05;x.beginPath();x.moveTo(ex-U*.36,ey-U*.08);x.lineTo(ex,ey);x.lineTo(ex-U*.02,ey-U*.38);x.stroke();x.restore();
 }
-const nextXY=()=>{const [sx,sy]=shooter();return[sx+3.4,sy+.7]};
+const nextXY=()=>{const [sx,sy]=shooter();return[sx+3.6,sy+1.2]};
 function shotPos(now){const s=G.shot,d=(now-s.t0)/1000*s.speed;let acc=0;
   for(let i=1;i<s.pts.length;i++){const [ax,ay]=s.pts[i-1],[bx2,by]=s.pts[i],L=Math.hypot(bx2-ax,by-ay);
     if(d<=acc+L){if(i-1>s.seg){s.seg=i-1;if(i-1<=s.nb)sfx.bounce()}const k=L?(d-acc)/L:1;return[ax+(bx2-ax)*k,ay+(by-ay)*k]}acc+=L}
@@ -880,7 +916,7 @@ function cheer(n,empty){
   $('#bwrap').appendChild(e);setTimeout(()=>e.remove(),1300);moYay();
   if(n>=6||empty)say(w);
 }
-function moYay(){const m=$('#gmo');m.classList.remove('yay');void m.offsetWidth;m.classList.add('yay')}
+function moYay(){const m=$('#gmo');m.classList.remove('yay');void m.offsetWidth;m.classList.add('yay');m.src='art/mo-jump.webp';clearTimeout(moYay.t);moYay.t=setTimeout(()=>m.src='art/mo-point.webp',1100)}
 function bubble(txt){const b=$('#bub');b.textContent=txt;b.classList.add('on');clearTimeout(bubble.t);bubble.t=setTimeout(()=>b.classList.remove('on'),1800)}
 function collectItem(id,ux,uy,delay){
   if(G.mode!=='adv'||!G.left[id])return;G.left[id]--;G.pending++;
@@ -922,7 +958,7 @@ function startGame(mode,level,resume){
   G.beat=false;refill();G.tr=trace(G.aim);
   $('#lvlChip').style.display=mode==='adv'?'':'none';$('#lvlChip').textContent=tf('level',{n:level});
   $('#bestBox').style.display=mode==='end'?'':'none';$('#bestN').textContent=best[age];
-  $('#score').style.display=mode==='end'?'':'none';$('#score').textContent=G.score;
+  const sc=$('#score');sc.classList.toggle('lvl',mode==='adv');sc.textContent=mode==='adv'?tf('level',{n:level}):G.score;
   show('game');renderGoals();layout();
   // Bismillah first
   $('#bismGoal').innerHTML=mode==='adv'?`${t('collect')} `+Object.keys(G.goals).map(id=>`<img src="items/${id}.webp" alt="" style="width:34px;height:34px;vertical-align:-10px"> ${G.goals[id]}`).join(' &nbsp;'):'';
@@ -1154,6 +1190,7 @@ $('#bPreview').onclick=()=>{ov('settings',false);lock={p:'asr',demo:true,readyAt
 setInterval(()=>tickPrayer(Date.now()),1000);
 
 /* start */
+$('#bism .mo').src='art/mo-dua.webp';$('#win .mo').src='art/mo-jump.webp';$('#lock .lmasjid').src='art/mo-dua.webp';$('#lock .lmasjid').style.cssText='width:auto;height:120px';
 renderSnd();renderMus();applyLang();setTimeout(()=>tickPrayer(Date.now()),300);
 document.fonts&&document.fonts.ready.then(()=>renderHome());
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
