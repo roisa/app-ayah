@@ -275,6 +275,12 @@ img{-webkit-user-drag:none}
 .fact{margin-top:12px;background:#fff6e0;border-radius:22px;padding:10px 14px;text-align:left}
 .fact b{color:#d07a00;font:400 17px "Lilita One",sans-serif}
 .fact p{font-size:15px;color:var(--ink)}
+.fact{position:relative;transition:box-shadow .3s,background .3s}
+.fact.reading{background:#fff1c2;box-shadow:0 0 0 3px #ffc928,0 0 18px rgba(255,201,40,.6)}
+.fact.reading b::after{content:" 🔊";animation:pulse 1s ease-in-out infinite;display:inline-block}
+.fact .spk{position:absolute;right:8px;top:6px;width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 3px #ffc928,0 3px 0 rgba(176,92,0,.25);display:grid;place-items:center}
+.fact .spk img{width:24px;height:24px}
+.fact b{display:flex;align-items:center;min-height:36px;padding-right:44px}
 .stars3{display:flex;justify-content:center;gap:6px;margin:8px 0 2px}
 .stars3 i{width:62px;height:62px;background:url(art/star-grey.webp) center/contain no-repeat;transform:scale(.8)}
 .stars3 i:nth-child(2){margin-top:-14px;width:72px;height:72px}
@@ -424,7 +430,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   <p id="winSub"></p>
   <div class="stars3" id="winStars"><i></i><i></i><i></i></div>
   <div id="winUnl"></div>
-  <div class="fact"><b data-t="dyk">Did you know?</b><p id="winFact"></p></div>
+  <div class="fact" id="winFactBox"><button class="spk" aria-label="Listen again"><img src="ui/sound-on.webp" alt=""></button><b data-t="dyk">Did you know?</b><p id="winFact"></p></div>
   <div class="btns">
     <button class="rb" id="winMap" aria-label="Levels"><svg viewBox="0 0 24 24"><g fill="#ffc928" stroke="#4a2c14" stroke-width="1.2"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></g></svg></button>
     <button class="rb" id="winAgain" aria-label="Play again"><svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 7.75 10h-2.1A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35A7.96 7.96 0 0 0 12 4Z" fill="#ff8a00" stroke="#4a2c14" stroke-width=".8"/></svg></button>
@@ -439,7 +445,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   <h3 id="overT"></h3>
   <p id="overP"></p>
   <div id="overScore"></div>
-  <div class="fact" id="overFactBox"><b data-t="dyk">Did you know?</b><p id="overFact"></p></div>
+  <div class="fact" id="overFactBox"><button class="spk" aria-label="Listen again"><img src="ui/sound-on.webp" alt=""></button><b data-t="dyk">Did you know?</b><p id="overFact"></p></div>
   <div class="btns">
     <button class="rb" id="overHome" aria-label="Home"><img class="ico" src="ui/home.webp" alt="" draggable="false"></button>
     <button class="bigbtn y" id="overSave"><span data-t="space">Make space</span></button>
@@ -644,6 +650,22 @@ setInterval(()=>{if(!AC||!musicPref||document.hidden)return;if(AC.state!=='runni
 const TTS='speechSynthesis' in window;let voices=[];
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
 if(TTS){loadVoices();try{speechSynthesis.addEventListener('voiceschanged',loadVoices)}catch(e){}}
+/* read several sentences one after another (e.g. "Alhamdulillah!", "Did you know?", the fact) */
+function sayList(list,box){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const L=lang==='id'?'id':'en',v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(L));
+  list.forEach((txt,i)=>{const u=new SpeechSynthesisUtterance(txt);u.lang=L==='id'?'id-ID':'en-US';if(v)u.voice=v;u.rate=i?.9:.95;u.pitch=i?1.1:1.2;
+    if(box&&i===1)u.onstart=()=>box.classList.add('reading');if(box&&i===list.length-1){u.onend=u.onerror=()=>box.classList.remove('reading')}speechSynthesis.speak(u)})}catch(e){}}
+/* make a fact easy to listen to: say the ﷺ blessing in words and read Qur'an references as "Surah …, verse …" */
+function speakable(f){
+  const id=lang==='id';
+  return f.replace(/\s*ﷺ/g,id?', shallallahu alaihi wasallam,':', peace be upon him,')
+    .replace(/\(QS ([^:)]+): (\d+)-(\d+)\)/g,(_,s1,a,b)=>`, Surah ${s1}, ayat ${a} sampai ${b}.`)
+    .replace(/\(QS ([^:)]+): (\d+)\)/g,(_,s1,a)=>`, Surah ${s1}, ayat ${a}.`)
+    .replace(/\(QS ([^)]+)\)/g,(_,s1)=>`, Surah ${s1}.`)
+    .replace(/\(Surah ([^)]+?) \d+:(\d+)-(\d+)\)/g,(_,s1,a,b)=>`, Surah ${s1}, verses ${a} to ${b}.`)
+    .replace(/\(Surah ([^)]+?) \d+:(\d+)\)/g,(_,s1,a)=>`, Surah ${s1}, verse ${a}.`)
+    .replace(/\(Surah (\d+)\)/g,'.').replace(/\(Hadith, ([^)]+)\)/g,', Hadith of $1.').replace(/\(Hadits riwayat ([^)]+)\)/g,', Hadits riwayat $1.')
+    .replace(/\s+,/g,',').replace(/([.!?])\s*,\s*/g,'$1 ').replace(/,\s*\./g,'.').replace(/\.\s*\./g,'.')}
+function readFact(text,box){sayList([t('sayAlh'),t('dyk'),speakable(text)],box)}
 function say(text,o={}){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(o.then)u.onend=()=>{try{const u2=new SpeechSynthesisUtterance(o.then);u2.lang=u.lang;if(u.voice)u2.voice=u.voice;u2.rate=o.thenRate||.95;u2.pitch=o.thenPitch||1.2;speechSynthesis.speak(u2)}catch(e){}};const L=lang==='id'?'id':'en';u.lang=L==='id'?'id-ID':'en-US';const v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(L));if(v)u.voice=v;u.rate=o.rate||.95;u.pitch=o.pitch||1.2;speechSynthesis.speak(u)}catch(e){}}
 
 /* =================================================================
@@ -1080,16 +1102,22 @@ function levelWin(){
   const n=G.level,st=G.moves<=G.par?3:G.moves<=G.par*1.5?2:1,before=totalStars();
   prog.stars[n]=Math.max(prog.stars[n]||0,st);prog.open=Math.max(prog.open,Math.min(LEVELS,n+1));store.set('prog',prog);
   const after=totalStars(),unl=age==='little'?null:SKINS.find(s=>s.need>before&&s.need<=after);
-  sfx.win();say(t('sayAlh'));confetti();fxDirty=true;
+  sfx.win();confetti();fxDirty=true;
   $('#winSub').textContent=n>=LEVELS?t('allDone'):tf('lvlDone',{n});
   const is=$('#winStars').children;[...is].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
-  $('#winFact').textContent=fact(n-1);
+  $('#winFact').textContent=fact(n-1);setTimeout(()=>{if($('#win').classList.contains('on'))readFact(fact(n-1),$('#winFactBox'))},700);
   $('#winUnl').innerHTML='';if(unl){const c=document.createElement('canvas');c.width=c.height=112;skinPreview(c,unl.id);$('#winUnl').innerHTML=`<div class="unl"></div>`;$('#winUnl .unl').append(c,document.createTextNode(tf('unlocked',{s:t('sk')[unl.id]})))}
   $('#winNext').style.display=n>=LEVELS?'none':'';ov('win',true);
 }
-$('#winNext').onclick=()=>{ov('win',false);startGame('adv',G.level+1)};
-$('#winAgain').onclick=()=>{ov('win',false);startGame('adv',G.level)};
-$('#winMap').onclick=()=>{ov('win',false);G=null;openMap()};
+$('#winNext').onclick=()=>{hush();ov('win',false);startGame('adv',G.level+1)};
+$('#winAgain').onclick=()=>{hush();ov('win',false);startGame('adv',G.level)};
+$('#winMap').onclick=()=>{hush();ov('win',false);G=null;openMap()};
+let spkChk=0;
+function hush(){clearInterval(spkChk);try{speechSynthesis.cancel()}catch(e){}document.querySelectorAll('.fact.reading').forEach(b=>b.classList.remove('reading'))}
+/* speaker button: listen to the fact again */
+document.querySelectorAll('.fact .spk').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const box=b.closest('.fact');sfx.tap();
+  sayList([t('dyk'),speakable(box.querySelector('p').textContent)],null);box.classList.add('reading');setTimeout(()=>box.classList.remove('reading'),300);
+  clearInterval(spkChk);const u=speechSynthesis;spkChk=setInterval(()=>{if(!u.speaking||!box.closest('.ov.on')){box.classList.remove('reading');clearInterval(spkChk)}else box.classList.add('reading')},300)}));
 function showOver(canSave){
   const end=G.mode==='end';
   $('#overAr').style.display=canSave?'none':'';
@@ -1103,12 +1131,12 @@ function showOver(canSave){
   ov('over',true);
 }
 $('#overSave').onclick=()=>{ov('over',false);G.rescued=true;makeSpace()};
-$('#overAgain').onclick=()=>{ov('over',false);if(G.mode==='end'){store.set('endless_'+age,null);startGame('end')}else startGame('adv',G.level)};
-$('#overHome').onclick=()=>{ov('over',false);goHome()};
+$('#overAgain').onclick=()=>{hush();ov('over',false);if(G.mode==='end'){store.set('endless_'+age,null);startGame('end')}else startGame('adv',G.level)};
+$('#overHome').onclick=()=>{hush();ov('over',false);goHome()};
 function endEndless(){
   G.ended=true;G.busy=true;G.newBest=G.score>best[age];if(G.newBest){best[age]=G.score;store.set('best',best)}
   store.set('endless_'+age,null);
-  sfx.over();setTimeout(()=>{sfx.win();say(t('sayAlh'));if(G.newBest)confetti();fxDirty=true;showOver(false)},500);
+  sfx.over();setTimeout(()=>{sfx.win();if(G.newBest)confetti();fxDirty=true;showOver(false);setTimeout(()=>readFact($('#overFact').textContent,$('#overFactBox')),600)},500);
 }
 function saveEndless(){if(G&&G.mode==='end'&&!G.ended)store.set('endless_'+age,{mode:'end',grid:G.grid,tray:G.tray,score:G.score,streak:G.streak,moves:G.moves,rescued:G.rescued})}
 /* hint: a hand shows how to drag the first time */
