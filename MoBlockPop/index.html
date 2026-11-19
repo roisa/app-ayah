@@ -132,7 +132,8 @@ img{-webkit-user-drag:none}
 .goal.done{background:#d6f7ea;color:#0e9a6f}
 .goal.done b::before{content:"✓"}
 .goal.done b span{display:none}
-.gmo{height:clamp(58px,9vh,84px);width:auto;filter:drop-shadow(0 4px 6px rgba(120,60,0,.3));transform-origin:50% 100%}
+.gmo{height:clamp(58px,9vh,84px);width:auto;filter:drop-shadow(0 4px 6px rgba(120,60,0,.3));transform-origin:50% 100%;animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{50%{transform:translateY(-4px) rotate(-2deg)}}
 .gmo.yay{animation:yay .7s cubic-bezier(.3,1.6,.5,1)}
 @keyframes yay{30%{transform:translateY(-14px) rotate(-6deg) scale(1.08)}60%{transform:translateY(0) rotate(4deg)}}
 .bub{position:absolute;left:calc(50% + 4px);top:-6px;background:#fff;border-radius:18px;padding:4px 12px;font:400 17px "Lilita One",sans-serif;color:#0e9a6f;white-space:nowrap;box-shadow:0 4px 0 rgba(176,92,0,.2);opacity:0;transform:scale(.6);transition:.25s cubic-bezier(.3,1.6,.5,1);pointer-events:none;z-index:3}
@@ -153,6 +154,10 @@ img{-webkit-user-drag:none}
 .slot.lift canvas{opacity:0}
 .slot.new canvas{animation:deal .4s cubic-bezier(.3,1.6,.5,1) both}
 @keyframes deal{from{transform:scale(.2) translateY(30px);opacity:0}}
+/* idle: the next pieces hop and wiggle one after another ("pick me!") */
+.slot.wig canvas{animation:wig .9s cubic-bezier(.3,1.4,.5,1)}
+@keyframes wig{0%{transform:none}15%{transform:translateY(-12px) scale(1.12) rotate(-8deg)}30%{transform:translateY(-7px) scale(1.1) rotate(7deg)}45%{transform:translateY(-3px) rotate(-5deg)}62%{transform:rotate(3deg)}100%{transform:none}}
+.slot::before{transition:background .3s}.slot.wig::before{background:radial-gradient(circle,rgba(255,226,120,.32),rgba(255,226,120,.04) 70%)}
 /* landscape: score/goals left, board centre, tray right */
 #game.land #playIn{flex-direction:row;gap:14px;align-items:center}
 #game.land #hud{flex-direction:column;width:auto;min-width:150px;max-width:22vw}
@@ -180,7 +185,7 @@ img{-webkit-user-drag:none}
 @keyframes tapring{from{transform:scale(.2);opacity:1}to{transform:scale(1.5);opacity:0}}
 .tapfx em{position:absolute;left:-32px;top:-2px;width:56px;height:56px;transform-origin:58% 3%;animation:taphand .8s ease-out forwards;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
 @keyframes taphand{0%{transform:translate(16px,22px) rotate(-14deg);opacity:0}22%{transform:translate(0,0) rotate(-14deg);opacity:1}38%{transform:translate(0,0) rotate(-14deg) scale(.82)}55%{transform:translate(0,0) rotate(-14deg) scale(1);opacity:1}100%{transform:translate(8px,14px) rotate(-14deg);opacity:0}}
-@media (prefers-reduced-motion:reduce){.tapfx{display:none}.mode{animation:none}}
+@media (prefers-reduced-motion:reduce){.tapfx{display:none}.mode,.gmo,.slot.wig canvas{animation:none}}
 
 /* ---------- overlays ---------- */
 .ov{position:fixed;inset:0;z-index:20;display:none;place-items:center;padding:16px;background:rgba(58,36,16,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
@@ -779,6 +784,7 @@ function renderTray(fresh){
     if(p){const cv=pieceCanvas(p,Math.min(land?slotS:sz,hh)*.8,CELL*(age==='little'?.74:.66));if(fresh)cv.style.animationDelay=i*70+'ms';s.appendChild(cv);
       if(!anyFit(G.grid,SH[p.k]))s.classList.add('off')}
     trayEl.appendChild(s)});
+  if(fresh)setTimeout(()=>trayEl.querySelectorAll('.slot.new').forEach(s=>s.classList.remove('new')),900);
 }
 function refreshTrayFit(){trayEl.querySelectorAll('.slot').forEach(s=>{const p=G.tray[+s.dataset.i];s.classList.toggle('off',!!p&&!anyFit(G.grid,SH[p.k]))})}
 /* overlay: dragged piece, particles, flying treasures */
@@ -991,6 +997,23 @@ function showHint(){if(!G||G.busy||drag||cur!=='game')return;
       const h=$('#hint');h.style.display='block';
       hintAnim=h.animate([{transform:`translate(${s.left+s.width/2-14}px,${s.top+s.height/2}px) scale(1)`,opacity:0},{transform:`translate(${s.left+s.width/2-14}px,${s.top+s.height/2}px) scale(.85)`,opacity:1,offset:.15},
         {transform:`translate(${tx-14}px,${ty+CELL}px) scale(.85)`,opacity:1,offset:.7},{transform:`translate(${tx-14}px,${ty+CELL}px) scale(1)`,opacity:0}],{duration:2200,iterations:Infinity});return}}}
+/* idle motion: when nobody has touched the game for a few seconds the next pieces wiggle in turn,
+   a treasure (or a block) on the board gives a little bounce, and for little ones the helping hand comes back */
+let lastAct=performance.now(),lastWig=0,idleWigs=0;
+document.addEventListener('pointerdown',()=>{lastAct=performance.now();idleWigs=0;if(hintAnim)hideHint()},true);
+function idleTick(){
+  if(cur!=='game'||!G||G.busy||G.ended||drag||window.praying||document.querySelector('.ov.on'))return;
+  const now=performance.now(),idle=now-lastAct;
+  if(idle>4500&&now-lastWig>2800){lastWig=now;wiggle(idleWigs++%3===0)}
+  if(age==='little'&&idle>12000&&!hintAnim)showHint();
+}
+function wiggle(withSound){
+  [...trayEl.querySelectorAll('.slot')].filter(s=>s.querySelector('canvas')&&!s.classList.contains('off')&&!s.classList.contains('lift')).forEach((s,i)=>
+    setTimeout(()=>{s.classList.remove('wig');void s.offsetWidth;s.classList.add('wig');if(withSound)tone(660+i*150,.12,'sine',.05,0,990+i*150);setTimeout(()=>s.classList.remove('wig'),950)},i*200));
+  const cells=[];for(let y=0;y<N;y++)for(let x=0;x<N;x++){const c=G.grid[y][x];if(c&&(G.mode!=='adv'||c.it))cells.push([x,y])}
+  if(cells.length){const [x,y]=cells[Math.floor(Math.random()*cells.length)];anims.push({type:'place',x,y,t0:performance.now(),d:520});boardDirty=true}
+}
+setInterval(idleTick,500);
 function hideHint(){if(hintAnim){hintAnim.cancel();hintAnim=null;$('#hint').style.display='none';store.set('hinted',1)}}
 
 /* =================================================================
@@ -1176,7 +1199,7 @@ renderSnd();renderMus();applyLang();setTimeout(()=>tickPrayer(Date.now()),300);
 document.fonts&&document.fonts.ready.then(()=>renderHome());
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* for automated tests only */
-window.__mbp={geo:()=>({GX,GY,CELL}),get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
+window.__mbp={geo:()=>({GX,GY,CELL}),idle:ms=>{lastAct=performance.now()-ms},get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
 </script>
 </body>
 </html>
