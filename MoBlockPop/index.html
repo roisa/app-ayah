@@ -165,21 +165,32 @@ img{-webkit-user-drag:none}
 #game.land .gmo{height:clamp(70px,22vh,150px)}
 #game.land #tray{flex-direction:column;margin-left:8px}
 #game.land .bub{left:50%;top:-30px;transform-origin:0 100%}
-.cheer{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);pointer-events:none;text-align:center;z-index:4;white-space:nowrap}
-.cheer b{display:block;font:400 clamp(34px,9vw,58px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px var(--brown);paint-order:stroke fill;text-shadow:0 5px 0 var(--brown),0 10px 18px rgba(0,0,0,.35);animation:cheer 1.3s cubic-bezier(.3,1.6,.5,1) forwards}
-.cheer small{display:block;font:800 clamp(15px,3.6vw,20px) "Baloo 2",sans-serif;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.6);animation:cheer 1.3s cubic-bezier(.3,1.6,.5,1) forwards}
-.cheer.lv1 b{font-size:clamp(44px,11vw,72px)}.cheer.lv2 b{font-size:clamp(40px,10vw,70px)}.cheer.lv3 b{font-size:clamp(32px,8.2vw,64px)}
-.cheer.lv2 b,.cheer.lv2 small{animation-duration:1.7s}.cheer.lv3 b,.cheer.lv3 small{animation-duration:2.1s}
-/* each letter jumps in one after another, in rainbow colours, then keeps dancing */
-.cheer b span{display:inline-block;animation:letter .55s cubic-bezier(.3,1.8,.5,1) both,dance .5s ease-in-out .6s infinite alternate;animation-delay:calc(var(--i)*40ms),calc(.55s + var(--i)*40ms)}
+.cheer{position:absolute;left:50%;top:44%;width:94%;transform:translate(-50%,-50%);pointer-events:none;text-align:center;z-index:4}
+.cheer>*{animation:cheer 1.4s cubic-bezier(.3,1.6,.5,1) forwards}
+.cheer.lv2>*{animation-duration:1.8s}.cheer.lv3>*,.cheer.lv4>*,.cheer.lv5>*{animation-duration:2.3s}
+/* top line: the dzikir in gold */
+.cheer .dz{display:block;font:400 clamp(22px,5.6vw,34px)/1.1 "Lilita One",sans-serif;font-style:normal;color:#ffd84a;-webkit-text-stroke:1.5px var(--brown);paint-order:stroke fill;text-shadow:0 3px 0 var(--brown),0 6px 12px rgba(0,0,0,.35)}
+/* the praise in big rainbow letters; long ones wrap between words */
+.cheer b{display:block;font:400 clamp(40px,10.5vw,70px)/1.18 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px var(--brown);paint-order:stroke fill;text-shadow:0 5px 0 var(--brown),0 10px 18px rgba(0,0,0,.35);margin-top:2px}
+.cheer.lv3 b{font-size:clamp(38px,10vw,66px)}.cheer.lv4{width:84%}.cheer.lv4 b{font-size:clamp(30px,7.8vw,54px)}
+.cheer b .w{display:inline-block;white-space:nowrap}
+.cheer b .w>span{display:inline-block;animation:letter .55s cubic-bezier(.3,1.8,.5,1) both,dance .5s ease-in-out .6s infinite alternate;animation-delay:calc(var(--i)*var(--st,40ms)),calc(.55s + var(--i)*var(--st,40ms))}
 @keyframes letter{0%{transform:translateY(46px) scale(.2) rotate(-20deg);opacity:0}60%{transform:translateY(-14px) scale(1.25) rotate(6deg);opacity:1}100%{transform:none;opacity:1}}
-@keyframes dance{to{transform:translateY(-6px) rotate(calc((var(--i) - 3) * 1deg))}}
-.cheer small em{font-style:normal;color:#ffe14a}
-.cheer .rays{position:absolute;left:50%;top:40%;width:260%;aspect-ratio:1;transform:translate(-50%,-50%);z-index:-1;background:repeating-conic-gradient(rgba(255,236,150,.32) 0 10deg,transparent 10deg 20deg);-webkit-mask:radial-gradient(circle,#000 25%,transparent 62%);mask:radial-gradient(circle,#000 25%,transparent 62%);animation:rays 2.1s linear forwards}
+@keyframes dance{to{transform:translateY(-6px) rotate(var(--r,0deg))}}
+.cheer small{display:block;margin-top:4px;font:800 clamp(14px,3.4vw,18px) "Baloo 2",sans-serif;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.7)}
+/* combo streak badge */
+.cheer .combo{display:inline-block;margin-top:6px;background:linear-gradient(180deg,#ff8ac7,#e6479c);color:#fff;font:400 clamp(16px,4vw,22px) "Lilita One",sans-serif;padding:4px 16px;border-radius:999px;box-shadow:0 0 0 3px #fff,0 4px 0 3px rgba(74,44,20,.6)}
+.cheer .rays{position:absolute;left:50%;top:45%;width:200%;aspect-ratio:1;transform:translate(-50%,-50%);z-index:-1;background:repeating-conic-gradient(rgba(255,236,150,.32) 0 10deg,transparent 10deg 20deg);-webkit-mask:radial-gradient(circle,#000 25%,transparent 62%);mask:radial-gradient(circle,#000 25%,transparent 62%);animation:rays 2.3s linear forwards}
 @keyframes rays{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(0)}20%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.1) rotate(60deg)}}
-#bwrap.shake2{animation:bshake .35s}#bwrap.shake3{animation:bshake .5s 2}
+#bwrap.shake2{animation:bshake .35s}#bwrap.shake3{animation:bshake .5s 2}#bwrap.shake4{animation:bshake .45s 3}
 @keyframes bshake{20%{transform:translate(-5px,2px) rotate(-.6deg)}40%{transform:translate(5px,-2px) rotate(.6deg)}60%{transform:translate(-3px,1px)}80%{transform:translate(3px,0)}}
-@media (prefers-reduced-motion:reduce){.cheer b span,.cheer .rays{animation:none}#bwrap.shake2,#bwrap.shake3{animation:none}}
+/* 4+ lines: a golden flash over the whole screen and a big jump from Mo */
+#flash{position:fixed;inset:0;pointer-events:none;z-index:11;background:radial-gradient(circle at 50% 45%,rgba(255,236,150,.85),rgba(255,190,40,.35) 45%,transparent 75%);opacity:0}
+#flash.on{animation:flash 1s ease-out}
+@keyframes flash{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+.gmo.mega{animation:mega 1.1s cubic-bezier(.3,1.6,.5,1)}
+@keyframes mega{25%{transform:translateY(-40px) rotate(-12deg) scale(1.2)}50%{transform:translateY(-10px) rotate(360deg) scale(1.15)}75%{transform:translateY(-18px) rotate(360deg)}100%{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.cheer b .w>span,.cheer .rays{animation:none}#bwrap.shake2,#bwrap.shake3,#bwrap.shake4,#flash.on,.gmo.mega{animation:none}}
 @keyframes cheer{0%{transform:scale(.3);opacity:0}18%{transform:scale(1.12);opacity:1}30%{transform:scale(1)}75%{opacity:1;transform:translateY(-6px)}100%{opacity:0;transform:translateY(-30px)}}
 .pts{position:absolute;pointer-events:none;font:400 26px "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:1.5px var(--brown);paint-order:stroke fill;text-shadow:0 3px 0 var(--brown);animation:pts 1s ease-out forwards;z-index:4;transform:translate(-50%,-50%)}
 @keyframes pts{0%{opacity:0;margin-top:10px}20%{opacity:1}100%{opacity:0;margin-top:-50px}}
@@ -350,6 +361,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
 
 <canvas id="fx"></canvas>
 <img id="hint" src="ui/hand.webp" alt="">
+<div id="flash"></div>
 
 <!-- BISMILLAH -->
 <div class="ov" id="bism"><div class="box">
@@ -450,10 +462,13 @@ en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Collect the treasures
  score:'Score',newBest:'New best!',best:'Best: {n}',cleanT:'All clean!',makeSpace:"Let's make space!",
  unlocked:'New block style: {s}!',stars:'{n} stars',
  sk:{jelly:'Jelly',candy:'Candy',mosaic:'Mosaic',gem:'Jewel',bubble:'Bubble'},
- hore:['Hooray!','Hoorayyyy!','Hoorayyyyyyyyy!'],
- cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
- cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
- combo:'Combo ×{n}',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',
+ /* cheers: the dzikir grows with the lines, then a praise word (level 1, 3 and 4 pick one at random) */
+ dz:['MasyaAllah,','SubhanAllah,','Allahu Akbar,','Allahu Akbar,','Alhamdulillah,'],
+ dzM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','Allah is the Greatest!','All praise is for Allah!'],
+ praise:[['Great!','Nice!','Well done!'],['Excellent!'],
+  ['Superstar!','Fantastic!','Sky High!','Champion!','Wow, Amazing!','Super Amazing!'],
+  ['Mega Superstar!','Unbelievable!','Over the Moon!','Super Champion!','Wow Wow Wow, Incredible!','Super Duper Amazing!'],['All Clean!']],
+ combo:'Combo ×{n} · Keep going!',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your game will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
@@ -467,10 +482,12 @@ id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'Kumpulkan hartanya'
  score:'Skor',newBest:'Rekor baru!',best:'Rekor: {n}',cleanT:'Bersih semua!',makeSpace:'Ayo buat ruang!',
  unlocked:'Gaya balok baru: {s}!',stars:'{n} bintang',
  sk:{jelly:'Jeli',candy:'Permen',mosaic:'Mozaik',gem:'Permata',bubble:'Gelembung'},
- hore:['Hore!','Horeeeee!','Horeeeeeeeeeee!'],
- cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
- cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
- combo:'Kombo ×{n}',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',
+ dz:['MasyaAllah,','SubhanAllah,','Allahu Akbar,','Allahu Akbar,','Alhamdulillah,'],
+ dzM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Allah Maha Besar!','Segala puji bagi Allah!'],
+ praise:[['Hebat!','Bagus!','Pintar!'],['Keren Sekali!'],
+  ['Bintang Hebat!','Fantastis!','Setinggi Langit!','Juara!','Wah, Luar Biasa!','Super Keren!'],
+  ['Bintang Super Hebat!','Luar Biasa Sekali!','Melesat ke Bulan!','Juara Super!','Wah Wah Wah, Hebat Sekali!','Super Duper Keren!'],['Bersih Semua!']],
+ combo:'Kombo ×{n} · Terus!',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Permainanmu akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
  setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
@@ -583,7 +600,7 @@ setInterval(()=>{if(!AC||!musicPref||document.hidden)return;if(AC.state!=='runni
 const TTS='speechSynthesis' in window;let voices=[];
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
 if(TTS){loadVoices();try{speechSynthesis.addEventListener('voiceschanged',loadVoices)}catch(e){}}
-function say(text,o={}){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(o.then)u.onend=()=>{try{const u2=new SpeechSynthesisUtterance(o.then);u2.lang=u.lang;if(u.voice)u2.voice=u.voice;u2.rate=.95;u2.pitch=1.2;speechSynthesis.speak(u2)}catch(e){}};const L=lang==='id'?'id':'en';u.lang=L==='id'?'id-ID':'en-US';const v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(L));if(v)u.voice=v;u.rate=o.rate||.95;u.pitch=o.pitch||1.2;speechSynthesis.speak(u)}catch(e){}}
+function say(text,o={}){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(o.then)u.onend=()=>{try{const u2=new SpeechSynthesisUtterance(o.then);u2.lang=u.lang;if(u.voice)u2.voice=u.voice;u2.rate=o.thenRate||.95;u2.pitch=o.thenPitch||1.2;speechSynthesis.speak(u2)}catch(e){}};const L=lang==='id'?'id':'en';u.lang=L==='id'?'id-ID':'en-US';const v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(L));if(v)u.voice=v;u.rate=o.rate||.95;u.pitch=o.pitch||1.2;speechSynthesis.speak(u)}catch(e){}}
 
 /* =================================================================
    Blocks: colours, styles ("skins") and the collectable treasures
@@ -909,21 +926,36 @@ function addScore(v,at){G.score+=v;if(G.mode==='end'){const el=$('#score');el.te
   if(G.score>best[age]&&!G.beat&&best[age]>0){G.beat=true;bubble(t('newBest'))}}
   if(at&&v>0){const [sx,sy]=boardToScreen(at[0]-.5,at[1]-.5);const e=document.createElement('div');e.className='pts';e.textContent='+'+v;e.style.left=sx+'px';e.style.top=sy+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1000)}}
 let cheerN=0;
-/* 1 line: "Hore!", 2 lines: "Horeeeee!", 3 or more: "Horeeeeeeeeeee!" (the dzikir stays underneath) */
+/* cheers grow with the lines popped in one move:
+   1 line  MasyaAllah, Great!            (dancing rainbow letters)
+   2 lines SubhanAllah, Excellent!       + light rays, board shake, longer fanfare
+   3 lines Allahu Akbar, Champion!       + party poppers
+   4+      Allahu Akbar, Super Champion! + fireworks, golden flash, Mo's big jump
+   whole board cleared: Alhamdulillah, All Clean! (same as 4+) */
 const RAINBOW=['#ff5a6e','#ff9a1f','#ffe14a','#5fe36a','#3fd0ff','#6f8bff','#c07bff','#ff7ac2'];
+const lastPraise={};
+function praiseFor(k){const list=t('praise')[k];let i=Math.floor(Math.random()*list.length);if(list.length>1&&i===lastPraise[k])i=(i+1)%list.length;lastPraise[k]=i;return list[i]}
 function cheer(n,streak,empty){
-  const lv=empty?3:Math.min(3,n),word=t('hore')[lv-1],dz=t('cheer')[empty?3:lv-1];
-  const letters=[...word].map((ch,i)=>`<span style="--i:${i};color:${RAINBOW[(i+cheerN)%RAINBOW.length]}">${ch}</span>`).join('');
+  const k=empty?4:Math.min(4,n)-1,lv=empty?4:Math.min(4,n),dz=t('dz')[k],word=praiseFor(k);
+  let li=0;const letters=word.split(' ').map(w=>`<span class="w">${[...w].map(ch=>`<span style="--i:${li};--r:${li%2?4:-4}deg;color:${RAINBOW[(li++ + cheerN)%RAINBOW.length]}">${ch}</span>`).join('')}</span>`).join(' ');
   const e=document.createElement('div');e.className='cheer lv'+lv;cheerN++;
-  e.innerHTML=`${lv>=2?'<i class="rays"></i>':''}<b>${letters}</b><small><em>${dz}</em> ${empty?t('cleanT'):(streak>1?tf('combo',{n:streak}):t('cheerM')[empty?3:lv-1])}</small>`;
-  const bw=$('#bwrap');bw.appendChild(e);setTimeout(()=>e.remove(),[0,1300,1700,2100][lv]);
-  if(lv>=2){bw.classList.remove('shake2','shake3');void bw.offsetWidth;bw.classList.add('shake'+lv);setTimeout(()=>bw.classList.remove('shake'+lv),1000);try{navigator.vibrate&&navigator.vibrate(lv>2?[40,40,60,40,90]:[30,40,50])}catch(_){}}
+  const st=Math.min(40,Math.round(520/word.length));
+  e.innerHTML=`${lv>=2?'<i class="rays"></i>':''}<em class="dz">${dz}</em><b style="--st:${st}ms">${letters}</b>`+(streak>1?`<span class="combo">${tf('combo',{n:streak})}</span>`:`<small>${t('dzM')[k]}</small>`);
+  const bw=$('#bwrap');bw.appendChild(e);setTimeout(()=>e.remove(),[0,1400,1800,2300,2300][lv]);
+  if(lv>=2){const sk='shake'+Math.min(4,lv);bw.classList.remove('shake2','shake3','shake4');void bw.offsetWidth;bw.classList.add(sk);setTimeout(()=>bw.classList.remove(sk),1400);try{navigator.vibrate&&navigator.vibrate(lv>3?[40,40,60,40,90,40,120]:lv>2?[40,40,60,40,90]:[30,40,50])}catch(_){}}
   if(lv>=3)poppers();
-  const m=$('#gmo');m.classList.remove('yay');void m.offsetWidth;m.classList.add('yay');
-  sfx.hore(lv);
-  // spoken: the cheer word, slower and higher the more lines popped, then the dzikir
-  say(word.replace(/([ey])\1+/g,'$1'),{rate:[1,1,.8,.65][lv],pitch:[1.2,1.3,1.5,1.7][lv],then:lv>=2||empty?dz:null});
+  if(lv>=4){fireworks();const f=$('#flash');f.classList.remove('on');void f.offsetWidth;f.classList.add('on')}
+  const m=$('#gmo'),cls=lv>=4?'mega':'yay';m.classList.remove('yay','mega');void m.offsetWidth;m.classList.add(cls);setTimeout(()=>m.classList.remove(cls),1200);
+  sfx.hore(Math.min(3,lv));if(lv>=4)setTimeout(()=>sfx.win(),700);
+  // spoken: the dzikir, a little pause, then the praise; more excited for bigger pops
+  say(dz.replace(',',''),{rate:[1,.95,.92,.88,.85][lv],pitch:[1.2,1.2,1.3,1.4,1.55][lv],then:word,thenRate:[1,1,1.05,1.1,1.1][lv],thenPitch:[1.2,1.3,1.45,1.6,1.75][lv]});
 }
+/* 4+ lines: fireworks bursting all over the screen */
+function fireworks(){const W=innerWidth,H=innerHeight,r=bc.getBoundingClientRect();
+  // around the edges of the board (above it and at the sides), never over the cheer text in the middle
+  const spots=[[.1,0],[.5,-.04],[.9,0],[-.04,.4],[1.04,.4],[-.02,.92],[1.02,.92]].map(([a,b])=>[r.left+(r.width)*a,r.top-30+(r.height+30)*b]).sort(()=>Math.random()-.5);
+  for(let i=0;i<7;i++)setTimeout(()=>{const [x,y]=spots[i],c=Math.floor(Math.random()*COLS.length);
+  burst(x,y,c,26);parts.push({img:FX.glow,x,y,vx:0,vy:0,g:0,s0:20,s1:CELL*3,r:0,t0:performance.now(),life:700});tone(300+Math.random()*500,.25,'triangle',.05,0,1600);noise(3000,.3,.06,0,'highpass',.6)},i*170);fxDirty=true}
 /* party poppers from both bottom corners of the board */
 function poppers(){const r=bc.getBoundingClientRect(),t0=performance.now(),cols=['#ff3b30','#ffd60a','#1fa64a','#3fc6f5','#9b4bf0','#ff5fa8','#ff8a00'];
   [[r.left+10,r.bottom-10,1],[r.right-10,r.bottom-10,-1]].forEach(([x,y,d])=>{for(let i=0;i<60;i++){const a=-Math.PI/2+d*(.25+Math.random()*.55),v=500+Math.random()*600;
