@@ -1,8 +1,8 @@
 // Mo Block Go!: offline support. Bump VERSION when files change.
-const VERSION='mobg-v2';
+const VERSION='mobg-v3';
 const ASSETS=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png','icons/cursor-hand.png','icons/cursor-hand@2x.png',
   'ui/back.webp','ui/close.webp','ui/games.webp','ui/gear.webp','ui/hand.webp','ui/help.webp','ui/home.webp','ui/lang-en.webp','ui/lang-id.webp','ui/lock.webp','ui/masjid.webp','ui/music-off.webp','ui/music-on.webp','ui/ok.webp','ui/play.webp','ui/sound-off.webp','ui/sound-on.webp','ui/star.webp','ui/undo.webp',
-  'ui/studs.webp','ui/arrowH.webp','ui/arrowV.webp','ui/chev.webp','ui/iceBadge.webp','ui/iceCover.webp','ui/iceCrack.webp','ui/iceMelt.webp',
+  'ui/bricks.webp','ui/pillar.webp','ui/tri.webp','ui/arrowH.webp','ui/arrowV.webp','ui/iceBadge.webp','ui/iceCover.webp','ui/iceCrack.webp','ui/iceMelt.webp',
   'bg/snow.webp','bg/garden.webp','bg/night.webp','bg/oasis.webp','bg/sea.webp','bg/masjid.webp','bg/rainbow.webp','bg/autumn.webp',
   '../home/mo.webp','../NurConnect/fonts/fonts.css',
   '../NurConnect/fonts/lilita-one-latin-400-normal.woff2','../NurConnect/fonts/baloo-2-latin-600-normal.woff2',
