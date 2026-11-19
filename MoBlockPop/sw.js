@@ -1,11 +1,11 @@
 // Mo Block Pop: offline support. Bump VERSION when files change.
-const VERSION='mobp-v2';
+const VERSION='mobp-v3';
 const ASSETS=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png','icons/cursor-hand.png','icons/cursor-hand@2x.png',
   'ui/back.webp','ui/close.webp','ui/games.webp','ui/gear.webp','ui/gift.webp','ui/hand.webp','ui/help.webp','ui/home.webp','ui/lang-en.webp','ui/lang-id.webp',
   'ui/lock.webp','ui/masjid.webp','ui/music-off.webp','ui/music-on.webp','ui/ok.webp','ui/play.webp','ui/sound-off.webp','ui/sound-on.webp','ui/star.webp',
   'art/b0.webp','art/b1.webp','art/b2.webp','art/b3.webp','art/b4.webp','art/b5.webp','art/b6.webp','art/b7.webp',
   'art/t-star.webp','art/t-moon.webp','art/t-lantern.webp','art/t-palm.webp','art/t-masjid.webp','art/t-camel.webp','art/board-frame.webp','art/bg-portrait.webp','art/bg-landscape.webp',
-  'art/logo.webp','art/menu-adventure.webp','art/menu-endless.webp','art/fx-burst.webp','art/fx-glow.webp','art/fx-twinkle.webp','art/fx-star.webp','art/fx-confetti.webp',
+  'art/logo.webp','art/menu-adventure.webp','art/menu-endless.webp','art/fx-burst.webp','art/fx-glow.webp','art/fx-twinkle.webp','art/fx-star.webp',
   'art/star-gold.webp','art/star-grey.webp','art/ribbon.webp','art/gift.webp','art/trophy.webp','art/rainbow.webp',
   '../home/mo.webp','../NurConnect/fonts/fonts.css',
   '../NurConnect/fonts/lilita-one-latin-400-normal.woff2','../NurConnect/fonts/baloo-2-latin-600-normal.woff2',

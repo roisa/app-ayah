@@ -168,7 +168,18 @@ img{-webkit-user-drag:none}
 .cheer{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);pointer-events:none;text-align:center;z-index:4;white-space:nowrap}
 .cheer b{display:block;font:400 clamp(34px,9vw,58px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px var(--brown);paint-order:stroke fill;text-shadow:0 5px 0 var(--brown),0 10px 18px rgba(0,0,0,.35);animation:cheer 1.3s cubic-bezier(.3,1.6,.5,1) forwards}
 .cheer small{display:block;font:800 clamp(15px,3.6vw,20px) "Baloo 2",sans-serif;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.6);animation:cheer 1.3s cubic-bezier(.3,1.6,.5,1) forwards}
-.cheer.c1 b{color:#7df0c2}.cheer.c2 b{color:#ffe14a}.cheer.c3 b{color:#ff9ad5}.cheer.c4 b{color:#9fe2ff}
+.cheer.lv1 b{font-size:clamp(44px,11vw,72px)}.cheer.lv2 b{font-size:clamp(40px,10vw,70px)}.cheer.lv3 b{font-size:clamp(32px,8.2vw,64px)}
+.cheer.lv2 b,.cheer.lv2 small{animation-duration:1.7s}.cheer.lv3 b,.cheer.lv3 small{animation-duration:2.1s}
+/* each letter jumps in one after another, in rainbow colours, then keeps dancing */
+.cheer b span{display:inline-block;animation:letter .55s cubic-bezier(.3,1.8,.5,1) both,dance .5s ease-in-out .6s infinite alternate;animation-delay:calc(var(--i)*40ms),calc(.55s + var(--i)*40ms)}
+@keyframes letter{0%{transform:translateY(46px) scale(.2) rotate(-20deg);opacity:0}60%{transform:translateY(-14px) scale(1.25) rotate(6deg);opacity:1}100%{transform:none;opacity:1}}
+@keyframes dance{to{transform:translateY(-6px) rotate(calc((var(--i) - 3) * 1deg))}}
+.cheer small em{font-style:normal;color:#ffe14a}
+.cheer .rays{position:absolute;left:50%;top:40%;width:260%;aspect-ratio:1;transform:translate(-50%,-50%);z-index:-1;background:repeating-conic-gradient(rgba(255,236,150,.32) 0 10deg,transparent 10deg 20deg);-webkit-mask:radial-gradient(circle,#000 25%,transparent 62%);mask:radial-gradient(circle,#000 25%,transparent 62%);animation:rays 2.1s linear forwards}
+@keyframes rays{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(0)}20%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.1) rotate(60deg)}}
+#bwrap.shake2{animation:bshake .35s}#bwrap.shake3{animation:bshake .5s 2}
+@keyframes bshake{20%{transform:translate(-5px,2px) rotate(-.6deg)}40%{transform:translate(5px,-2px) rotate(.6deg)}60%{transform:translate(-3px,1px)}80%{transform:translate(3px,0)}}
+@media (prefers-reduced-motion:reduce){.cheer b span,.cheer .rays{animation:none}#bwrap.shake2,#bwrap.shake3{animation:none}}
 @keyframes cheer{0%{transform:scale(.3);opacity:0}18%{transform:scale(1.12);opacity:1}30%{transform:scale(1)}75%{opacity:1;transform:translateY(-6px)}100%{opacity:0;transform:translateY(-30px)}}
 .pts{position:absolute;pointer-events:none;font:400 26px "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:1.5px var(--brown);paint-order:stroke fill;text-shadow:0 3px 0 var(--brown);animation:pts 1s ease-out forwards;z-index:4;transform:translate(-50%,-50%)}
 @keyframes pts{0%{opacity:0;margin-top:10px}20%{opacity:1}100%{opacity:0;margin-top:-50px}}
@@ -439,6 +450,7 @@ en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Collect the treasures
  score:'Score',newBest:'New best!',best:'Best: {n}',cleanT:'All clean!',makeSpace:"Let's make space!",
  unlocked:'New block style: {s}!',stars:'{n} stars',
  sk:{jelly:'Jelly',candy:'Candy',mosaic:'Mosaic',gem:'Jewel',bubble:'Bubble'},
+ hore:['Hooray!','Hoorayyyy!','Hoorayyyyyyyyy!'],
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
  cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
  combo:'Combo ×{n}',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',
@@ -455,6 +467,7 @@ id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'Kumpulkan hartanya'
  score:'Skor',newBest:'Rekor baru!',best:'Rekor: {n}',cleanT:'Bersih semua!',makeSpace:'Ayo buat ruang!',
  unlocked:'Gaya balok baru: {s}!',stars:'{n} bintang',
  sk:{jelly:'Jeli',candy:'Permen',mosaic:'Mozaik',gem:'Permata',bubble:'Gelembung'},
+ hore:['Hore!','Horeeeee!','Horeeeeeeeeeee!'],
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
  cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
  combo:'Kombo ×{n}',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',
@@ -523,7 +536,11 @@ const sfx={
  win(){[523,659,784,1047].forEach((f,i)=>tone(f,.35,'triangle',.14,i*.11));tone(1568,.6,'sine',.08,.45)},
  over(){[523,440,392,330].forEach((f,i)=>tone(f,.3,'triangle',.11,i*.13))},
  bism(){[392,523,659].forEach((f,i)=>tone(f,.4,'sine',.12,i*.09))},
- deal(){[0,1,2].forEach(i=>tone(700+i*140,.07,'triangle',.07,i*.05))}};
+ deal(){[0,1,2].forEach(i=>tone(700+i*140,.07,'triangle',.07,i*.05))},
+ hore(lv){const d=.12;const run=[[523,659,784],[523,659,784,1047,1319],[523,659,784,1047,784,1047,1319,1568]][lv-1];
+   run.forEach((f,i)=>{tone(f,.22,'square',.035,.12+i*d*(lv>2?.8:1));tone(f,.3,'triangle',.1,.12+i*d*(lv>2?.8:1))});
+   const end=.12+run.length*d*(lv>2?.8:1);if(lv>=2){[1047,1319,1568].forEach(f=>tone(f*(lv>2?1:.75),.7,'triangle',.07,end));noise(6000,.6,.1,end,'highpass',.6)}
+   if(lv>=3){noise(180,.25,.25,.05,'lowpass',.8);noise(150,.25,.22,end,'lowpass',.8)}}};
 
 /* background music: an original tune made for Mo Block Pop and played by the game itself
    (no audio files, so no copyright or licence issues). 104 bpm, C - Am - F - G, marimba melody,
@@ -566,7 +583,7 @@ setInterval(()=>{if(!AC||!musicPref||document.hidden)return;if(AC.state!=='runni
 const TTS='speechSynthesis' in window;let voices=[];
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
 if(TTS){loadVoices();try{speechSynthesis.addEventListener('voiceschanged',loadVoices)}catch(e){}}
-function say(text){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const L=lang==='id'?'id':'en';u.lang=L==='id'?'id-ID':'en-US';const v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(L));if(v)u.voice=v;u.rate=.95;u.pitch=1.2;speechSynthesis.speak(u)}catch(e){}}
+function say(text,o={}){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(o.then)u.onend=()=>{try{const u2=new SpeechSynthesisUtterance(o.then);u2.lang=u.lang;if(u.voice)u2.voice=u.voice;u2.rate=.95;u2.pitch=1.2;speechSynthesis.speak(u2)}catch(e){}};const L=lang==='id'?'id':'en';u.lang=L==='id'?'id-ID':'en-US';const v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(L));if(v)u.voice=v;u.rate=o.rate||.95;u.pitch=o.pitch||1.2;speechSynthesis.speak(u)}catch(e){}}
 
 /* =================================================================
    Blocks: colours, styles ("skins") and the collectable treasures
@@ -623,7 +640,7 @@ const ITEMS=['star','moon','lantern','palm','masjid','camel'];
 const itemImg={};ITEMS.forEach(id=>itemImg[id]=art('art/t-'+id+'.webp'));
 const blockImg=COLS.map((_,i)=>art('art/b'+i+'.webp'));
 const FRAME=art('art/board-frame.webp');
-const FX={burst:art('art/fx-burst.webp'),glow:art('art/fx-glow.webp'),twinkle:art('art/fx-twinkle.webp'),star:art('art/fx-star.webp'),confetti:art('art/fx-confetti.webp')};
+const FX={burst:art('art/fx-burst.webp'),glow:art('art/fx-glow.webp'),twinkle:art('art/fx-twinkle.webp'),star:art('art/fx-star.webp')};
 function paintItem(x,s,id){
   const im=itemImg[id];if(ok(im)){x.drawImage(im,s*.02,s*.02,s*.96,s*.96);return}
   const m=s*.045,lw=Math.max(1.4,s*.065),X=m+lw/2,W=s-2*m-lw;
@@ -812,10 +829,10 @@ let backs=[];
 function burst(sx,sy,col,n){const c=COLS[col]||'#ffd23f';for(let i=0;i<n;i++){const a=Math.random()*6.283,v=120+Math.random()*260;
   parts.push({x:sx,y:sy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-160,g:520,s:4+Math.random()*7,c:i%3?c:'#fff6c8',star:i%4===0,tw:i%8===0,r:Math.random()*6,t0:performance.now(),life:650+Math.random()*350})}}
 /* a golden starburst with a soft glow where a line pops (bigger for combos) */
-function lineBurst(sx,sy,big,delay){const t0=performance.now()+(delay||0),s=CELL*(big?5:3.6);
+function lineBurst(sx,sy,big,delay){const t0=performance.now()+(delay||0),s=CELL*(big?4.2:3.6);
   parts.push({img:FX.glow,x:sx,y:sy,vx:0,vy:0,g:0,s0:s*.3,s1:s*1.3,r:0,t0,life:650});
   parts.push({img:FX.burst,x:sx,y:sy,vx:0,vy:0,g:0,s0:s*.2,s1:s,r:Math.random(),spin:1.5,t0,life:600});
-  if(big)parts.push({img:FX.confetti,x:sx,y:sy,vx:0,vy:-30,g:0,s0:s*.4,s1:s*1.6,r:0,spin:.8,t0:t0+80,life:900});fxDirty=true}
+  fxDirty=true}
 function confetti(){const W=innerWidth,H=innerHeight,cols=['#ff3b30','#ffd60a','#1fa64a','#3fc6f5','#9b4bf0','#ff5fa8','#ff8a00'];const t0=performance.now();
   for(let i=0;i<150;i++)parts.push({x:W/2+(Math.random()-.5)*W*.4,y:H*.35,vx:(Math.random()-.5)*900,vy:-Math.random()*900-200,g:900,s:Math.random()*8+7,c:cols[i%cols.length],conf:1,r:Math.random()*6,t0:t0+Math.random()*200,life:2600})}
 function loop(now){requestAnimationFrame(loop);
@@ -892,13 +909,25 @@ function addScore(v,at){G.score+=v;if(G.mode==='end'){const el=$('#score');el.te
   if(G.score>best[age]&&!G.beat&&best[age]>0){G.beat=true;bubble(t('newBest'))}}
   if(at&&v>0){const [sx,sy]=boardToScreen(at[0]-.5,at[1]-.5);const e=document.createElement('div');e.className='pts';e.textContent='+'+v;e.style.left=sx+'px';e.style.top=sy+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1000)}}
 let cheerN=0;
+/* 1 line: "Hore!", 2 lines: "Horeeeee!", 3 or more: "Horeeeeeeeeeee!" (the dzikir stays underneath) */
+const RAINBOW=['#ff5a6e','#ff9a1f','#ffe14a','#5fe36a','#3fd0ff','#6f8bff','#c07bff','#ff7ac2'];
 function cheer(n,streak,empty){
-  const lv=Math.min(3,n-1),i=empty?3:lv;const w=t('cheer')[i];
-  const e=document.createElement('div');e.className='cheer c'+(1+(cheerN++%4));e.innerHTML=`<b>${w}</b><small>${empty?t('cleanT'):(streak>1?tf('combo',{n:streak}):t('cheerM')[i])}</small>`;
-  $('#bwrap').appendChild(e);setTimeout(()=>e.remove(),1300);
+  const lv=empty?3:Math.min(3,n),word=t('hore')[lv-1],dz=t('cheer')[empty?3:lv-1];
+  const letters=[...word].map((ch,i)=>`<span style="--i:${i};color:${RAINBOW[(i+cheerN)%RAINBOW.length]}">${ch}</span>`).join('');
+  const e=document.createElement('div');e.className='cheer lv'+lv;cheerN++;
+  e.innerHTML=`${lv>=2?'<i class="rays"></i>':''}<b>${letters}</b><small><em>${dz}</em> ${empty?t('cleanT'):(streak>1?tf('combo',{n:streak}):t('cheerM')[empty?3:lv-1])}</small>`;
+  const bw=$('#bwrap');bw.appendChild(e);setTimeout(()=>e.remove(),[0,1300,1700,2100][lv]);
+  if(lv>=2){bw.classList.remove('shake2','shake3');void bw.offsetWidth;bw.classList.add('shake'+lv);setTimeout(()=>bw.classList.remove('shake'+lv),1000);try{navigator.vibrate&&navigator.vibrate(lv>2?[40,40,60,40,90]:[30,40,50])}catch(_){}}
+  if(lv>=3)poppers();
   const m=$('#gmo');m.classList.remove('yay');void m.offsetWidth;m.classList.add('yay');
-  if(n>=2||empty||streak>=3)say(w);
+  sfx.hore(lv);
+  // spoken: the cheer word, slower and higher the more lines popped, then the dzikir
+  say(word.replace(/([ey])\1+/g,'$1'),{rate:[1,1,.8,.65][lv],pitch:[1.2,1.3,1.5,1.7][lv],then:lv>=2||empty?dz:null});
 }
+/* party poppers from both bottom corners of the board */
+function poppers(){const r=bc.getBoundingClientRect(),t0=performance.now(),cols=['#ff3b30','#ffd60a','#1fa64a','#3fc6f5','#9b4bf0','#ff5fa8','#ff8a00'];
+  [[r.left+10,r.bottom-10,1],[r.right-10,r.bottom-10,-1]].forEach(([x,y,d])=>{for(let i=0;i<60;i++){const a=-Math.PI/2+d*(.25+Math.random()*.55),v=500+Math.random()*600;
+    parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,g:900,s:Math.random()*7+6,c:cols[i%cols.length],conf:1,r:Math.random()*6,t0:t0+Math.random()*120,life:1800})}});fxDirty=true}
 function bubble(txt){const b=$('#bub');b.textContent=txt;b.classList.add('on');clearTimeout(bubble.t);bubble.t=setTimeout(()=>b.classList.remove('on'),1800)}
 function collectItem(id,x,y,delay){
   if(G.mode!=='adv'||!G.left[id])return;G.left[id]--;G.pending++;
