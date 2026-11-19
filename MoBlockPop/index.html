@@ -20,6 +20,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="../NurConnect/fonts/fonts.css">
+<script>/* apply the remembered background before the first paint, so the night sky never flashes */
+try{var _b=JSON.parse(localStorage.getItem('mobp.bg')||'null');if(_b&&_b!=='night'&&/^[a-z0-9-]+$/.test(_b)){var _r=document.documentElement.style;_r.setProperty('--bgP','url(art/bg/'+_b+'-portrait.webp)');_r.setProperty('--bgL','url(art/bg/'+_b+'-landscape.webp)')}}catch(e){}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Mo Block Pop","alternateName":"Mo Block Pop – Puzzle Balok Islami","url":"https://roisa.github.io/app-ayah/MoBlockPop/","applicationCategory":"GameApplication","operatingSystem":"Any (web browser)","inLanguage":["en","id"],"description":"Islamic block puzzle game for kids aged 3+. No ads, no data collected.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"IBRAZ Group (Mo Games)"}}
 </script>
@@ -28,7 +30,7 @@
   --shadow:0 6px 0 rgba(176,92,0,.25),0 14px 30px rgba(140,70,0,.18);--safeB:env(safe-area-inset-bottom,0px);--safeT:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overscroll-behavior:none}
-body{background:#2b1a6e url(art/bg-portrait.webp) center/cover no-repeat fixed;color:var(--ink);font:600 17px/1.4 "Baloo 2",-apple-system,system-ui,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overflow:hidden}
+body{background:#2b1a6e var(--bgP,url(art/bg-portrait.webp)) center/cover no-repeat fixed;color:var(--ink);font:600 17px/1.4 "Baloo 2",-apple-system,system-ui,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overflow:hidden}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
 a{color:inherit;text-decoration:none}
 img{-webkit-user-drag:none}
@@ -38,10 +40,10 @@ img{-webkit-user-drag:none}
 .scr.on{display:flex}
 .scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
 .bgdeco{display:none}
-@media (orientation:landscape){body{background-image:url(art/bg-landscape.webp)}}
+@media (orientation:landscape){body{background-image:var(--bgL,url(art/bg-landscape.webp))}}
 /* changing backgrounds: two layers that cross-fade; the night sky on <body> stays underneath as a fallback (e.g. offline) */
-.bgl{position:fixed;inset:0;z-index:-2;background:center/cover no-repeat;background-image:var(--p);opacity:0;transition:opacity .9s ease;pointer-events:none}
-.bgl.on{opacity:1}
+.bgl{position:fixed;inset:0;z-index:-2;background:center/cover no-repeat;background-image:var(--p);opacity:0;pointer-events:none}
+.bgl.on{opacity:1;transition:opacity .9s ease}
 #home .tag,.legal,.mapsum,.best{text-shadow:0 2px 4px rgba(40,10,80,.65),0 0 2px rgba(40,10,80,.5)}
 @media (orientation:landscape){.bgl{background-image:var(--l)}}
 .bgdeco i{position:absolute;border-radius:50%;background:rgba(255,255,255,.14)}
@@ -408,7 +410,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   </div>
 </section>
 
-<div class="bgl" id="bgA"></div><div class="bgl" id="bgB"></div>
+<div class="bgl" id="bgA"></div>
 <canvas id="fx"></canvas>
 <img id="hint" src="ui/hand.webp" alt="">
 <div id="flash"></div>
@@ -1070,16 +1072,25 @@ function makeSpace(){
 /* a different background for every new game or level, never the same one twice in a row */
 const BGS=['night','01-green-dome','02-desert','03-coral-reef','04-space','05-lantern-bazaar','06-palm-oasis','07-rainbow','08-snowy-mountain','09-spring-garden','10-eid-night',
   '11-mosaic-courtyard','12-indonesian-village','13-beach-sunset','14-firefly-forest','15-bee-garden','16-ant-meadow','17-ark-rainbow','18-cotton-candy','19-northern-lights','20-reading-room'];
-let bgNow=store.get('bg','night'),bgLayer=0;
+let bgNow=store.get('bg','night'),bgTimer=0;
 function bgURL(id,o){return id==='night'?`art/bg-${o}.webp`:`art/bg/${id}-${o}.webp`}
+/* The page background (body) always shows the current picture. A new one fades in on a layer above it;
+   only when it is fully visible does it become the page background, and the layer is cleared without a fade.
+   The old picture stays fully visible underneath the whole time, so nothing ever blinks. */
+function setPageBg(id){const r=document.documentElement.style;r.setProperty('--bgP',`url(${bgURL(id,'portrait')})`);r.setProperty('--bgL',`url(${bgURL(id,'landscape')})`)}
 function showBg(id){
-  const el=document.getElementById(bgLayer?'bgA':'bgB'),old=document.getElementById(bgLayer?'bgB':'bgA');
-  const o=innerWidth>innerHeight?'landscape':'portrait',img=new Image();
-  img.onload=()=>{el.style.setProperty('--p',`url(${bgURL(id,'portrait')})`);el.style.setProperty('--l',`url(${bgURL(id,'landscape')})`);
-    el.classList.add('on');old.classList.remove('on');bgLayer^=1};
+  const el=$('#bgA'),o=innerWidth>innerHeight?'landscape':'portrait',img=new Image();
+  clearTimeout(bgTimer);
+  img.onload=()=>{const go=()=>{if(bgNow!==id)return;
+      el.classList.remove('on');el.style.setProperty('--p',`url(${bgURL(id,'portrait')})`);el.style.setProperty('--l',`url(${bgURL(id,'landscape')})`);
+      void el.offsetWidth;el.classList.add('on');
+      bgTimer=setTimeout(()=>{setPageBg(id);
+        // wait until the page background has really drawn the new picture, then clear the layer
+        const pre=new Image();pre.onload=pre.onerror=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{if(bgNow===id)el.classList.remove('on')}));pre.src=bgURL(id,o)},950)};
+    (img.decode?img.decode().catch(()=>{}):Promise.resolve()).then(go)};
   img.src=bgURL(id,o)}
 function nextBg(){let id;do{id=BGS[Math.floor(Math.random()*BGS.length)]}while(id===bgNow);bgNow=id;store.set('bg',id);showBg(id)}
-if(bgNow!=='night')showBg(bgNow);
+
 function startGame(mode,level,resume){
   nextBg();
   rng=Math.random;
@@ -1362,7 +1373,7 @@ renderSnd();renderMus();applyLang();setTimeout(()=>tickPrayer(Date.now()),300);
 document.fonts&&document.fonts.ready.then(()=>renderHome());
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* for automated tests only */
-window.__mbp={bg:id=>{bgNow=id;showBg(id)},get bgNow(){return bgNow},BGS,geo:()=>({GX,GY,CELL}),idle:ms=>{lastAct=performance.now()-ms},get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
+window.__mbp={bg:id=>{bgNow=id;store.set('bg',id);showBg(id)},get bgNow(){return bgNow},BGS,geo:()=>({GX,GY,CELL}),idle:ms=>{lastAct=performance.now()-ms},get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
 </script>
 </body>
 </html>
