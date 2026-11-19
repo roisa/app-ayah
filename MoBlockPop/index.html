@@ -7,7 +7,7 @@
 <meta name="description" content="Mo Block Pop: a free Islamic block puzzle game for kids aged 3+. Drag blocks onto the board, fill a row or column and pop! Collect moons, stars and lanterns in 30 levels or play endless. Start with Bismillah, finish with Alhamdulillah. No ads, no data collected. English and Bahasa Indonesia.">
 <meta name="keywords" content="Islamic block puzzle, Muslim kids game, block puzzle for kids, puzzle balok anak, game anak muslim, game edukasi islami, aplikasi anak islami">
 <link rel="canonical" href="https://roisa.github.io/app-ayah/MoBlockPop/">
-<meta name="theme-color" content="#ffa51f">
+<meta name="theme-color" content="#3b1d8f">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Mo Block Pop – Islamic Block Puzzle for Kids">
 <meta property="og:description" content="Drag the blocks, fill a line and pop! Collect moons, stars and lanterns. Start with Bismillah, finish with Alhamdulillah. No ads.">
@@ -28,7 +28,7 @@
   --shadow:0 6px 0 rgba(176,92,0,.25),0 14px 30px rgba(140,70,0,.18);--safeB:env(safe-area-inset-bottom,0px);--safeT:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overscroll-behavior:none}
-body{background:var(--or);color:var(--ink);font:600 17px/1.4 "Baloo 2",-apple-system,system-ui,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overflow:hidden}
+body{background:#2b1a6e url(art/bg-portrait.webp) center/cover no-repeat fixed;color:var(--ink);font:600 17px/1.4 "Baloo 2",-apple-system,system-ui,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overflow:hidden}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
 a{color:inherit;text-decoration:none}
 img{-webkit-user-drag:none}
@@ -37,7 +37,8 @@ img{-webkit-user-drag:none}
 .scr{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden}
 .scr.on{display:flex}
 .scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
-.bgdeco{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.bgdeco{display:none}
+@media (orientation:landscape){body{background-image:url(art/bg-landscape.webp)}}
 .bgdeco i{position:absolute;border-radius:50%;background:rgba(255,255,255,.14)}
 
 /* round buttons (owner's 3D icons) */
@@ -57,9 +58,13 @@ img{-webkit-user-drag:none}
 
 /* ---------- home ---------- */
 #home .hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 16px;color:#fff}
-#home .mo{height:clamp(100px,19vh,170px);width:auto;filter:drop-shadow(0 8px 10px rgba(120,60,0,.3));animation:wave 3s ease-in-out infinite;transform-origin:50% 90%}
+#home .mo{height:clamp(100px,18vh,170px);width:auto;filter:drop-shadow(0 8px 10px rgba(120,60,0,.3));animation:wave 3s ease-in-out infinite;transform-origin:50% 90%}
 @keyframes wave{50%{transform:rotate(-4deg) translateY(-6px)}}
 #home h1{font-size:clamp(36px,8.5vw,60px);line-height:1;text-shadow:0 4px 0 rgba(176,92,0,.35);margin-top:4px}
+.herorow{display:flex;align-items:flex-end;justify-content:center;gap:4px;margin-top:-4px}
+#home h1.logo{margin:0;line-height:0}
+#home h1.logo img{height:clamp(120px,22vh,210px);width:auto;max-width:72vw;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(20,0,60,.45));animation:logo 3s ease-in-out infinite}
+@keyframes logo{50%{transform:scale(1.04) rotate(-1deg)}}
 #home h1 span{display:inline-block;animation:hop 2.4s ease-in-out infinite}
 #home h1 span:nth-child(2){animation-delay:.15s}#home h1 span:nth-child(3){animation-delay:.3s}
 @keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
@@ -74,9 +79,9 @@ img{-webkit-user-drag:none}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-8px) rotate(-1.5deg)}75%{transform:translateY(-3px) rotate(1.5deg)}}
 .mode:active{transform:scale(.95)}
 .mode .in{flex:1;border-radius:36px;position:relative;overflow:hidden;display:grid;place-items:center}
-.mode.a .in{background:linear-gradient(160deg,#4fd1a5,#13a876)}
-.mode.e .in{background:linear-gradient(160deg,#7d6bff,#4a3bd6)}
-.mode canvas{width:78%;aspect-ratio:1;display:block;filter:drop-shadow(0 8px 10px rgba(0,0,0,.2))}
+.mode.a .in{background:radial-gradient(circle at 50% 40%,#8ff0c8,#13a876 75%)}
+.mode.e .in{background:radial-gradient(circle at 50% 40%,#b9a6ff,#5a3bd6 75%)}
+.mode .mart{width:86%;height:86%;object-fit:contain;display:block;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))}
 .mode .lbl{font:400 clamp(22px,4.4vw,34px)/1 "Lilita One",sans-serif;color:var(--ink);padding:10px 6px 4px;text-align:center}
 .mode .lbl small{display:block;font:800 clamp(12px,2vw,15px) "Baloo 2",sans-serif;color:var(--ink2);margin-top:2px}
 .mode .badge{position:absolute;left:10px;top:10px;background:#fff;border-radius:14px;padding:2px 10px;font:400 15px "Lilita One",sans-serif;color:#0e9a6f;box-shadow:0 3px 0 rgba(0,0,0,.12)}
@@ -92,24 +97,24 @@ img{-webkit-user-drag:none}
 .pill:active{transform:scale(.94)}
 .pill img{width:40px;height:40px;object-fit:contain}
 .legal{color:#fff;opacity:.85;font-size:13px;font-weight:700;margin-top:14px}
-@media (orientation:landscape) and (max-height:560px){#home .mo{height:84px}#home h1{font-size:36px}.mode{width:min(30vw,220px)}.modes{padding-top:8px}}
+@media (orientation:landscape) and (max-height:560px){#home .mo{height:84px}#home h1.logo img{height:96px}.mode{width:min(30vw,220px)}.modes{padding-top:8px}}
 
 /* ---------- level map ---------- */
 .lvls{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:16px 12px;padding:10px 16px calc(24px + var(--safeB));max-width:760px;margin:0 auto;width:100%}
 .lv{aspect-ratio:1;border-radius:30px;background:radial-gradient(circle at 35% 28%,#ffe98a,#ffc928 55%,#f5a800);box-shadow:inset 0 -6px 0 rgba(176,92,0,.25),0 5px 0 rgba(176,92,0,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;font:400 34px/1 "Lilita One",sans-serif;color:#fff;text-shadow:0 3px 0 rgba(176,92,0,.45);transition:transform .15s;position:relative}
 .lv:active{transform:scale(.92)}
 .lv .st{display:flex;gap:1px;margin-top:4px}
-.lv .st i{width:17px;height:17px;background:url(ui/star.webp) center/contain no-repeat;filter:grayscale(1) brightness(1.6) opacity(.55)}
-.lv .st i.on{filter:none}
+.lv .st i{width:18px;height:18px;background:url(art/star-grey.webp) center/contain no-repeat}
+.lv .st i.on{background-image:url(art/star-gold.webp)}
 .lv.cur{background:radial-gradient(circle at 35% 28%,#8ff0c8,#38d39f 55%,#13a876);animation:pulse 1.6s ease-in-out infinite}
 .lv.lock{background:#fff3df;box-shadow:inset 0 -6px 0 rgba(176,92,0,.12),0 5px 0 rgba(176,92,0,.18);color:#e8c999;text-shadow:none}
 .lv.lock img{width:44%;opacity:.75}
-.lv.gift::after{content:"";position:absolute;right:-8px;top:-10px;width:34px;height:34px;background:url(ui/gift.webp) center/contain no-repeat;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+.lv.gift::after{content:"";position:absolute;right:-8px;top:-10px;width:34px;height:34px;background:url(art/gift.webp) center/contain no-repeat;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
 .mapsum{color:#fff;text-align:center;font-weight:800;padding:0 16px 4px}
 .mapsum img{width:22px;height:22px;vertical-align:-5px}
 
 /* ---------- game ---------- */
-#game{background:radial-gradient(120% 80% at 50% 0%,#ffbd4a 0%,#ffa51f 45%,#ff8f1a 100%)}
+#game{background:transparent}
 #game .bar{padding:calc(8px + var(--safeT)) 12px 4px;gap:clamp(6px,1.6vw,12px)}
 #game .rb{width:clamp(44px,11vw,56px);height:clamp(44px,11vw,56px)}
 .chipL{background:#fff;border-radius:999px;padding:4px 16px;font:400 clamp(17px,4vw,22px) "Lilita One",sans-serif;color:#d07a00;box-shadow:0 4px 0 rgba(176,92,0,.25);white-space:nowrap}
@@ -122,7 +127,7 @@ img{-webkit-user-drag:none}
 #score.bump{transform:scale(1.18)}
 #goals{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .goal{display:flex;align-items:center;gap:2px;background:#fff;border-radius:22px;padding:3px 12px 3px 6px;box-shadow:0 4px 0 rgba(176,92,0,.25);font:400 24px "Lilita One",sans-serif;color:var(--ink);transition:transform .15s}
-.goal img{width:40px;height:40px;object-fit:contain}
+.goal img{width:42px;height:42px;object-fit:contain}
 .goal.bump{transform:scale(1.2)}
 .goal.done{background:#d6f7ea;color:#0e9a6f}
 .goal.done b::before{content:"✓"}
@@ -133,7 +138,7 @@ img{-webkit-user-drag:none}
 .bub{position:absolute;left:calc(50% + 4px);top:-6px;background:#fff;border-radius:18px;padding:4px 12px;font:400 17px "Lilita One",sans-serif;color:#0e9a6f;white-space:nowrap;box-shadow:0 4px 0 rgba(176,92,0,.2);opacity:0;transform:scale(.6);transition:.25s cubic-bezier(.3,1.6,.5,1);pointer-events:none;z-index:3}
 .bub.on{opacity:1;transform:scale(1)}
 #hudMo{position:absolute;left:0;bottom:-4px}
-#bc{display:block;touch-action:none;border-radius:6%}
+#bc{display:block;touch-action:none;filter:drop-shadow(0 10px 18px rgba(20,0,60,.45))}
 #bwrap{position:relative;flex:none}
 #tray{display:flex;align-items:center;justify-content:space-around;flex:none;touch-action:none}
 .slot{position:relative;display:grid;place-items:center;touch-action:none}
@@ -195,18 +200,22 @@ img{-webkit-user-drag:none}
 .fact b{color:#d07a00;font:400 17px "Lilita One",sans-serif}
 .fact p{font-size:15px;color:var(--ink)}
 .stars3{display:flex;justify-content:center;gap:6px;margin:8px 0 2px}
-.stars3 i{width:62px;height:62px;background:url(ui/star.webp) center/contain no-repeat;filter:grayscale(1) brightness(1.5) opacity(.35);transform:scale(.8)}
+.stars3 i{width:62px;height:62px;background:url(art/star-grey.webp) center/contain no-repeat;transform:scale(.8)}
 .stars3 i:nth-child(2){margin-top:-14px;width:72px;height:72px}
-.stars3 i.on{filter:none;animation:starIn .5s cubic-bezier(.3,1.6,.5,1) both}
+.stars3 i.on{background-image:url(art/star-gold.webp);animation:starIn .5s cubic-bezier(.3,1.6,.5,1) both}
 @keyframes starIn{from{transform:scale(0) rotate(-90deg)}to{transform:scale(1)}}
 .bigscore{font:400 54px/1 "Lilita One",sans-serif;color:#ff8a00;margin-top:6px}
-.ribbon{display:inline-block;background:linear-gradient(180deg,#ff8ac7,#ff5fa8);color:#fff;font:400 20px "Lilita One",sans-serif;padding:5px 20px;border-radius:999px;margin-top:6px;animation:pulse 1.2s ease-in-out infinite}
+.ribbon{display:inline-block;background:url(art/ribbon.webp) center/100% 100% no-repeat;color:#fff;font:400 22px "Lilita One",sans-serif;padding:14px 46px 22px;margin-top:4px;text-shadow:0 2px 0 rgba(60,0,100,.6);animation:pulse 1.2s ease-in-out infinite}
+.trophy{display:block;width:96px;height:96px;margin:4px auto -4px;animation:bounce 1.2s ease-in-out infinite}
+.moglow{position:relative;width:170px;height:150px;margin:-6px auto 4px}.moglow .rbw{position:absolute;left:50%;top:50%;width:150px;height:150px;transform:translate(-50%,-50%);animation:spin 8s linear infinite;opacity:.9}
+.moglow .mo{position:relative;margin:0 auto}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 .unl{margin-top:10px;background:#efe9ff;border-radius:22px;padding:8px 12px;display:flex;align-items:center;gap:10px;text-align:left;color:#5b3bd6;font-weight:800}
 .unl canvas{width:56px;height:56px;flex:none}
 .x{position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;background:#fff1d6;display:grid;place-items:center;z-index:2}
 .x img{width:24px;height:24px}
 /* block styles */
-.skins{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.skins{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:12px}
 .sk{border-radius:26px;background:#fff6e0;padding:10px 6px 8px;box-shadow:inset 0 0 0 3px #ffe2b8;position:relative;transition:transform .15s}
 .sk:active{transform:scale(.95)}
 .sk canvas{width:80%;aspect-ratio:1;display:block;margin:0 auto}
@@ -258,18 +267,18 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   </div>
   <div class="scroll">
     <div class="hero">
-      <img class="mo" src="../home/mo.webp" alt="Mo">
-      <h1 class="fun"><span>Mo</span> <span>Block</span> <span>Pop</span></h1>
+      <div class="herorow"><img class="mo" src="../home/mo.webp" alt="Mo">
+      <h1 class="logo"><img src="art/logo.webp" alt="Mo Block Pop"></h1></div>
       <p class="tag" data-t="tag">Play Games the Islamic Way</p>
       <p class="pchip" id="pchip"></p>
     </div>
     <div class="modes">
       <button class="mode a" id="goAdv">
-        <span class="in"><canvas id="cvAdv" width="300" height="300"></canvas><span class="badge" id="advBadge"></span></span>
+        <span class="in"><img class="mart" src="art/menu-adventure.webp" alt=""><span class="badge" id="advBadge"></span></span>
         <span class="lbl"><span data-t="adv">Adventure</span><small data-t="advS">Collect the treasures</small></span>
       </button>
       <button class="mode e" id="goEnd">
-        <span class="in"><canvas id="cvEnd" width="300" height="300"></canvas><span class="badge" id="endBadge"></span></span>
+        <span class="in"><img class="mart" src="art/menu-endless.webp" alt=""><span class="badge" id="endBadge"></span></span>
         <span class="lbl"><span data-t="end">Endless</span><small data-t="endS">Pop as many as you can</small></span>
       </button>
     </div>
@@ -278,7 +287,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
       <button data-a="big"><span data-t="big">Big Kid</span><small data-t="bigS">Ages 6+</small></button>
     </div>
     <div class="homeFoot">
-      <button class="pill" id="goSkins"><img src="ui/gift.webp" alt=""><span data-t="styles">Block styles</span></button>
+      <button class="pill" id="goSkins"><img src="art/gift.webp" alt=""><span data-t="styles">Block styles</span></button>
       <p class="legal" data-t="legal">No ads · No data collected · Works offline</p>
     </div>
   </div>
@@ -299,7 +308,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   <div class="bar" id="gbar">
     <button class="rb" id="gHome" aria-label="Home"><img class="ico" src="ui/home.webp" alt="" draggable="false"></button>
     <span class="chipL" id="lvlChip"></span>
-    <span class="best" id="bestBox"><img src="ui/star.webp" alt=""><span id="bestN">0</span></span>
+    <span class="best" id="bestBox"><img src="art/trophy.webp" alt=""><span id="bestN">0</span></span>
     <span class="sp"></span>
     <button class="rb mus" aria-label="Music"><img class="ico mon" src="ui/music-on.webp" alt="" draggable="false"><img class="ico moff" src="ui/music-off.webp" alt="" draggable="false"></button>
     <button class="rb hold" id="restartBtn" aria-label="Start again"><svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 7.75 10h-2.1A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35A7.96 7.96 0 0 0 12 4Z" fill="#ff8a00" stroke="#4a2c14" stroke-width=".8"/></svg><span class="ring"></span><span class="tip" data-t="holdR">Hold to start again</span></button>
@@ -331,7 +340,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
 
 <!-- LEVEL WIN -->
 <div class="ov" id="win"><div class="box">
-  <img class="mo" src="../home/mo.webp" alt="">
+  <div class="moglow"><img class="rbw" src="art/rainbow.webp" alt=""><img class="mo" src="../home/mo.webp" alt=""></div>
   <div class="arb ar">الْحَمْدُ لِلَّهِ</div>
   <h3 data-t="alh">Alhamdulillah!</h3>
   <p id="winSub"></p>
@@ -418,7 +427,7 @@ en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Collect the treasures
  overT:'No more room!',tryP:"There is no space left. Let's try this level again!",overP:'Great game! There is no space left for these blocks.',stuckP:'There is no space for these blocks. Let\'s make some room!',
  score:'Score',newBest:'New best!',best:'Best: {n}',cleanT:'All clean!',makeSpace:"Let's make space!",
  unlocked:'New block style: {s}!',stars:'{n} stars',
- sk:{candy:'Candy',mosaic:'Mosaic',gem:'Jewel',bubble:'Bubble'},
+ sk:{jelly:'Jelly',candy:'Candy',mosaic:'Mosaic',gem:'Jewel',bubble:'Bubble'},
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
  cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
  combo:'Combo ×{n}',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',
@@ -434,7 +443,7 @@ id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'Kumpulkan hartanya'
  overT:'Papan penuh!',tryP:'Tidak ada tempat lagi. Ayo coba level ini sekali lagi!',overP:'Permainan yang hebat! Tidak ada tempat lagi untuk balok ini.',stuckP:'Tidak ada tempat untuk balok ini. Ayo buat ruang!',
  score:'Skor',newBest:'Rekor baru!',best:'Rekor: {n}',cleanT:'Bersih semua!',makeSpace:'Ayo buat ruang!',
  unlocked:'Gaya balok baru: {s}!',stars:'{n} bintang',
- sk:{candy:'Permen',mosaic:'Mozaik',gem:'Permata',bubble:'Gelembung'},
+ sk:{jelly:'Jeli',candy:'Permen',mosaic:'Mozaik',gem:'Permata',bubble:'Gelembung'},
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
  cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
  combo:'Kombo ×{n}',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',
@@ -553,14 +562,15 @@ function say(text){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u
    ================================================================= */
 const COLS=['#ff4f5e','#ff9a1f','#ffd23f','#3fcf5a','#2ec7f0','#4a6bff','#a35bff','#ff6fb5'];
 const OUT='#4a2c14';
-const SKINS=[{id:'candy',need:0},{id:'mosaic',need:12},{id:'gem',need:30},{id:'bubble',need:54}];
-let skin=store.get('skin','candy');
+const SKINS=[{id:'jelly',need:0},{id:'candy',need:0},{id:'mosaic',need:12},{id:'gem',need:30},{id:'bubble',need:54}];
+let skin=store.get('skin','jelly');if(!store.get('art2',0)){skin='jelly';store.set('skin',skin);store.set('art2',1)}
 const hexRgb=h=>{const n=parseInt(h.slice(1),16);return[n>>16&255,n>>8&255,n&255]};
 const mix=(h,k)=>{const c=hexRgb(h);return 'rgb('+c.map(v=>Math.round(k>=0?v+(255-v)*k:v*(1+k))).join(',')+')'};
 function rr(x,X,Y,W,H,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+W,Y,X+W,Y+H,r);x.arcTo(X+W,Y+H,X,Y+H,r);x.arcTo(X,Y+H,X,Y,r);x.arcTo(X,Y,X+W,Y,r);x.closePath()}
 function star8(x,cx,cy,r){x.beginPath();for(let i=0;i<16;i++){const a=i*Math.PI/8-Math.PI/2,rad=i%2?r*.62:r;x.lineTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad)}x.closePath()}
 /* draws one block (size s, top-left 0,0) */
 function paintBlock(x,s,col,sk){
+  if(sk==='jelly'){const im=blockImg[col];if(ok(im)){x.drawImage(im,s*.02,s*.02,s*.96,s*.96);return}sk='candy'}
   const m=s*.045,w=s-2*m,lw=Math.max(1.4,s*.065),c=COLS[col]||'#ccc';
   x.lineJoin='round';
   if(sk==='bubble'){
@@ -595,14 +605,18 @@ function paintBlock(x,s,col,sk){
   }
   rr(x,X,Y,W,H,r);x.lineWidth=lw;x.strokeStyle=OUT;x.stroke();
 }
-/* treasures (owner's art): a cream tile with the picture on it */
+/* the owner's art: jelly blocks, treasure tiles (cream tile with the picture), board frame, effects */
+const ok=i=>i&&i.complete&&i.naturalWidth;
+function art(src){const i=new Image();i.src=src;i.onload=()=>{sprites.clear();boardDirty=true};return i}
 const ITEMS=['star','moon','lantern','palm','masjid','camel'];
-const itemImg={};ITEMS.forEach(id=>{const i=new Image();i.src='items/'+id+'.webp';i.onload=()=>{sprites.clear();boardDirty=true;renderHomeArt()};itemImg[id]=i});
+const itemImg={};ITEMS.forEach(id=>itemImg[id]=art('art/t-'+id+'.webp'));
+const blockImg=COLS.map((_,i)=>art('art/b'+i+'.webp'));
+const FRAME=art('art/board-frame.webp');
+const FX={burst:art('art/fx-burst.webp'),glow:art('art/fx-glow.webp'),twinkle:art('art/fx-twinkle.webp'),star:art('art/fx-star.webp'),confetti:art('art/fx-confetti.webp')};
 function paintItem(x,s,id){
+  const im=itemImg[id];if(ok(im)){x.drawImage(im,s*.02,s*.02,s*.96,s*.96);return}
   const m=s*.045,lw=Math.max(1.4,s*.065),X=m+lw/2,W=s-2*m-lw;
-  const g=x.createLinearGradient(0,X,0,X+W);g.addColorStop(0,'#fffaf0');g.addColorStop(1,'#ffe2a8');
-  rr(x,X,X,W,W,s*.2);x.fillStyle=g;x.fill();x.lineWidth=lw;x.strokeStyle=OUT;x.stroke();
-  const im=itemImg[id];if(im&&im.complete&&im.naturalWidth){const p=s*.12;x.drawImage(im,p,p,s-2*p,s-2*p)}
+  rr(x,X,X,W,W,s*.2);x.fillStyle='#fff3d6';x.fill();x.lineWidth=lw;x.strokeStyle=OUT;x.stroke();
 }
 const sprites=new Map();
 function sprite(kind,s,sk){
@@ -697,7 +711,7 @@ const skinOpen=s=>totalStars()>=s.need;
    Layout: board + tray sizes (portrait / landscape, phones and tablets)
    ================================================================= */
 const bc=$('#bc'),bx=bc.getContext('2d'),trayEl=$('#tray'),fx=$('#fx'),fxx=fx.getContext('2d');
-let BS=300,PAD=10,CELL=35,land=false,slotS=100,trayH=100;
+let BS=300,GX=10,GY=10,CELL=35,land=false,slotS=100,trayH=100;
 function layout(){
   const W=innerWidth,H=innerHeight,area=$('#playArea'),aw=area.clientWidth-20,ah=area.clientHeight-10;
   land=W>H*1.12;$('#game').classList.toggle('land',land);
@@ -705,7 +719,8 @@ function layout(){
   else{BS=Math.floor(Math.min(ah,(aw-28)/1.62,720));slotS=Math.floor(Math.min(BS/3,(aw-BS-28)*.38))}
   BS=Math.max(180,BS);
   const d=DPR();bc.width=bc.height=Math.round(BS*d);bc.style.width=bc.style.height=BS+'px';
-  PAD=BS*.035;CELL=(BS-2*PAD)/N;
+  // inside of the frame art (measured from art/board-frame.webp): x .0855-.9145, y .0947-.9251 of the board
+  const ins=BS*.014,side=Math.min(.829,.8304)*BS-2*ins;CELL=side/N;GX=BS*.0855+ins+(.829*BS-2*ins-side)/2;GY=BS*.0947+ins+(.8304*BS-2*ins-side)/2;
   if(!land){const hudH=Math.max(64,Math.min(90,H*.09));trayH=Math.floor(Math.max(BS*.32,Math.min(BS*.46,ah-hudH-BS-24)));trayEl.style.width=BS+'px';trayEl.style.height=trayH+'px'}else{trayEl.style.width=slotS+'px';trayEl.style.height=BS+'px'}
   $('#hud').style.width=land?'':BS+'px';
   fx.width=Math.round(W*d);fx.height=Math.round(H*d);fx.style.width=W+'px';fx.style.height=H+'px';
@@ -721,14 +736,13 @@ let anims=[];         // board animations: {type,x,y,cell,t0,d}
 let parts=[];         // particles on the overlay (screen coords)
 let flys=[];          // treasures flying to the goal counters
 let drag=null,ghost=null;
-function cellXY(x,y){return[PAD+x*CELL,PAD+y*CELL]}
+function cellXY(x,y){return[GX+x*CELL,GY+y*CELL]}
 function drawBoard(now){
   const d=DPR(),x=bx;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,BS,BS);
   // frame + night sky
-  rr(x,1.5,1.5,BS-3,BS-3,BS*.06);x.fillStyle='#fff3d6';x.fill();x.lineWidth=3;x.strokeStyle=OUT;x.stroke();
-  const ip=PAD*.55;const g=x.createLinearGradient(0,ip,0,BS-ip);g.addColorStop(0,'#3a2f86');g.addColorStop(1,'#241d5c');
-  rr(x,ip,ip,BS-2*ip,BS-2*ip,BS*.045);x.fillStyle=g;x.fill();
-  for(let y=0;y<N;y++)for(let X=0;X<N;X++){const [px,py]=cellXY(X,y);rr(x,px+CELL*.06,py+CELL*.06,CELL*.88,CELL*.88,CELL*.2);x.fillStyle=(X+y)%2?'rgba(255,255,255,.07)':'rgba(255,255,255,.1)';x.fill()}
+  if(ok(FRAME))x.drawImage(FRAME,0,0,BS,BS);
+  else{rr(x,1.5,1.5,BS-3,BS-3,BS*.06);x.fillStyle='#ffc23a';x.fill();x.lineWidth=3;x.strokeStyle=OUT;x.stroke();rr(x,GX-4,GY-4,CELL*N+8,CELL*N+8,BS*.04);x.fillStyle='#2f2672';x.fill()}
+  for(let y=0;y<N;y++)for(let X=0;X<N;X++){const [px,py]=cellXY(X,y);rr(x,px+CELL*.06,py+CELL*.06,CELL*.88,CELL*.88,CELL*.2);x.fillStyle=(X+y)%2?'rgba(255,255,255,.08)':'rgba(255,255,255,.12)';x.fill()}
   // preview: lines that would pop glow, in the colour of the piece
   let hl=null;
   if(ghost){hl=new Set();ghost.rows.forEach(r=>{for(let i=0;i<N;i++)hl.add(r*N+i)});ghost.cols.forEach(c=>{for(let i=0;i<N;i++)hl.add(i*N+c)})}
@@ -746,7 +760,7 @@ function drawBoard(now){
     const sc=k<.3?1+k*.8:1.24*(1-(k-.3)/.7);const s=CELL*Math.max(0,sc);x.globalAlpha=k<.6?1:1-(k-.6)/.4;drawCell(x,a.cell,px+(CELL-s)/2,py+(CELL-s)/2,s);x.globalAlpha=1;
     if(k<.35){x.fillStyle=`rgba(255,255,255,${.7*(1-k/.35)})`;rr(x,px+(CELL-s)/2,py+(CELL-s)/2,s,s,s*.24);x.fill()}}
 }
-function boardToScreen(x,y){const r=bc.getBoundingClientRect();return[r.left+PAD+(x+.5)*CELL,r.top+PAD+(y+.5)*CELL]}
+function boardToScreen(x,y){const r=bc.getBoundingClientRect();return[r.left+GX+(x+.5)*CELL,r.top+GY+(y+.5)*CELL]}
 /* tray */
 function pieceCanvas(p,maxS,cellCap){const sh=SH[p.k];const cs=Math.min(cellCap,maxS/Math.max(sh.w,sh.h,3));const cv=document.createElement('canvas'),d=DPR();
   cv.width=Math.round(sh.w*cs*d);cv.height=Math.round(sh.h*cs*d);cv.style.width=sh.w*cs+'px';cv.style.height=sh.h*cs+'px';const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);
@@ -772,18 +786,24 @@ function drawFx(now){
   backs=backs.filter(b=>{if(now-b.t0>=220){const s=trayEl.querySelector(`.slot[data-i="${b.i}"]`);s&&s.classList.remove('lift');return false}return true});
   for(const p of parts){const k=(now-p.t0)/p.life;if(k<0)continue;
     const tt=(now-p.t0)/1000;const px=p.x+p.vx*tt,py=p.y+p.vy*tt+p.g*tt*tt;x.globalAlpha=Math.max(0,1-k);
-    if(p.star){x.save();x.translate(px,py);x.rotate(p.r+tt*4);star8(x,0,0,p.s);x.fillStyle=p.c;x.fill();x.restore()}
+    if(p.img){const e=Math.min(1,k*1.6),sz=p.s0+(p.s1-p.s0)*(1-Math.pow(1-e,3));x.globalAlpha=k<.55?1:Math.max(0,1-(k-.55)/.45);x.save();x.translate(px,py);x.rotate(p.r+tt*(p.spin||0));if(ok(p.img))x.drawImage(p.img,-sz/2,-sz/2,sz,sz);x.restore()}
+    else if(p.star){x.save();x.translate(px,py);x.rotate(p.r+tt*4);const im=p.tw?FX.twinkle:FX.star;if(ok(im))x.drawImage(im,-p.s*1.4,-p.s*1.4,p.s*2.8,p.s*2.8);else{star8(x,0,0,p.s);x.fillStyle=p.c;x.fill()}x.restore()}
     else if(p.conf){x.save();x.translate(px,py);x.rotate(p.r+tt*6);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.66);x.restore()}
     else{x.fillStyle=p.c;rr(x,px-p.s/2,py-p.s/2,p.s,p.s,p.s*.25);x.fill()}}
   x.globalAlpha=1;parts=parts.filter(p=>now-p.t0<p.life);
-  for(const f of flys){const k=(now-f.t0)/f.d;if(k<0){const [sx,sy]=[f.x0,f.y0];x.drawImage(itemImg[f.id],sx-f.s/2,sy-f.s/2,f.s,f.s);continue}
+  for(const f of flys){const k=(now-f.t0)/f.d;if(k<0){const [sx,sy]=[f.x0,f.y0];if(ok(itemImg[f.id]))x.drawImage(itemImg[f.id],sx-f.s/2,sy-f.s/2,f.s,f.s);continue}
     const e=k<1?1-Math.pow(1-k,2):1;const px=f.x0+(f.x1-f.x0)*e,py=f.y0+(f.y1-f.y0)*e-Math.sin(e*Math.PI)*120;const s=f.s*(1+.4*Math.sin(e*Math.PI));
-    if(itemImg[f.id].complete)x.drawImage(itemImg[f.id],px-s/2,py-s/2,s,s);if(k>=1&&!f.done){f.done=1;f.cb()}}
+    if(ok(itemImg[f.id]))x.drawImage(itemImg[f.id],px-s/2,py-s/2,s,s);if(k>=1&&!f.done){f.done=1;f.cb()}}
   flys=flys.filter(f=>!f.done);
 }
 let backs=[];
 function burst(sx,sy,col,n){const c=COLS[col]||'#ffd23f';for(let i=0;i<n;i++){const a=Math.random()*6.283,v=120+Math.random()*260;
-  parts.push({x:sx,y:sy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-160,g:520,s:4+Math.random()*7,c:i%3?c:'#fff6c8',star:i%4===0,r:Math.random()*6,t0:performance.now(),life:650+Math.random()*350})}}
+  parts.push({x:sx,y:sy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-160,g:520,s:4+Math.random()*7,c:i%3?c:'#fff6c8',star:i%4===0,tw:i%8===0,r:Math.random()*6,t0:performance.now(),life:650+Math.random()*350})}}
+/* a golden starburst with a soft glow where a line pops (bigger for combos) */
+function lineBurst(sx,sy,big,delay){const t0=performance.now()+(delay||0),s=CELL*(big?5:3.6);
+  parts.push({img:FX.glow,x:sx,y:sy,vx:0,vy:0,g:0,s0:s*.3,s1:s*1.3,r:0,t0,life:650});
+  parts.push({img:FX.burst,x:sx,y:sy,vx:0,vy:0,g:0,s0:s*.2,s1:s,r:Math.random(),spin:1.5,t0,life:600});
+  if(big)parts.push({img:FX.confetti,x:sx,y:sy,vx:0,vy:-30,g:0,s0:s*.4,s1:s*1.6,r:0,spin:.8,t0:t0+80,life:900});fxDirty=true}
 function confetti(){const W=innerWidth,H=innerHeight,cols=['#ff3b30','#ffd60a','#1fa64a','#3fc6f5','#9b4bf0','#ff5fa8','#ff8a00'];const t0=performance.now();
   for(let i=0;i<150;i++)parts.push({x:W/2+(Math.random()-.5)*W*.4,y:H*.35,vx:(Math.random()-.5)*900,vy:-Math.random()*900-200,g:900,s:Math.random()*8+7,c:cols[i%cols.length],conf:1,r:Math.random()*6,t0:t0+Math.random()*200,life:2600})}
 function loop(now){requestAnimationFrame(loop);
@@ -801,7 +821,7 @@ function dragTopLeft(cs){const sh=SH[drag.p.k],w=sh.w*cs,h=sh.h*cs;
   return drag.touch?[drag.x-w/2,drag.y-h-CELL*.9]:[drag.x-w/2,drag.y-h/2]}
 function findGhost(){
   const sh=SH[drag.p.k],r=bc.getBoundingClientRect(),[lx,ly]=dragTopLeft(CELL);
-  const fx_=(lx-r.left-PAD)/CELL,fy_=(ly-r.top-PAD)/CELL;
+  const fx_=(lx-r.left-GX)/CELL,fy_=(ly-r.top-GY)/CELL;
   const reach=age==='little'?1.6:.75;let bestG=null,bd=1e9;
   const x0=Math.round(fx_),y0=Math.round(fy_);
   for(let y=y0-2;y<=y0+2;y++)for(let x=x0-2;x<=x0+2;x++){const dd=Math.hypot(x-fx_,y-fy_);if(dd>reach||dd>=bd)continue;if(fits(G.grid,sh,x,y)){bd=dd;bestG={x,y}}}
@@ -845,6 +865,8 @@ function placePiece(i,gx,gy){
     set.forEach(([x,y])=>{const cell=G.grid[y][x];const dl=Math.hypot(x+.5-cx,y+.5-cy)*35;anims.push({type:'pop',x,y,cell,t0:now+60+dl,d:380});
       setTimeout(()=>{const [sx,sy]=boardToScreen(x,y);burst(sx,sy,cell.it?2:cell.c,cell.it?14:7);fxDirty=true},60+dl);
       if(cell.it)collectItem(cell.it,x,y,60+dl);G.grid[y][x]=null});
+    rows.forEach((r,i)=>{const [sx,sy]=boardToScreen(Math.min(N-1,Math.max(0,cx-.5)),r);lineBurst(sx,sy,n>1,80+i*60)});
+    cols.forEach((c,i)=>{const [sx,sy]=boardToScreen(c,Math.min(N-1,Math.max(0,cy-.5)));lineBurst(sx,sy,n>1,80+(rows.length+i)*60)});
     const pts=10*n*n+(G.streak>1?10*(G.streak-1):0);addScore(pts,[(gx+sh.w/2),(gy+sh.h/2)]);
     sfx.clear(n,G.streak);try{navigator.vibrate&&navigator.vibrate([20,40,30])}catch(e){}
     const empty=G.grid.every(r=>r.every(v=>!v));
@@ -872,7 +894,7 @@ function collectItem(id,x,y,delay){
   flys.push({id,x0:sx,y0:sy,x1:r.left+28,y1:r.top+r.height/2,s:CELL*.9,t0:performance.now()+delay,d:650,cb:()=>{G.pending--;G.got[id]=(G.got[id]||0)+1;renderGoals(id);sfx.item();checkWin()}});fxDirty=true;
 }
 function renderGoals(bump){const el=$('#goals');if(G.mode!=='adv'){el.innerHTML='';return}
-  el.innerHTML=Object.keys(G.goals).map(id=>{const left=G.goals[id]-(G.got[id]||0);return`<div class="goal${left<=0?' done':''}" data-id="${id}"><img src="items/${id}.webp" alt=""><b><span>${Math.max(0,left)}</span></b></div>`}).join('');
+  el.innerHTML=Object.keys(G.goals).map(id=>{const left=G.goals[id]-(G.got[id]||0);return`<div class="goal${left<=0?' done':''}" data-id="${id}"><img src="art/t-${id}.webp" alt=""><b><span>${Math.max(0,left)}</span></b></div>`}).join('');
   if(bump){const g=el.querySelector(`[data-id="${bump}"]`);if(g){g.classList.add('bump');setTimeout(()=>g.classList.remove('bump'),160)}}}
 function checkWin(){if(G.mode!=='adv'||G.ended)return;if(Object.keys(G.goals).every(id=>(G.got[id]||0)>=G.goals[id])&&!G.pending){G.ended=true;setTimeout(levelWin,500)}}
 /* after a move: is there still room for one of the pieces? */
@@ -914,7 +936,7 @@ function startGame(mode,level,resume){
   show('game');layout();renderGoals();
   if(resume&&G.tray&&G.tray.length)renderTray(true);else{trayEl.innerHTML=''}
   // Bismillah first
-  $('#bismGoal').innerHTML=mode==='adv'?`${t('collect')} `+Object.keys(G.goals).map(id=>`<img src="items/${id}.webp" alt="" style="width:34px;height:34px;vertical-align:-10px"> ${G.goals[id]}`).join(' &nbsp;'):'';
+  $('#bismGoal').innerHTML=mode==='adv'?`${t('collect')} `+Object.keys(G.goals).map(id=>`<img src="art/t-${id}.webp" alt="" style="width:38px;height:38px;vertical-align:-12px"> ${G.goals[id]}`).join(' &nbsp;'):'';
   G.busy=true;ov('bism',true);
 }
 $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));G.busy=false;if(!G.tray.length||G.tray.every(v=>!v))setTimeout(deal,250);else afterMove();boardDirty=true;
@@ -941,7 +963,7 @@ function showOver(canSave){
   $('#overSave').style.display=canSave?'':'none';
   $('#overAgain').querySelector('span').textContent=end?t('again'):t('retry');
   $('#overAgain').style.display=canSave&&end?'none':'';
-  $('#overScore').innerHTML=end&&!canSave?`<div class="bigscore">${G.score}</div>${G.newBest?`<div class="ribbon">${t('newBest')}</div>`:`<p>${tf('best',{n:best[age]})}</p>`}`:'';
+  $('#overScore').innerHTML=end&&!canSave?`${G.newBest?'<img class="trophy" src="art/trophy.webp" alt="">':''}<div class="bigscore">${G.score}</div>${G.newBest?`<div class="ribbon">${t('newBest')}</div>`:`<p>${tf('best',{n:best[age]})}</p>`}`:'';
   $('#overFactBox').style.display=canSave?'none':'';$('#overFact').textContent=fact(Math.floor(Math.random()*FACTS.length));
   ov('over',true);
 }
@@ -1002,14 +1024,8 @@ function holdable(el,ms,done,onTap){
 holdable($('#restartBtn'),1000,()=>{sfx.tap();if(!G)return;if(G.mode==='end'){store.set('endless_'+age,null);startGame('end')}else startGame('adv',G.level)});
 
 /* ---------- home ---------- */
-function renderHomeArt(){
-  const draw=(cv,cells)=>{const x=cv.getContext('2d'),s=cv.width/4;x.clearRect(0,0,cv.width,cv.width);cells.forEach(([X,Y,c])=>{const sp=typeof c==='string'?sprite(c,s/DPR(),skin):sprite(c,s/DPR(),skin);x.drawImage(sp,X*s,Y*s,s,s)})};
-  draw($('#cvAdv'),[[0,0,0],[1,0,'moon'],[2,0,1],[0,1,4],[1,1,2],[2,1,'star'],[3,1,3],[1,2,'lantern'],[2,2,6],[3,2,5],[0,3,7],[2,3,0],[3,3,'palm']]);
-  draw($('#cvEnd'),[[0,0,6],[1,0,6],[3,0,2],[0,1,6],[2,1,4],[3,1,2],[0,2,1],[1,2,1],[2,2,4],[3,2,2],[1,3,3],[2,3,3],[3,3,5]]);
-}
 function renderHome(){
-  renderHomeArt();
-  $('#advBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${totalStars()}`;
+  $('#advBadge').innerHTML=`<img src="art/star-gold.webp" alt=""> ${totalStars()}`;
   $('#endBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${best[age]}`;
   document.querySelectorAll('#age button').forEach(b=>b.classList.toggle('on',b.dataset.a===age));
 }
@@ -1020,7 +1036,7 @@ $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
 $('#goEnd').onclick=e=>pickMode(e.currentTarget,()=>{const sv=store.get('endless_'+age,null);startGame('end',0,sv&&sv.grid?sv:null)});
 function openMap(){renderMap();show('map');const c=$('#lvls .cur');if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),50)}
 function renderMap(){
-  $('#mapSum').innerHTML=`<img src="ui/star.webp" alt=""> ${totalStars()} / ${LEVELS*3}`;
+  $('#mapSum').innerHTML=`<img src="art/star-gold.webp" alt=""> ${totalStars()} / ${LEVELS*3}`;
   let h='';for(let n=1;n<=LEVELS;n++){const lk=n>prog.open,st=prog.stars[n]||0,gift=SKINS.some(s=>s.need>0)&&n%5===0;
     h+=`<button class="lv${lk?' lock':''}${n===prog.open&&!prog.stars[n]?' cur':''}${gift&&!lk?' gift':''}" data-n="${n}">${lk?'<img src="ui/lock.webp" alt="">':n}${lk?'':`<span class="st">${[0,1,2].map(k=>`<i class="${k<st?'on':''}"></i>`).join('')}</span>`}</button>`}
   $('#lvls').innerHTML=h}
@@ -1030,8 +1046,8 @@ function skinPreview(cv,id){const x=cv.getContext('2d'),s=cv.width/2;x.clearRect
 function renderSkins(){const el=$('#skins');el.innerHTML='';const ts=totalStars();
   SKINS.forEach(s=>{const b=document.createElement('button');const open=ts>=s.need;b.className='sk'+(s.id===skin?' on':'')+(open?'':' lock');
     const c=document.createElement('canvas');c.width=c.height=200;skinPreview(c,s.id);b.appendChild(c);
-    b.insertAdjacentHTML('beforeend',`<b>${t('sk')[s.id]}</b>`+(open?'':`<span class="lk"><img src="ui/lock.webp" alt=""><span><img src="ui/star.webp" alt=""> ${s.need}</span></span>`));
-    b.onclick=()=>{if(!open){sfx.bad();toast(tf('stars',{n:s.need}));return}skin=s.id;store.set('skin',skin);sprites.clear();sfx.pick();renderSkins();renderHomeArt();boardDirty=true};el.appendChild(b)})}
+    b.insertAdjacentHTML('beforeend',`<b>${t('sk')[s.id]}</b>`+(open?'':`<span class="lk"><img src="ui/lock.webp" alt=""><span><img src="art/star-gold.webp" alt=""> ${s.need}</span></span>`));
+    b.onclick=()=>{if(!open){sfx.bad();toast(tf('stars',{n:s.need}));return}skin=s.id;store.set('skin',skin);sprites.clear();sfx.pick();renderSkins();boardDirty=true};el.appendChild(b)})}
 $('#goSkins').onclick=()=>{sfx.tap();renderSkins();ov('skinsOv',true)};
 $('#skClose').onclick=()=>ov('skinsOv',false);
 
@@ -1154,7 +1170,7 @@ renderSnd();renderMus();applyLang();setTimeout(()=>tickPrayer(Date.now()),300);
 document.fonts&&document.fonts.ready.then(()=>renderHome());
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* for automated tests only */
-window.__mbp={get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
+window.__mbp={geo:()=>({GX,GY,CELL}),get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
 </script>
 </body>
 </html>
