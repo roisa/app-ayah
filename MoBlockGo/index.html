@@ -705,14 +705,14 @@ const COLS=['#ff4f5e','#ff9a1f','#ffd23f','#3fcf5a','#2ec7f0','#4a6bff','#a35bff
 const OUT='#4a2c14',FR='#1d1640';
 /* art: glossy stud tiles, ice and arrows (drawn by code until they have loaded) */
 const IMG={};let imgLeft=0;
-['bricks','pillar','tri','arrowH','arrowV','iceBadge','iceCover','iceCrack','iceMelt'].forEach(n=>{imgLeft++;const i=new Image();
+['tri','arrowH','arrowV','iceBadge','iceCover','iceCrack','iceMelt'].forEach(n=>{imgLeft++;const i=new Image();
   i.onload=()=>{IMG[n]=i;bgCache=null;dirty=true;if(--imgLeft===0)setTimeout(()=>{try{renderHomeArt();if($('#howOv').classList.contains('on'))renderHow()}catch(e){}},0)};
   i.onerror=()=>{imgLeft--};i.src='ui/'+n+'.webp'});
-/* a different picture behind every level */
-const BGS=['snow','garden','night','oasis','sea','masjid','rainbow','autumn'];let lastBg=-1;
-function pickBg(){let k;do{k=Math.floor(Math.random()*BGS.length)}while(k===lastBg&&BGS.length>1);lastBg=k;
-  $('#game').style.backgroundImage=`url(bg/${BGS[k]}.webp),radial-gradient(120% 80% at 50% 0%,#ffbd4a 0%,#ffa51f 45%,#ff8f1a 100%)`;
-  const nx=new Image();nx.src=`bg/${BGS[(k+1)%BGS.length]}.webp`}
+/* a calm, dark colour behind every level (changes each time), with a faint star pattern, so the bright bricks pop */
+const BGS=[['#3b3590','#1a1645'],['#25508f','#0e1d40'],['#1d7378','#0a3437'],['#6b3172','#321436'],['#4a3196','#1c1143'],['#2a6a8f','#0d2a40']];let lastBg=-1;
+const BGPAT='url("data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><g fill="none" stroke="#fff" stroke-opacity=".04" stroke-width="2"><rect x="35" y="35" width="26" height="26"/><rect x="35" y="35" width="26" height="26" transform="rotate(45 48 48)"/></g></svg>')+'")';
+function pickBg(){let k;do{k=Math.floor(Math.random()*BGS.length)}while(k===lastBg);lastBg=k;const [a,b]=BGS[k];
+  $('#game').style.background=`${BGPAT},radial-gradient(95% 75% at 50% 45%,${a} 0%,${b} 100%)`}
 const hexRgb=h=>{const n=parseInt(h.slice(1),16);return[n>>16&255,n>>8&255,n&255]};
 const mix=(h,k)=>{const c=hexRgb(h);return 'rgb('+c.map(v=>Math.round(k>=0?v+(255-v)*k:v*(1+k))).join(',')+')'};
 function rr(x,X,Y,W,H,r){r=Math.max(0,Math.min(r,W/2,H/2));x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+W,Y,X+W,Y+H,r);x.arcTo(X+W,Y+H,X,Y+H,r);x.arcTo(X,Y+H,X,Y,r);x.arcTo(X,Y,X+W,Y,r);x.closePath()}
@@ -747,53 +747,58 @@ function polyPath(x,pts,X,Y,C,m,r){
     return[X+p[0]*C+m*(ni[0]/L1+no[0]/L2),Y+p[1]*C+m*(ni[1]/L1+no[1]/L2)]});
   x.beginPath();const mid=(i)=>{const a=P[i],b=P[(i+1)%n];return[(a[0]+b[0])/2,(a[1]+b[1])/2]};
   const s=mid(n-1);x.moveTo(s[0],s[1]);for(let i=0;i<n;i++){const b=P[(i+1)%n];x.arcTo(P[i][0],P[i][1],b[0],b[1],r)}x.closePath()}
+/* A block is a chunky toy brick: a darker side underneath, a flat top and four round studs on every square.
+   The brick itself is drawn once into a small canvas and reused, so dragging stays smooth. */
+const brickCache=new Map();
+const DEP=.11,STUD=[[-.205,-.2],[.205,-.2],[-.205,.2],[.205,.2]];
+function brickSprite(b,C){
+  const d=DPR(),key=b.k+'|'+b.c+'|'+Math.round(C*d*4);let cv=brickCache.get(key);if(cv)return cv;
+  if(brickCache.size>400)brickCache.clear();
+  const s=shp(b.k),pad=Math.ceil(C*.25),W=s.w*C+2*pad,H=s.h*C+2*pad;
+  cv=document.createElement('canvas');cv.width=Math.ceil(W*d);cv.height=Math.ceil(H*d);const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);x.translate(pad,pad);
+  const pts=blockPoly(b.k),c=COLS[b.c],m=C*.045,r=C*.17,dep=C*DEP;
+  polyPath(x,pts,0,0,C,m,r);x.fillStyle=mix(c,-.4);x.fill();
+  x.save();polyPath(x,pts,0,0,C,m,r);x.clip();
+  const g=x.createLinearGradient(0,0,0,s.h*C);g.addColorStop(0,mix(c,.14));g.addColorStop(1,mix(c,-.05));
+  polyPath(x,pts,0,-dep,C,m,r);x.fillStyle=g;x.fill();
+  x.globalAlpha=.3;polyPath(x,pts,0,-dep,C,m+C*.035,r*.8);x.lineWidth=C*.035;x.strokeStyle='#fff';x.stroke();x.globalAlpha=1;
+  x.restore();
+  const sr=C*.158;
+  for(const [cx,cy] of s.cells){const ox=(cx+.5)*C,oy=(cy+.5)*C-dep/2;
+    for(const [u,v] of STUD){const px=ox+u*C,py=oy+v*C;
+      x.beginPath();x.arc(px,py+sr*.3,sr,0,7);x.fillStyle=mix(c,-.32);x.fill();
+      const rg=x.createRadialGradient(px-sr*.4,py-sr*.45,sr*.05,px,py,sr*1.05);rg.addColorStop(0,mix(c,.5));rg.addColorStop(.55,mix(c,.12));rg.addColorStop(1,mix(c,-.04));
+      x.beginPath();x.arc(px,py,sr,0,7);x.fillStyle=rg;x.fill();
+      x.beginPath();x.ellipse(px-sr*.32,py-sr*.38,sr*.32,sr*.2,-.6,0,7);x.fillStyle='rgba(255,255,255,.6)';x.fill()}
+    // the colour's sign, softly pressed in between the studs (helps children who mix up colours)
+    sign(x,b.c,ox,oy,C*.07);x.fillStyle=mix(c,.4);x.fill()}
+  polyPath(x,pts,0,0,C,m,r);x.lineWidth=Math.max(1.2,C*.03);x.strokeStyle=mix(c,-.62);x.stroke();
+  cv.pad=pad;brickCache.set(key,cv);return cv}
 /* one block at pixel X,Y (top-left of its box), cell size C */
 function drawBlock(x,b,X,Y,C,opt){
-  opt=opt||{};const s=shp(b.k),pts=blockPoly(b.k),c=COLS[b.c],m=C*.05,r=C*.24,lw=Math.max(1.5,C*.06);
+  opt=opt||{};const s=shp(b.k),spr=brickSprite(b,C),d=DPR(),dep=C*DEP;
   x.save();
-  if(opt.lift){x.shadowColor='rgba(60,30,0,.4)';x.shadowBlur=C*.35;x.shadowOffsetY=C*.16}
-  else{x.shadowColor='rgba(60,30,0,.25)';x.shadowBlur=C*.08;x.shadowOffsetY=C*.06}
-  polyPath(x,pts,X,Y,C,m,r);x.fillStyle=mix(c,-.32);x.fill();x.restore();
-  x.save();polyPath(x,pts,X,Y,C,m,r);x.clip();
-  // top face (leaves a darker rim at the bottom, so it looks thick)
-  const g=x.createLinearGradient(0,Y,0,Y+s.h*C);g.addColorStop(0,mix(c,.32));g.addColorStop(.6,c);g.addColorStop(1,mix(c,-.08));
-  if(IMG.bricks){
-    // glossy toy bricks, four studs on every square; the colour's sign sits softly between the studs
-    polyPath(x,pts,X,Y-C*.09,C,m+C*.02,r);x.save();x.clip();
-    for(const [cx,cy] of s.cells)x.drawImage(IMG.bricks,b.c*192,0,192,192,X+cx*C,Y+cy*C-C*.09,C,C);x.restore();
-    for(const [cx,cy] of s.cells){sign(x,b.c,X+(cx+.5)*C,Y+(cy+.5)*C-C*.09,C*.085);x.fillStyle='rgba(255,255,255,.55)';x.fill()}
-  }else{
-  polyPath(x,pts,X,Y-C*.09,C,m+C*.02,r);x.fillStyle=g;x.fill();
-  // soft shine along the top
-  x.globalAlpha=.4;polyPath(x,pts,X,Y-C*.09,C,m+C*.12,r*.8);x.lineWidth=C*.06;x.strokeStyle='#fff';x.stroke();x.globalAlpha=1;
-  // a pressed-in sign on every square
-  for(const [cx,cy] of s.cells){const px=X+(cx+.5)*C,py=Y+(cy+.45)*C;
-    sign(x,b.c,px,py+C*.03,C*.2);x.fillStyle=mix(c,-.28);x.fill();
-    sign(x,b.c,px,py,C*.2);x.fillStyle=mix(c,.5);x.fill()}}
-  // ice
-  if(opt.ice>0&&IMG.iceCover){const im=opt.ice===1&&IMG.iceCrack?IMG.iceCrack:IMG.iceCover;x.globalAlpha=.6;
-    for(const [cx,cy] of s.cells)x.drawImage(im,X+cx*C-C*.02,Y+cy*C-C*.1,C*1.04,C*1.04);x.globalAlpha=1}
-  else if(opt.ice>0){x.fillStyle='rgba(200,240,255,.72)';x.fillRect(X,Y-C,s.w*C,(s.h+1)*C);
-    x.strokeStyle='rgba(255,255,255,.95)';x.lineWidth=C*.05;x.beginPath();
-    for(const [cx,cy] of s.cells){const px=X+cx*C,py=Y+cy*C;x.moveTo(px+C*.2,py+C*.25);x.lineTo(px+C*.42,py+C*.12);x.moveTo(px+C*.6,py+C*.82);x.lineTo(px+C*.84,py+C*.62)}x.stroke()}
-  x.restore();
-  polyPath(x,pts,X,Y,C,m,r);x.lineWidth=lw;x.strokeStyle=IMG.bricks?mix(c,-.62):OUT;x.stroke();
-  // one-way arrows / ice number on the biggest part of the block
-  const [ax,ay]=anchor(s);const cx=X+(ax+.5)*C,cy=Y+(ay+.5)*C;
-  if(b.ax&&IMG.arrowH){const has=new Set(s.cells.map(([u,v])=>u+','+v));let a0=0,a1=0;
+  if(opt.lift){x.shadowColor='rgba(0,0,20,.45)';x.shadowBlur=C*.35;x.shadowOffsetY=C*.16}
+  else{x.shadowColor='rgba(0,0,20,.3)';x.shadowBlur=C*.08;x.shadowOffsetY=C*.05}
+  x.drawImage(spr,X-spr.pad,Y-spr.pad,spr.width/d,spr.height/d);x.restore();
+  // ice over the whole brick
+  if(opt.ice>0){x.save();polyPath(x,blockPoly(b.k),X,Y,C,C*.045,C*.17);x.clip();
+    if(IMG.iceCover){const im=opt.ice===1&&IMG.iceCrack?IMG.iceCrack:IMG.iceCover;x.globalAlpha=.62;
+      for(const [cx,cy] of s.cells)x.drawImage(im,X+cx*C-C*.02,Y+cy*C-C*.08,C*1.04,C*1.04)}
+    else{x.fillStyle='rgba(200,240,255,.65)';x.fillRect(X,Y,s.w*C,s.h*C)}
+    x.restore()}
+  const [ax,ay]=anchor(s),cx=X+(ax+.5)*C,cy=Y+(ay+.5)*C-dep/2;
+  // one-way arrows across the brick
+  if(b.ax){const has=new Set(s.cells.map(([u,v])=>u+','+v));let a0=0,a1=0;
     if(b.ax===1){while(has.has((ax+a0-1)+','+ay))a0--;while(has.has((ax+a1+1)+','+ay))a1++}else{while(has.has(ax+','+(ay+a0-1)))a0--;while(has.has(ax+','+(ay+a1+1)))a1++}
-    const run=a1-a0+1,mid=(a0+a1)/2,im=b.ax===1?IMG.arrowH:IMG.arrowV,ar=im.width/im.height;
-    let len=Math.max(C*.72,run*C-C*.3),th=b.ax===1?len/ar:len*ar;if(th>C*.46){th=C*.46;len=b.ax===1?th*ar:th/ar}
-    const ux=b.ax===1?cx+mid*C:cx,uy=(b.ax===2?cy+mid*C:cy)-C*.06,w=b.ax===1?len:th,h=b.ax===1?th:len;
-    x.save();x.shadowColor='rgba(60,30,0,.45)';x.shadowBlur=C*.06;x.shadowOffsetY=C*.04;x.drawImage(im,ux-w/2,uy-h/2,w,h);x.restore()}
-  else if(b.ax){x.save();x.translate(cx,cy);if(b.ax===2)x.rotate(Math.PI/2);x.beginPath();const L=C*.36,H=C*.15;
-    x.moveTo(-L,0);x.lineTo(-L+H*1.4,-H*1.5);x.lineTo(-L+H*1.4,-H*.5);x.lineTo(L-H*1.4,-H*.5);x.lineTo(L-H*1.4,-H*1.5);x.lineTo(L,0);x.lineTo(L-H*1.4,H*1.5);x.lineTo(L-H*1.4,H*.5);x.lineTo(-L+H*1.4,H*.5);x.lineTo(-L+H*1.4,H*1.5);x.closePath();
-    x.fillStyle='#fff';x.fill();x.lineWidth=Math.max(1.2,C*.04);x.strokeStyle=OUT;x.stroke();x.restore()}
-  if(opt.ice>0&&IMG.iceBadge){const bs=C*.6,bx_=X+(ax+.5)*C,by_=Y+(ay+.5)*C-C*.06;x.drawImage(IMG.iceBadge,bx_-bs/2,by_-bs/2,bs,bs);
-    const nx=bx_+bs*.36,ny=by_+bs*.34,nr=C*.17;x.beginPath();x.arc(nx,ny,nr,0,7);x.fillStyle='#1b6fd0';x.fill();x.lineWidth=Math.max(1.2,C*.035);x.strokeStyle='#fff';x.stroke();
+    const mid=(a0+a1)/2,run=a1-a0+1,ux=b.ax===1?cx+mid*C:cx,uy=b.ax===2?cy+mid*C:cy;
+    const im=b.ax===1?IMG.arrowH:IMG.arrowV;
+    if(im){const ar=im.width/im.height;let len=Math.max(C*.72,run*C-C*.3),th=b.ax===1?len/ar:len*ar;if(th>C*.46){th=C*.46;len=b.ax===1?th*ar:th/ar}
+      const w=b.ax===1?len:th,h=b.ax===1?th:len;x.save();x.shadowColor='rgba(0,0,20,.5)';x.shadowBlur=C*.06;x.shadowOffsetY=C*.04;x.drawImage(im,ux-w/2,uy-h/2,w,h);x.restore()}}
+  // ice counter: how many blocks must go home first
+  if(opt.ice>0){const bs=C*.6;if(IMG.iceBadge)x.drawImage(IMG.iceBadge,cx-bs/2,cy-bs/2,bs,bs);
+    const nx=cx+bs*.36,ny=cy+bs*.34,nr=C*.17;x.beginPath();x.arc(nx,ny,nr,0,7);x.fillStyle='#1b6fd0';x.fill();x.lineWidth=Math.max(1.2,C*.035);x.strokeStyle='#fff';x.stroke();
     x.fillStyle='#fff';x.font=`400 ${Math.round(C*.24)}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillText(opt.ice,nx,ny+C*.015)}
-  else if(opt.ice>0){x.beginPath();x.arc(cx,cy,C*.27,0,7);x.fillStyle='#fff';x.fill();x.lineWidth=Math.max(1.2,C*.05);x.strokeStyle='#2a8ef0';x.stroke();
-    x.fillStyle='#1b6fd0';x.font=`400 ${Math.round(C*.36)}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillText(opt.ice,cx,cy+C*.02)}
 }
 function anchor(s){let best=s.cells[0],bs=-1;const has=new Set(s.cells.map(([x,y])=>x+','+y));for(const [x,y] of s.cells){let n=0;for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]])if(has.has((x+dx)+','+(y+dy)))n++;if(n>bs){bs=n;best=[x,y]}}return best}
 
@@ -836,53 +841,55 @@ addEventListener('orientationchange',()=>setTimeout(()=>{if(cur==='game')layout(
    ================================================================= */
 let dirty=true,bgCache=null,parts=[],exits=[],wiggle=null;
 const cellPx=(x,y)=>[M+x*C,M+y*C];
-function gateRect(Gt){const t=M*.74,gap=C*.05;
-  if(Gt.s==='B'||Gt.s==='T'){const X=M+Gt.f*C+gap*1.5,W=Gt.n*C-gap*3,Y=Gt.s==='B'?M+(Gt.at+1)*C+gap:M+Gt.at*C-gap-t;return[X,Y,W,t]}
-  const Y=M+Gt.f*C+gap*1.5,H=Gt.n*C-gap*3,X=Gt.s==='R'?M+(Gt.at+1)*C+gap:M+Gt.at*C-gap-t;return[X,Y,t,H]}
+/* doors sit flat inside the purple frame, as coloured parts of it */
+function gateRect(Gt){const ex=M*.86,gi=C*.03,t=ex-gi-M*.06,sd=C*.07;
+  if(Gt.s==='B'||Gt.s==='T'){const X=M+Gt.f*C+sd,W=Gt.n*C-2*sd,Y=Gt.s==='B'?M+(Gt.at+1)*C+gi:M+Gt.at*C-gi-t;return[X,Y,W,t]}
+  const Y=M+Gt.f*C+sd,H=Gt.n*C-2*sd,X=Gt.s==='R'?M+(Gt.at+1)*C+gi:M+Gt.at*C-gi-t;return[X,Y,t,H]}
+const FRAME={out:'#1d1640',side:'#4a3399',top0:'#8d70e2',top1:'#7355cb',well:'#17123f',floor:'#272461',tile:'#322e75'};
+function pillar(x,px,py){const s=C*.88,o=(C-s)/2,dep=C*.12,r=C*.16;
+  rr(x,px+o,py+o,s,s,r);x.fillStyle=FRAME.side;x.fill();
+  const g=x.createLinearGradient(0,py+o,0,py+o+s);g.addColorStop(0,FRAME.top0);g.addColorStop(1,FRAME.top1);
+  rr(x,px+o,py+o,s,s-dep,r);x.fillStyle=g;x.fill();
+  x.globalAlpha=.35;rr(x,px+o+s*.12,py+o+s*.1,s*.76,s*.18,s*.09);x.fillStyle='#fff';x.fill();x.globalAlpha=1;
+  rr(x,px+o,py+o,s,s,r);x.lineWidth=Math.max(1.2,C*.03);x.strokeStyle=FRAME.out;x.stroke()}
 function drawBackground(){
   const d=DPR(),cv=document.createElement('canvas');cv.width=Math.round(BW*d);cv.height=Math.round(BH*d);const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);
-  const L=G.L,wallR=M*.9,ex=M*.86;
-  const eachFloor=f=>{for(let y=0;y<L.h;y++)for(let X=0;X<L.w;X++)if(L.mask[y][X]==='.')f(X,y)};
-  // garden wall: outline, then wall, then a lighter top
-  if(IMG.bricks){// one chunky frame around the whole board
-    const fx0=M-ex,fy0=M-ex,fw=L.w*C+2*ex,fh=L.h*C+2*ex;
-    rr(x,fx0-3,fy0-3,fw+6,fh+6,wallR+3);x.fillStyle=FR;x.fill();rr(x,fx0,fy0,fw,fh,wallR);x.fillStyle='#4f37a0';x.fill();
-    rr(x,fx0+M*.12,fy0+M*.1,fw-M*.24,fh-M*.3,wallR*.85);const gg=x.createLinearGradient(0,fy0,0,fy0+fh);gg.addColorStop(0,'#8b6fe0');gg.addColorStop(1,'#7457cc');x.fillStyle=gg;x.fill();
-    eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-C*.06,py-C*.06,C*1.12,C*1.12,C*.12);x.fillStyle='rgba(20,10,60,.35)';x.fill()})}else{
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-ex-3,py-ex-3,C+2*ex+6,C+2*ex+6,wallR+3);x.fillStyle=FR;x.fill()});
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-ex,py-ex,C+2*ex,C+2*ex,wallR);x.fillStyle='#4f37a0';x.fill()});
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-ex+M*.12,py-ex+M*.1,C+2*ex-M*.24,C+2*ex-M*.3,wallR*.85);x.fillStyle='#7c5fd3';x.fill()});}
-  // courtyard floor
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);x.fillStyle='#262457';x.fillRect(px-1,py-1,C+2,C+2)});
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px+C*.05,py+C*.05,C*.9,C*.9,C*.16);x.fillStyle=(X+y)%2?'#34317a':'#302d72';x.fill();
-    if((X+y)%2===0){star8(x,px+C/2,py+C/2,C*.2);x.fillStyle='rgba(255,255,255,.05)';x.fill()}});
-  // inner edge shadow of the floor
-  x.save();x.globalCompositeOperation='source-atop';eachFloor((X,y)=>{const [px,py]=cellPx(X,y);if(y===0||L.mask[y-1][X]!=='.'){const g=x.createLinearGradient(0,py,0,py+C*.18);g.addColorStop(0,'rgba(10,6,40,.45)');g.addColorStop(1,'rgba(10,6,40,0)');x.fillStyle=g;x.fillRect(px,py,C,C*.18)}});x.restore();
+  const L=G.L,wallR=M*.9,ex=M*.86,fl=(X,y)=>y>=0&&y<L.h&&X>=0&&X<L.w&&L.mask[y][X]==='.';
+  const eachFloor=f=>{for(let y=0;y<L.h;y++)for(let X=0;X<L.w;X++)if(fl(X,y))f(X,y)};
+  // one chunky frame around the whole board: outline, darker side at the bottom, lighter top
+  const fx0=M-ex,fy0=M-ex,fw=L.w*C+2*ex,fh=L.h*C+2*ex,fd=M*.16;
+  rr(x,fx0-3,fy0-3,fw+6,fh+6,wallR+3);x.fillStyle=FRAME.out;x.fill();
+  rr(x,fx0,fy0,fw,fh,wallR);x.fillStyle=FRAME.side;x.fill();
+  const g=x.createLinearGradient(0,fy0,0,fy0+fh);g.addColorStop(0,FRAME.top0);g.addColorStop(1,FRAME.top1);
+  rr(x,fx0,fy0,fw,fh-fd,wallR);x.fillStyle=g;x.fill();
+  x.globalAlpha=.22;rr(x,fx0+wallR*.5,fy0+M*.1,fw-wallR,M*.14,M*.07);x.fillStyle='#fff';x.fill();x.globalAlpha=1;
+  // the floor sits a little lower than the frame
+  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-C*.05,py-C*.05,C*1.1,C*1.1,C*.14);x.fillStyle=FRAME.out;x.fill()});
+  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);x.fillStyle=FRAME.floor;x.fillRect(px-.5,py-.5,C+1,C+1)});
+  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px+C*.045,py+C*.045,C*.91,C*.91,C*.12);x.fillStyle=FRAME.tile;x.fill()});
+  x.save();x.globalCompositeOperation='source-atop';eachFloor((X,y)=>{const [px,py]=cellPx(X,y);if(!fl(X,y-1)){const g=x.createLinearGradient(0,py,0,py+C*.22);g.addColorStop(0,'rgba(5,2,30,.5)');g.addColorStop(1,'rgba(5,2,30,0)');x.fillStyle=g;x.fillRect(px,py,C,C*.22)}});x.restore();
   // empty squares next to the floor become purple pillars (not where a door sits)
-  if(IMG.pillar){const busy=new Set();for(const g of L.gates)for(let i=0;i<g.n;i++){const k=g.f+i;
-      if(g.s==='T')busy.add(k+','+(g.at-1));else if(g.s==='B')busy.add(k+','+(g.at+1));else if(g.s==='L')busy.add((g.at-1)+','+k);else busy.add((g.at+1)+','+k)}
-    const fl=(X,y)=>y>=0&&y<L.h&&X>=0&&X<L.w&&L.mask[y][X]==='.';
-    for(let y=0;y<L.h;y++)for(let X=0;X<L.w;X++){if(fl(X,y)||busy.has(X+','+y))continue;let nb=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)if(fl(X+dx,y+dy))nb++;
-      if(!nb)continue;const [px,py]=cellPx(X,y),sz=C*.92;x.drawImage(IMG.pillar,px+(C-sz)/2,py+(C-sz)/2,sz,sz*IMG.pillar.height/IMG.pillar.width)}}
+  const busy=new Set();for(const g of L.gates)for(let i=0;i<g.n;i++){const k=g.f+i;
+    if(g.s==='T')busy.add(k+','+(g.at-1));else if(g.s==='B')busy.add(k+','+(g.at+1));else if(g.s==='L')busy.add((g.at-1)+','+k);else busy.add((g.at+1)+','+k)}
+  for(let y=0;y<L.h;y++)for(let X=0;X<L.w;X++){if(fl(X,y)||busy.has(X+','+y))continue;let nb=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)if(fl(X+dx,y+dy))nb++;
+    if(nb){const [px,py]=cellPx(X,y);pillar(x,px,py)}}
   bgCache=cv}
 function drawGate(x,Gt,now,glow){
-  const [X,Y,W,H]=gateRect(Gt),c=COLS[Gt.c],hor=Gt.s==='B'||Gt.s==='T';
+  const [X,Y,W,H]=gateRect(Gt),c=COLS[Gt.c],hor=Gt.s==='B'||Gt.s==='T',r=Math.min(W,H)*.24,lip=Math.min(W,H)*.14;
   const pop=Gt.flash?Math.max(0,1-(now-Gt.flash)/500):0;
   x.save();
-  rr(x,X,Y,W,H,Math.min(W,H)*.45);x.fillStyle=mix(c,-.3);x.fill();
-  const g=hor?x.createLinearGradient(0,Y,0,Y+H):x.createLinearGradient(X,0,X+W,0);g.addColorStop(0,mix(c,.35+pop*.4));g.addColorStop(1,mix(c,pop*.4));
-  rr(x,X+1.5,Y+1.5,W-3,H-3-(hor?H*.12:0),Math.min(W,H)*.42);x.fillStyle=g;x.fill();
-  if(glow){x.globalAlpha=.35+.35*Math.sin(now/140);rr(x,X,Y,W,H,Math.min(W,H)*.45);x.fillStyle='#fff';x.fill();x.globalAlpha=1}
-  rr(x,X,Y,W,H,Math.min(W,H)*.45);x.lineWidth=Math.max(1.5,C*.05);x.strokeStyle=IMG.bricks?FR:OUT;x.stroke();
-  // little arrows pointing out of the courtyard, and the colour's sign in the middle
-  const n=Gt.n,dir={B:[0,1],T:[0,-1],R:[1,0],L:[-1,0]}[Gt.s];
-  for(let i=0;i<n;i++){const sh=n%2===0&&n>0?((i<n/2)?-.12:.12):0,cx=hor?X+(i+.5+sh)*W/n:X+W/2,cy=hor?Y+H/2:Y+(i+.5+sh)*H/n;
-    if(n%2===1&&i===(n-1)/2)continue;
-    const s=Math.min(W,H)*.2,ox=Math.sin(now/260)*s*.25*(dir[0]),oy=Math.sin(now/260)*s*.25*(dir[1]);
-    if(IMG.tri){x.save();x.translate(cx+ox,cy+oy);x.rotate({T:0,B:Math.PI,R:Math.PI/2,L:-Math.PI/2}[Gt.s]);const w=s*1.9,h=w*IMG.tri.height/IMG.tri.width;x.drawImage(IMG.tri,-w/2,-h/2,w,h);x.restore();continue}
-    x.beginPath();if(hor){x.moveTo(cx-s+ox,cy-s*.5*dir[1]+oy);x.lineTo(cx+ox,cy+s*.5*dir[1]+oy);x.lineTo(cx+s+ox,cy-s*.5*dir[1]+oy)}else{x.moveTo(cx-s*.5*dir[0]+ox,cy-s+oy);x.lineTo(cx+s*.5*dir[0]+ox,cy+oy);x.lineTo(cx-s*.5*dir[0]+ox,cy+s+oy)}
-    x.lineWidth=Math.max(2,C*.07);x.lineCap='round';x.lineJoin='round';x.strokeStyle='rgba(255,255,255,.95)';x.stroke()}
-  const mx=X+W/2,my=Y+H/2;sign(x,Gt.c,mx,my,Math.min(W,H)*.3);x.fillStyle='#fff';x.fill();x.lineWidth=1.2;x.strokeStyle=mix(c,-.4);x.stroke();
+  rr(x,X,Y,W,H,r);x.fillStyle=mix(c,-.38);x.fill();
+  const g=x.createLinearGradient(0,Y,0,Y+H);g.addColorStop(0,mix(c,.3+pop*.4));g.addColorStop(1,mix(c,.02+pop*.4));
+  rr(x,X,Y,W,H-lip,r);x.fillStyle=g;x.fill();
+  x.globalAlpha=.3;rr(x,X+Math.min(W,H)*.18,Y+(H-lip)*.12,W-Math.min(W,H)*.36,Math.min(W,H)*.14,Math.min(W,H)*.07);x.fillStyle='#fff';x.fill();x.globalAlpha=1;
+  if(glow){x.globalAlpha=.3+.3*Math.sin(now/140);rr(x,X,Y,W,H,r);x.fillStyle='#fff';x.fill();x.globalAlpha=1}
+  rr(x,X,Y,W,H,r);x.lineWidth=Math.max(1.5,C*.035);x.strokeStyle=FRAME.out;x.stroke();
+  // white arrows pointing out of the board, and the colour's sign in the middle
+  const n=Gt.n,dir={B:[0,1],T:[0,-1],R:[1,0],L:[-1,0]}[Gt.s],cyy=Y+(H-lip)/2;
+  for(let i=0;i<n;i++){if(n%2===1&&i===(n-1)/2)continue;const sh=n%2===0?((i<n/2)?-.12:.12):0;
+    const cx=hor?X+(i+.5+sh)*W/n:X+W/2,cy=hor?cyy:Y+(i+.5+sh)*(H-lip)/n,s=Math.min(W,H)*.2,k=Math.sin(now/260)*s*.25;
+    if(IMG.tri){x.save();x.translate(cx+k*dir[0],cy+k*dir[1]);x.rotate({T:0,B:Math.PI,R:Math.PI/2,L:-Math.PI/2}[Gt.s]);const w=s*2,h=w*IMG.tri.height/IMG.tri.width;x.drawImage(IMG.tri,-w/2,-h/2,w,h);x.restore()}}
+  const mx=X+W/2,my=hor?cyy:Y+(H-lip)/2;sign(x,Gt.c,mx,my,Math.min(W,H)*.27);x.fillStyle='#fff';x.fill();x.lineWidth=1.2;x.strokeStyle=mix(c,-.4);x.stroke();
   x.restore()}
 function floorClip(x){const L=G.L;x.beginPath();for(let y=0;y<L.h;y++)for(let X=0;X<L.w;X++)if(L.mask[y][X]==='.'){const [px,py]=cellPx(X,y);x.rect(px-.5,py-.5,C+1,C+1)}}
 function drawBoard(now){
