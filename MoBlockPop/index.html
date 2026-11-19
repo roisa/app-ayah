@@ -39,6 +39,11 @@ img{-webkit-user-drag:none}
 .scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
 .bgdeco{display:none}
 @media (orientation:landscape){body{background-image:url(art/bg-landscape.webp)}}
+/* changing backgrounds: two layers that cross-fade; the night sky on <body> stays underneath as a fallback (e.g. offline) */
+.bgl{position:fixed;inset:0;z-index:-2;background:center/cover no-repeat;background-image:var(--p);opacity:0;transition:opacity .9s ease;pointer-events:none}
+.bgl.on{opacity:1}
+#home .tag,.legal,.mapsum,.best{text-shadow:0 2px 4px rgba(40,10,80,.65),0 0 2px rgba(40,10,80,.5)}
+@media (orientation:landscape){.bgl{background-image:var(--l)}}
 .bgdeco i{position:absolute;border-radius:50%;background:rgba(255,255,255,.14)}
 
 /* round buttons (owner's 3D icons) */
@@ -88,7 +93,7 @@ img{-webkit-user-drag:none}
 .mode .badge img{width:18px;height:18px;vertical-align:-3px}
 .mode.pick{animation:picked .55s cubic-bezier(.3,1.6,.5,1) forwards;z-index:2}
 @keyframes picked{0%{transform:scale(1)}35%{transform:scale(1.14) rotate(-3deg)}60%{transform:scale(1.08) rotate(3deg)}100%{transform:scale(1.12) rotate(0)}}
-.age{display:flex;justify-content:center;gap:0;margin:6px auto 0;background:rgba(255,255,255,.35);border-radius:999px;padding:5px;width:max-content;max-width:calc(100vw - 32px)}
+.age{display:flex;justify-content:center;gap:0;margin:6px auto 0;background:rgba(40,20,110,.55);box-shadow:0 0 0 3px rgba(255,255,255,.35);border-radius:999px;padding:5px;width:max-content;max-width:calc(100vw - 32px)}
 .age button{border-radius:999px;padding:8px clamp(12px,3vw,22px);font:400 clamp(16px,3.6vw,20px) "Lilita One",sans-serif;color:#fff;text-shadow:0 2px 0 rgba(176,92,0,.35);transition:.2s}
 .age button small{display:block;font:800 12px/1 "Baloo 2",sans-serif;opacity:.9;text-shadow:none}
 .age button.on{background:#fff;color:#d07a00;text-shadow:none;box-shadow:0 4px 0 rgba(176,92,0,.25)}
@@ -359,6 +364,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   </div>
 </section>
 
+<div class="bgl" id="bgA"></div><div class="bgl" id="bgB"></div>
 <canvas id="fx"></canvas>
 <img id="hint" src="ui/hand.webp" alt="">
 <div id="flash"></div>
@@ -997,7 +1003,21 @@ function makeSpace(){
 /* =================================================================
    Start / end of games
    ================================================================= */
+/* a different background for every new game or level, never the same one twice in a row */
+const BGS=['night','01-green-dome','02-desert','03-coral-reef','04-space','05-lantern-bazaar','06-palm-oasis','07-rainbow','08-snowy-mountain','09-spring-garden','10-eid-night',
+  '11-mosaic-courtyard','12-indonesian-village','13-beach-sunset','14-firefly-forest','15-bee-garden','16-ant-meadow','17-ark-rainbow','18-cotton-candy','19-northern-lights','20-reading-room'];
+let bgNow=store.get('bg','night'),bgLayer=0;
+function bgURL(id,o){return id==='night'?`art/bg-${o}.webp`:`art/bg/${id}-${o}.webp`}
+function showBg(id){
+  const el=document.getElementById(bgLayer?'bgA':'bgB'),old=document.getElementById(bgLayer?'bgB':'bgA');
+  const o=innerWidth>innerHeight?'landscape':'portrait',img=new Image();
+  img.onload=()=>{el.style.setProperty('--p',`url(${bgURL(id,'portrait')})`);el.style.setProperty('--l',`url(${bgURL(id,'landscape')})`);
+    el.classList.add('on');old.classList.remove('on');bgLayer^=1};
+  img.src=bgURL(id,o)}
+function nextBg(){let id;do{id=BGS[Math.floor(Math.random()*BGS.length)]}while(id===bgNow);bgNow=id;store.set('bg',id);showBg(id)}
+if(bgNow!=='night')showBg(bgNow);
 function startGame(mode,level,resume){
+  nextBg();
   rng=Math.random;
   if(mode==='adv'){const L=genLevel(level);G={mode,level,grid:L.grid,goals:L.goals,left:{...L.goals},got:{},par:L.par,score:0,streak:0,moves:0,tray:[],pending:0}}
   else if(resume){G=resume;G.ended=false;G.busy=false;G.pending=0}
@@ -1260,7 +1280,7 @@ renderSnd();renderMus();applyLang();setTimeout(()=>tickPrayer(Date.now()),300);
 document.fonts&&document.fonts.ready.then(()=>renderHome());
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* for automated tests only */
-window.__mbp={geo:()=>({GX,GY,CELL}),idle:ms=>{lastAct=performance.now()-ms},get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
+window.__mbp={bg:id=>{bgNow=id;showBg(id)},get bgNow(){return bgNow},BGS,geo:()=>({GX,GY,CELL}),idle:ms=>{lastAct=performance.now()-ms},get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
 </script>
 </body>
 </html>
