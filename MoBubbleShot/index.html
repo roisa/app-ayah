@@ -153,16 +153,79 @@ img{-webkit-user-drag:none}
 .world.lock .path,.world.lock .wh canvas{filter:grayscale(.8) opacity(.6)}
 .wlock{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border-radius:24px;padding:10px 18px;text-align:center;font:400 18px "Lilita One",sans-serif;color:var(--ink);box-shadow:0 6px 0 rgba(0,0,0,.18);z-index:2;width:max-content;max-width:80%}
 .wlock img{width:44px;height:44px;display:block;margin:0 auto 4px}
+/* ===== the owner's UI kit (art/ui) ===== */
+/* world backgrounds behind the board */
+.scene.sk-jewel{background:#4a2fb8 url(art/skins/jewel/bg-portrait.webp) center bottom/cover no-repeat}
+.scene.sk-dino{background:#9bd06a url(art/skins/dino/bg-portrait.webp) center bottom/cover no-repeat}
+.scene.sk-fruit{background:#8ed06a url(art/skins/fruit/bg-portrait.webp) center bottom/cover no-repeat}
+.scene.sk-ocean{background:#2ea8e8 url(art/skins/ocean/bg-portrait.webp) center bottom/cover no-repeat}
+.scene.sk-space{background:#241c78 url(art/skins/space/bg-portrait.webp) center bottom/cover no-repeat}
+@media (orientation:landscape){.scene.sk-jewel{background-image:url(art/skins/jewel/bg-landscape.webp)}.scene.sk-dino{background-image:url(art/skins/dino/bg-landscape.webp)}
+ .scene.sk-fruit{background-image:url(art/skins/fruit/bg-landscape.webp)}.scene.sk-ocean{background-image:url(art/skins/ocean/bg-landscape.webp)}.scene.sk-space{background-image:url(art/skins/space/bg-landscape.webp)}}
+/* world map: one painted map per world, level buttons on its stepping stones */
+#worlds{max-width:520px;padding:6px 12px calc(30px + var(--safeB))}
+.world{background:none!important;box-shadow:none;padding:0;border-radius:0;overflow:visible;margin:0 0 26px}
+.wban{position:relative;width:94%;margin:0 auto;aspect-ratio:700/188;background:url(art/ui/banner.webp) center/100% 100% no-repeat;z-index:3;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 6px 6px rgba(0,0,0,.25))}
+.wban b{font:400 clamp(20px,5.6vw,30px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px #8a1c1c;paint-order:stroke fill;text-shadow:0 3px 0 #8a1c1c;margin-top:-4%;padding:0 24%;text-align:center}
+.wban img.em{position:absolute;left:-3%;top:50%;transform:translateY(-58%);width:24%;filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+.wban .ws{position:absolute;right:-2%;top:50%;transform:translateY(-60%);background:#fff;border-radius:999px;padding:3px 10px 3px 4px;font:400 16px "Lilita One",sans-serif;color:#d07a00;box-shadow:0 4px 0 rgba(0,0,0,.18);display:flex;align-items:center;gap:2px}
+.wban .ws img{width:24px;height:24px}
+.wmap{position:relative;width:100%;aspect-ratio:2/3;margin-top:-7%;border-radius:30px;background:center/cover no-repeat;box-shadow:0 0 0 5px #fff3d6,0 0 0 8px var(--brown),0 10px 0 6px rgba(0,40,80,.25)}
+.world.lock .wmap{filter:grayscale(.75) brightness(.85)}
+.world .path{display:none}
+.lvn{position:absolute;width:15.5%;aspect-ratio:200/209;transform:translate(-50%,-66%);background:center/contain no-repeat;display:grid;place-items:center;padding-bottom:4%;
+  font:400 clamp(20px,5.4vw,30px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px rgba(74,44,20,.85);paint-order:stroke fill;text-shadow:0 3px 0 rgba(74,44,20,.6);transition:transform .15s}
+.lvn:active{transform:translate(-50%,-66%) scale(.9)}
+.lvn.open{background-image:url(art/ui/lv-open.webp)}.lvn.done{background-image:url(art/ui/lv-done.webp)}.lvn.lock{background-image:url(art/ui/lv-lock.webp);color:transparent;-webkit-text-stroke:0;text-shadow:none}
+.lvn.cur{background-image:url(art/ui/lv-cur.webp);animation:curGlow 1.4s ease-in-out infinite}
+@keyframes curGlow{0%,100%{filter:drop-shadow(0 0 4px #fff7a0) drop-shadow(0 0 10px #c8ff5a)}50%{filter:drop-shadow(0 0 10px #fff7a0) drop-shadow(0 0 22px #9dff3a)}}
+.lvn .st{position:absolute;left:50%;bottom:-24%;transform:translateX(-50%);display:flex;gap:0}
+.lvn .st i{width:clamp(14px,4vw,20px);aspect-ratio:1;background:url(art/ui/star-s-empty.webp) center/contain no-repeat}
+.lvn .st i:nth-child(2){margin-top:4px}
+.lvn .st i.on{background-image:url(art/ui/star-s.webp)}
+.lvn .pin{position:absolute;left:50%;bottom:92%;width:60%;aspect-ratio:200/253;background:url(art/ui/lv-pin.webp) center/contain no-repeat;transform:translateX(-50%);animation:pin 1s ease-in-out infinite;pointer-events:none}
+@keyframes pin{50%{transform:translate(-50%,-22%)}}
+.wlock{z-index:4;background:none;border:solid transparent;border-width:22px 20px;border-image:url(art/ui/panel.webp) 82 76 76 fill / 22px 20px stretch;border-radius:0;box-shadow:none;padding:2px 6px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))}
+.padeco{position:absolute;width:9%;aspect-ratio:1;transform:translate(-50%,-62%);background:url(art/crescent.webp) center/contain no-repeat;filter:drop-shadow(0 3px 3px rgba(0,0,0,.3));pointer-events:none}
+/* popups fit on small phones */
+.ov .btns{flex-wrap:nowrap;gap:8px}
+#winMap,#winAgain,#overHome{width:58px;height:58px;flex:none}
+.ov .btns .bigbtn{font-size:clamp(18px,4.6vw,22px);padding:12px 2px 16px;white-space:nowrap}
+.ov .box .mo{height:96px}
+@media (max-height:760px){.ov .box .mo{height:70px}.ov .box .fact{margin-top:8px;padding:6px 10px}.ov .box .fact p{font-size:13px}.box .stars3 i{width:50px;height:50px}.box .stars3 i:nth-child(2){width:58px;height:58px}}
+/* skin cards: the painted card with the bubbles on it, the name underneath */
+.sk{background:none!important;padding:0}
+.sk .skc{display:block;aspect-ratio:260/254;background:url(art/ui/card.webp) center/100% 100% no-repeat;padding:13%;position:relative}
+.sk .skc canvas{width:100%;margin:0}
+.sk.on .skc{background-image:url(art/ui/card-on.webp)}
+.sk.lock .skc{background-image:url(art/ui/card-lock.webp)}
+.sk b{margin-top:4px}
+.sk.on::after{right:-4%;top:-6%;width:30%}
+/* popups: the painted panel, stretched like a picture frame */
+.ov .box{background:none;border-radius:0;box-shadow:none;border:solid transparent;border-width:34px 32px 34px;border-image:url(art/ui/panel.webp) 82 76 76 fill / 34px 32px 34px stretch;padding:14px 10px 10px;overflow:visible;filter:drop-shadow(0 10px 14px rgba(0,0,0,.3))}
+.ov .box::before{content:"";position:absolute;left:50%;top:-56px;width:120px;height:68px;transform:translateX(-50%);background:url(art/ui/panel-crescent.webp) center/contain no-repeat;pointer-events:none}
+.ov .box .x{right:-14px;top:-18px}
+.ov.lockov .box{border:solid transparent;border-width:34px 32px 34px}
+button.bigbtn{background:none;box-shadow:none;border:solid transparent;border-width:0 30px;border-image:url(art/ui/pill-green.webp) 0 100 fill / 0 30px stretch;padding:16px 8px 20px;text-shadow:0 2px 0 rgba(0,70,20,.45)}
+button.bigbtn.y{background:none;box-shadow:none;border-image-source:url(art/ui/pill-yellow.webp);color:#6b3a00;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+button.bigbtn.sm{border-width:0 24px;border-image-width:0 24px;padding:12px 6px 15px}
+#winMap,#winAgain,#overHome{width:68px;height:68px;border-radius:0;box-shadow:none;background:center/contain no-repeat}
+#winMap{background-image:url(art/ui/btn-map.webp)}#winAgain{background-image:url(art/ui/btn-again.webp)}#overHome{background-image:url(art/ui/btn-home.webp)}
+#winMap>*,#winAgain>*,#overHome>*{display:none}
+.box .stars3 i{background-image:url(art/ui/star-b-empty.webp);filter:none;opacity:.85}
+.box .stars3 i.on{background-image:url(art/ui/star-b.webp);opacity:1}
 /* bubble skins */
 .skins{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
-.sk{border-radius:22px;background:#fff6e0;padding:8px 4px 6px;box-shadow:inset 0 0 0 3px #ffe2b8;position:relative;transition:transform .15s}
+.sk{border-radius:0;background:url(art/ui/card.webp) center/100% 100% no-repeat;padding:12% 6% 10%;box-shadow:none;position:relative;transition:transform .15s}
 .sk:active{transform:scale(.95)}
 .sk canvas{width:84%;aspect-ratio:1;display:block;margin:0 auto}
 .sk b{display:block;font:400 15px/1.1 "Lilita One",sans-serif;color:var(--ink)}
-.sk.on{background:#fff1c2;box-shadow:inset 0 0 0 4px #ffc928}
-.sk.lock canvas{filter:grayscale(1) opacity(.45)}
+.sk.on{background-image:url(art/ui/card-on.webp)}
+.sk.on::after{content:"";position:absolute;right:-6%;top:-8%;width:34%;aspect-ratio:1;background:url(art/ui/check.webp) center/contain no-repeat}
+.sk.lock{background-image:url(art/ui/card-lock.webp)}
+.sk.lock canvas{opacity:0}
 .sk .lk{position:absolute;inset:0;display:grid;place-items:center;align-content:center}
-.sk .lk img{width:40px;height:40px}
+.sk .lk img{display:none}
 .unl{margin-top:10px;background:#efe9ff;border-radius:22px;padding:8px 12px;display:flex;align-items:center;gap:10px;text-align:left;color:#5b3bd6;font-weight:800}
 .unl canvas{width:56px;height:56px;flex:none}
 .age{background:rgba(0,70,140,.28)!important}
@@ -641,7 +704,7 @@ const artB=col=>{const i=ART[col===RB?'b-rainbow':'b'+col];return i&&i.ok?i:null
    Each world of 10 levels has its own skin. The classic skin uses the owner's art; the others are drawn
    in code until their art arrives (add the skin id to SKIN_ART and put b0..b5.webp in art/skins/<id>/). */
 const SKINS=['classic','jewel','dino','fruit','ocean','space'];
-const SKIN_ART={};          // e.g. {jewel:1} once art/skins/jewel/b0..b5.webp exist
+const SKIN_ART={jewel:1,dino:1,fruit:1,ocean:1,space:1};   // the owner's bubble art in art/skins/<id>/b0..b5.webp
 const skinImg={};
 function skinB(sk,col){if(col===RB||sk==='classic')return artB(col);if(!SKIN_ART[sk])return null;
   const k=sk+col;let i=skinImg[k];if(!i){i=new Image();i.onload=()=>{i.ok=1;sprites.clear()};i.src='art/skins/'+sk+'/b'+col+'.webp';skinImg[k]=i}return i.ok?i:null}
@@ -650,7 +713,7 @@ function setScene(sk){const sc=document.querySelector('.scene');SKINS.forEach(k=
 const sprites=new Map();
 function sprite(col,it,s,sk=skin){
   const d=DPR(),px=Math.max(4,Math.round(s*d)),k=sk+'|'+col+'|'+(it||'')+'|'+px;let c=sprites.get(k);
-  if(!c){c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),ab=skinB(sk,col);
+  if(!c){c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),ab=it?artB(col):skinB(sk,col);
     if(ab){x.drawImage(ab,0,0,px,px);if(it){const r=px/2;x.beginPath();x.arc(r,r,r*.66,0,7);x.fillStyle='rgba(255,255,255,.6)';x.fill();const im=itemImg[it];if(im&&im.complete&&im.naturalWidth){const q=r*.64;x.drawImage(im,r-q,r-q,q*2,q*2)}
       x.beginPath();x.ellipse(r*.66,r*.5,r*.26,r*.13,-.6,0,7);x.fillStyle='rgba(255,255,255,.55)';x.fill()}}
     else if(sk!=='classic'&&col!==RB&&!it)paintSkin(x,px,col,sk);   // treasure bubbles stay plain colour so the colour is easy to see
@@ -1193,35 +1256,36 @@ let picking=false;
 function pickMode(btn,go){if(picking)return;picking=true;btn.classList.add('pick');sfx.tap();setTimeout(()=>{btn.classList.remove('pick');picking=false;go()},420)}
 $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
 $('#goEnd').onclick=e=>pickMode(e.currentTarget,()=>{const sv=store.get('endless_'+age,null);startGame('end',0,sv&&sv.grid?sv:null)});
-function openMap(){renderMap();show('map');const c=$('#worlds .lv.cur');if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),60)}
+function openMap(){renderMap();show('map');const c=$('#worlds .lvn.cur')||[...document.querySelectorAll('#worlds .lvn:not(.lock)')].pop();if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),60)}
 const winUnlocked=n=>!!(prog.skins&&prog.skins[SKINS[n/WN-1]]);
 const skinOpen=sk=>sk==='classic'||!!(prog.skins&&prog.skins[sk]);
 function eskin(){const k=store.get('eskin','classic');return skinOpen(k)?k:'classic'}
 function skinPreview(cv,sk){const x=cv.getContext('2d'),w=cv.width,s=w/2.6;x.clearRect(0,0,w,w);
   [[0,0,0],[1,0,3],[.5,.87,2],[1.5,.87,4]].forEach(([X,Y,c])=>x.drawImage(sprite(c,null,s/DPR(),sk),w*.08+X*s,w*.12+Y*s,s,s))}
+/* stepping stones on each painted map (percent of the map's width / height), level 1 at the bottom */
+const MAPPADS={"garden":[[51.7,92.0],[26.2,81.5],[49.8,72.8],[72.5,63.8],[48.4,56.6],[51.8,41.4],[64.6,32.2],[40.3,26.7],[44.9,18.2],[67.7,11.9]],"jewel":[[51.9,91.9],[26.4,81.6],[49.8,72.8],[72.5,63.8],[48.4,56.6],[51.6,41.4],[64.8,32.2],[40.4,26.6],[45.0,18.2],[67.7,11.9]],"dino":[[52.0,91.9],[26.4,81.6],[49.8,72.7],[72.4,63.8],[48.4,56.6],[51.6,41.3],[64.8,32.1],[40.5,26.5],[44.9,18.1],[67.7,11.9]],"fruit":[[52.0,91.9],[26.5,81.6],[49.8,72.8],[72.6,63.8],[48.4,56.7],[51.6,41.3],[64.8,32.1],[40.4,26.5],[44.9,18.1],[67.8,11.9]],"ocean":[[51.9,91.9],[26.5,81.6],[49.8,72.7],[72.5,63.8],[48.4,56.6],[51.6,41.2],[64.8,32.1],[40.4,26.5],[45.0,18.1],[67.6,11.9]],"space":[[51.9,91.9],[26.4,81.6],[49.8,72.7],[72.5,63.8],[48.4,56.6],[51.6,41.3],[64.8,32.1],[40.5,26.6],[45.1,18.1],[67.7,11.9]]};
+const MAPS=['garden','jewel','dino','fruit','ocean','space'];
+const MAPEXTRA={"garden":[[27.8,48.3]],"jewel":[[28.1,48.3]],"dino":[[28.1,48.2]],"fruit":[[28.1,48.2]],"ocean":[[28.1,48.2]],"space":[[28.0,48.2]]};   // stones without a level get a little crescent
 function renderMap(){
   setScene('classic');$('#mapSum').innerHTML=`<img src="ui/star.webp" alt=""><span>${totalStars()}/${LEVELS*3}</span>`;
-  const el=$('#worlds');el.innerHTML='';const wpx=Math.min(el.clientWidth||innerWidth,620)-28-24;
-  SKINS.forEach((sk,w)=>{const first=w*WN+1,last=first+WN-1,lockW=first>prog.open;
-    const sec=document.createElement('div');sec.className='world sk-'+sk+(lockW?' lock':'');
+  const el=$('#worlds');el.innerHTML='';
+  // the last world is at the top, so the levels climb up the page like the paths on the maps
+  for(let w=SKINS.length-1;w>=0;w--){const sk=SKINS[w],first=w*WN+1,last=first+WN-1,lockW=first>prog.open;
     let st=0;for(let n=first;n<=last;n++)st+=prog.stars[n]||0;
-    sec.innerHTML=`<div class="wh"><canvas width="132" height="132"></canvas><div><b>${t('W')[w]}</b><small>${tf('levelsR',{a:first,b:last})}</small></div><span class="ws"><img src="ui/star.webp" alt=""> ${st}/${WN*3}</span></div>`;
-    skinPreview(sec.querySelector('canvas'),sk);
-    const path=document.createElement('div');path.className='path';let h='';const amp=Math.min(wpx*.32,170);
-    const pos=i=>[wpx/2+Math.sin(i*1.15+w)*amp,46+i*82];
-    for(let i=0;i<WN;i++){const n=first+i,lk=n>prog.open,sn=prog.stars[n]||0,[px,py]=pos(i);
-      if(i){const [qx,qy]=pos(i-1);for(let k=1;k<=3;k++)h+=`<i class="dot" style="left:${qx+(px-qx)*k/4}px;top:${qy+(py-qy)*k/4}px"></i>`}
-      h+=`<button class="lv${lk?' lock':''}${n===prog.open&&!prog.stars[n]?' cur':''}" data-n="${n}" style="left:${px}px;top:${py-36}px">${lk?'<img src="ui/lock.webp" alt="">':n}${lk?'':`<span class="st">${[0,1,2].map(k=>`<i class="${k<sn?'on':''}"></i>`).join('')}</span>`}</button>`}
-    path.innerHTML=h;sec.appendChild(path);
+    const sec=document.createElement('div');sec.className='world'+(lockW?' lock':'');
+    let h=`<div class="wban"><img class="em" src="art/ui/em-${MAPS[w]}.webp" alt=""><b>${t('W')[w]}</b><span class="ws"><img src="art/ui/star-s.webp" alt="">${st}/${WN*3}</span></div><div class="wmap" style="background-image:url(art/maps/${MAPS[w]}.webp)">`;
+    MAPPADS[MAPS[w]].forEach(([px,py],i)=>{const n=first+i,lk=n>prog.open,sn=prog.stars[n]||0,cur=n===prog.open&&!sn;
+      h+=`<button class="lvn ${lk?'lock':cur?'cur':sn?'done':'open'}" data-n="${n}" style="left:${px}%;top:${py}%" aria-label="${tf('level',{n})}">${n}${cur?'<i class="pin"></i>':''}${lk?'':`<span class="st">${[0,1,2].map(k=>`<i class="${k<sn?'on':''}"></i>`).join('')}</span>`}</button>`});
+    MAPEXTRA[MAPS[w]].forEach(([px,py])=>h+=`<i class="padeco" style="left:${px}%;top:${py}%"></i>`);
+    h+='</div>';sec.innerHTML=h;
     if(lockW)sec.insertAdjacentHTML('beforeend',`<div class="wlock"><img src="ui/lock.webp" alt="">${tf('lockedW',{w:t('W')[w-1]})}</div>`);
-    el.appendChild(sec)})}
-$('#worlds').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)return;const n=+b.dataset.n;if(n>prog.open){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame('adv',n)});
-addEventListener('resize',()=>{if(cur==='map')renderMap()});
+    el.appendChild(sec)}}
+$('#worlds').addEventListener('click',e=>{const b=e.target.closest('.lvn');if(!b)return;const n=+b.dataset.n;if(n>prog.open){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame('adv',n)});
 /* bubble skins for Endless */
 function renderSkins(){const el=$('#skinList');el.innerHTML='';const on=eskin();
   SKINS.forEach((sk,w)=>{const b=document.createElement('button'),open=skinOpen(sk);b.className='sk'+(sk===on?' on':'')+(open?'':' lock');
-    const c=document.createElement('canvas');c.width=c.height=160;skinPreview(c,sk);b.appendChild(c);
-    b.insertAdjacentHTML('beforeend',`<b>${t('W')[w]}</b>`+(open?'':'<span class="lk"><img src="ui/lock.webp" alt=""></span>'));
+    const card=document.createElement('span');card.className='skc';const c=document.createElement('canvas');c.width=c.height=160;skinPreview(c,sk);card.appendChild(c);b.appendChild(card);
+    b.insertAdjacentHTML('beforeend',`<b>${t('W')[w]}</b>`);
     b.onclick=()=>{if(!open){sfx.bad();toast(tf('lockedW',{w:t('W')[w]}));return}store.set('eskin',sk);sfx.swap();renderSkins();renderHomeArt()};el.appendChild(b)})}
 $('#goSkins').onclick=()=>{sfx.tap();renderSkins();ov('skinsOv',true)};
 $('#skClose').onclick=()=>ov('skinsOv',false);
