@@ -81,6 +81,28 @@ img{-webkit-user-drag:none}
 .modes{display:flex;justify-content:center;gap:clamp(14px,3vw,28px);padding:clamp(12px,2.6vh,26px) 16px 8px;flex-wrap:wrap}
 .mode{width:min(42vw,290px);aspect-ratio:1/1.1;background:#fff;border-radius:44px;padding:9px;box-shadow:var(--shadow);display:flex;flex-direction:column;animation:bob 2.8s ease-in-out infinite;transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
 .mode.e{animation-delay:-1.4s}
+/* "tap here!": the cards glow in turn while a pointing hand taps them (Adventure, then Endless) */
+.modes{position:relative}
+.mode.a{animation:bob 2.8s ease-in-out infinite,glowA 4.4s ease-in-out infinite}
+.mode.e{animation:bob 2.8s ease-in-out -1.4s infinite,glowB 4.4s ease-in-out infinite}
+@keyframes glowA{0%,46%{box-shadow:0 0 0 5px #ffe14a,0 0 30px 10px rgba(255,225,74,.85),var(--shadow)}54%,100%{box-shadow:var(--shadow)}}
+@keyframes glowB{0%,46%{box-shadow:var(--shadow)}54%,96%{box-shadow:0 0 0 5px #ffe14a,0 0 30px 10px rgba(255,225,74,.85),var(--shadow)}100%{box-shadow:var(--shadow)}}
+.mhand{position:absolute;left:0;top:0;width:clamp(54px,12vw,84px);height:auto;pointer-events:none;z-index:3;opacity:0;filter:drop-shadow(0 6px 6px rgba(20,0,60,.4));transform-origin:58% 4%;animation:mhand 4.4s ease-in-out infinite}
+@keyframes mhand{
+  0%{opacity:0;transform:translate(var(--ax),calc(var(--ay) + 40px)) rotate(-14deg)}
+  8%{opacity:1;transform:translate(var(--ax),var(--ay)) rotate(-14deg)}
+  14%{transform:translate(var(--ax),var(--ay)) rotate(-14deg) scale(.82)}
+  20%{transform:translate(var(--ax),var(--ay)) rotate(-14deg) scale(1)}
+  26%{transform:translate(var(--ax),var(--ay)) rotate(-14deg) scale(.82)}
+  32%,44%{opacity:1;transform:translate(var(--ax),var(--ay)) rotate(-14deg) scale(1)}
+  56%{transform:translate(var(--bx),var(--by)) rotate(-14deg)}
+  62%{transform:translate(var(--bx),var(--by)) rotate(-14deg) scale(.82)}
+  68%{transform:translate(var(--bx),var(--by)) rotate(-14deg) scale(1)}
+  74%{transform:translate(var(--bx),var(--by)) rotate(-14deg) scale(.82)}
+  80%,90%{opacity:1;transform:translate(var(--bx),var(--by)) rotate(-14deg) scale(1)}
+  100%{opacity:0;transform:translate(var(--bx),calc(var(--by) + 40px)) rotate(-14deg)}}
+.modes.chosen .mhand{display:none}
+@media (prefers-reduced-motion:reduce){.mhand{display:none}.mode.a,.mode.e{animation:none}}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-8px) rotate(-1.5deg)}75%{transform:translateY(-3px) rotate(1.5deg)}}
 .mode:active{transform:scale(.95)}
 .mode .in{flex:1;border-radius:36px;position:relative;overflow:hidden;display:grid;place-items:center}
@@ -137,6 +159,7 @@ img{-webkit-user-drag:none}
   transition:transform .15s cubic-bezier(.3,1.6,.5,1);font-variant-numeric:tabular-nums}
 #score.bump{transform:scale(1.12)}
 #game.land #score{min-width:130px;font-size:clamp(32px,6vh,48px)}
+#goals:empty{display:none}
 #goals{display:flex;gap:clamp(14px,4vw,22px);flex-wrap:wrap;justify-content:center;padding:4px 10px 8px}
 /* treasure counters: the tile itself, with a round badge on its corner (night blue with the board's gold rim) */
 .goal{position:relative;line-height:0;transition:transform .15s cubic-bezier(.3,1.6,.5,1)}
@@ -325,7 +348,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
       <p class="tag" data-t="tag">Play Games the Islamic Way</p>
       <p class="pchip" id="pchip"></p>
     </div>
-    <div class="modes">
+    <div class="modes" id="modes"><img class="mhand" id="mhand" src="ui/hand.webp" alt="">
       <button class="mode a" id="goAdv">
         <span class="in"><img class="mart" src="art/menu-adventure.webp" alt=""><span class="badge" id="advBadge"></span></span>
         <span class="lbl"><span data-t="adv">Adventure</span><small data-t="advS">Collect the treasures</small></span>
@@ -428,7 +451,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
 <div class="ov" id="skinsOv"><div class="box">
   <button class="x" id="skClose" aria-label="Close"><img src="ui/close.webp" alt=""></button>
   <h3 data-t="styles">Block styles</h3>
-  <p data-t="stylesS">Earn stars in Adventure to unlock new styles</p>
+  <p id="stylesSub">Earn stars in Adventure to unlock new styles</p>
   <div class="skins" id="skins"></div>
 </div></div>
 
@@ -475,7 +498,7 @@ const DPR=()=>Math.min(3,window.devicePixelRatio||1);
    ================================================================= */
 const TXT={
 en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Collect the treasures',end:'Endless',endS:'Pop as many as you can',little:'Little',littleS:'Ages 3+',big:'Big Kid',bigS:'Ages 6+',
- styles:'Block styles',stylesS:'Earn stars in Adventure to unlock new styles',legal:'No ads · No data collected · Works offline',
+ styles:'Block styles',stylesS:'Earn stars in Adventure to unlock new styles',stylesL:'Little ones can use every style!',legal:'No ads · No data collected · Works offline',
  level:'Level {n}',holdR:'Hold to start again',bismS:'Say Bismillah before we start',bismB:'Bismillah!',collect:'Collect:',
  alh:'Alhamdulillah!',dyk:'Did you know?',next:'Next',again:'Play again',space:'Make space',retry:'Try again',
  lvlDone:'Level {n} complete!',allDone:'You finished every level, MasyaAllah!',
@@ -495,7 +518,7 @@ en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Collect the treasures
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  lockedLv:'Finish the level before to open this one'},
 id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'Kumpulkan hartanya',end:'Tanpa Batas',endS:'Letuskan sebanyak-banyaknya',little:'Kecil',littleS:'Usia 3+',big:'Besar',bigS:'Usia 6+',
- styles:'Gaya balok',stylesS:'Kumpulkan bintang di Petualangan untuk membuka gaya baru',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
+ styles:'Gaya balok',stylesS:'Kumpulkan bintang di Petualangan untuk membuka gaya baru',stylesL:'Si kecil boleh memakai semua gaya!',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
  level:'Level {n}',holdR:'Tahan untuk mulai lagi',bismS:'Ucapkan Bismillah sebelum mulai',bismB:'Bismillah!',collect:'Kumpulkan:',
  alh:'Alhamdulillah!',dyk:'Tahukah kamu?',next:'Lanjut',again:'Main lagi',space:'Buat ruang',retry:'Coba lagi',
  lvlDone:'Level {n} selesai!',allDone:'Semua level sudah selesai, MasyaAllah!',
@@ -771,7 +794,7 @@ function genLevel(n){
 let prog=store.get('prog',{open:1,stars:{}});
 const totalStars=()=>Object.values(prog.stars).reduce((a,b)=>a+b,0);
 let best=store.get('best',{little:0,big:0});
-const skinOpen=s=>totalStars()>=s.need;
+const skinOpen=s=>age==='little'||totalStars()>=s.need;   // little ones (3+) get every style
 
 /* =================================================================
    Layout: board + tray sizes (portrait / landscape, phones and tablets)
@@ -1056,7 +1079,7 @@ $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));G.busy=
 function levelWin(){
   const n=G.level,st=G.moves<=G.par?3:G.moves<=G.par*1.5?2:1,before=totalStars();
   prog.stars[n]=Math.max(prog.stars[n]||0,st);prog.open=Math.max(prog.open,Math.min(LEVELS,n+1));store.set('prog',prog);
-  const after=totalStars(),unl=SKINS.find(s=>s.need>before&&s.need<=after);
+  const after=totalStars(),unl=age==='little'?null:SKINS.find(s=>s.need>before&&s.need<=after);
   sfx.win();say(t('sayAlh'));confetti();fxDirty=true;
   $('#winSub').textContent=n>=LEVELS?t('allDone'):tf('lvlDone',{n});
   const is=$('#winStars').children;[...is].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
@@ -1125,6 +1148,7 @@ let cur='home';
 function show(s,push=true){
   document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===s));cur=s;try{musicLevel()}catch(e){}
   if(s!=='game'){hideHint();fxxClear()}
+  if(s==='home')requestAnimationFrame(placeHand);
   if(push){try{history.pushState({s,i:((history.state&&history.state.i)||0)+1},'')}catch(e){}}
 }
 function fxxClear(){parts=[];flys=[];backs=[];drag=null;ghost=null;fxDirty=true}
@@ -1153,14 +1177,25 @@ function holdable(el,ms,done,onTap){
 holdable($('#restartBtn'),1000,()=>{sfx.tap();if(!G)return;if(G.mode==='end'){store.set('endless_'+age,null);startGame('end')}else startGame('adv',G.level)});
 
 /* ---------- home ---------- */
+/* place the tapping hand on each card (the fingertip sits at 58% / 4% of the hand picture) */
+function placeHand(){const m=$('#modes'),h=$('#mhand');if(!m||!h)return;const mr=m.getBoundingClientRect();if(!mr.width)return;
+  const hw=h.getBoundingClientRect().width||70,hh=hw*(h.naturalHeight&&h.naturalWidth?h.naturalHeight/h.naturalWidth:1);
+  [['a','#goAdv'],['b','#goEnd']].forEach(([k,sel])=>{const r=$(sel).getBoundingClientRect();const tx=r.left-mr.left+r.width*.66,ty=r.top-mr.top+r.height*.36;
+    m.style.setProperty('--'+k+'x',Math.round(tx-hw*.58)+'px');m.style.setProperty('--'+k+'y',Math.round(ty-hh*.04)+'px')})}
+addEventListener('resize',()=>{if(cur==='home')placeHand()});
+$('#mhand').addEventListener('load',placeHand);
 function renderHome(){
+  requestAnimationFrame(placeHand);
   $('#advBadge').innerHTML=`<img src="art/star-gold.webp" alt=""> ${totalStars()}`;
   $('#endBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${best[age]}`;
   document.querySelectorAll('#age button').forEach(b=>b.classList.toggle('on',b.dataset.a===age));
 }
-$('#age').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;age=b.dataset.a;store.set('age',age);sfx.tap();renderHome()});
+$('#age').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;age=b.dataset.a;store.set('age',age);sfx.tap();
+  // a style picked in Little mode that Big Kid hasn't earned yet goes back to Jelly
+  const cs=SKINS.find(x=>x.id===skin);if(cs&&!skinOpen(cs)){skin='jelly';store.set('skin',skin);sprites.clear()}
+  renderHome()});
 let picking=false;
-function pickMode(btn,go){if(picking)return;picking=true;btn.classList.add('pick');sfx.tap();setTimeout(()=>{btn.classList.remove('pick');picking=false;go()},420)}
+function pickMode(btn,go){if(picking)return;picking=true;btn.classList.add('pick');$('#modes').classList.add('chosen');sfx.tap();setTimeout(()=>{btn.classList.remove('pick');$('#modes').classList.remove('chosen');picking=false;go()},420)}
 $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
 $('#goEnd').onclick=e=>pickMode(e.currentTarget,()=>{const sv=store.get('endless_'+age,null);startGame('end',0,sv&&sv.grid?sv:null)});
 function openMap(){renderMap();show('map');const c=$('#lvls .cur');if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),50)}
@@ -1173,11 +1208,11 @@ $('#lvls').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)re
 /* block styles */
 function skinPreview(cv,id){const x=cv.getContext('2d'),s=cv.width/2;x.clearRect(0,0,cv.width,cv.height);[[0,0,0],[1,0,4],[0,1,2],[1,1,6]].forEach(([X,Y,c])=>{const c2=document.createElement('canvas');c2.width=c2.height=s;paintBlock(c2.getContext('2d'),s,c,id);x.drawImage(c2,X*s,Y*s)})}
 function renderSkins(){const el=$('#skins');el.innerHTML='';const ts=totalStars();
-  SKINS.forEach(s=>{const b=document.createElement('button');const open=ts>=s.need;b.className='sk'+(s.id===skin?' on':'')+(open?'':' lock');
+  SKINS.forEach(s=>{const b=document.createElement('button');const open=skinOpen(s);b.className='sk'+(s.id===skin?' on':'')+(open?'':' lock');
     const c=document.createElement('canvas');c.width=c.height=200;skinPreview(c,s.id);b.appendChild(c);
     b.insertAdjacentHTML('beforeend',`<b>${t('sk')[s.id]}</b>`+(open?'':`<span class="lk"><img src="ui/lock.webp" alt=""><span><img src="art/star-gold.webp" alt=""> ${s.need}</span></span>`));
     b.onclick=()=>{if(!open){sfx.bad();toast(tf('stars',{n:s.need}));return}skin=s.id;store.set('skin',skin);sprites.clear();sfx.pick();renderSkins();boardDirty=true};el.appendChild(b)})}
-$('#goSkins').onclick=()=>{sfx.tap();renderSkins();ov('skinsOv',true)};
+$('#goSkins').onclick=()=>{sfx.tap();$('#stylesSub').textContent=t(age==='little'?'stylesL':'stylesS');renderSkins();ov('skinsOv',true)};
 $('#skClose').onclick=()=>ov('skinsOv',false);
 
 /* ---------- language, sound ---------- */
