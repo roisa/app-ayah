@@ -140,6 +140,58 @@ img{-webkit-user-drag:none}
 .lv.lock img{width:44%;opacity:.75}
 .lv.gift::after{content:"";position:absolute;right:-8px;top:-10px;width:34px;height:34px;background:url(art/gift.webp) center/contain no-repeat;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
 .mapsum{color:#fff;text-align:center;font-weight:800;padding:0 16px 4px}
+/* chapters: picture revealed piece by piece, then its 10 levels */
+.chaps{max-width:760px;margin:0 auto;padding:6px 16px calc(24px + var(--safeB))}
+.chap{margin:14px 0 10px;background:linear-gradient(180deg,rgba(60,42,150,.94),rgba(30,18,88,.96));border-radius:28px;padding:10px;box-shadow:0 0 0 3.5px #ffc23a,0 0 0 6.5px #4a2c14,0 8px 16px rgba(20,0,60,.4);transition:transform .15s}
+.chap:active{transform:scale(.98)}
+.cpic,.cbig{position:relative;aspect-ratio:16/9;border-radius:20px;background:#2b1a6e center/cover no-repeat;overflow:hidden}
+.cpic i,.cbig i{position:absolute;width:20%;height:50%;display:grid;place-items:center;font:400 clamp(16px,4vw,24px) "Lilita One",sans-serif;color:rgba(255,255,255,.75);
+  background:linear-gradient(160deg,#4a3bd6,#2a1f86);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.18);transition:opacity .8s,transform .8s}
+.cpic i.gone,.cbig i.gone{opacity:0}
+.cbig i.go{animation:tileGo 1.2s .6s ease-in forwards}
+@keyframes tileGo{40%{transform:scale(1.15) rotate(-6deg)}100%{transform:scale(.2) rotate(40deg);opacity:0}}
+.chap.lock .cpic{filter:grayscale(.6) brightness(.8)}
+.chap.lock .cpic::after{content:"";position:absolute;inset:0;background:url(ui/lock.webp) center/22% no-repeat}
+.cinfo{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 6px 2px;color:#fff}
+.cinfo b{font:400 clamp(18px,4.6vw,24px)/1.1 "Lilita One",sans-serif}
+.cinfo small{font-weight:800;color:#ffe14a;white-space:nowrap}
+.chap.done .cinfo small::after{content:" ✓"}
+.chaps .lvls{padding:6px 0 10px;max-width:none}
+.cbig{width:100%;margin:-4px 0 4px;box-shadow:0 0 0 4px #ffc928}
+/* home: Daily Challenge + 9x9 Squares buttons */
+.extras{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:8px 16px 4px}
+.xbtn{position:relative;display:flex;align-items:center;gap:10px;background:#fff;border-radius:24px;padding:8px 18px 8px 8px;box-shadow:var(--shadow);text-align:left;min-width:min(86vw,250px);transition:transform .15s}
+.xbtn:active{transform:scale(.95)}
+.xi{width:48px;height:48px;flex:none}.xi svg{width:100%;height:100%}
+.xt b{display:block;font:400 clamp(18px,4.4vw,21px)/1.1 "Lilita One",sans-serif;color:var(--ink)}
+.xt small{display:block;font-weight:800;font-size:13px;color:#0e9a6f}
+.xnew{position:absolute;right:-6px;top:-8px;width:28px;height:28px;border-radius:50%;background:#ff5a6e;color:#fff;font:400 18px/28px "Lilita One",sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 3px #fff;animation:pulse 1.2s ease-in-out infinite}
+.xbtn.sq .xt small{color:#5b3bd6}
+/* calendar */
+.calwrap{max-width:520px;margin:0 auto;padding:4px 16px calc(24px + var(--safeB));text-align:center}
+.calhead{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border-radius:26px;padding:8px;box-shadow:var(--shadow)}
+.calhead .rb{width:46px;height:46px}.calhead .rb svg{width:24px;height:24px}
+.calhead b{display:block;font:400 clamp(22px,5.5vw,28px)/1.1 "Lilita One",sans-serif;color:var(--ink)}
+.calhead small{display:block;font-weight:800;color:#d07a00}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:10px}
+#calDays div{font:400 16px "Lilita One",sans-serif;color:#fff;text-shadow:0 2px 3px rgba(20,0,60,.6)}
+#calDays div:nth-child(5){color:#ffe14a}
+.cd{aspect-ratio:1;border-radius:16px;background:rgba(255,255,255,.92);display:grid;place-items:center;font:400 clamp(16px,4.4vw,22px) "Lilita One",sans-serif;color:var(--ink);box-shadow:0 4px 0 rgba(20,0,60,.25);position:relative;transition:transform .15s}
+.cd:active{transform:scale(.9)}
+.cd.fri{box-shadow:inset 0 0 0 3px #ffc928,0 4px 0 rgba(20,0,60,.25)}
+.cd.done{background:url(art/star-gold.webp) center/86% no-repeat,radial-gradient(circle,#fff6d0,#ffe08a);color:#6b3a00}
+.cd.today{background-color:#d6f7ea;box-shadow:inset 0 0 0 4px #38d39f,0 4px 0 rgba(20,0,60,.25);animation:pulse 1.6s ease-in-out infinite}
+.cd.today.done{animation:none}
+.cd.fut{opacity:.4}
+.cd.empty{visibility:hidden}
+.calstreak{color:#fff;font-weight:800;margin-top:12px;text-shadow:0 2px 4px rgba(40,10,80,.65)}
+.calstreak img{width:26px;height:26px;vertical-align:-6px}
+/* moves left */
+.movesc{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 12px 6px;border-radius:18px;line-height:1;
+  background:linear-gradient(180deg,rgba(60,42,150,.94),rgba(30,18,88,.96));box-shadow:0 0 0 2.5px #ffc23a,0 0 0 4.5px #4a2c14,0 4px 8px rgba(20,0,60,.35)}
+.movesc small{font:800 11px "Baloo 2",sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.04em}
+.movesc b{font:400 26px "Lilita One",sans-serif;color:#ffe14a;-webkit-text-stroke:1.5px #4a2c14;paint-order:stroke fill}
+.movesc.low b{color:#ff8a8a;animation:pulse .8s ease-in-out infinite}
 .mapsum img{width:22px;height:22px;vertical-align:-5px}
 
 /* ---------- game ---------- */
@@ -366,6 +418,10 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
         <span class="lbl"><span data-t="end">Endless</span><small data-t="endS">Pop as many as you can</small></span>
       </button>
     </div>
+    <div class="extras">
+      <button class="xbtn" id="goDaily"><span class="xi"><svg viewBox="0 0 48 48"><rect x="5" y="9" width="38" height="34" rx="8" fill="#fff" stroke="#4a2c14" stroke-width="3"/><path d="M5 17a8 8 0 0 1 8-8h22a8 8 0 0 1 8 8v4H5z" fill="#ff5a6e" stroke="#4a2c14" stroke-width="3"/><rect x="13" y="4" width="5" height="10" rx="2.5" fill="#ffc928" stroke="#4a2c14" stroke-width="2.5"/><rect x="30" y="4" width="5" height="10" rx="2.5" fill="#ffc928" stroke="#4a2c14" stroke-width="2.5"/><path d="M24 25l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="#ffc928" stroke="#4a2c14" stroke-width="2"/></svg></span><span class="xt"><b data-t="daily">Daily Challenge</b><small id="dailySub"></small></span><i class="xnew" id="dailyNew">!</i></button>
+      <button class="xbtn sq" id="goSq"><span class="xi"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="8" fill="#2f2672" stroke="#4a2c14" stroke-width="3"/><g stroke="#4a2c14" stroke-width="1.5"><rect x="8" y="8" width="10" height="10" rx="2.5" fill="#4a6bff"/><rect x="19" y="8" width="10" height="10" rx="2.5" fill="#4a6bff"/><rect x="30" y="8" width="10" height="10" rx="2.5" fill="#4a6bff"/><rect x="8" y="19" width="10" height="10" rx="2.5" fill="#3fcf5a"/><rect x="19" y="19" width="10" height="10" rx="2.5" fill="#ffd23f"/><rect x="30" y="19" width="10" height="10" rx="2.5" fill="#3fcf5a"/><rect x="8" y="30" width="10" height="10" rx="2.5" fill="#ff6fb5"/><rect x="19" y="30" width="10" height="10" rx="2.5" fill="#ff6fb5"/><rect x="30" y="30" width="10" height="10" rx="2.5" fill="#ff6fb5"/></g></svg></span><span class="xt"><b data-t="sq">9×9 Squares</b><small id="sqSub"></small></span></button>
+    </div>
     <div class="age" id="age">
       <button data-a="little"><span data-t="little">Little</span><small data-t="littleS">Ages 3+</small></button>
       <button data-a="big"><span data-t="big">Big Kid</span><small data-t="bigS">Ages 6+</small></button>
@@ -384,7 +440,24 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
     <h2 class="fun" data-t="adv">Adventure</h2>
   </div>
   <p class="mapsum" id="mapSum"></p>
-  <div class="scroll"><div class="lvls" id="lvls"></div></div>
+  <div class="scroll"><div class="chaps" id="lvls"></div></div>
+</section>
+
+<!-- DAILY CHALLENGE CALENDAR -->
+<section id="cal" class="scr">
+  <div class="bar">
+    <button class="rb back" aria-label="Back"><img class="ico" src="ui/back.webp" alt="" draggable="false"></button>
+    <h2 class="fun" data-t="daily">Daily Challenge</h2>
+  </div>
+  <div class="scroll"><div class="calwrap">
+    <div class="calhead"><button class="rb" id="calPrev" aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="#e98a00" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div><b id="calMonth"></b><small id="calSum"></small></div>
+      <button class="rb" id="calNext" aria-label="Next month"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="#e98a00" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    <div class="calgrid" id="calDays"></div>
+    <div class="calgrid" id="calGrid"></div>
+    <p class="calstreak" id="calStreak"></p>
+    <button class="bigbtn" id="calPlay"><img src="ui/play.webp" alt=""><span data-t="playToday">Play today</span></button>
+  </div></div>
 </section>
 
 <!-- GAME -->
@@ -403,6 +476,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
         <div id="hudMo"><img class="gmo" id="gmo" src="../home/mo.webp" alt=""><span class="bub" id="bub"></span></div>
         <div id="score">0</div>
         <div id="goals"></div>
+        <div id="moves" class="movesc" style="display:none"><small data-t="movesL">Moves</small><b>0</b></div>
       </div>
       <div id="bwrap"><canvas id="bc"></canvas></div>
       <div id="tray"></div>
@@ -437,6 +511,19 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
     <button class="rb" id="winMap" aria-label="Levels"><svg viewBox="0 0 24 24"><g fill="#ffc928" stroke="#4a2c14" stroke-width="1.2"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></g></svg></button>
     <button class="rb" id="winAgain" aria-label="Play again"><svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 7.75 10h-2.1A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35A7.96 7.96 0 0 0 12 4Z" fill="#ff8a00" stroke="#4a2c14" stroke-width=".8"/></svg></button>
     <button class="bigbtn" id="winNext"><span data-t="next">Next</span><img src="ui/play.webp" alt=""></button>
+  </div>
+</div></div>
+
+<!-- CHAPTER PICTURE COMPLETE -->
+<div class="ov" id="chapOv"><div class="box">
+  <div class="cbig" id="chapPic"></div>
+  <div class="arb ar">الْحَمْدُ لِلَّهِ</div>
+  <h3 id="chapTitle"></h3>
+  <p id="chapSub"></p>
+  <div class="fact" id="chapStoryBox"><button class="spk" aria-label="Listen again"><img src="ui/sound-on.webp" alt=""></button><b id="chapName"></b><p id="chapStory"></p></div>
+  <div class="btns">
+    <button class="rb" id="chapMap" aria-label="Levels"><svg viewBox="0 0 24 24"><g fill="#ffc928" stroke="#4a2c14" stroke-width="1.2"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></g></svg></button>
+    <button class="bigbtn" id="chapNext"><span data-t="next">Next</span><img src="ui/play.webp" alt=""></button>
   </div>
 </div></div>
 
@@ -505,7 +592,14 @@ const DPR=()=>Math.min(3,window.devicePixelRatio||1);
    Text (EN / ID)
    ================================================================= */
 const TXT={
-en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Collect the treasures',end:'Endless',endS:'Pop as many as you can',little:'Little',littleS:'Ages 3+',big:'Big Kid',bigS:'Ages 6+',
+en:{tag:'Play Games the Islamic Way',
+ daily:'Daily Challenge',dailyNew:'New puzzle today!',dailyToday:'Done today ✓',streak:'{n} days in a row',dailyDone:'Daily Challenge complete!',playToday:'Play today',
+ fri:"Jumu'ah golden puzzle",calSum:'{n} of {d} days',monthDone:'Full month! MasyaAllah!',futureDay:'This day has not come yet',
+ days:['M','T','W','T','F','S','S'],
+ sq:'9×9 Squares',sqS:'Fill rows, columns or 3×3 squares',
+ movesL:'Moves',movesT:'Out of moves!',movesP:"So close! Take 5 more moves, or try again.",more5:'+5 moves',
+ chapDone:'Picture complete!',chapter:'Chapter {n}',lockedCh:'Finish the chapter before to open this one',
+adv:'Adventure',advS:'Collect the treasures',end:'Endless',endS:'Pop as many as you can',little:'Little',littleS:'Ages 3+',big:'Big Kid',bigS:'Ages 6+',
  styles:'Block styles',stylesS:'Earn stars in Adventure to unlock new styles',stylesL:'Little ones can use every style!',legal:'No ads · No data collected · Works offline',
  level:'Level {n}',holdR:'Hold to start again',bismS:'Say Bismillah before we start',bismB:'Bismillah!',collect:'Collect:',
  alh:'Alhamdulillah!',dyk:'Did you know?',next:'Next',again:'Play again',space:'Make space',retry:'Try again',
@@ -525,7 +619,14 @@ en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Collect the treasures
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  lockedLv:'Finish the level before to open this one'},
-id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'Kumpulkan hartanya',end:'Tanpa Batas',endS:'Letuskan sebanyak-banyaknya',little:'Kecil',littleS:'Usia 3+',big:'Besar',bigS:'Usia 6+',
+id:{tag:'Bermain dengan Cara Islami',
+ daily:'Tantangan Harian',dailyNew:'Puzzle baru hari ini!',dailyToday:'Selesai hari ini ✓',streak:'{n} hari berturut-turut',dailyDone:'Tantangan Harian selesai!',playToday:'Main hari ini',
+ fri:'Puzzle emas Jumat',calSum:'{n} dari {d} hari',monthDone:'Sebulan penuh! MasyaAllah!',futureDay:'Hari ini belum tiba',
+ days:['S','S','R','K','J','S','M'],
+ sq:'Kotak 9×9',sqS:'Penuhi baris, kolom, atau kotak 3×3',
+ movesL:'Langkah',movesT:'Langkah habis!',movesP:'Sedikit lagi! Ambil 5 langkah lagi, atau coba lagi.',more5:'+5 langkah',
+ chapDone:'Gambar selesai!',chapter:'Bab {n}',lockedCh:'Selesaikan bab sebelumnya untuk membuka bab ini',
+adv:'Petualangan',advS:'Kumpulkan hartanya',end:'Tanpa Batas',endS:'Letuskan sebanyak-banyaknya',little:'Kecil',littleS:'Usia 3+',big:'Besar',bigS:'Usia 6+',
  styles:'Gaya balok',stylesS:'Kumpulkan bintang di Petualangan untuk membuka gaya baru',stylesL:'Si kecil boleh memakai semua gaya!',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
  level:'Level {n}',holdR:'Tahan untuk mulai lagi',bismS:'Ucapkan Bismillah sebelum mulai',bismB:'Bismillah!',collect:'Kumpulkan:',
  alh:'Alhamdulillah!',dyk:'Tahukah kamu?',next:'Lanjut',again:'Main lagi',space:'Buat ruang',retry:'Coba lagi',
@@ -582,6 +683,20 @@ const FACTS=[
  ['"Assalamu\'alaikum" means "Peace be upon you". We answer "Wa\'alaikumussalam".','"Assalamu\'alaikum" artinya "Semoga keselamatan untukmu". Kita menjawab "Wa\'alaikumussalam".'],
  ['Masjid Al-Aqsa in Jerusalem is one of the three masjids the Prophet ﷺ told us to visit.','Masjid Al-Aqsa di Yerusalem adalah salah satu dari tiga masjid yang dianjurkan Nabi ﷺ untuk dikunjungi.'],
  ['Allah made the camel strong enough to walk for days in the desert. Allah asks us to think about how it was made. (Surah Al-Ghashiyah 88:17)','Allah menjadikan unta kuat berjalan berhari-hari di gurun. Allah mengajak kita memperhatikan bagaimana ia diciptakan. (QS Al-Ghasyiyah: 17)']];
+/* Adventure chapters: 10 levels each; every level won reveals a piece of the chapter's picture.
+   The pictures are the owner's backgrounds; each has a short true story (EN, ID). */
+const CH=[
+ {bg:'01-green-dome',t:['Masjid Nabawi','Masjid Nabawi'],s:['This is Masjid Nabawi in Madinah. Prophet Muhammad ﷺ and his companions built it together after the Hijrah. It is the second holiest masjid in Islam.','Inilah Masjid Nabawi di Madinah. Nabi Muhammad ﷺ dan para sahabat membangunnya bersama-sama setelah hijrah. Masjid ini adalah masjid paling mulia kedua dalam Islam.']},
+ {bg:'17-ark-rainbow',t:["Prophet Nuh's Ark",'Bahtera Nabi Nuh'],s:['Prophet Nuh called his people to worship Allah for a very long time. Allah told him to build a big ark and to take a pair of every kind of animal. The believers were saved from the great flood. (Surah Hud 11:40)','Nabi Nuh mengajak kaumnya menyembah Allah dalam waktu yang sangat lama. Allah memerintahkannya membuat bahtera besar dan membawa sepasang dari setiap jenis hewan. Orang-orang beriman selamat dari banjir besar. (QS Hud: 40)']},
+ {bg:'02-desert',t:['The Hijrah Journey','Perjalanan Hijrah'],s:['Long ago, Prophet Muhammad ﷺ travelled across the desert from Makkah to Madinah. This journey is called the Hijrah, and the Islamic calendar starts from it.','Dahulu, Nabi Muhammad ﷺ menempuh perjalanan melintasi gurun dari Makkah ke Madinah. Perjalanan ini disebut hijrah, dan kalender Islam dimulai dari peristiwa ini.']},
+ {bg:'15-bee-garden',t:['The Busy Bee','Lebah yang Rajin'],s:['Allah taught the bee to build its home and to eat from all kinds of flowers. From its belly comes honey of many colours, which is healing for people. (Surah An-Nahl 16:68-69)','Allah mengajari lebah membuat rumah dan memakan dari berbagai macam bunga. Dari perutnya keluar madu yang bermacam-macam warnanya, yang menjadi obat bagi manusia. (QS An-Nahl: 68-69)']},
+ {bg:'16-ant-meadow',t:['Sulaiman and the Ant','Nabi Sulaiman dan Semut'],s:['One day Prophet Sulaiman and his army came to a valley of ants. A little ant told the others to hurry into their homes so they would not be stepped on. Prophet Sulaiman smiled and thanked Allah. (Surah An-Naml 27:18-19)','Suatu hari Nabi Sulaiman dan pasukannya tiba di lembah semut. Seekor semut kecil menyuruh teman-temannya segera masuk ke rumah agar tidak terinjak. Nabi Sulaiman tersenyum dan bersyukur kepada Allah. (QS An-Naml: 18-19)']},
+ {bg:'05-lantern-bazaar',t:['Ramadan Nights','Malam Ramadan'],s:['In Ramadan, Muslims fast from dawn until sunset. In the evening, families break their fast together, often with dates, and go to the masjid to pray tarawih.','Di bulan Ramadan, umat Islam berpuasa dari fajar hingga matahari terbenam. Saat magrib, keluarga berbuka bersama, sering dengan kurma, lalu pergi ke masjid untuk sholat tarawih.']},
+ {bg:'10-eid-night',t:['Eid Mubarak','Selamat Idul Fitri'],s:['After Ramadan comes Eid al-Fitr. Before the Eid prayer, Muslims give zakat al-fitr to people in need. Then they wear their best clothes, pray together and visit their families.','Setelah Ramadan datanglah Idul Fitri. Sebelum sholat Id, umat Islam membayar zakat fitrah untuk orang yang membutuhkan. Lalu mereka memakai baju terbaik, sholat bersama, dan bersilaturahmi dengan keluarga.']},
+ {bg:'20-reading-room',t:['Iqra: Read!','Iqra: Bacalah!'],s:['The first word Allah sent to Prophet Muhammad ﷺ was "Iqra", which means "Read!". Islam loves knowledge, and seeking knowledge is a duty for every Muslim. (Hadith, Ibn Majah)','Kata pertama yang Allah turunkan kepada Nabi Muhammad ﷺ adalah "Iqra", artinya "Bacalah!". Islam mencintai ilmu, dan menuntut ilmu adalah kewajiban setiap Muslim. (Hadits riwayat Ibnu Majah)']},
+ {bg:'04-space',t:['The Sky Allah Made','Langit Ciptaan Allah'],s:['Allah created the night and the day, the sun and the moon. Each of them swims along in its own path in the sky. (Surah Al-Anbiya 21:33)','Allah menciptakan malam dan siang, matahari dan bulan. Masing-masing beredar pada garis edarnya di langit. (QS Al-Anbiya: 33)']},
+ {bg:'06-palm-oasis',t:['Maryam and the Date Palm','Maryam dan Pohon Kurma'],s:['When Maryam was about to have baby Isa, Allah told her to shake the trunk of the date palm. Fresh, ripe dates fell down for her to eat. (Surah Maryam 19:25)','Ketika Maryam akan melahirkan bayi Isa, Allah menyuruhnya menggoyangkan pangkal pohon kurma. Kurma yang segar dan masak pun berjatuhan untuk ia makan. (QS Maryam: 25)']}];
+const chOf=n=>Math.ceil(n/10)-1;
 const fact=i=>FACTS[((i%FACTS.length)+FACTS.length)%FACTS.length][lang==='id'?1:0];
 
 /* =================================================================
@@ -606,6 +721,7 @@ const sfx={
  over(){[523,440,392,330].forEach((f,i)=>tone(f,.3,'triangle',.11,i*.13))},
  bism(){[392,523,659].forEach((f,i)=>tone(f,.4,'sine',.12,i*.09))},
  deal(){[0,1,2].forEach(i=>tone(700+i*140,.07,'triangle',.07,i*.05))},
+ crack(){noise(900,.12,.25,0,'bandpass',.8);tone(140,.1,'triangle',.12,0,80)},
  hore(lv){const d=.12;const run=[[523,659,784],[523,659,784,1047,1319],[523,659,784,1047,784,1047,1319,1568]][lv-1];
    run.forEach((f,i)=>{tone(f,.22,'square',.035,.12+i*d*(lv>2?.8:1));tone(f,.3,'triangle',.1,.12+i*d*(lv>2?.8:1))});
    const end=.12+run.length*d*(lv>2?.8:1);if(lv>=2){[1047,1319,1568].forEach(f=>tone(f*(lv>2?1:.75),.7,'triangle',.07,end));noise(6000,.6,.1,end,'highpass',.6)}
@@ -732,14 +848,26 @@ function paintItem(x,s,id){
   rr(x,X,X,W,W,s*.2);x.fillStyle='#fff3d6';x.fill();x.lineWidth=lw;x.strokeStyle=OUT;x.stroke();
 }
 const sprites=new Map();
+/* stone block (drawn in code): whole (2) or cracked (1) */
+function paintStone(x,s,hp){
+  const m=s*.045,lw=Math.max(1.4,s*.065),X=m+lw/2,W=s-2*m-lw;
+  const g=x.createLinearGradient(0,X,0,X+W);g.addColorStop(0,'#d9d4e6');g.addColorStop(.5,'#a9a2bd');g.addColorStop(1,'#7c7594');
+  rr(x,X,X,W,W,s*.2);x.fillStyle=g;x.fill();
+  x.fillStyle='rgba(255,255,255,.45)';rr(x,X+W*.12,X+W*.08,W*.5,W*.18,W*.09);x.fill();
+  x.fillStyle='rgba(60,50,90,.25)';[[.3,.62,.09],[.68,.38,.07],[.62,.74,.06],[.25,.35,.05]].forEach(([a,b,r])=>{x.beginPath();x.arc(X+W*a,X+W*b,W*r,0,7);x.fill()});
+  if(hp<2){x.strokeStyle='#3d3550';x.lineWidth=Math.max(1.5,s*.05);x.lineCap='round';x.lineJoin='round';x.beginPath();
+    x.moveTo(X+W*.18,X+W*.2);x.lineTo(X+W*.42,X+W*.45);x.lineTo(X+W*.36,X+W*.62);x.lineTo(X+W*.6,X+W*.84);
+    x.moveTo(X+W*.42,X+W*.45);x.lineTo(X+W*.72,X+W*.3);x.moveTo(X+W*.6,X+W*.84);x.lineTo(X+W*.84,X+W*.7);x.stroke()}
+  rr(x,X,X,W,W,s*.2);x.lineWidth=lw;x.strokeStyle=OUT;x.stroke();
+}
 function sprite(kind,s,sk){
   const d=DPR(),px=Math.max(4,Math.round(s*d)),k=kind+'|'+sk+'|'+px;let c=sprites.get(k);
   if(!c){c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d');
-    if(typeof kind==='string')paintItem(x,px,kind);else paintBlock(x,px,kind,sk);
+    if(typeof kind==='string'&&/^stone\d$/.test(kind))paintStone(x,px,+kind.slice(5));else if(typeof kind==='string')paintItem(x,px,kind);else paintBlock(x,px,kind,sk);
     if(sprites.size>600)sprites.clear();sprites.set(k,c)}
   return c}
 /* draw a cell: {c:colour} or {it:item} */
-function drawCell(x,cell,X,Y,s,sk){const sp=sprite(cell.it||cell.c,s,sk||skin);x.drawImage(sp,X,Y,s,s)}
+function drawCell(x,cell,X,Y,s,sk){const sp=sprite(cell.st?'stone'+cell.st:(cell.it||cell.c),s,sk||skin);x.drawImage(sp,X,Y,s,s)}
 
 /* =================================================================
    Pieces
@@ -761,7 +889,7 @@ const SH=(()=>{const L=(...rows)=>rows;const P={
  const out={};for(const k in P){const [rows,wl,wb]=P[k];const cells=[];rows.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch==='#')cells.push([x,y])}));
    out[k]={id:k,cells,w:rows[0].length,h:rows.length,wl,wb}}return out})();
 const SHK=Object.keys(SH);
-const N=8;
+let N=8;              // board size: 8, or 9 in the 9×9 Squares mode
 
 /* =================================================================
    Game state
@@ -771,8 +899,18 @@ let boardDirty=true;
 const emptyGrid=()=>Array.from({length:N},()=>Array(N).fill(null));
 const fits=(grid,p,gx,gy)=>{for(const [cx,cy] of p.cells){const x=gx+cx,y=gy+cy;if(x<0||y<0||x>=N||y>=N||grid[y][x])return false}return true};
 function anyFit(grid,p){for(let y=0;y<=N-p.h;y++)for(let x=0;x<=N-p.w;x++)if(fits(grid,p,x,y))return true;return false}
-function linesIf(grid,p,gx,gy){const g=grid.map(r=>r.slice());for(const [cx,cy] of p.cells)g[gy+cy][gx+cx]={c:0};const rows=[],cols=[];
-  for(let i=0;i<N;i++){if(g[i].every(v=>v))rows.push(i);if(g.every(r=>r[i]))cols.push(i)}return{rows,cols}}
+/* full rows, columns and (in Squares mode) full 3×3 boxes */
+function fullLines(g){const rows=[],cols=[],boxes=[];
+  for(let i=0;i<N;i++){if(g[i].every(v=>v))rows.push(i);if(g.every(r=>r[i]))cols.push(i)}
+  if(G&&G.boxes)for(let b=0;b<9;b++){const bx=b%3*3,by=Math.floor(b/3)*3;let f=true;for(let y=by;y<by+3&&f;y++)for(let x=bx;x<bx+3;x++)if(!g[y][x]){f=false;break}if(f)boxes.push(b)}
+  return{rows,cols,boxes}}
+function linesIf(grid,p,gx,gy){const g=grid.map(r=>r.slice());for(const [cx,cy] of p.cells)g[gy+cy][gx+cx]={c:0};return fullLines(g)}
+const lineCount=L=>L.rows.length+L.cols.length+(L.boxes?L.boxes.length:0);
+/* which modes collect treasures and which chase a score */
+const isGoal=g=>g&&(g.mode==='adv'||g.mode==='daily');
+const isScore=g=>g&&(g.mode==='end'||g.mode==='sq');
+const bestKey=g=>g.mode==='sq'?'sq':age;
+const saveKey=g=>g.mode==='sq'?'endless_sq':'endless_'+age;
 let rng=Math.random;
 function seeded(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let q=Math.imul(s^s>>>15,1|s);q=q+Math.imul(q^q>>>7,61|q)^q;return((q^q>>>14)>>>0)/4294967296}}
 function weighted(keys,wf){let tot=0;for(const k of keys)tot+=wf(k);let r=rng()*tot;for(const k of keys){r-=wf(k);if(r<=0)return k}return keys[0]}
@@ -780,7 +918,7 @@ const wOf=k=>age==='little'?SH[k].wl:SH[k].wb;
 function newPiece(avoid){let c;do{c=Math.floor(rng()*COLS.length)}while(avoid&&avoid.includes(c)&&rng()<.9);return c}
 /* a piece that would finish a line somewhere right now (to help little ones, and sometimes big kids) */
 function helpful(grid){const ks=SHK.filter(k=>wOf(k)>0).sort(()=>rng()-.5);
-  for(const k of ks){const p=SH[k];for(let y=0;y<=N-p.h;y++)for(let x=0;x<=N-p.w;x++)if(fits(grid,p,x,y)){const L=linesIf(grid,p,x,y);if(L.rows.length||L.cols.length)return k}}return null}
+  for(const k of ks){const p=SH[k];for(let y=0;y<=N-p.h;y++)for(let x=0;x<=N-p.w;x++)if(fits(grid,p,x,y)){if(lineCount(linesIf(grid,p,x,y)))return k}}return null}
 function deal(){
   const grid=G.grid,keys=SHK.filter(k=>wOf(k)>0),tray=[];
   for(let i=0;i<3;i++){let k=null;
@@ -793,9 +931,9 @@ function deal(){
 }
 
 /* ---------- levels (made from a seed, the same every time) ---------- */
-const LEVELS=30;
-function genLevel(n){
-  const r=seeded(n*7919+97),pick=a=>a[Math.floor(r()*a.length)];
+const LEVELS=100;
+function genLevel(n,seed){
+  const r=seeded(seed||n*7919+97),pick=a=>a[Math.floor(r()*a.length)];
   const types=n<=2?1:n<=8?2:n<=18?3:Math.min(4,2+Math.floor(n/10));
   const kinds=[];const pool=ITEMS.slice(0,Math.min(ITEMS.length,2+Math.floor((n-1)/4)));
   while(kinds.length<types){const k=pick(pool);if(!kinds.includes(k))kinds.push(k)}
@@ -810,14 +948,29 @@ function genLevel(n){
   const spots=[];for(let y=0;y<N;y++)for(let x=0;x<N;x++)spots.push([x,y]);spots.sort(()=>r()-.5);
   const goals={};let placed=0;
   for(const [x,y] of spots){if(placed>=nItems)break;const k=kinds[placed%kinds.length];grid[y][x]={it:k};goals[k]=(goals[k]||0)+1;placed++}
+  // stone blocks from level 31 (fewer for little ones): each needs two pops
+  let nStones=n>=31?Math.min(10,2+Math.floor((n-31)/7)):0;if(age==='little')nStones=Math.ceil(nStones/2);
+  for(const [x,y] of spots.slice(placed)){if(nStones<=0)break;if(!grid[y][x]||!grid[y][x].it){grid[y][x]={st:2};nStones--}}
   for(let i=0;i<N;i++){if(grid[i].every(v=>v)){const x=grid[i].findIndex(v=>!v.it);if(x>=0)grid[i][x]=null}if(grid.every(row=>row[i])){const y=grid.findIndex(row=>!row[i].it);if(y>=0)grid[y][i]=null}}
-  return{grid,goals,par:Math.round(nItems*1.3+8)}
+  const stones=grid.flat().filter(c=>c&&c.st).length,par=Math.round(nItems*1.3+8+stones*.8);
+  // Big Kid gets a move limit from level 41
+  return{grid,goals,par,limit:age==='big'&&n>=41&&!seed?Math.round(par*1.5+4):0}
 }
+/* ---------- Daily Challenge: one puzzle per day, the same for everyone ---------- */
+const pad2=v=>String(v).padStart(2,'0');
+const dayKey=d=>`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+const todayKey=()=>dayKey(new Date());
+function keyDate(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)}
+function dailyInfo(k){const d=keyDate(k),wd=d.getDay(),fri=wd===5;      // Monday easiest, gets harder; Friday is the golden Jumu'ah puzzle
+  return{seed:d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate(),n:fri?24:10+((wd+6)%7)*2,fri}}
+let daily=store.get('daily',{});
+function dailyStreak(){let d=new Date();if(!daily[dayKey(d)])d.setDate(d.getDate()-1);let n=0;while(daily[dayKey(d)]){n++;d.setDate(d.getDate()-1)}return n}
 
 /* ---------- progress ---------- */
 let prog=store.get('prog',{open:1,stars:{}});
+if(prog.stars[30]&&prog.open<31){prog.open=31;store.set('prog',prog)}   // 30 levels became 100
 const totalStars=()=>Object.values(prog.stars).reduce((a,b)=>a+b,0);
-let best=store.get('best',{little:0,big:0});
+let best=store.get('best',{little:0,big:0,sq:0});
 const skinOpen=s=>age==='little'||totalStars()>=s.need;   // little ones (3+) get every style
 
 /* =================================================================
@@ -855,15 +1008,15 @@ function drawBoard(now){
   // frame + night sky
   if(ok(FRAME))x.drawImage(FRAME,0,0,BS,BS);
   else{rr(x,1.5,1.5,BS-3,BS-3,BS*.06);x.fillStyle='#ffc23a';x.fill();x.lineWidth=3;x.strokeStyle=OUT;x.stroke();rr(x,GX-4,GY-4,CELL*N+8,CELL*N+8,BS*.04);x.fillStyle='#2f2672';x.fill()}
-  for(let y=0;y<N;y++)for(let X=0;X<N;X++){const [px,py]=cellXY(X,y);rr(x,px+CELL*.06,py+CELL*.06,CELL*.88,CELL*.88,CELL*.2);x.fillStyle=(X+y)%2?'rgba(255,255,255,.08)':'rgba(255,255,255,.12)';x.fill()}
+  for(let y=0;y<N;y++)for(let X=0;X<N;X++){const [px,py]=cellXY(X,y);rr(x,px+CELL*.06,py+CELL*.06,CELL*.88,CELL*.88,CELL*.2);x.fillStyle=G&&G.boxes?((Math.floor(X/3)+Math.floor(y/3))%2?'rgba(255,255,255,.17)':'rgba(255,255,255,.07)'):((X+y)%2?'rgba(255,255,255,.08)':'rgba(255,255,255,.12)');x.fill()}
   // preview: lines that would pop glow, in the colour of the piece
   let hl=null;
-  if(ghost){hl=new Set();ghost.rows.forEach(r=>{for(let i=0;i<N;i++)hl.add(r*N+i)});ghost.cols.forEach(c=>{for(let i=0;i<N;i++)hl.add(i*N+c)})}
+  if(ghost){hl=new Set();ghost.rows.forEach(r=>{for(let i=0;i<N;i++)hl.add(r*N+i)});ghost.cols.forEach(c=>{for(let i=0;i<N;i++)hl.add(i*N+c)});(ghost.boxes||[]).forEach(b=>{const bx=b%3*3,by=Math.floor(b/3)*3;for(let y=by;y<by+3;y++)for(let x=bx;x<bx+3;x++)hl.add(y*N+x)})}
   const pulse=.5+.5*Math.sin(now/120);
   for(let y=0;y<N;y++)for(let X=0;X<N;X++){const cell=G&&G.grid[y][X];if(!cell)continue;if(anims.some(a=>a.type==='place'&&a.x===X&&a.y===y&&now<a.t0))continue;
     const [px,py]=cellXY(X,y);let s=CELL,ox=0,oy=0;
     const a=anims.find(a=>a.type==='place'&&a.x===X&&a.y===y);if(a){const k=Math.min(1,(now-a.t0)/a.d);const sc=1+.18*(1-k)*Math.sin(k*Math.PI*1.5+.6);s=CELL*sc;ox=oy=(CELL-s)/2}
-    const shown=hl&&hl.has(y*N+X)&&!cell.it?{c:drag.p.c}:cell;
+    const shown=hl&&hl.has(y*N+X)&&!cell.it&&!cell.st?{c:drag.p.c}:cell;
     drawCell(x,shown,px+ox,py+oy,s);
   }
   if(ghost){x.globalAlpha=.42;for(const [cx,cy] of SH[drag.p.k].cells){const [px,py]=cellXY(ghost.x+cx,ghost.y+cy);drawCell(x,{c:drag.p.c},px,py,CELL)}x.globalAlpha=1;
@@ -911,7 +1064,7 @@ function drawFx(now){
   flys=flys.filter(f=>!f.done);
 }
 let backs=[];
-function burst(sx,sy,col,n){const c=COLS[col]||'#ffd23f';for(let i=0;i<n;i++){const a=Math.random()*6.283,v=120+Math.random()*260;
+function burst(sx,sy,col,n){const c=col===-1?'#a9a2bd':COLS[col]||'#ffd23f';for(let i=0;i<n;i++){const a=Math.random()*6.283,v=120+Math.random()*260;
   parts.push({x:sx,y:sy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-160,g:520,s:4+Math.random()*7,c:i%3?c:'#fff6c8',star:i%4===0,tw:i%8===0,r:Math.random()*6,t0:performance.now(),life:650+Math.random()*350})}}
 /* a golden starburst with a soft glow where a line pops (bigger for combos) */
 function lineBurst(sx,sy,big,delay){const t0=performance.now()+(delay||0),s=CELL*(big?4.2:3.6);
@@ -939,7 +1092,7 @@ function findGhost(){
   const reach=age==='little'?1.6:.75;let bestG=null,bd=1e9;
   const x0=Math.round(fx_),y0=Math.round(fy_);
   for(let y=y0-2;y<=y0+2;y++)for(let x=x0-2;x<=x0+2;x++){const dd=Math.hypot(x-fx_,y-fy_);if(dd>reach||dd>=bd)continue;if(fits(G.grid,sh,x,y)){bd=dd;bestG={x,y}}}
-  if(bestG){const L=linesIf(G.grid,sh,bestG.x,bestG.y);bestG.rows=L.rows;bestG.cols=L.cols}
+  if(bestG){const L=linesIf(G.grid,sh,bestG.x,bestG.y);bestG.rows=L.rows;bestG.cols=L.cols;bestG.boxes=L.boxes}
   return bestG}
 trayEl.addEventListener('pointerdown',e=>{
   if(!G||G.busy||window.praying)return;const s=e.target.closest('.slot');if(!s)return;const i=+s.dataset.i,p=G.tray[i];if(!p)return;
@@ -965,20 +1118,24 @@ trayEl.addEventListener('lostpointercapture',e=>endDrag(e));
    Placing, popping lines, scoring
    ================================================================= */
 function placePiece(i,gx,gy){
-  const p=G.tray[i],sh=SH[p.k],now=performance.now();G.tray[i]=null;G.moves++;
+  const p=G.tray[i],sh=SH[p.k],now=performance.now();G.tray[i]=null;G.moves++;renderMoves();
   const s=trayEl.querySelector(`.slot[data-i="${i}"]`);if(s){s.innerHTML='';s.classList.remove('lift','off')}
   for(const [cx,cy] of sh.cells){G.grid[gy+cy][gx+cx]={c:p.c};anims.push({type:'place',x:gx+cx,y:gy+cy,t0:now,d:220})}
   sfx.drop();try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}
   addScore(sh.cells.length,null);
   // full lines?
-  const rows=[],cols=[];for(let k=0;k<N;k++){if(G.grid[k].every(v=>v))rows.push(k);if(G.grid.every(r=>r[k]))cols.push(k)}
-  const n=rows.length+cols.length;
+  const {rows,cols,boxes}=fullLines(G.grid);
+  const n=rows.length+cols.length+boxes.length;
   if(n){
     G.streak++;const set=new Map();rows.forEach(r=>{for(let k=0;k<N;k++)set.set(r*N+k,[k,r])});cols.forEach(c=>{for(let k=0;k<N;k++)set.set(k*N+c,[c,k])});
+    boxes.forEach(b=>{const bx=b%3*3,by=Math.floor(b/3)*3;for(let y=by;y<by+3;y++)for(let x=bx;x<bx+3;x++)set.set(y*N+x,[x,y])});
     const cx=gx+sh.w/2,cy=gy+sh.h/2;
-    set.forEach(([x,y])=>{const cell=G.grid[y][x];const dl=Math.hypot(x+.5-cx,y+.5-cy)*35;anims.push({type:'pop',x,y,cell,t0:now+60+dl,d:380});
-      setTimeout(()=>{const [sx,sy]=boardToScreen(x,y);burst(sx,sy,cell.it?2:cell.c,cell.it?14:7);fxDirty=true},60+dl);
+    set.forEach(([x,y])=>{const cell=G.grid[y][x];const dl=Math.hypot(x+.5-cx,y+.5-cy)*35;
+      if(cell.st>1){G.grid[y][x]={st:cell.st-1};anims.push({type:'place',x,y,t0:now+60+dl,d:300});setTimeout(()=>{const [sx,sy]=boardToScreen(x,y);burst(sx,sy,-1,6);sfx.crack();fxDirty=true},60+dl);return}
+      anims.push({type:'pop',x,y,cell,t0:now+60+dl,d:380});
+      setTimeout(()=>{const [sx,sy]=boardToScreen(x,y);burst(sx,sy,cell.st?-1:cell.it?2:cell.c,cell.it?14:7);fxDirty=true},60+dl);
       if(cell.it)collectItem(cell.it,x,y,60+dl);G.grid[y][x]=null});
+    boxes.forEach((b,i)=>{const [sx,sy]=boardToScreen(b%3*3+1,Math.floor(b/3)*3+1);lineBurst(sx,sy,n>1,80+(rows.length+cols.length+i)*60)});
     rows.forEach((r,i)=>{const [sx,sy]=boardToScreen(Math.min(N-1,Math.max(0,cx-.5)),r);lineBurst(sx,sy,n>1,80+i*60)});
     cols.forEach((c,i)=>{const [sx,sy]=boardToScreen(c,Math.min(N-1,Math.max(0,cy-.5)));lineBurst(sx,sy,n>1,80+(rows.length+i)*60)});
     const pts=10*n*n+(G.streak>1?10*(G.streak-1):0);addScore(pts,[(gx+sh.w/2),(gy+sh.h/2)]);
@@ -994,8 +1151,8 @@ function placePiece(i,gx,gy){
 let shownScore=0,scoreRaf=0;
 function rollScore(){const el=$('#score');cancelAnimationFrame(scoreRaf);const from=shownScore,to=G.score,t0=performance.now(),d=Math.min(700,150+(to-from)*6);
   const step=now=>{const k=Math.min(1,(now-t0)/d),e=1-Math.pow(1-k,3);shownScore=Math.round(from+(to-from)*e);el.textContent=shownScore;if(k<1)scoreRaf=requestAnimationFrame(step)};scoreRaf=requestAnimationFrame(step)}
-function addScore(v,at){G.score+=v;if(G.mode==='end'){const el=$('#score');rollScore();el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),180);
-  if(G.score>best[age]&&!G.beat&&best[age]>0){G.beat=true;bubble(t('newBest'))}}
+function addScore(v,at){G.score+=v;if(isScore(G)){const el=$('#score');rollScore();el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),180);
+  const bk=bestKey(G);if(G.score>(best[bk]||0)&&!G.beat&&best[bk]>0){G.beat=true;bubble(t('newBest'))}}
   if(at&&v>0){const [sx,sy]=boardToScreen(at[0]-.5,at[1]-.5);const e=document.createElement('div');e.className='pts';e.textContent='+'+v;e.style.left=sx+'px';e.style.top=sy+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1000)}}
 let cheerN=0;
 /* cheers grow with the lines popped in one move:
@@ -1034,26 +1191,29 @@ function poppers(){const r=bc.getBoundingClientRect(),t0=performance.now(),cols=
     parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,g:900,s:Math.random()*7+6,c:cols[i%cols.length],conf:1,r:Math.random()*6,t0:t0+Math.random()*120,life:1800})}});fxDirty=true}
 function bubble(txt){const b=$('#bub');b.textContent=txt;b.classList.add('on');clearTimeout(bubble.t);bubble.t=setTimeout(()=>b.classList.remove('on'),1800)}
 function collectItem(id,x,y,delay){
-  if(G.mode!=='adv'||!G.left[id])return;G.left[id]--;G.pending++;
+  if(!isGoal(G)||!G.left[id])return;G.left[id]--;G.pending++;
   const el=$(`#goals .goal[data-id="${id}"]`);const [sx,sy]=boardToScreen(x,y);const r=el?el.getBoundingClientRect():{left:innerWidth/2,top:20,width:0,height:0};
   flys.push({id,x0:sx,y0:sy,x1:r.left+r.width/2,y1:r.top+r.height/2,s:CELL*.9,t0:performance.now()+delay,d:650,cb:()=>{G.pending--;G.got[id]=(G.got[id]||0)+1;renderGoals(id);sfx.item();checkWin()}});fxDirty=true;
 }
-function renderGoals(bump){const el=$('#goals');if(G.mode!=='adv'){el.innerHTML='';return}
+function renderGoals(bump){const el=$('#goals');if(!isGoal(G)){el.innerHTML='';renderMoves();return}
   el.innerHTML=Object.keys(G.goals).map(id=>{const left=G.goals[id]-(G.got[id]||0);return`<div class="goal${left<=0?' done':''}" data-id="${id}"><img src="art/t-${id}.webp" alt=""><b><span>${Math.max(0,left)}</span></b></div>`}).join('');
-  if(bump){const g=el.querySelector(`[data-id="${bump}"]`);if(g){g.classList.add('bump');setTimeout(()=>g.classList.remove('bump'),160)}}}
-function checkWin(){if(G.mode!=='adv'||G.ended)return;if(Object.keys(G.goals).every(id=>(G.got[id]||0)>=G.goals[id])&&!G.pending){G.ended=true;setTimeout(levelWin,500)}}
+  if(bump){const g=el.querySelector(`[data-id="${bump}"]`);if(g){g.classList.add('bump');setTimeout(()=>g.classList.remove('bump'),160)}}renderMoves()}
+/* moves left (Big Kid, harder Adventure levels) */
+function renderMoves(){const el=$('#moves');if(!G||!G.limit){el.style.display='none';return}const left=Math.max(0,G.limit-G.moves);el.style.display='';el.querySelector('b').textContent=left;el.classList.toggle('low',left<=3)}
+function checkWin(){if(!isGoal(G)||G.ended)return;if(Object.keys(G.goals).every(id=>(G.got[id]||0)>=G.goals[id])&&!G.pending){G.ended=true;setTimeout(levelWin,500)}}
 /* after a move: is there still room for one of the pieces? */
 function afterMove(delay=0){
   clearTimeout(afterMove.t);afterMove.t=setTimeout(()=>{
     if(!G||G.ended)return;refreshTrayFit();
-    if(G.mode==='adv'&&Object.values(G.left).every(v=>v<=0))return;   // winning
+    if(isGoal(G)&&Object.values(G.left).every(v=>v<=0))return;   // winning
+    if(G.limit&&G.moves>=G.limit&&!G.pending){outOfMoves();return}
     const left=G.tray.filter(Boolean);if(!left.length)return;
     if(left.some(p=>anyFit(G.grid,SH[p.k])))return;
     stuck()},delay+150)}
 function stuck(){
   if(age==='little'){bubble(t('makeSpace'));say(t('makeSpace'));setTimeout(()=>makeSpace(),700);return}
   if(!G.rescued){G.busy=true;showOver(true);return}
-  if(G.mode==='end')endEndless();else{G.busy=true;showOver(false)}}
+  if(isScore(G))endEndless();else{G.busy=true;showOver(false)}}
 /* clear the fullest rows (with a pop) until a piece fits again */
 function makeSpace(){
   G.busy=false;const now=performance.now();let cleared=0;
@@ -1091,65 +1251,105 @@ function showBg(id){
   img.src=bgURL(id,o)}
 function nextBg(){let id;do{id=BGS[Math.floor(Math.random()*BGS.length)]}while(id===bgNow);bgNow=id;store.set('bg',id);showBg(id)}
 
+function chapterBg(level){const id=CH[chOf(level)].bg;if(bgNow!==id){bgNow=id;store.set('bg',id);showBg(id)}}
+const fmtDay=k=>{try{return new Intl.DateTimeFormat(lang==='id'?'id-ID':'en-GB',{day:'numeric',month:'short'}).format(keyDate(k))}catch(e){return k}};
 function startGame(mode,level,resume){
-  nextBg();
-  rng=Math.random;
-  if(mode==='adv'){const L=genLevel(level);G={mode,level,grid:L.grid,goals:L.goals,left:{...L.goals},got:{},par:L.par,score:0,streak:0,moves:0,tray:[],pending:0}}
-  else if(resume){G=resume;G.ended=false;G.busy=false;G.pending=0}
-  else G={mode,grid:emptyGrid(),score:0,streak:0,moves:0,tray:[],pending:0};
+  rng=Math.random;N=(mode==='sq'||(resume&&resume.mode==='sq'))?9:8;
+  const base={score:0,streak:0,moves:0,tray:[],pending:0};
+  if(mode==='adv'){chapterBg(level);const L=genLevel(level);G={...base,mode,level,grid:L.grid,goals:L.goals,left:{...L.goals},got:{},par:L.par,limit:L.limit}}
+  else if(mode==='daily'){nextBg();const d=dailyInfo(level),L=genLevel(d.n,d.seed);
+    if(d.fri){const goals={};let i=0;L.grid.forEach(r=>r.forEach(c=>{if(c&&c.it){c.it=i++%2?'masjid':'star';goals[c.it]=(goals[c.it]||0)+1}}));L.goals=goals}
+    G={...base,mode,day:level,fri:d.fri,grid:L.grid,goals:L.goals,left:{...L.goals},got:{},par:L.par,limit:0};
+    rng=seeded(d.seed*31+(age==='big'?7:3))}     // same pieces for everyone playing this day
+  else if(resume){nextBg();G=resume;G.ended=false;G.busy=false;G.pending=0}
+  else{nextBg();G={...base,mode,grid:emptyGrid()}}
+  G.boxes=G.mode==='sq';
   anims=[];parts=[];flys=[];backs=[];G.beat=false;
-  $('#lvlChip').style.display=mode==='adv'?'':'none';$('#lvlChip').textContent=tf('level',{n:level});
-  $('#bestBox').style.display=mode==='end'?'':'none';$('#bestN').textContent=best[age];
-  $('#score').style.display=mode==='end'?'':'none';$('#score').textContent=G.score;shownScore=G.score;cancelAnimationFrame(scoreRaf);
+  const chip=$('#lvlChip');chip.style.display=G.mode==='end'?'none':'';
+  chip.textContent=G.mode==='adv'?tf('level',{n:level}):G.mode==='daily'?(G.fri?'★ ':'')+fmtDay(G.day):t('sq');
+  $('#bestBox').style.display=isScore(G)?'':'none';$('#bestN').textContent=best[bestKey(G)]||0;
+  $('#score').style.display=isScore(G)?'':'none';$('#score').textContent=G.score;shownScore=G.score;cancelAnimationFrame(scoreRaf);
   show('game');layout();renderGoals();
   if(resume&&G.tray&&G.tray.length)renderTray(true);else{trayEl.innerHTML=''}
   // Bismillah first
-  $('#bismGoal').innerHTML=mode==='adv'?`${t('collect')} `+Object.keys(G.goals).map(id=>`<img src="art/t-${id}.webp" alt="" style="width:38px;height:38px;vertical-align:-12px"> ${G.goals[id]}`).join(' &nbsp;'):'';
+  $('#bismGoal').innerHTML=isGoal(G)?(G.fri?`<b style="color:#d07a00">${t('fri')}</b><br>`:'')+`${t('collect')} `+Object.keys(G.goals).map(id=>`<img src="art/t-${id}.webp" alt="" style="width:38px;height:38px;vertical-align:-12px"> ${G.goals[id]}`).join(' &nbsp;')+(G.limit?`<br>${t('movesL')}: <b>${G.limit}</b>`:''):'';
   G.busy=true;ov('bism',true);
 }
 $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));G.busy=false;if(!G.tray.length||G.tray.every(v=>!v))setTimeout(deal,250);else afterMove();boardDirty=true;
   if(!store.get('hinted',0))setTimeout(showHint,1600)};
+function winStars(st){const is=$('#winStars').children;[...is].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)})}
+const chapterDone=c=>{for(let n=c*10+1;n<=c*10+10;n++)if(!prog.stars[n])return false;return true};
 function levelWin(){
-  const n=G.level,st=G.moves<=G.par?3:G.moves<=G.par*1.5?2:1,before=totalStars();
+  if(G.mode==='daily')return dailyWin();
+  const n=G.level,st=G.moves<=G.par?3:G.moves<=G.par*1.5?2:1,before=totalStars(),c=chOf(n),wasDone=chapterDone(c);
   prog.stars[n]=Math.max(prog.stars[n]||0,st);prog.open=Math.max(prog.open,Math.min(LEVELS,n+1));store.set('prog',prog);
   const after=totalStars(),unl=age==='little'?null:SKINS.find(s=>s.need>before&&s.need<=after);
   sfx.win();confetti();fxDirty=true;
-  $('#winSub').textContent=n>=LEVELS?t('allDone'):tf('lvlDone',{n});
-  const is=$('#winStars').children;[...is].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
-  $('#winFact').textContent=fact(n-1);setTimeout(()=>{if($('#win').classList.contains('on'))readFact(fact(n-1),$('#winFactBox'))},700);
+  if(!wasDone&&chapterDone(c)){setTimeout(()=>showChapter(c,true),300);return}      // the chapter's picture is complete
+  $('#winSub').textContent=n>=LEVELS?t('allDone'):tf('lvlDone',{n});winStars(st);
+  $('#winFact').textContent=fact(n-1);$('#winFactBox b').textContent=t('dyk');setTimeout(()=>{if($('#win').classList.contains('on'))readFact(fact(n-1),$('#winFactBox'))},700);
   $('#winUnl').innerHTML='';if(unl){const c=document.createElement('canvas');c.width=c.height=112;skinPreview(c,unl.id);$('#winUnl').innerHTML=`<div class="unl"></div>`;$('#winUnl .unl').append(c,document.createTextNode(tf('unlocked',{s:t('sk')[unl.id]})))}
   $('#winNext').style.display=n>=LEVELS?'none':'';ov('win',true);
 }
+function dailyWin(){
+  const st=G.moves<=G.par?3:G.moves<=G.par*1.5?2:1;daily[G.day]=Math.max(daily[G.day]||0,st);store.set('daily',daily);
+  sfx.win();confetti();fxDirty=true;const sk=dailyStreak();
+  $('#winSub').textContent=t('dailyDone')+(sk>1?' · '+tf('streak',{n:sk}):'');winStars(st);
+  const f=fact(dailyInfo(G.day).seed);$('#winFact').textContent=f;$('#winFactBox b').textContent=t('dyk');setTimeout(()=>{if($('#win').classList.contains('on'))readFact(f,$('#winFactBox'))},700);
+  $('#winUnl').innerHTML='';$('#winNext').style.display='none';ov('win',true);
+}
+/* chapter picture: revealed piece by piece; complete = the story is read aloud */
+function picTiles(c,shown,fresh){let h='';for(let i=0;i<10;i++){const lv=c*10+1+i,open=!!prog.stars[lv];
+  h+=`<i class="${open?(fresh&&i===shown?'go':'gone'):''}" style="left:${(i%5)*20}%;top:${Math.floor(i/5)*50}%">${open?'':lv}</i>`}return h}
+let chapCtx=null;
+function showChapter(c,fresh){
+  const ch=CH[c],title=ch.t[lang==='id'?1:0],story=ch.s[lang==='id'?1:0];chapCtx={c,fresh};
+  const last=fresh?(G?G.level-1-c*10:9):-1;
+  $('#chapPic').style.backgroundImage=`url(art/bg/${ch.bg}-landscape.webp)`;$('#chapPic').innerHTML=fresh?picTiles(c,last,true):'';
+  $('#chapTitle').textContent=fresh?t('chapDone'):title;$('#chapSub').textContent=tf('chapter',{n:c+1})+' · '+title;
+  $('#chapName').textContent=title;$('#chapStory').textContent=story;
+  $('#chapNext').style.display=fresh&&c<CH.length-1?'':'none';ov('chapOv',true);
+  setTimeout(()=>{if($('#chapOv').classList.contains('on'))sayList((fresh?[t('sayAlh')]:[]).concat([title,speakable(story)]),$('#chapStoryBox'))},fresh?900:300);
+}
+$('#chapNext').onclick=()=>{hush();ov('chapOv',false);startGame('adv',chapCtx.c*10+11)};
+$('#chapMap').onclick=()=>{hush();ov('chapOv',false);if(chapCtx.fresh){G=null;openMap()}else renderMap()};
 $('#winNext').onclick=()=>{hush();ov('win',false);startGame('adv',G.level+1)};
-$('#winAgain').onclick=()=>{hush();ov('win',false);startGame('adv',G.level)};
-$('#winMap').onclick=()=>{hush();ov('win',false);G=null;openMap()};
+$('#winAgain').onclick=()=>{hush();ov('win',false);if(G.mode==='daily')startGame('daily',G.day);else startGame('adv',G.level)};
+$('#winMap').onclick=()=>{hush();ov('win',false);const d=G.mode==='daily';G=null;if(d)openCal();else openMap()};
 let spkChk=0;
 function hush(){clearInterval(spkChk);try{speechSynthesis.cancel()}catch(e){}document.querySelectorAll('.fact.reading').forEach(b=>b.classList.remove('reading'))}
 /* speaker button: listen to the fact again */
 document.querySelectorAll('.fact .spk').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const box=b.closest('.fact');sfx.tap();
-  sayList([t('dyk'),speakable(box.querySelector('p').textContent)],null);box.classList.add('reading');setTimeout(()=>box.classList.remove('reading'),300);
+  sayList([box.querySelector('b').textContent,speakable(box.querySelector('p').textContent)],null);box.classList.add('reading');setTimeout(()=>box.classList.remove('reading'),300);
   clearInterval(spkChk);const u=speechSynthesis;spkChk=setInterval(()=>{if(!u.speaking||!box.closest('.ov.on')){box.classList.remove('reading');clearInterval(spkChk)}else box.classList.add('reading')},300)}));
 function showOver(canSave){
-  const end=G.mode==='end';
+  const end=isScore(G);G.overKind=canSave?'stuck':'final';$('#overSave span').textContent=t('space');
   $('#overAr').style.display=canSave?'none':'';
   $('#overT').textContent=canSave?t('overT'):(end?t('alh'):t('overT'));
   $('#overP').textContent=canSave?t('stuckP'):(end?t('overP'):t('tryP'));
   $('#overSave').style.display=canSave?'':'none';
   $('#overAgain').querySelector('span').textContent=end?t('again'):t('retry');
   $('#overAgain').style.display=canSave&&end?'none':'';
-  $('#overScore').innerHTML=end&&!canSave?`${G.newBest?'<img class="trophy" src="art/trophy.webp" alt="">':''}<div class="bigscore">${G.score}</div>${G.newBest?`<div class="ribbon">${t('newBest')}</div>`:`<p>${tf('best',{n:best[age]})}</p>`}`:'';
+  $('#overScore').innerHTML=end&&!canSave?`${G.newBest?'<img class="trophy" src="art/trophy.webp" alt="">':''}<div class="bigscore">${G.score}</div>${G.newBest?`<div class="ribbon">${t('newBest')}</div>`:`<p>${tf('best',{n:best[bestKey(G)]||0})}</p>`}`:'';
   $('#overFactBox').style.display=canSave?'none':'';$('#overFact').textContent=fact(Math.floor(Math.random()*FACTS.length));
   ov('over',true);
 }
-$('#overSave').onclick=()=>{ov('over',false);G.rescued=true;makeSpace()};
-$('#overAgain').onclick=()=>{hush();ov('over',false);if(G.mode==='end'){store.set('endless_'+age,null);startGame('end')}else startGame('adv',G.level)};
+$('#overSave').onclick=()=>{ov('over',false);if(G.overKind==='moves'){G.extraUsed=true;G.limit+=5;G.busy=false;renderMoves();sfx.deal();afterMove();return}G.rescued=true;makeSpace()};
+/* Big Kid levels with a move limit */
+function outOfMoves(){G.busy=true;G.overKind='moves';
+  $('#overAr').style.display='none';$('#overT').textContent=t('movesT');$('#overP').textContent=t('movesP');
+  $('#overSave').style.display=G.extraUsed?'none':'';$('#overSave span').textContent=t('more5');
+  $('#overAgain').querySelector('span').textContent=t('retry');$('#overAgain').style.display='';
+  $('#overScore').innerHTML='';$('#overFactBox').style.display='none';sfx.bad();ov('over',true)}
+function replay(){if(isScore(G)){store.set(saveKey(G),null);startGame(G.mode)}else if(G.mode==='daily')startGame('daily',G.day);else startGame('adv',G.level)}
+$('#overAgain').onclick=()=>{hush();ov('over',false);replay()};
 $('#overHome').onclick=()=>{hush();ov('over',false);goHome()};
 function endEndless(){
-  G.ended=true;G.busy=true;G.newBest=G.score>best[age];if(G.newBest){best[age]=G.score;store.set('best',best)}
-  store.set('endless_'+age,null);
+  const bk=bestKey(G);G.ended=true;G.busy=true;G.newBest=G.score>(best[bk]||0);if(G.newBest){best[bk]=G.score;store.set('best',best)}
+  store.set(saveKey(G),null);
   sfx.over();setTimeout(()=>{sfx.win();if(G.newBest)confetti();fxDirty=true;showOver(false);setTimeout(()=>readFact($('#overFact').textContent,$('#overFactBox')),600)},500);
 }
-function saveEndless(){if(G&&G.mode==='end'&&!G.ended)store.set('endless_'+age,{mode:'end',grid:G.grid,tray:G.tray,score:G.score,streak:G.streak,moves:G.moves,rescued:G.rescued})}
+function saveEndless(){if(G&&isScore(G)&&!G.ended)store.set(saveKey(G),{mode:G.mode,grid:G.grid,tray:G.tray,score:G.score,streak:G.streak,moves:G.moves,rescued:G.rescued})}
 /* hint: a hand shows how to drag the first time */
 let hintAnim=null;
 function showHint(){if(!G||G.busy||drag||cur!=='game')return;
@@ -1195,12 +1395,12 @@ try{history.replaceState({s:'home',i:0},'')}catch(e){}
 let btnNav=false;
 window.addEventListener('popstate',e=>{
   if(!btnNav&&cur!=='home'){try{history.pushState({s:cur,i:((e.state&&e.state.i)||0)+1},'')}catch(_){}return}
-  btnNav=false;['bism','win','over','skinsOv','gate'].forEach(id=>ov(id,false));
+  btnNav=false;['bism','win','over','skinsOv','gate','chapOv'].forEach(id=>ov(id,false));
   const s=(e.state&&e.state.s)||'home';if(s==='game'&&!G){show('home',false);return}
-  show(s,false);if(s==='home')renderHome();if(s==='map')renderMap();
+  show(s,false);if(s==='home')renderHome();if(s==='map')renderMap();if(s==='cal')renderCal();
 });
 function goBack(){if(history.state&&history.state.s!=='home'){btnNav=true;history.back()}else show('home')}
-function goHome(){if(G&&G.mode==='end'&&!G.ended)saveEndless();const i=(history.state&&history.state.i)||0;if(i>0&&history.state.s!=='home'){btnNav=true;history.go(-i)}else{show('home',false);renderHome()}}
+function goHome(){if(G&&isScore(G)&&!G.ended)saveEndless();const i=(history.state&&history.state.i)||0;if(i>0&&history.state.s!=='home'){btnNav=true;history.go(-i)}else{show('home',false);renderHome()}}
 document.querySelectorAll('.back').forEach(b=>b.addEventListener('click',()=>{sfx.tap();goBack()}));
 $('#gHome').onclick=()=>{sfx.tap();ov('bism',false);goHome()};
 document.addEventListener('touchstart',e=>{if(cur!=='game'||!e.touches.length)return;const x=e.touches[0].clientX;if((x<28||x>innerWidth-28)&&!e.target.closest('button'))e.preventDefault()},{passive:false});
@@ -1213,7 +1413,7 @@ function holdable(el,ms,done,onTap){
     const step=now=>{if(!tm)return;const p=Math.min(1,(now-start)/ms);ring&&ring.style.setProperty('--p',(p*100)+'%');if(p>=1){stop();done();return}raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)});
   ['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>{if(tm&&performance.now()-start<300){onTap&&onTap();if(tip){tip.classList.add('on');setTimeout(()=>tip.classList.remove('on'),1500)}}stop()}));
 }
-holdable($('#restartBtn'),1000,()=>{sfx.tap();if(!G)return;if(G.mode==='end'){store.set('endless_'+age,null);startGame('end')}else startGame('adv',G.level)});
+holdable($('#restartBtn'),1000,()=>{sfx.tap();if(G)replay()});
 
 /* ---------- home ---------- */
 /* place the tapping hand on each card (the fingertip sits at 58% / 4% of the hand picture) */
@@ -1225,6 +1425,10 @@ addEventListener('resize',()=>{if(cur==='home')placeHand()});
 $('#mhand').addEventListener('load',placeHand);
 function renderHome(){
   requestAnimationFrame(placeHand);
+  const done=!!daily[todayKey()],sk=dailyStreak();
+  $('#dailySub').textContent=done?t('dailyToday')+(sk>1?' · '+tf('streak',{n:sk}):''):(new Date().getDay()===5?t('fri'):t('dailyNew'));
+  $('#dailyNew').style.display=done?'none':'';
+  $('#goSq').style.display=age==='big'?'':'none';$('#sqSub').textContent=t('sqS');
   $('#advBadge').innerHTML=`<img src="art/star-gold.webp" alt=""> ${totalStars()}`;
   $('#endBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${best[age]}`;
   document.querySelectorAll('#age button').forEach(b=>b.classList.toggle('on',b.dataset.a===age));
@@ -1237,12 +1441,44 @@ let picking=false;
 function pickMode(btn,go){if(picking)return;picking=true;btn.classList.add('pick');$('#modes').classList.add('chosen');sfx.tap();setTimeout(()=>{btn.classList.remove('pick');$('#modes').classList.remove('chosen');picking=false;go()},420)}
 $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
 $('#goEnd').onclick=e=>pickMode(e.currentTarget,()=>{const sv=store.get('endless_'+age,null);startGame('end',0,sv&&sv.grid?sv:null)});
+$('#goDaily').onclick=()=>{sfx.tap();openCal()};
+$('#goSq').onclick=()=>{sfx.tap();const sv=store.get('endless_sq',null);startGame('sq',0,sv&&sv.grid?sv:null)};
+/* ---------- Daily Challenge calendar ---------- */
+let calY,calM;
+function openCal(){const d=new Date();calY=d.getFullYear();calM=d.getMonth();renderCal();show('cal')}
+function renderCal(){
+  if(calY==null){const d=new Date();calY=d.getFullYear();calM=d.getMonth()}
+  const first=new Date(calY,calM,1),days=new Date(calY,calM+1,0).getDate(),tk=todayKey(),now=new Date();
+  let doneN=0;for(let d=1;d<=days;d++)if(daily[dayKey(new Date(calY,calM,d))])doneN++;
+  $('#calMonth').textContent=new Intl.DateTimeFormat(lang==='id'?'id-ID':'en-GB',{month:'long',year:'numeric'}).format(first);
+  $('#calSum').textContent=doneN===days?'🏆 '+t('monthDone'):tf('calSum',{n:doneN,d:days});
+  $('#calDays').innerHTML=t('days').map(x=>`<div>${x}</div>`).join('');
+  let h='';const lead=(first.getDay()+6)%7;for(let i=0;i<lead;i++)h+='<span class="cd empty"></span>';
+  for(let d=1;d<=days;d++){const dt=new Date(calY,calM,d),k=dayKey(dt),fut=dt>now&&k!==tk;
+    h+=`<button class="cd${daily[k]?' done':''}${k===tk?' today':''}${fut?' fut':''}${dt.getDay()===5?' fri':''}" data-k="${k}">${d}</button>`}
+  $('#calGrid').innerHTML=h;
+  $('#calNext').style.visibility=calY>now.getFullYear()||(calY===now.getFullYear()&&calM>=now.getMonth())?'hidden':'';
+  const sk=dailyStreak();$('#calStreak').innerHTML=sk?`<img src="art/star-gold.webp" alt=""> ${tf('streak',{n:sk})}`:'';
+  $('#calPlay').style.display=daily[tk]?'none':'';
+}
+$('#calPrev').onclick=()=>{sfx.tap();if(--calM<0){calM=11;calY--}renderCal()};
+$('#calNext').onclick=()=>{sfx.tap();if(++calM>11){calM=0;calY++}renderCal()};
+$('#calGrid').addEventListener('click',e=>{const b=e.target.closest('.cd');if(!b||!b.dataset.k)return;if(b.classList.contains('fut')){sfx.bad();toast(t('futureDay'));return}sfx.tap();startGame('daily',b.dataset.k)});
+$('#calPlay').onclick=()=>{sfx.tap();startGame('daily',todayKey())};
 function openMap(){renderMap();show('map');const c=$('#lvls .cur');if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),50)}
 function renderMap(){
   $('#mapSum').innerHTML=`<img src="art/star-gold.webp" alt=""> ${totalStars()} / ${LEVELS*3}`;
-  let h='';for(let n=1;n<=LEVELS;n++){const lk=n>prog.open,st=prog.stars[n]||0,gift=SKINS.some(s=>s.need>0)&&n%5===0;
-    h+=`<button class="lv${lk?' lock':''}${n===prog.open&&!prog.stars[n]?' cur':''}${gift&&!lk?' gift':''}" data-n="${n}">${lk?'<img src="ui/lock.webp" alt="">':n}${lk?'':`<span class="st">${[0,1,2].map(k=>`<i class="${k<st?'on':''}"></i>`).join('')}</span>`}</button>`}
+  let h='';
+  CH.forEach((ch,c)=>{const n0=c*10+1,lk=n0>prog.open,got=[...Array(10).keys()].filter(i=>prog.stars[n0+i]).length,title=ch.t[lang==='id'?1:0];
+    h+=`<div class="chap${lk?' lock':''}${got===10?' done':''}" data-c="${c}"><div class="cpic" style="background-image:url(art/bg/${ch.bg}-landscape.webp)">${picTiles(c,-1,false)}</div>
+      <div class="cinfo"><b>${c+1}. ${title}</b><small>${got}/10</small></div></div><div class="lvls">`;
+    for(let n=n0;n<n0+10;n++){const l=n>prog.open,st=prog.stars[n]||0,gift=SKINS.some(s=>s.need>0)&&n%5===0;
+      h+=`<button class="lv${l?' lock':''}${n===prog.open&&!prog.stars[n]?' cur':''}${gift&&!l?' gift':''}" data-n="${n}">${l?'<img src="ui/lock.webp" alt="">':n}${l?'':`<span class="st">${[0,1,2].map(k=>`<i class="${k<st?'on':''}"></i>`).join('')}</span>`}</button>`}
+    h+='</div>'});
   $('#lvls').innerHTML=h}
+/* tap a finished chapter's picture to see it again and hear its story */
+$('#lvls').addEventListener('click',e=>{const c=e.target.closest('.chap');if(!c)return;const i=+c.dataset.c;
+  if(c.classList.contains('done')){sfx.tap();showChapter(i,false)}else if(c.classList.contains('lock')){sfx.bad();toast(t('lockedCh'))}else{sfx.tap();c.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:300})}});
 $('#lvls').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)return;const n=+b.dataset.n;if(n>prog.open){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame('adv',n)});
 /* block styles */
 function skinPreview(cv,id){const x=cv.getContext('2d'),s=cv.width/2;x.clearRect(0,0,cv.width,cv.height);[[0,0,0],[1,0,4],[0,1,2],[1,1,6]].forEach(([X,Y,c])=>{const c2=document.createElement('canvas');c2.width=c2.height=s;paintBlock(c2.getContext('2d'),s,c,id);x.drawImage(c2,X*s,Y*s)})}
@@ -1373,7 +1609,7 @@ renderSnd();renderMus();applyLang();setTimeout(()=>tickPrayer(Date.now()),300);
 document.fonts&&document.fonts.ready.then(()=>renderHome());
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* for automated tests only */
-window.__mbp={bg:id=>{bgNow=id;store.set('bg',id);showBg(id)},get bgNow(){return bgNow},BGS,geo:()=>({GX,GY,CELL}),idle:ms=>{lastAct=performance.now()-ms},get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
+window.__mbp={get N(){return N},bg:id=>{bgNow=id;store.set('bg',id);showBg(id)},get bgNow(){return bgNow},BGS,geo:()=>({GX,GY,CELL}),idle:ms=>{lastAct=performance.now()-ms},get G(){return G},SH,fits,placePiece,genLevel,deal,get ghost(){return ghost}};
 </script>
 </body>
 </html>
