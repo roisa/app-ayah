@@ -112,7 +112,7 @@ img{-webkit-user-drag:none}
 .mapsum img{width:22px;height:22px;vertical-align:-5px}
 
 /* ---------- game ---------- */
-#game{background:radial-gradient(120% 80% at 50% 0%,#ffbd4a 0%,#ffa51f 45%,#ff8f1a 100%)}
+#game{background:radial-gradient(120% 80% at 50% 0%,#ffbd4a 0%,#ffa51f 45%,#ff8f1a 100%);background-size:cover;background-position:center}
 #game .bar{padding:calc(8px + var(--safeT)) 12px 4px;gap:clamp(6px,1.6vw,12px)}
 #game .rb{width:clamp(44px,11vw,56px);height:clamp(44px,11vw,56px)}
 .chipL{background:#fff;border-radius:999px;padding:4px 16px;font:400 clamp(17px,4vw,22px) "Lilita One",sans-serif;color:#d07a00;box-shadow:0 4px 0 rgba(176,92,0,.25);white-space:nowrap}
@@ -703,6 +703,16 @@ function say(text){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u
    ================================================================= */
 const COLS=['#ff4f5e','#ff9a1f','#ffd23f','#3fcf5a','#2ec7f0','#4a6bff','#a35bff','#ff6fb5'];
 const OUT='#4a2c14';
+/* art: glossy stud tiles, ice and arrows (drawn by code until they have loaded) */
+const IMG={};let imgLeft=0;
+['studs','arrowH','arrowV','chev','iceBadge','iceCover','iceCrack','iceMelt'].forEach(n=>{imgLeft++;const i=new Image();
+  i.onload=()=>{IMG[n]=i;bgCache=null;dirty=true;if(--imgLeft===0)setTimeout(()=>{try{renderHomeArt();if($('#howOv').classList.contains('on'))renderHow()}catch(e){}},0)};
+  i.onerror=()=>{imgLeft--};i.src='ui/'+n+'.webp'});
+/* a different picture behind every level */
+const BGS=['snow','garden','night','oasis','sea','masjid','rainbow','autumn'];let lastBg=-1;
+function pickBg(){let k;do{k=Math.floor(Math.random()*BGS.length)}while(k===lastBg&&BGS.length>1);lastBg=k;
+  $('#game').style.backgroundImage=`url(bg/${BGS[k]}.webp),radial-gradient(120% 80% at 50% 0%,#ffbd4a 0%,#ffa51f 45%,#ff8f1a 100%)`;
+  const nx=new Image();nx.src=`bg/${BGS[(k+1)%BGS.length]}.webp`}
 const hexRgb=h=>{const n=parseInt(h.slice(1),16);return[n>>16&255,n>>8&255,n&255]};
 const mix=(h,k)=>{const c=hexRgb(h);return 'rgb('+c.map(v=>Math.round(k>=0?v+(255-v)*k:v*(1+k))).join(',')+')'};
 function rr(x,X,Y,W,H,r){r=Math.max(0,Math.min(r,W/2,H/2));x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+W,Y,X+W,Y+H,r);x.arcTo(X+W,Y+H,X,Y+H,r);x.arcTo(X,Y+H,X,Y,r);x.arcTo(X,Y,X+W,Y,r);x.closePath()}
@@ -747,25 +757,42 @@ function drawBlock(x,b,X,Y,C,opt){
   x.save();polyPath(x,pts,X,Y,C,m,r);x.clip();
   // top face (leaves a darker rim at the bottom, so it looks thick)
   const g=x.createLinearGradient(0,Y,0,Y+s.h*C);g.addColorStop(0,mix(c,.32));g.addColorStop(.6,c);g.addColorStop(1,mix(c,-.08));
+  if(IMG.studs){
+    // glossy toy-brick squares, one stud on each; the colour's sign sits softly on the stud
+    polyPath(x,pts,X,Y-C*.09,C,m+C*.02,r);x.save();x.clip();
+    for(const [cx,cy] of s.cells)x.drawImage(IMG.studs,b.c*192,0,192,192,X+cx*C,Y+cy*C-C*.09,C,C);x.restore();
+    for(const [cx,cy] of s.cells){sign(x,b.c,X+(cx+.49)*C,Y+(cy+.51)*C-C*.09,C*.13);x.fillStyle='rgba(255,255,255,.5)';x.fill()}
+  }else{
   polyPath(x,pts,X,Y-C*.09,C,m+C*.02,r);x.fillStyle=g;x.fill();
   // soft shine along the top
   x.globalAlpha=.4;polyPath(x,pts,X,Y-C*.09,C,m+C*.12,r*.8);x.lineWidth=C*.06;x.strokeStyle='#fff';x.stroke();x.globalAlpha=1;
   // a pressed-in sign on every square
   for(const [cx,cy] of s.cells){const px=X+(cx+.5)*C,py=Y+(cy+.45)*C;
     sign(x,b.c,px,py+C*.03,C*.2);x.fillStyle=mix(c,-.28);x.fill();
-    sign(x,b.c,px,py,C*.2);x.fillStyle=mix(c,.5);x.fill()}
+    sign(x,b.c,px,py,C*.2);x.fillStyle=mix(c,.5);x.fill()}}
   // ice
-  if(opt.ice>0){x.fillStyle='rgba(200,240,255,.72)';x.fillRect(X,Y-C,s.w*C,(s.h+1)*C);
+  if(opt.ice>0&&IMG.iceCover){const im=opt.ice===1&&IMG.iceCrack?IMG.iceCrack:IMG.iceCover;x.globalAlpha=.6;
+    for(const [cx,cy] of s.cells)x.drawImage(im,X+cx*C-C*.02,Y+cy*C-C*.1,C*1.04,C*1.04);x.globalAlpha=1}
+  else if(opt.ice>0){x.fillStyle='rgba(200,240,255,.72)';x.fillRect(X,Y-C,s.w*C,(s.h+1)*C);
     x.strokeStyle='rgba(255,255,255,.95)';x.lineWidth=C*.05;x.beginPath();
     for(const [cx,cy] of s.cells){const px=X+cx*C,py=Y+cy*C;x.moveTo(px+C*.2,py+C*.25);x.lineTo(px+C*.42,py+C*.12);x.moveTo(px+C*.6,py+C*.82);x.lineTo(px+C*.84,py+C*.62)}x.stroke()}
   x.restore();
   polyPath(x,pts,X,Y,C,m,r);x.lineWidth=lw;x.strokeStyle=OUT;x.stroke();
   // one-way arrows / ice number on the biggest part of the block
   const [ax,ay]=anchor(s);const cx=X+(ax+.5)*C,cy=Y+(ay+.5)*C;
-  if(b.ax){x.save();x.translate(cx,cy);if(b.ax===2)x.rotate(Math.PI/2);x.beginPath();const L=C*.36,H=C*.15;
+  if(b.ax&&IMG.arrowH){const has=new Set(s.cells.map(([u,v])=>u+','+v));let a0=0,a1=0;
+    if(b.ax===1){while(has.has((ax+a0-1)+','+ay))a0--;while(has.has((ax+a1+1)+','+ay))a1++}else{while(has.has(ax+','+(ay+a0-1)))a0--;while(has.has(ax+','+(ay+a1+1)))a1++}
+    const run=a1-a0+1,mid=(a0+a1)/2,im=b.ax===1?IMG.arrowH:IMG.arrowV,ar=im.width/im.height;
+    let len=Math.max(C*.72,run*C-C*.3),th=b.ax===1?len/ar:len*ar;if(th>C*.46){th=C*.46;len=b.ax===1?th*ar:th/ar}
+    const ux=b.ax===1?cx+mid*C:cx,uy=(b.ax===2?cy+mid*C:cy)-C*.06,w=b.ax===1?len:th,h=b.ax===1?th:len;
+    x.save();x.shadowColor='rgba(60,30,0,.45)';x.shadowBlur=C*.06;x.shadowOffsetY=C*.04;x.drawImage(im,ux-w/2,uy-h/2,w,h);x.restore()}
+  else if(b.ax){x.save();x.translate(cx,cy);if(b.ax===2)x.rotate(Math.PI/2);x.beginPath();const L=C*.36,H=C*.15;
     x.moveTo(-L,0);x.lineTo(-L+H*1.4,-H*1.5);x.lineTo(-L+H*1.4,-H*.5);x.lineTo(L-H*1.4,-H*.5);x.lineTo(L-H*1.4,-H*1.5);x.lineTo(L,0);x.lineTo(L-H*1.4,H*1.5);x.lineTo(L-H*1.4,H*.5);x.lineTo(-L+H*1.4,H*.5);x.lineTo(-L+H*1.4,H*1.5);x.closePath();
     x.fillStyle='#fff';x.fill();x.lineWidth=Math.max(1.2,C*.04);x.strokeStyle=OUT;x.stroke();x.restore()}
-  if(opt.ice>0){x.beginPath();x.arc(cx,cy,C*.27,0,7);x.fillStyle='#fff';x.fill();x.lineWidth=Math.max(1.2,C*.05);x.strokeStyle='#2a8ef0';x.stroke();
+  if(opt.ice>0&&IMG.iceBadge){const bs=C*.6,bx_=X+(ax+.5)*C,by_=Y+(ay+.5)*C-C*.06;x.drawImage(IMG.iceBadge,bx_-bs/2,by_-bs/2,bs,bs);
+    const nx=bx_+bs*.36,ny=by_+bs*.34,nr=C*.17;x.beginPath();x.arc(nx,ny,nr,0,7);x.fillStyle='#1b6fd0';x.fill();x.lineWidth=Math.max(1.2,C*.035);x.strokeStyle='#fff';x.stroke();
+    x.fillStyle='#fff';x.font=`400 ${Math.round(C*.24)}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillText(opt.ice,nx,ny+C*.015)}
+  else if(opt.ice>0){x.beginPath();x.arc(cx,cy,C*.27,0,7);x.fillStyle='#fff';x.fill();x.lineWidth=Math.max(1.2,C*.05);x.strokeStyle='#2a8ef0';x.stroke();
     x.fillStyle='#1b6fd0';x.font=`400 ${Math.round(C*.36)}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillText(opt.ice,cx,cy+C*.02)}
 }
 function anchor(s){let best=s.cells[0],bs=-1;const has=new Set(s.cells.map(([x,y])=>x+','+y));for(const [x,y] of s.cells){let n=0;for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]])if(has.has((x+dx)+','+(y+dy)))n++;if(n>bs){bs=n;best=[x,y]}}return best}
@@ -818,14 +845,14 @@ function drawBackground(){
   const eachFloor=f=>{for(let y=0;y<L.h;y++)for(let X=0;X<L.w;X++)if(L.mask[y][X]==='.')f(X,y)};
   // garden wall: outline, then wall, then a lighter top
   eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-ex-3,py-ex-3,C+2*ex+6,C+2*ex+6,wallR+3);x.fillStyle=OUT;x.fill()});
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-ex,py-ex,C+2*ex,C+2*ex,wallR);x.fillStyle='#1f9e89';x.fill()});
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-ex+M*.12,py-ex+M*.1,C+2*ex-M*.24,C+2*ex-M*.3,wallR*.85);x.fillStyle='#35c2a8';x.fill()});
+  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-ex,py-ex,C+2*ex,C+2*ex,wallR);x.fillStyle='#c9d8ea';x.fill()});
+  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px-ex+M*.12,py-ex+M*.1,C+2*ex-M*.24,C+2*ex-M*.3,wallR*.85);x.fillStyle='#f7fbff';x.fill()});
   // courtyard floor
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);x.fillStyle='#e9d3a8';x.fillRect(px-1,py-1,C+2,C+2)});
-  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px+C*.05,py+C*.05,C*.9,C*.9,C*.16);x.fillStyle=(X+y)%2?'#fff3da':'#fbe8c2';x.fill();
-    if((X+y)%2===0){star8(x,px+C/2,py+C/2,C*.22);x.fillStyle='rgba(214,160,80,.18)';x.fill()}});
+  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);x.fillStyle='#6f87a6';x.fillRect(px-1,py-1,C+2,C+2)});
+  eachFloor((X,y)=>{const [px,py]=cellPx(X,y);rr(x,px+C*.05,py+C*.05,C*.9,C*.9,C*.16);x.fillStyle=(X+y)%2?'#8aa2c0':'#839bba';x.fill();
+    if((X+y)%2===0){star8(x,px+C/2,py+C/2,C*.2);x.fillStyle='rgba(255,255,255,.1)';x.fill()}});
   // inner edge shadow of the floor
-  x.save();x.globalCompositeOperation='source-atop';eachFloor((X,y)=>{const [px,py]=cellPx(X,y);if(y===0||L.mask[y-1][X]!=='.'){const g=x.createLinearGradient(0,py,0,py+C*.18);g.addColorStop(0,'rgba(90,50,10,.22)');g.addColorStop(1,'rgba(90,50,10,0)');x.fillStyle=g;x.fillRect(px,py,C,C*.18)}});x.restore();
+  x.save();x.globalCompositeOperation='source-atop';eachFloor((X,y)=>{const [px,py]=cellPx(X,y);if(y===0||L.mask[y-1][X]!=='.'){const g=x.createLinearGradient(0,py,0,py+C*.18);g.addColorStop(0,'rgba(20,40,70,.3)');g.addColorStop(1,'rgba(20,40,70,0)');x.fillStyle=g;x.fillRect(px,py,C,C*.18)}});x.restore();
   bgCache=cv}
 function drawGate(x,Gt,now,glow){
   const [X,Y,W,H]=gateRect(Gt),c=COLS[Gt.c],hor=Gt.s==='B'||Gt.s==='T';
@@ -841,6 +868,7 @@ function drawGate(x,Gt,now,glow){
   for(let i=0;i<n;i++){const sh=n%2===0&&n>0?((i<n/2)?-.12:.12):0,cx=hor?X+(i+.5+sh)*W/n:X+W/2,cy=hor?Y+H/2:Y+(i+.5+sh)*H/n;
     if(n%2===1&&i===(n-1)/2)continue;
     const s=Math.min(W,H)*.2,ox=Math.sin(now/260)*s*.25*(dir[0]),oy=Math.sin(now/260)*s*.25*(dir[1]);
+    if(IMG.chev){x.save();x.translate(cx+ox,cy+oy);x.rotate({T:0,B:Math.PI,R:Math.PI/2,L:-Math.PI/2}[Gt.s]);const w=s*2.3,h=w*IMG.chev.height/IMG.chev.width;x.drawImage(IMG.chev,-w/2,-h/2,w,h);x.restore();continue}
     x.beginPath();if(hor){x.moveTo(cx-s+ox,cy-s*.5*dir[1]+oy);x.lineTo(cx+ox,cy+s*.5*dir[1]+oy);x.lineTo(cx+s+ox,cy-s*.5*dir[1]+oy)}else{x.moveTo(cx-s*.5*dir[0]+ox,cy-s+oy);x.lineTo(cx+s*.5*dir[0]+ox,cy+oy);x.lineTo(cx-s*.5*dir[0]+ox,cy+s+oy)}
     x.lineWidth=Math.max(2,C*.07);x.lineCap='round';x.lineJoin='round';x.strokeStyle='rgba(255,255,255,.95)';x.stroke()}
   const mx=X+W/2,my=Y+H/2;sign(x,Gt.c,mx,my,Math.min(W,H)*.3);x.fillStyle='#fff';x.fill();x.lineWidth=1.2;x.strokeStyle=mix(c,-.4);x.stroke();
@@ -873,7 +901,8 @@ function drawFx(now){
   const d=DPR(),x=fxx;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,innerWidth,innerHeight);
   for(const p of parts){const k=(now-p.t0)/p.life;if(k<0)continue;
     const tt=(now-p.t0)/1000;const px=p.x+p.vx*tt,py=p.y+p.vy*tt+p.g*tt*tt;x.globalAlpha=Math.max(0,1-k);
-    if(p.star){x.save();x.translate(px,py);x.rotate(p.r+tt*4);star8(x,0,0,p.s);x.fillStyle=p.c;x.fill();x.restore()}
+    if(p.img){const w=p.s*(.7+k*.5),h=w*p.img.height/p.img.width;x.drawImage(p.img,px-w/2,py-h/2,w,h)}
+    else if(p.star){x.save();x.translate(px,py);x.rotate(p.r+tt*4);star8(x,0,0,p.s);x.fillStyle=p.c;x.fill();x.restore()}
     else if(p.conf){x.save();x.translate(px,py);x.rotate(p.r+tt*6);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.66);x.restore()}
     else{x.fillStyle=p.c;rr(x,px-p.s/2,py-p.s/2,p.s,p.s,p.s*.25);x.fill()}}
   x.globalAlpha=1;parts=parts.filter(p=>now-p.t0<p.life)}
@@ -943,7 +972,7 @@ function goHome(i,g,snap){
   const left=G.pos.filter(v=>v>=0).length;
   // ice melting
   const melted=L.blocks.some((bb,j)=>G.pos[j]>=0&&(bb.ice||0)>before&&(bb.ice||0)<=G.out);
-  if(melted)setTimeout(()=>{sfx.melt();bubble(t('melt'));L.blocks.forEach((bb,j)=>{if(G.pos[j]>=0&&bb.ice===G.out){const q=G.pos[j],[sx,sy]=boardToScreen((q%L.w)+shp(bb.k).w/2,((q/L.w)|0)+shp(bb.k).h/2);burst(sx,sy,'#bfeaff',16);fxDirty=true}})},420);
+  if(melted)setTimeout(()=>{sfx.melt();bubble(t('melt'));L.blocks.forEach((bb,j)=>{if(G.pos[j]>=0&&bb.ice===G.out){const q=G.pos[j],[sx,sy]=boardToScreen((q%L.w)+shp(bb.k).w/2,((q/L.w)|0)+shp(bb.k).h/2);burst(sx,sy,'#bfeaff',16);if(IMG.iceMelt)parts.push({img:IMG.iceMelt,x:sx,y:sy,vx:0,vy:0,g:0,s:C*1.5,r:0,t0:performance.now(),life:800});fxDirty=true}})},420);
   if(left)homeCheer(left);
   renderHud(true);dirty=true;checkWin()}
 function homeCheer(left){const e=document.createElement('div');const i=cheerN++%4;e.className='cheer c'+(1+i);const w=t('cheer')[i];
@@ -986,7 +1015,7 @@ function startGame(mode,level){
   exits=[];parts=[];drag=null;wiggle=null;
   $('#lvlChip').textContent=mode==='adv'?tf('level',{n:level}):tf('puzzle',{n:level});
   $('#movesBox').style.display=age==='big'||mode==='end'?'':'none';
-  show('game');layout();renderHud();drawIco();
+  pickBg();show('game');layout();renderHud();drawIco();
   $('#bismGoal').textContent=t('goal');ov('bism',true);
 }
 $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));G.busy=false;dirty=true;
