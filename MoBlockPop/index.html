@@ -130,13 +130,21 @@ img{-webkit-user-drag:none}
 #hud{display:flex;align-items:center;justify-content:center;gap:10px;position:relative;min-height:64px;width:100%}
 #score{font:400 clamp(40px,10vw,60px)/1 "Lilita One",sans-serif;color:#fff;text-shadow:0 4px 0 rgba(176,92,0,.4);transition:transform .15s}
 #score.bump{transform:scale(1.18)}
-#goals{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.goal{display:flex;align-items:center;gap:2px;background:#fff;border-radius:22px;padding:3px 12px 3px 6px;box-shadow:0 4px 0 rgba(176,92,0,.25);font:400 24px "Lilita One",sans-serif;color:var(--ink);transition:transform .15s}
-.goal img{width:42px;height:42px;object-fit:contain}
-.goal.bump{transform:scale(1.2)}
-.goal.done{background:#d6f7ea;color:#0e9a6f}
+#goals{display:flex;gap:clamp(14px,4vw,22px);flex-wrap:wrap;justify-content:center;padding:4px 10px 8px}
+/* treasure counters: the tile itself, with a round badge on its corner (night blue with the board's gold rim) */
+.goal{position:relative;line-height:0;transition:transform .15s cubic-bezier(.3,1.6,.5,1)}
+.goal img{width:clamp(48px,12vw,58px);height:clamp(48px,12vw,58px);object-fit:contain;filter:drop-shadow(0 5px 6px rgba(20,0,60,.45));animation:gfloat 2.6s ease-in-out infinite}
+.goal:nth-child(2) img{animation-delay:-.9s}.goal:nth-child(3) img{animation-delay:-1.8s}
+@keyframes gfloat{50%{transform:translateY(-3px) rotate(-2deg)}}
+.goal b{position:absolute;right:-8px;bottom:-6px;min-width:25px;height:25px;padding:0 6px;border-radius:13px;display:grid;place-items:center;
+  font:400 16px/1 "Lilita One",sans-serif;color:#fff;background:linear-gradient(180deg,#5b4be0,#2a1f86);
+  box-shadow:0 0 0 2.5px #ffc23a,0 0 0 4.5px #4a2c14,0 3px 5px 3px rgba(20,0,60,.35)}
+.goal.bump{transform:scale(1.22) rotate(-4deg)}
+.goal.done b{background:linear-gradient(180deg,#4fe0ad,#13a876);font-size:15px}
 .goal.done b::before{content:"✓"}
 .goal.done b span{display:none}
+.goal.done img{filter:drop-shadow(0 0 8px rgba(255,222,110,.9)) drop-shadow(0 5px 6px rgba(20,0,60,.45))}
+@media (prefers-reduced-motion:reduce){.goal img{animation:none}}
 .gmo{height:clamp(58px,9vh,84px);width:auto;filter:drop-shadow(0 4px 6px rgba(120,60,0,.3));transform-origin:50% 100%;animation:breathe 2.8s ease-in-out infinite}
 @keyframes breathe{50%{transform:translateY(-4px) rotate(-2deg)}}
 .gmo.yay{animation:yay .7s cubic-bezier(.3,1.6,.5,1)}
@@ -970,7 +978,7 @@ function bubble(txt){const b=$('#bub');b.textContent=txt;b.classList.add('on');c
 function collectItem(id,x,y,delay){
   if(G.mode!=='adv'||!G.left[id])return;G.left[id]--;G.pending++;
   const el=$(`#goals .goal[data-id="${id}"]`);const [sx,sy]=boardToScreen(x,y);const r=el?el.getBoundingClientRect():{left:innerWidth/2,top:20,width:0,height:0};
-  flys.push({id,x0:sx,y0:sy,x1:r.left+28,y1:r.top+r.height/2,s:CELL*.9,t0:performance.now()+delay,d:650,cb:()=>{G.pending--;G.got[id]=(G.got[id]||0)+1;renderGoals(id);sfx.item();checkWin()}});fxDirty=true;
+  flys.push({id,x0:sx,y0:sy,x1:r.left+r.width/2,y1:r.top+r.height/2,s:CELL*.9,t0:performance.now()+delay,d:650,cb:()=>{G.pending--;G.got[id]=(G.got[id]||0)+1;renderGoals(id);sfx.item();checkWin()}});fxDirty=true;
 }
 function renderGoals(bump){const el=$('#goals');if(G.mode!=='adv'){el.innerHTML='';return}
   el.innerHTML=Object.keys(G.goals).map(id=>{const left=G.goals[id]-(G.got[id]||0);return`<div class="goal${left<=0?' done':''}" data-id="${id}"><img src="art/t-${id}.webp" alt=""><b><span>${Math.max(0,left)}</span></b></div>`}).join('');
