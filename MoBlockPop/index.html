@@ -123,13 +123,20 @@ img{-webkit-user-drag:none}
 #game .bar{padding:calc(8px + var(--safeT)) 12px 4px;gap:clamp(6px,1.6vw,12px)}
 #game .rb{width:clamp(44px,11vw,56px);height:clamp(44px,11vw,56px)}
 .chipL{background:#fff;border-radius:999px;padding:4px 16px;font:400 clamp(17px,4vw,22px) "Lilita One",sans-serif;color:#d07a00;box-shadow:0 4px 0 rgba(176,92,0,.25);white-space:nowrap}
-.best{display:flex;align-items:center;gap:4px;font:400 clamp(18px,4.4vw,24px) "Lilita One",sans-serif;color:#fff;text-shadow:0 2px 0 rgba(176,92,0,.4)}
-.best img{width:30px;height:30px}
+.best{display:flex;align-items:center;gap:4px;font:400 clamp(17px,4.2vw,22px)/1 "Lilita One",sans-serif;color:#ffe14a;padding:3px 14px 3px 4px;border-radius:999px;
+  background:linear-gradient(180deg,rgba(60,42,150,.94),rgba(30,18,88,.96));box-shadow:0 0 0 2.5px #ffc23a,0 0 0 4.5px #4a2c14,0 4px 8px rgba(20,0,60,.35)}
+.best img{width:30px;height:30px;margin:-4px 0}
 #playArea{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:0 10px calc(6px + var(--safeB))}
 #playIn{display:flex;flex-direction:column;align-items:center;gap:16px}
 #hud{display:flex;align-items:center;justify-content:center;gap:10px;position:relative;min-height:64px;width:100%}
-#score{font:400 clamp(40px,10vw,60px)/1 "Lilita One",sans-serif;color:#fff;text-shadow:0 4px 0 rgba(176,92,0,.4);transition:transform .15s}
-#score.bump{transform:scale(1.18)}
+/* endless score: night-glass panel with the board's gold rim; gold number with a dark outline, readable on every background */
+#score{min-width:clamp(120px,34vw,190px);text-align:center;padding:4px 22px 8px;border-radius:24px;
+  font:400 clamp(38px,10vw,56px)/1 "Lilita One",sans-serif;color:#ffe14a;-webkit-text-stroke:2px #4a2c14;paint-order:stroke fill;text-shadow:0 4px 0 #4a2c14;
+  background:linear-gradient(180deg,rgba(60,42,150,.94),rgba(30,18,88,.96));
+  box-shadow:0 0 0 3.5px #ffc23a,0 0 0 6.5px #4a2c14,inset 0 3px 0 rgba(255,255,255,.16),0 8px 16px rgba(20,0,60,.45);
+  transition:transform .15s cubic-bezier(.3,1.6,.5,1);font-variant-numeric:tabular-nums}
+#score.bump{transform:scale(1.12)}
+#game.land #score{min-width:130px;font-size:clamp(32px,6vh,48px)}
 #goals{display:flex;gap:clamp(14px,4vw,22px);flex-wrap:wrap;justify-content:center;padding:4px 10px 8px}
 /* treasure counters: the tile itself, with a round badge on its corner (night blue with the board's gold rim) */
 .goal{position:relative;line-height:0;transition:transform .15s cubic-bezier(.3,1.6,.5,1)}
@@ -936,7 +943,11 @@ function placePiece(i,gx,gy){
   else{refreshTrayFit();afterMove(n?520:0)}
   saveEndless();
 }
-function addScore(v,at){G.score+=v;if(G.mode==='end'){const el=$('#score');el.textContent=G.score;el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),150);
+/* the score counts up quickly instead of jumping */
+let shownScore=0,scoreRaf=0;
+function rollScore(){const el=$('#score');cancelAnimationFrame(scoreRaf);const from=shownScore,to=G.score,t0=performance.now(),d=Math.min(700,150+(to-from)*6);
+  const step=now=>{const k=Math.min(1,(now-t0)/d),e=1-Math.pow(1-k,3);shownScore=Math.round(from+(to-from)*e);el.textContent=shownScore;if(k<1)scoreRaf=requestAnimationFrame(step)};scoreRaf=requestAnimationFrame(step)}
+function addScore(v,at){G.score+=v;if(G.mode==='end'){const el=$('#score');rollScore();el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),180);
   if(G.score>best[age]&&!G.beat&&best[age]>0){G.beat=true;bubble(t('newBest'))}}
   if(at&&v>0){const [sx,sy]=boardToScreen(at[0]-.5,at[1]-.5);const e=document.createElement('div');e.className='pts';e.textContent='+'+v;e.style.left=sx+'px';e.style.top=sy+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1000)}}
 let cheerN=0;
@@ -1033,7 +1044,7 @@ function startGame(mode,level,resume){
   anims=[];parts=[];flys=[];backs=[];G.beat=false;
   $('#lvlChip').style.display=mode==='adv'?'':'none';$('#lvlChip').textContent=tf('level',{n:level});
   $('#bestBox').style.display=mode==='end'?'':'none';$('#bestN').textContent=best[age];
-  $('#score').style.display=mode==='end'?'':'none';$('#score').textContent=G.score;
+  $('#score').style.display=mode==='end'?'':'none';$('#score').textContent=G.score;shownScore=G.score;cancelAnimationFrame(scoreRaf);
   show('game');layout();renderGoals();
   if(resume&&G.tray&&G.tray.length)renderTray(true);else{trayEl.innerHTML=''}
   // Bismillah first
