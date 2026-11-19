@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>Mo Bubble Shot – Islamic Bubble Shooter Game for Kids | Mo Games</title>
-<meta name="description" content="Mo Bubble Shot: a free Islamic bubble shooter for kids aged 3+. Aim, shoot and pop bubbles of the same colour! Free the moons, stars and lanterns in 30 levels or play endless. Start with Bismillah, finish with Alhamdulillah. No ads, no data collected. English and Bahasa Indonesia.">
+<meta name="description" content="Mo Bubble Shot: a free Islamic bubble shooter for kids aged 3+. Aim, shoot and pop bubbles of the same colour! Free the moons, stars and lanterns in 60 levels across 6 worlds (garden, jewels, dinos, fruits, ocean, space) or play endless. Start with Bismillah, finish with Alhamdulillah. No ads, no data collected. English and Bahasa Indonesia.">
 <meta name="keywords" content="Islamic bubble shooter, Muslim kids game, bubble game for kids, game tembak gelembung anak, game anak muslim, game edukasi islami, aplikasi anak islami">
 <link rel="canonical" href="https://roisa.github.io/app-ayah/MoBubbleShot/">
 <meta name="theme-color" content="#ffa51f">
@@ -130,6 +130,41 @@ img{-webkit-user-drag:none}
 .htip img{width:42px;height:42px;object-fit:contain;flex:none}
 .htip.p{background-image:url(art/badge-purple.webp)}.htip.g{background-image:url(art/badge-green.webp)}.htip.o{background-image:url(art/badge-orange.webp)}
 #game{background:none}
+/* world backgrounds (until the owner's art for each world arrives) */
+.scene.sk-jewel,.world.sk-jewel{background:radial-gradient(120% 80% at 50% 10%,#9a7bff 0%,#5236c4 45%,#1e1260 100%)}
+.scene.sk-dino,.world.sk-dino{background:linear-gradient(180deg,#ffe0a0 0%,#ffb35c 40%,#d9803e 70%,#6f9a3c 100%)}
+.scene.sk-fruit,.world.sk-fruit{background:linear-gradient(180deg,#c4f3ff 0%,#a8e886 50%,#4fae3c 100%)}
+.scene.sk-ocean,.world.sk-ocean{background:linear-gradient(180deg,#9aeaff 0%,#2ea8e8 40%,#1460b0 80%,#0b3a78 100%)}
+.scene.sk-space,.world.sk-space{background:radial-gradient(130% 90% at 30% 10%,#5a48c0 0%,#241c78 50%,#0b0930 100%)}
+.world.sk-classic{background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(120,220,120,.45))}
+.scene:not(.sk-classic)~.deco{display:none}
+/* world map */
+#worlds{max-width:620px;margin:0 auto;padding:4px 14px calc(30px + var(--safeB))}
+.world{position:relative;border-radius:36px;margin:0 0 22px;padding:12px 12px 6px;box-shadow:0 6px 0 rgba(0,40,80,.18),inset 0 0 0 4px rgba(255,255,255,.5);overflow:hidden}
+.wh{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.92);border-radius:26px;padding:6px 14px 6px 6px;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+.wh canvas{width:66px;height:66px;flex:none}
+.wh b{display:block;font:400 clamp(20px,5vw,26px)/1.05 "Lilita One",sans-serif;color:var(--ink)}
+.wh small{display:block;font-weight:800;color:var(--ink2);font-size:13px}
+.wh .ws{margin-left:auto;font:400 18px "Lilita One",sans-serif;color:#d07a00;white-space:nowrap}
+.wh .ws img{width:22px;height:22px;vertical-align:-4px}
+.path{position:relative;height:calc(10 * 82px + 20px)}
+.path i.dot{position:absolute;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:rgba(255,255,255,.75);box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.path .lv{position:absolute;width:72px;height:72px;margin-left:-36px}
+.world.lock .path,.world.lock .wh canvas{filter:grayscale(.8) opacity(.6)}
+.wlock{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border-radius:24px;padding:10px 18px;text-align:center;font:400 18px "Lilita One",sans-serif;color:var(--ink);box-shadow:0 6px 0 rgba(0,0,0,.18);z-index:2;width:max-content;max-width:80%}
+.wlock img{width:44px;height:44px;display:block;margin:0 auto 4px}
+/* bubble skins */
+.skins{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.sk{border-radius:22px;background:#fff6e0;padding:8px 4px 6px;box-shadow:inset 0 0 0 3px #ffe2b8;position:relative;transition:transform .15s}
+.sk:active{transform:scale(.95)}
+.sk canvas{width:84%;aspect-ratio:1;display:block;margin:0 auto}
+.sk b{display:block;font:400 15px/1.1 "Lilita One",sans-serif;color:var(--ink)}
+.sk.on{background:#fff1c2;box-shadow:inset 0 0 0 4px #ffc928}
+.sk.lock canvas{filter:grayscale(1) opacity(.45)}
+.sk .lk{position:absolute;inset:0;display:grid;place-items:center;align-content:center}
+.sk .lk img{width:40px;height:40px}
+.unl{margin-top:10px;background:#efe9ff;border-radius:22px;padding:8px 12px;display:flex;align-items:center;gap:10px;text-align:left;color:#5b3bd6;font-weight:800}
+.unl canvas{width:56px;height:56px;flex:none}
 .age{background:rgba(0,70,140,.28)!important}
 #lvlChip{display:none!important}
 #sign{position:relative;flex:none;height:74px;width:71px}
@@ -280,7 +315,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
     <div class="modes">
       <button class="mode a" id="goAdv">
         <span class="in"><canvas id="cvAdv" width="300" height="300"></canvas><span class="badge" id="advBadge"></span></span>
-        <span class="lbl"><span data-t="adv">Adventure</span><small data-t="advS">Free the treasures</small></span>
+        <span class="lbl"><span data-t="adv">Adventure</span><small data-t="advS">60 levels in 6 worlds</small></span>
       </button>
       <button class="mode e" id="goEnd">
         <span class="in"><canvas id="cvEnd" width="300" height="300"></canvas><span class="badge" id="endBadge"></span></span>
@@ -300,21 +335,21 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
       </div>
     </div>
     <div class="homeFoot">
+      <button class="pill" id="goSkins"><img src="art/b-rainbow.webp" alt=""><span data-t="skins">Bubble skins</span></button>
       <p class="legal" data-t="legal">No ads · No data collected · Works offline</p>
     </div>
   </div>
 </section>
 
-<!-- LEVEL MAP -->
+<!-- WORLD MAP -->
 <section id="map" class="scr">
   <div class="bar">
     <button class="rb back" aria-label="Back"><img class="ico" src="ui/back.webp" alt="" draggable="false"></button>
     <h2 class="fun" data-t="adv">Adventure</h2>
+    <span class="best" id="mapSum"></span>
   </div>
-  <p class="mapsum" id="mapSum"></p>
-  <div class="scroll"><div class="lvls" id="lvls"></div></div>
+  <div class="scroll"><div id="worlds"></div></div>
 </section>
-
 
 <!-- GAME -->
 <section id="game" class="scr">
@@ -380,6 +415,13 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   </div>
 </div></div>
 
+<!-- BUBBLE SKINS -->
+<div class="ov" id="skinsOv"><div class="box">
+  <button class="x" id="skClose" aria-label="Close"><img src="ui/close.webp" alt=""></button>
+  <h3 data-t="skins">Bubble skins</h3>
+  <p data-t="skinsS">Finish a world to unlock its bubbles</p>
+  <div class="skins" id="skinList"></div>
+</div></div>
 <!-- PRAYER PAUSE -->
 <div class="ov lockov" id="lock"><div class="box">
   <div class="lrib" id="lockRib">Time to pray</div>
@@ -422,7 +464,7 @@ const DPR=()=>Math.min(3,window.devicePixelRatio||1);
    Text (EN / ID)
    ================================================================= */
 const TXT={
-en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Free the treasures',end:'Endless',endS:'Pop as many as you can',little:'Little',littleS:'Ages 3+',big:'Big Kid',bigS:'Ages 6+',
+en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'60 levels in 6 worlds',end:'Endless',endS:'Pop as many as you can',little:'Little',littleS:'Ages 3+',big:'Big Kid',bigS:'Ages 6+',
  legal:'No ads · No data collected · Works offline',
  level:'Level {n}',holdR:'Hold to start again',bismS:'Say Bismillah before we start',bismB:'Bismillah!',collect:'Free:',
  alh:'Alhamdulillah!',dyk:'Did you know?',next:'Next',again:'Play again',space:'Make space',retry:'Try again',
@@ -431,12 +473,12 @@ en:{tag:'Play Games the Islamic Way',adv:'Adventure',advS:'Free the treasures',e
  newBest:'New best!',best:'Best: {n}',cleanT:'All clean!',makeSpace:"Let's make space!",
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
  cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
- tip1:'Aim carefully',tip2:'Match colours',tip3:'Free the treasures',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Aim, then let go!',swapHint:'Tap to swap',rainbow:'Rainbow bubble!',newRow:'Here come more bubbles!',
+ skins:'Bubble skins',skinsS:'Finish a world to unlock its bubbles',newSkin:'New bubble skin: {s}!',worldOpen:'{w} is now open!',lockedW:'Finish {w} first',levelsR:'Levels {a}–{b}',W:['Green Garden','Jewel Cave','Dino Valley','Fruit Orchard','Ocean Deep','Starry Space'],tip1:'Aim carefully',tip2:'Match colours',tip3:'Free the treasures',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Aim, then let go!',swapHint:'Tap to swap',rainbow:'Rainbow bubble!',newRow:'Here come more bubbles!',
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your game will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  lockedLv:'Finish the level before to open this one'},
-id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'Bebaskan hartanya',end:'Tanpa Batas',endS:'Letuskan sebanyak-banyaknya',little:'Kecil',littleS:'Usia 3+',big:'Besar',bigS:'Usia 6+',
+id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'60 level di 6 dunia',end:'Tanpa Batas',endS:'Letuskan sebanyak-banyaknya',little:'Kecil',littleS:'Usia 3+',big:'Besar',bigS:'Usia 6+',
  legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
  level:'Level {n}',holdR:'Tahan untuk mulai lagi',bismS:'Ucapkan Bismillah sebelum mulai',bismB:'Bismillah!',collect:'Bebaskan:',
  alh:'Alhamdulillah!',dyk:'Tahukah kamu?',next:'Lanjut',again:'Main lagi',space:'Buat ruang',retry:'Coba lagi',
@@ -445,7 +487,7 @@ id:{tag:'Bermain dengan Cara Islami',adv:'Petualangan',advS:'Bebaskan hartanya',
  newBest:'Rekor baru!',best:'Rekor: {n}',cleanT:'Bersih semua!',makeSpace:'Ayo buat ruang!',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],
  cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
- tip1:'Bidik dengan teliti',tip2:'Cocokkan warna',tip3:'Bebaskan hartanya',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Bidik, lalu lepaskan!',swapHint:'Ketuk untuk tukar',rainbow:'Gelembung pelangi!',newRow:'Gelembung baru datang!',
+ skins:'Gaya gelembung',skinsS:'Selesaikan satu dunia untuk membuka gelembungnya',newSkin:'Gaya gelembung baru: {s}!',worldOpen:'{w} sekarang terbuka!',lockedW:'Selesaikan {w} dulu',levelsR:'Level {a}–{b}',W:['Taman Hijau','Gua Permata','Lembah Dino','Kebun Buah','Laut Dalam','Luar Angkasa'],tip1:'Bidik dengan teliti',tip2:'Cocokkan warna',tip3:'Bebaskan hartanya',sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Bidik, lalu lepaskan!',swapHint:'Ketuk untuk tukar',rainbow:'Gelembung pelangi!',newRow:'Gelembung baru datang!',
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Permainanmu akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
  setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
@@ -595,14 +637,84 @@ function paintBubble(x,s,col,it){
 /* the owner's art (bubbles, launcher, Mo) */
 const ART={};['b0','b1','b2','b3','b4','b5','b-rainbow','launcher-base','launcher-barrel','launcher-stone','mo-jump','mo-point'].forEach(k=>{const i=new Image();i.onload=()=>{i.ok=1;sprites.clear();if(typeof renderHomeArt==='function')renderHomeArt()};i.src='art/'+k+'.webp';ART[k]=i});
 const artB=col=>{const i=ART[col===RB?'b-rainbow':'b'+col];return i&&i.ok?i:null};
+/* ---------- worlds and bubble skins ----------
+   Each world of 10 levels has its own skin. The classic skin uses the owner's art; the others are drawn
+   in code until their art arrives (add the skin id to SKIN_ART and put b0..b5.webp in art/skins/<id>/). */
+const SKINS=['classic','jewel','dino','fruit','ocean','space'];
+const SKIN_ART={};          // e.g. {jewel:1} once art/skins/jewel/b0..b5.webp exist
+const skinImg={};
+function skinB(sk,col){if(col===RB||sk==='classic')return artB(col);if(!SKIN_ART[sk])return null;
+  const k=sk+col;let i=skinImg[k];if(!i){i=new Image();i.onload=()=>{i.ok=1;sprites.clear()};i.src='art/skins/'+sk+'/b'+col+'.webp';skinImg[k]=i}return i.ok?i:null}
+let skin='classic';
+function setScene(sk){const sc=document.querySelector('.scene');SKINS.forEach(k=>sc.classList.toggle('sk-'+k,k===sk))}
 const sprites=new Map();
-function sprite(col,it,s){
-  const d=DPR(),px=Math.max(4,Math.round(s*d)),k=col+'|'+(it||'')+'|'+px;let c=sprites.get(k);
-  if(!c){c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),ab=artB(col);
+function sprite(col,it,s,sk=skin){
+  const d=DPR(),px=Math.max(4,Math.round(s*d)),k=sk+'|'+col+'|'+(it||'')+'|'+px;let c=sprites.get(k);
+  if(!c){c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),ab=skinB(sk,col);
     if(ab){x.drawImage(ab,0,0,px,px);if(it){const r=px/2;x.beginPath();x.arc(r,r,r*.66,0,7);x.fillStyle='rgba(255,255,255,.6)';x.fill();const im=itemImg[it];if(im&&im.complete&&im.naturalWidth){const q=r*.64;x.drawImage(im,r-q,r-q,q*2,q*2)}
       x.beginPath();x.ellipse(r*.66,r*.5,r*.26,r*.13,-.6,0,7);x.fillStyle='rgba(255,255,255,.55)';x.fill()}}
-    else paintBubble(x,px,col,it);if(sprites.size>300)sprites.clear();sprites.set(k,c)}
+    else if(sk!=='classic'&&col!==RB&&!it)paintSkin(x,px,col,sk);   // treasure bubbles stay plain colour so the colour is easy to see
+    else paintBubble(x,px,col,it);if(sprites.size>400)sprites.clear();sprites.set(k,c)}
   return c}
+
+/* skins drawn in code: jewels, dino eggs, fruits, fish and planets */
+function paintSkin(x,s,col,sk){
+  const c=COLS[col],cx=s/2,cy=s/2,lw=Math.max(1.4,s*.06),r=s/2-lw/2-s*.02;x.lineJoin='round';x.lineCap='round';
+  const out=()=>{x.lineWidth=lw;x.strokeStyle=OUT;x.stroke()};
+  const gloss=(gx,gy,k=1)=>{x.beginPath();x.ellipse(gx,gy,r*.26*k,r*.14*k,-.6,0,7);x.fillStyle='rgba(255,255,255,.8)';x.fill()};
+  const rad=(x0,y0,rr)=>{const g=x.createRadialGradient(x0-rr*.35,y0-rr*.4,rr*.1,x0,y0,rr);g.addColorStop(0,mix(c,.55));g.addColorStop(.55,c);g.addColorStop(1,mix(c,-.35));return g};
+  if(sk==='jewel'){
+    const P=(R,a0)=>[...Array(8)].map((_,i)=>[cx+Math.cos(a0+i*Math.PI/4)*R,cy+Math.sin(a0+i*Math.PI/4)*R]);
+    const o=P(r,Math.PI/8),t=P(r*.5,Math.PI/8);
+    for(let i=0;i<8;i++){const j=(i+1)%8,mid=Math.PI/8+i*Math.PI/4+Math.PI/8,sh=Math.cos(mid+Math.PI*.75);
+      x.beginPath();x.moveTo(...o[i]);x.lineTo(...o[j]);x.lineTo(...t[j]);x.lineTo(...t[i]);x.closePath();x.fillStyle=mix(c,sh>0?.45*sh:.4*sh);x.fill()}
+    x.beginPath();t.forEach((p,i)=>i?x.lineTo(...p):x.moveTo(...p));x.closePath();const g=x.createLinearGradient(cx-r*.5,cy-r*.5,cx+r*.5,cy+r*.5);g.addColorStop(0,mix(c,.5));g.addColorStop(1,mix(c,.05));x.fillStyle=g;x.fill();
+    x.lineWidth=Math.max(1,lw*.35);x.strokeStyle='rgba(255,255,255,.45)';for(let i=0;i<8;i++){x.beginPath();x.moveTo(...o[i]);x.lineTo(...t[i]);x.stroke()}
+    x.beginPath();t.forEach((p,i)=>i?x.lineTo(...p):x.moveTo(...p));x.closePath();x.stroke();
+    x.beginPath();o.forEach((p,i)=>i?x.lineTo(...p):x.moveTo(...p));x.closePath();out();
+    const sp=(X,Y,R)=>{x.beginPath();x.moveTo(X,Y-R);x.quadraticCurveTo(X,Y,X+R,Y);x.quadraticCurveTo(X,Y,X,Y+R);x.quadraticCurveTo(X,Y,X-R,Y);x.quadraticCurveTo(X,Y,X,Y-R);x.fillStyle='#fff';x.fill()};
+    sp(cx-r*.28,cy-r*.3,r*.22);sp(cx+r*.3,cy+r*.28,r*.1);return}
+  if(sk==='dino'){
+    const ey=cy+r*.04,rx=r*.88,ry=r*.97;const egg=()=>{x.beginPath();x.moveTo(cx,ey-ry);x.bezierCurveTo(cx+rx*1.05,ey-ry,cx+rx*1.1,ey+ry*.55,cx,ey+ry);x.bezierCurveTo(cx-rx*1.1,ey+ry*.55,cx-rx*1.05,ey-ry,cx,ey-ry);x.closePath()};
+    egg();const g=x.createLinearGradient(cx-rx,ey-ry,cx+rx,ey+ry);g.addColorStop(0,mix(c,.7));g.addColorStop(1,mix(c,.15));x.fillStyle=g;x.fill();
+    x.save();egg();x.clip();x.fillStyle=mix(c,-.12);[[-.35,-.35,.2],[.3,-.1,.25],[-.2,.35,.24],[.35,.55,.16],[-.05,-.72,.12]].forEach(([a,b,q])=>{x.beginPath();x.arc(cx+a*rx,ey+b*ry,q*r,0,7);x.fill()});
+    x.fillStyle='rgba(0,0,0,.08)';x.fillRect(cx,ey-ry,rx*1.2,ry*2);x.restore();
+    egg();out();x.beginPath();x.moveTo(cx-rx*.55,ey-ry*.25);[[-.35,-.38],[-.18,-.2],[0,-.36],[.18,-.18]].forEach(([a,b])=>x.lineTo(cx+a*rx,ey+b*ry));x.lineWidth=lw*.6;x.strokeStyle=OUT;x.stroke();
+    gloss(cx-rx*.35,ey-ry*.5,.8);return}
+  if(sk==='fruit'){
+    const fy=cy+r*.08,fr=r*.86;const body=()=>{x.beginPath();if(col===1)x.ellipse(cx,fy,fr,fr*.84,0,0,7);else x.arc(cx,fy,fr,0,7)};
+    body();x.fillStyle=rad(cx,fy,fr);x.fill();
+    x.save();body();x.clip();
+    if(col===2){x.strokeStyle=mix(c,-.4);x.lineWidth=r*.12;for(let i=-2;i<=2;i++){x.beginPath();x.ellipse(cx+i*fr*.42,fy,fr*.18,fr*1.1,0,0,7);x.stroke()}}
+    if(col===5||col===1){x.fillStyle=mix(c,-.15);for(let i=0;i<14;i++){const a=i*2.4,q=fr*(.25+(i%4)*.18);x.beginPath();x.arc(cx+Math.cos(a)*q,fy+Math.sin(a)*q,r*.035,0,7);x.fill()}}
+    x.restore();body();out();
+    if(col===3){x.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r*.1:r*.22;x.lineTo(cx+Math.cos(a)*q,fy-fr*.72+Math.sin(a)*q)}x.closePath();x.fillStyle=mix(c,-.45);x.fill()}
+    else{x.beginPath();x.moveTo(cx,fy-fr*.75);x.quadraticCurveTo(cx+r*.05,fy-fr*1.05,cx+r*.12,fy-fr*1.12);x.lineWidth=lw*1.1;x.strokeStyle='#7a4a1c';x.stroke();
+      if(col!==4){x.beginPath();x.ellipse(cx+r*.36,fy-fr*.96,r*.28,r*.13,-.5,0,7);x.fillStyle='#4cc23a';x.fill();x.lineWidth=lw*.7;x.strokeStyle=OUT;x.stroke()}}
+    gloss(cx-fr*.4,fy-fr*.35);return}
+  if(sk==='ocean'){
+    x.beginPath();x.arc(cx,cy,r,0,7);x.fillStyle='rgba(190,240,255,.55)';x.fill();out();
+    const bx2=cx-r*.12,by=cy+r*.04,br=r*.6;
+    x.beginPath();x.moveTo(bx2+br*.75,by);x.lineTo(bx2+br*1.45,by-br*.6);x.lineTo(bx2+br*1.45,by+br*.6);x.closePath();x.fillStyle=mix(c,-.15);x.fill();x.lineWidth=lw*.8;x.strokeStyle=OUT;x.stroke();
+    x.beginPath();x.moveTo(bx2-br*.2,by-br*.9);x.quadraticCurveTo(bx2+br*.2,by-br*1.45,bx2+br*.55,by-br*.75);x.fillStyle=mix(c,-.15);x.fill();x.stroke();
+    x.beginPath();x.ellipse(bx2,by,br,br*.88,0,0,7);x.fillStyle=rad(bx2,by,br);x.fill();x.stroke();
+    x.beginPath();x.arc(bx2-br*.42,by-br*.18,br*.24,0,7);x.fillStyle='#fff';x.fill();x.lineWidth=lw*.5;x.stroke();
+    x.beginPath();x.arc(bx2-br*.46,by-br*.16,br*.12,0,7);x.fillStyle=OUT;x.fill();
+    x.beginPath();x.arc(bx2-br*.5,by+br*.25,br*.16,.2,Math.PI-.2);x.lineWidth=lw*.6;x.stroke();
+    x.beginPath();x.arc(cx+r*.55,cy-r*.55,r*.1,0,7);x.strokeStyle='rgba(255,255,255,.9)';x.lineWidth=lw*.5;x.stroke();
+    gloss(cx-r*.42,cy-r*.55,.8);return}
+  if(sk==='space'){
+    const ring=col===1||col===4,pr=ring?r*.66:r*.82;
+    const half=(a0,a1)=>{x.save();x.translate(cx,cy);x.rotate(-.35);x.beginPath();x.ellipse(0,0,r*.98,r*.3,0,a0,a1);x.lineWidth=r*.16;x.strokeStyle=OUT;x.stroke();x.lineWidth=r*.09;x.strokeStyle=mix(c,.5);x.stroke();x.restore()};
+    if(ring)half(Math.PI,Math.PI*2);
+    x.beginPath();x.arc(cx,cy,pr,0,7);x.fillStyle=rad(cx,cy,pr);x.fill();
+    x.save();x.clip();
+    if(ring){x.fillStyle=mix(c,-.15);x.fillRect(cx-pr,cy-pr*.15,pr*2,pr*.18);x.fillRect(cx-pr,cy+pr*.3,pr*2,pr*.12)}
+    else{x.fillStyle=mix(c,-.22);[[.3,.25,.22],[-.35,.35,.14],[.05,-.4,.12]].forEach(([a,b,q])=>{x.beginPath();x.arc(cx+a*pr,cy+b*pr,q*pr,0,7);x.fill()})}
+    x.restore();x.beginPath();x.arc(cx,cy,pr,0,7);out();
+    if(ring)half(0,Math.PI);
+    gloss(cx-pr*.38,cy-pr*.42,.8);return}
+}
 
 /* =================================================================
    The grid. Game logic works in "bubble units": a bubble has radius 1.
@@ -656,7 +768,8 @@ const MINA=10*Math.PI/180;
 const clampA=a=>Math.max(MINA,Math.min(Math.PI-MINA,a));
 
 /* ---------- levels (made from a seed, the same every time) ---------- */
-const LEVELS=30;
+const LEVELS=60,WN=10;   // 6 worlds of 10 levels
+const worldOf=n=>Math.floor((n-1)/WN);
 let rng=Math.random;
 function seeded(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let q=Math.imul(s^s>>>15,1|s);q=q+Math.imul(q^q>>>7,61|q)^q;return((q^q>>>14)>>>0)/4294967296}}
 const sizeFor=a=>a==='little'?{C:8,ROWS:10}:{C:10,ROWS:12};
@@ -668,8 +781,9 @@ function fillRows(r,n,k,mask,clus){
     put(y,c,{c:col})}}
 function genLevel(n,a){
   const r=seeded(n*7919+(a==='big'?31:97)),pick=arr=>arr[Math.floor(r()*arr.length)],little=a==='little';
-  const k=little?(n<=3?3:n<=12?4:5):(n<=4?4:n<=14?5:6);
-  const rows=little?Math.min(7,3+Math.floor(n/3)):Math.min(9,4+Math.floor(n/3));
+  const d=Math.ceil(n/2);   // difficulty grows across the 60 levels
+  const k=little?(n<=3?3:d<=12?4:5):(n<=4?4:d<=14?5:6);
+  const rows=little?Math.min(7,3+Math.floor(d/3)):Math.min(9,4+Math.floor(d/3));
   const shape=n<=2?0:(n%6);
   const W=2*C,mid=W/2;
   const masks=[
@@ -686,9 +800,9 @@ function genLevel(n,a){
   const cells=[];eachCell((y,c)=>cells.push([y,c]));
   for(let i=0;i<k;i++)if(!colorsOnBoard().includes(i)){const [y,c]=pick(cells);G.grid[y][c].c=i}
   // treasures inside some bubbles
-  const types=n<=2?1:n<=8?2:3;const pool=ITEMS.slice(0,Math.min(ITEMS.length,2+Math.floor((n-1)/4)));const kinds=[];
+  const types=n<=2?1:d<=8?2:3;const pool=ITEMS.slice(0,Math.min(ITEMS.length,2+Math.floor((d-1)/4)));const kinds=[];
   while(kinds.length<types){const q=pick(pool);if(!kinds.includes(q))kinds.push(q)}
-  const nItems=Math.min(cells.length>>1,little?Math.min(8,2+Math.floor(n/3)):Math.min(11,3+Math.floor(n/3)));
+  const nItems=Math.min(cells.length>>1,little?Math.min(8,2+Math.floor(d/3)):Math.min(11,3+Math.floor(d/3)));
   const lowR=lowestRow();
   const spots=cells.map(p=>[p,r()+(little?(p[0]/(lowR+1))*.8:(1-p[0]/(lowR+1))*.5)]).sort((A,B)=>B[1]-A[1]).map(p=>p[0]);
   const goals={};for(let i=0;i<nItems;i++){const [y,c]=spots[i],q=kinds[i%kinds.length];G.grid[y][c].it=q;goals[q]=(goals[q]||0)+1}
@@ -697,6 +811,8 @@ function genLevel(n,a){
 /* a new row pushed in at the top (Endless, and Big Kid misses) */
 function pushRow(quiet){
   G.off^=1;G.grid.unshift(Array(C).fill(null));const r=Math.random;
+  // a bubble already flying aims at a cell that just moved down one row
+  if(G.shot){const sh=G.shot;sh.cell=[sh.cell[0]+1,sh.cell[1]];sh.pts[sh.pts.length-1]=cellXY(sh.cell[0],sh.cell[1])}
   for(let c=0;c<ncols(0);c++){let col;const below=nbrs(0,c).map(([R,K])=>get(R,K)).filter(Boolean);
     if(c>0&&get(0,c-1)&&r()<.45)col=get(0,c-1).c;else if(below.length&&r()<.25)col=below[0].c;else col=Math.floor(r()*G.k);
     G.grid[0][c]={c:col}}
@@ -736,7 +852,7 @@ addEventListener('orientationchange',()=>setTimeout(()=>{if(cur==='game')layout(
    Drawing
    ================================================================= */
 let pops=[],drops=[],parts=[],flys=[];
-function drawBubble(x,col,it,cx,cy,s){const sp=sprite(col,it,s);x.drawImage(sp,cx-s/2,cy-s/2,s,s)}
+function drawBubble(x,col,it,cx,cy,s){if(col==null)return;const sp=sprite(col,it,s);x.drawImage(sp,cx-s/2,cy-s/2,s,s)}
 function drawGame(now){
   const d=DPR(),x=bx,cw=unitsW()*U,ch=unitsH()*U;x.setTransform(d,0,0,d,0,0);
   x.clearRect(0,0,cw,ch);
@@ -868,7 +984,8 @@ function shoot(){
 }
 /* the bubble arrives: stick, pop matching colours, drop what hangs on nothing */
 function landShot(){
-  const s=G.shot,[r,c]=s.cell;let col=s.col;
+  const s=G.shot;let [r,c]=s.cell,col=s.col;
+  if(c>=ncols(r)||get(r,c))[r,c]=snapCell(...cellXY(r,Math.min(c,ncols(r)-1)));   // the board moved while the bubble flew
   if(col===RB){// a rainbow bubble becomes the colour of its biggest neighbour group
     let bestC=null,bestN=0;for(const [R,K] of nbrs(r,c)){const v=get(R,K);if(!v)continue;put(r,c,{c:v.c});const n=group(r,c).length;if(n>bestN){bestN=n;bestC=v.c}}
     col=bestC!=null?bestC:(colorsOnBoard()[0]??0);sfx.rainbow()}
@@ -890,7 +1007,9 @@ function landShot(){
     if(total>=4||empty)cheer(total,empty);
     if(total>=(age==='little'?6:8)&&G.next!==RB&&G.cur!==RB){G.next=RB;setTimeout(()=>{bubble(t('rainbow'));sfx.rainbow()},400)}
     if(empty){addScore(500,null);if(G.mode==='end')setTimeout(()=>{if(G&&!G.ended){pushRow();pushRow();pushRow();refill()}},900)}
-  }else{G.miss++}
+  }else{G.miss++;
+    // a bubble that landed on nothing (the board changed while it flew) drops too
+    floating().forEach(([R,K])=>{const v=get(R,K),[px,py]=cellXY(R,K);drops.push({x:px,y:py,vx:0,vy:0,v,t0:now+60});G.grid[R][K]=null;if(v.it)collectItem(v.it,px,py,200)});trimGrid()}
   // more bubbles come in (and one more colour later in Endless)
   if(G.mode==='end'&&G.k<(age==='little'?5:6)&&G.score>(age==='little'?2000:3000))G.k++;
   if(G.mode==='end'){G.since++;const every=age==='little'?8:Math.max(4,7-Math.floor(G.score/2500));if(G.since>=every){G.since=0;setTimeout(()=>{if(G&&!G.ended){pushRow();bubble(t('newRow'));afterMove()}},popped?500:250)}}
@@ -901,7 +1020,8 @@ function landShot(){
 function pickColor(){const cs=colorsOnBoard();if(!cs.length)return Math.floor(Math.random()*G.k);
   if(Math.random()<(age==='little'?.6:.3)){const exp=[];eachCell((r,c,v)=>{if(nbrs(r,c).some(([R,K])=>!get(R,K))||r===lowestRow())exp.push(v.c)});if(exp.length)return exp[Math.floor(Math.random()*exp.length)]}
   return cs[Math.floor(Math.random()*cs.length)]}
-function refill(){const cs=colorsOnBoard();if(!cs.length)return;
+function refill(){const cs=colorsOnBoard();
+  if(!cs.length){if(G.cur==null)G.cur=pickColor();if(G.next==null)G.next=pickColor();return}   // empty board: keep the launcher loaded
   if(G.cur!==RB&&!cs.includes(G.cur))G.cur=pickColor();
   if(G.next!==RB&&!cs.includes(G.next))G.next=pickColor();
   if(G.cur==null)G.cur=pickColor();if(G.next==null)G.next=pickColor();
@@ -938,8 +1058,8 @@ function stuck(){
 /* pop the lowest rows until the bubbles are well above the line */
 function makeSpace(){
   G.busy=false;const now=performance.now();let k=0;
-  while(lowestRow()>=ROWS-4&&G.grid.length){const r=lowestRow();
-    for(let c=0;c<ncols(r);c++){const v=get(r,c);if(!v)continue;const [px,py]=cellXY(r,c),dl=k*40;pops.push({x:px,y:py,v,t0:now+dl,d:300});G.grid[r][c]=null;
+  for(let guard=0;guard<40&&G.grid.length&&lowestRow()>=ROWS-4;guard++){const r=lowestRow();
+    for(let c=0;c<C;c++){const v=get(r,c);if(!v)continue;const [px,py]=cellXY(r,c),dl=k*40;pops.push({x:px,y:py,v,t0:now+dl,d:300});G.grid[r][c]=null;
       setTimeout(()=>{const [sx,sy]=toScreen(px,py);burst(sx,sy,v.c,6);fxDirty=true},dl);if(v.it)collectItem(v.it,px,py,dl);k++}
     trimGrid()}
   sfx.rainbow();refill();saveEndless();setTimeout(checkWin,900);
@@ -959,6 +1079,7 @@ function startGame(mode,level,resume){
   $('#lvlChip').style.display=mode==='adv'?'':'none';$('#lvlChip').textContent=tf('level',{n:level});
   $('#bestBox').style.display=mode==='end'?'':'none';$('#bestN').textContent=best[age];
   const sc=$('#score');sc.classList.toggle('lvl',mode==='adv');sc.textContent=mode==='adv'?tf('level',{n:level}):G.score;
+  skin=mode==='adv'?SKINS[worldOf(level)]:eskin();setScene(skin);sprites.clear();
   show('game');renderGoals();layout();
   // Bismillah first
   $('#bismGoal').innerHTML=mode==='adv'?`${t('collect')} `+Object.keys(G.goals).map(id=>`<img src="items/${id}.webp" alt="" style="width:34px;height:34px;vertical-align:-10px"> ${G.goals[id]}`).join(' &nbsp;'):'';
@@ -973,6 +1094,11 @@ function levelWin(){
   $('#winSub').textContent=n>=LEVELS?t('allDone'):tf('lvlDone',{n});
   const is=$('#winStars').children;[...is].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
   $('#winFact').textContent=fact(n-1);$('#winUnl').innerHTML='';
+  if(n%WN===0&&!winUnlocked(n)){const w=n/WN-1;prog.skins=prog.skins||{};prog.skins[SKINS[w]]=1;store.set('prog',prog);
+    // world 1's bubbles are always open, so finishing it only opens the next world
+    const sk=w>0?SKINS[w]:SKINS[1],msg=(w>0?tf('newSkin',{s:t('W')[w]}):'')+(w+1<SKINS.length?' '+tf('worldOpen',{w:t('W')[w+1]}):'');
+    const c=document.createElement('canvas');c.width=c.height=112;skinPreview(c,sk);$('#winUnl').innerHTML='<div class="unl"></div>';
+    $('#winUnl .unl').append(c,document.createTextNode(msg.trim()))}
   $('#winNext').style.display=n>=LEVELS?'none':'';ov('win',true);
 }
 $('#winNext').onclick=()=>{ov('win',false);startGame('adv',G.level+1)};
@@ -1028,7 +1154,7 @@ try{history.replaceState({s:'home',i:0},'')}catch(e){}
 let btnNav=false;
 window.addEventListener('popstate',e=>{
   if(!btnNav&&cur!=='home'){try{history.pushState({s:cur,i:((e.state&&e.state.i)||0)+1},'')}catch(_){}return}
-  btnNav=false;['bism','win','over','gate'].forEach(id=>ov(id,false));
+  btnNav=false;['bism','win','over','skinsOv','gate'].forEach(id=>ov(id,false));
   const s=(e.state&&e.state.s)||'home';if(s==='game'&&!G){show('home',false);return}
   show(s,false);if(s==='home')renderHome();if(s==='map')renderMap();
 });
@@ -1051,13 +1177,13 @@ holdable($('#restartBtn'),1000,()=>{sfx.tap();if(!G)return;ov('over',false);if(G
 
 /* ---------- home ---------- */
 function renderHomeArt(){
-  const draw=(cv,cells)=>{const x=cv.getContext('2d'),s=cv.width/4.9;x.clearRect(0,0,cv.width,cv.width);
-    cells.forEach(([X,Y,c,it])=>{const sp=sprite(c,it,s/DPR());x.drawImage(sp,s*.45+X*s+(Y%2?s/2:0),s*.6+Y*s*.87,s,s)})};
+  const draw=(cv,cells,sk='classic')=>{const x=cv.getContext('2d'),s=cv.width/4.9;x.clearRect(0,0,cv.width,cv.width);
+    cells.forEach(([X,Y,c,it])=>{const sp=sprite(c,it,s/DPR(),sk);x.drawImage(sp,s*.45+X*s+(Y%2?s/2:0),s*.6+Y*s*.87,s,s)})};
   draw($('#cvAdv'),[[0,0,0],[1,0,0,'moon'],[2,0,3],[3,0,3],[0,1,1],[1,1,2,'star'],[2,1,3],[0,2,1],[1,2,2],[2,2,4,'lantern'],[3,2,4],[1,3,5],[2,3,0]]);
-  draw($('#cvEnd'),[[0,0,4],[1,0,4],[2,0,1],[3,0,1],[0,1,4],[1,1,3],[2,1,1],[0,2,2],[1,2,3],[2,2,RB],[3,2,0],[1,3,2],[2,3,5]]);
+  draw($('#cvEnd'),[[0,0,4],[1,0,4],[2,0,1],[3,0,1],[0,1,4],[1,1,3],[2,1,1],[0,2,2],[1,2,3],[2,2,RB],[3,2,0],[1,3,2],[2,3,5]],eskin());
 }
 function renderHome(){
-  renderHomeArt();
+  setScene('classic');renderHomeArt();
   $('#advBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${totalStars()}`;
   $('#endBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${best[age]}`;
   document.querySelectorAll('#age button').forEach(b=>b.classList.toggle('on',b.dataset.a===age));
@@ -1067,13 +1193,38 @@ let picking=false;
 function pickMode(btn,go){if(picking)return;picking=true;btn.classList.add('pick');sfx.tap();setTimeout(()=>{btn.classList.remove('pick');picking=false;go()},420)}
 $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
 $('#goEnd').onclick=e=>pickMode(e.currentTarget,()=>{const sv=store.get('endless_'+age,null);startGame('end',0,sv&&sv.grid?sv:null)});
-function openMap(){renderMap();show('map');const c=$('#lvls .cur');if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),50)}
+function openMap(){renderMap();show('map');const c=$('#worlds .lv.cur');if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),60)}
+const winUnlocked=n=>!!(prog.skins&&prog.skins[SKINS[n/WN-1]]);
+const skinOpen=sk=>sk==='classic'||!!(prog.skins&&prog.skins[sk]);
+function eskin(){const k=store.get('eskin','classic');return skinOpen(k)?k:'classic'}
+function skinPreview(cv,sk){const x=cv.getContext('2d'),w=cv.width,s=w/2.6;x.clearRect(0,0,w,w);
+  [[0,0,0],[1,0,3],[.5,.87,2],[1.5,.87,4]].forEach(([X,Y,c])=>x.drawImage(sprite(c,null,s/DPR(),sk),w*.08+X*s,w*.12+Y*s,s,s))}
 function renderMap(){
-  $('#mapSum').innerHTML=`<img src="ui/star.webp" alt=""> ${totalStars()} / ${LEVELS*3}`;
-  let h='';for(let n=1;n<=LEVELS;n++){const lk=n>prog.open,st=prog.stars[n]||0;
-    h+=`<button class="lv${lk?' lock':''}${n===prog.open&&!prog.stars[n]?' cur':''}" data-n="${n}">${lk?'<img src="ui/lock.webp" alt="">':n}${lk?'':`<span class="st">${[0,1,2].map(k=>`<i class="${k<st?'on':''}"></i>`).join('')}</span>`}</button>`}
-  $('#lvls').innerHTML=h}
-$('#lvls').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)return;const n=+b.dataset.n;if(n>prog.open){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame('adv',n)});
+  setScene('classic');$('#mapSum').innerHTML=`<img src="ui/star.webp" alt=""><span>${totalStars()}/${LEVELS*3}</span>`;
+  const el=$('#worlds');el.innerHTML='';const wpx=Math.min(el.clientWidth||innerWidth,620)-28-24;
+  SKINS.forEach((sk,w)=>{const first=w*WN+1,last=first+WN-1,lockW=first>prog.open;
+    const sec=document.createElement('div');sec.className='world sk-'+sk+(lockW?' lock':'');
+    let st=0;for(let n=first;n<=last;n++)st+=prog.stars[n]||0;
+    sec.innerHTML=`<div class="wh"><canvas width="132" height="132"></canvas><div><b>${t('W')[w]}</b><small>${tf('levelsR',{a:first,b:last})}</small></div><span class="ws"><img src="ui/star.webp" alt=""> ${st}/${WN*3}</span></div>`;
+    skinPreview(sec.querySelector('canvas'),sk);
+    const path=document.createElement('div');path.className='path';let h='';const amp=Math.min(wpx*.32,170);
+    const pos=i=>[wpx/2+Math.sin(i*1.15+w)*amp,46+i*82];
+    for(let i=0;i<WN;i++){const n=first+i,lk=n>prog.open,sn=prog.stars[n]||0,[px,py]=pos(i);
+      if(i){const [qx,qy]=pos(i-1);for(let k=1;k<=3;k++)h+=`<i class="dot" style="left:${qx+(px-qx)*k/4}px;top:${qy+(py-qy)*k/4}px"></i>`}
+      h+=`<button class="lv${lk?' lock':''}${n===prog.open&&!prog.stars[n]?' cur':''}" data-n="${n}" style="left:${px}px;top:${py-36}px">${lk?'<img src="ui/lock.webp" alt="">':n}${lk?'':`<span class="st">${[0,1,2].map(k=>`<i class="${k<sn?'on':''}"></i>`).join('')}</span>`}</button>`}
+    path.innerHTML=h;sec.appendChild(path);
+    if(lockW)sec.insertAdjacentHTML('beforeend',`<div class="wlock"><img src="ui/lock.webp" alt="">${tf('lockedW',{w:t('W')[w-1]})}</div>`);
+    el.appendChild(sec)})}
+$('#worlds').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)return;const n=+b.dataset.n;if(n>prog.open){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame('adv',n)});
+addEventListener('resize',()=>{if(cur==='map')renderMap()});
+/* bubble skins for Endless */
+function renderSkins(){const el=$('#skinList');el.innerHTML='';const on=eskin();
+  SKINS.forEach((sk,w)=>{const b=document.createElement('button'),open=skinOpen(sk);b.className='sk'+(sk===on?' on':'')+(open?'':' lock');
+    const c=document.createElement('canvas');c.width=c.height=160;skinPreview(c,sk);b.appendChild(c);
+    b.insertAdjacentHTML('beforeend',`<b>${t('W')[w]}</b>`+(open?'':'<span class="lk"><img src="ui/lock.webp" alt=""></span>'));
+    b.onclick=()=>{if(!open){sfx.bad();toast(tf('lockedW',{w:t('W')[w]}));return}store.set('eskin',sk);sfx.swap();renderSkins();renderHomeArt()};el.appendChild(b)})}
+$('#goSkins').onclick=()=>{sfx.tap();renderSkins();ov('skinsOv',true)};
+$('#skClose').onclick=()=>ov('skinsOv',false);
 
 /* ---------- language, sound ---------- */
 function applyLang(){document.documentElement.lang=lang;document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t(el.dataset.t)});$('#langIco').src='ui/lang-'+lang+'.webp';renderHome()}

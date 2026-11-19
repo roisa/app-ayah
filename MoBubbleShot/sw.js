@@ -1,5 +1,5 @@
 // Mo Bubble Shot: offline support. Bump VERSION when files change.
-const VERSION='mobs-v2';
+const VERSION='mobs-v3';
 const ASSETS=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png','icons/cursor-hand.png','icons/cursor-hand@2x.png',
   'ui/back.webp','ui/close.webp','ui/games.webp','ui/gear.webp','ui/gift.webp','ui/hand.webp','ui/help.webp','ui/home.webp','ui/lang-en.webp','ui/lang-id.webp',
   'ui/lock.webp','ui/masjid.webp','ui/music-off.webp','ui/music-on.webp','ui/ok.webp','ui/play.webp','ui/sound-off.webp','ui/sound-on.webp','ui/star.webp',
