@@ -190,6 +190,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 .pgrid .card img{box-shadow:0 2px 6px rgba(0,0,0,.1)}
 .pgrid .card b{color:#4a1d8f}
 .cbar{gap:6px}
+.cbar .back{position:relative;z-index:5}
 .ctitle{position:relative;flex:1;max-width:min(560px,30vh*3.02);margin:-4px auto 0;transform:translateX(-28px)}
 .ctitle img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 6px rgba(70,20,120,.25))}
 .ctitle svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -310,9 +311,10 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 .st.on{background:#fff1d6;box-shadow:inset 0 0 0 3px var(--yel)}
 
 /* ---- editor skin: glossy frame, cream trays, 3D colour balls (all colours follow the random theme) ---- */
+#paper,#ed.cmode #paper{border-radius:max(8px,calc(var(--bR) - var(--bW)))}
 #ed{--rLt:color-mix(in srgb,var(--ring) 45%,#fff);--rDk:color-mix(in srgb,var(--ring) 78%,#000);--rSoft:color-mix(in srgb,var(--ring) 40%,#fff);
   --gloss:radial-gradient(circle at 32% 26%,rgba(255,255,255,.95) 0 8%,rgba(255,255,255,.45) 17%,rgba(255,255,255,0) 34%),radial-gradient(circle at 50% 115%,rgba(0,0,0,.28),rgba(0,0,0,0) 58%)}
-.board{border:clamp(9px,1.5vw,15px) solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(170deg,var(--rLt),var(--ring) 38%,var(--ring) 70%,var(--rDk)) border-box;
+.board{--bW:clamp(9px,1.5vw,15px);--bR:clamp(26px,4vw,44px);border-radius:var(--bR);border:var(--bW) solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(170deg,var(--rLt),var(--ring) 38%,var(--ring) 70%,var(--rDk)) border-box;
   box-shadow:0 0 0 2px var(--rDk),0 6px 0 var(--rDk),0 16px 30px rgba(0,30,70,.25)}
 .board::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:3;box-shadow:inset 0 0 0 3px rgba(255,255,255,.95),inset 0 4px 10px rgba(0,0,0,.08)}
 .panel{background:linear-gradient(#fffdf7,var(--panel));border:4px solid #fff;
@@ -908,11 +910,15 @@ function ov(id,on){$('#'+id).classList.toggle('on',on)}
 
 /* screens + Android back button */
 let cur='home';
+/* the page behind the screens takes the colour of the screen's bottom edge, so a browser bar sliding away never shows another colour */
+function pageBg(){let c={home:'#7fd04a',cats:'#fbdcb4',pick:'#fbdcb4'}[cur];if(cur==='ed'){const T=THEMES[store.get('theme',0)]||THEMES[0];c=T.g[0]}
+  document.documentElement.style.background=document.body.style.background=c||''}
 function show(s,push=true){
-  document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===s));cur=s;try{musicLevel()}catch(e){}
+  document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===s));cur=s;pageBg();try{musicLevel()}catch(e){}
   if(push){try{history.pushState({s,i:((history.state&&history.state.i)||0)+1},'')}catch(e){}}
 }
 try{history.replaceState({s:'home',i:0},'')}catch(e){}
+pageBg();
 /* going back happens only with the game's own buttons (home / back).
    A swipe from the screen edge (iPhone Safari) or the phone's back button is ignored inside the game,
    so a child colouring near the edge never loses the picture. */
@@ -990,7 +996,7 @@ const THEMES=[
  {name:'desert', s:['#0fb5ba','#58d0cf','#a9e9e3','#e3f8f4'],g:['#f4c36a','#fadb98','#e6a84a'],b:['#2fa36b','#46be82','#7ad6a2'],lf:['#2f9e64','#1f7a4b'],cl:['#fff',1],fc:'#ff5fa8',frame:'#fde7b0',frameSh:'#ecc678',panel:'#fffaea',div:'#f5e1aa',sel:'#fff0c9',ring:'#e6a100'}];
 function applyTheme(i){
   if(i===undefined)do{i=(Math.random()*THEMES.length)|0}while(THEMES.length>1&&i===store.get('theme',-1));store.set('theme',i);
-  const T=THEMES[i],ed=$('#ed').style,v=(k,x)=>ed.setProperty('--'+k,x);
+  const T=THEMES[i],ed=$('#ed').style,v=(k,x)=>ed.setProperty('--'+k,x);setTimeout(pageBg);
   T.s.forEach((c,j)=>v('s'+(j+1),c));T.g.forEach((c,j)=>v('g'+(j+1),c));T.b.forEach((c,j)=>v('b'+(j+1),c));
   v('lf',T.lf[0]);v('lf2',T.lf[1]);v('cl',T.cl[0]);v('clo',T.cl[1]);v('fc',T.fc);
   ['frame','frameSh','panel','div','sel','ring'].forEach(k=>v(k,T[k]));
