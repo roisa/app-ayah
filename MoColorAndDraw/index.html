@@ -83,12 +83,20 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 @keyframes float{50%{transform:translateY(-5px) rotate(-.6deg)}}
 .ribbon{position:relative;width:calc(var(--lw)*.95);flex:none;margin-top:calc(var(--lw)*-.04);filter:drop-shadow(0 4px 4px rgba(60,0,90,.2))}
 .ribbon img{display:block;width:100%;height:auto}
-.ribbon span{position:absolute;left:21%;right:21%;top:12%;height:50%;display:grid;place-items:center;text-align:center;color:#fff;font:400 calc(var(--lw)*.044)/1 "Lilita One",sans-serif;text-shadow:0 2px 0 #5b1fa6;white-space:nowrap}
+.ribbon .rtxt{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ribbon text{font:400 50px "Lilita One",sans-serif;fill:#fff;paint-order:stroke;stroke:#5b1fa6;stroke-width:5px;stroke-linejoin:round}
 #home .pchip{margin:0;flex:none;font-size:clamp(12px,2vh,19px)}
 .modes{display:flex;justify-content:center;gap:var(--gap);flex:none}
 .mode{width:var(--cw);position:relative;background:none;transition:transform .2s cubic-bezier(.3,1.6,.5,1);animation:bob 2.8s ease-in-out infinite;filter:drop-shadow(0 8px 8px rgba(60,40,0,.22))}
 .mode.d{animation-delay:-1.4s}
 .mode img{display:block;width:100%;height:auto;pointer-events:none}
+/* tap hint: a hand taps Color, then Draw, with a ripple, so little ones know where to press */
+.mode img.tap{position:absolute;left:42%;top:32%;width:33%;opacity:0;z-index:3;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25));animation:tapHint 4s ease-in-out infinite}
+.mode .rip{position:absolute;left:62%;top:35%;width:24%;aspect-ratio:1;margin:-12% 0 0 -12%;border-radius:50%;border:5px solid #fff;opacity:0;z-index:3;pointer-events:none;animation:rip 4s ease-out infinite}
+.mode.d img.tap,.mode.d .rip{animation-delay:2s}
+@keyframes tapHint{0%{opacity:0;transform:translate(40%,40%)}10%{opacity:1;transform:translate(0,0)}16%{transform:scale(.82)}21%{transform:scale(1)}27%{transform:scale(.82)}32%{transform:scale(1)}42%{opacity:1;transform:translate(0,0)}50%,100%{opacity:0;transform:translate(40%,40%)}}
+@keyframes rip{0%,15%{opacity:0;transform:scale(.3)}16%{opacity:.95;transform:scale(.3)}30%{opacity:0;transform:scale(1.6)}31%{opacity:.9;transform:scale(.3)}45%,100%{opacity:0;transform:scale(1.6)}}
+.modes.chosen .tap,.modes.chosen .rip{display:none}
 .mode .lbl{position:absolute;left:10%;right:11%;top:69%;bottom:10%;display:grid;place-items:center;font:400 calc(var(--cw)*.12)/1 "Lilita One",sans-serif;color:var(--ink);white-space:nowrap}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-8px) rotate(-1.5deg)}75%{transform:translateY(-3px) rotate(1.5deg)}}
 .mode:active{transform:scale(.95)}
@@ -123,7 +131,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
   .prop.pb{display:none}
   .homeFoot{padding:0 calc(var(--mw)*.9 - 8px)}
 }
-@media (prefers-reduced-motion:reduce){.mode,.hlogo,.hmo{animation:none}}
+@media (prefers-reduced-motion:reduce){.mode,.hlogo,.hmo{animation:none}.mode img.tap{animation:none;opacity:1}.mode.d img.tap,.mode .rip{display:none}}
 .pill{display:inline-flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:10px 24px 10px 12px;box-shadow:var(--shadow);font:400 22px "Lilita One",sans-serif;color:#c2367a;transition:transform .15s}
 .pill:active{transform:scale(.94)}
 .pill i{width:42px;height:42px;border-radius:50%;background:var(--pink);display:grid;place-items:center}
@@ -365,11 +373,11 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
     <div class="hcol">
       <h1 class="vh">Mo Color &amp; Draw</h1>
       <div class="hlogo"><img src="home/logo.webp" alt="Mo Color &amp; Draw" draggable="false"></div>
-      <div class="ribbon"><img src="home/ribbon.webp" alt="" draggable="false"><span data-t="tag">Play Games the Islamic Way</span></div>
+      <div class="ribbon"><img src="home/ribbon.webp" alt="" draggable="false"><svg class="rtxt" viewBox="0 0 1100 238" aria-hidden="false"><path id="rbArc" d="M190 126Q550 80 910 126" fill="none"/><text><textPath href="#rbArc" startOffset="50%" text-anchor="middle" data-t="tag">Play Games the Islamic Way</textPath></text></svg></div>
       <p class="pchip" id="pchip"></p>
       <div class="modes">
-        <button class="mode c" id="goColor"><img src="home/card-color.webp" alt="" draggable="false"><span class="lbl"><span data-t="color">Color</span></span></button>
-        <button class="mode d" id="goDraw"><img src="home/card-draw.webp" alt="" draggable="false"><span class="lbl"><span data-t="draw">Draw</span></span></button>
+        <button class="mode c" id="goColor"><img src="home/card-color.webp" alt="" draggable="false"><span class="rip"></span><img class="tap" src="ui/hand.webp" alt="" draggable="false"><span class="lbl"><span data-t="color">Color</span></span></button>
+        <button class="mode d" id="goDraw"><img src="home/card-draw.webp" alt="" draggable="false"><span class="rip"></span><img class="tap" src="ui/hand.webp" alt="" draggable="false"><span class="lbl"><span data-t="draw">Draw</span></span></button>
       </div>
       <div class="homeFoot">
         <button class="pill" id="goGal"><i><img class="ico" src="ui/gallery.webp" alt="" draggable="false"></i><span data-t="myArt">My Art</span></button>
@@ -431,7 +439,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
     <div class="stamps" id="stamps"></div>
     <div class="toolsP panel"><div class="szPop" id="szPop"></div><div class="tools" id="tools"></div></div>
     <div class="lower">
-      <img class="edmo" src="../home/mo.webp" alt="">
+      <img class="edmo" src="home/mo-paint.webp" alt="">
       <div class="colP panel">
         <div class="colors" id="colors"></div>
       </div>
@@ -527,13 +535,13 @@ en:{tag:'Play Games the Islamic Way',draw:'Draw',drawS:'Blank paper',color:'Colo
  choose:'Choose a picture',pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your picture is saved.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},chooseCat:'Choose a category',soonCat:'Soon',soonMsg:'New pictures are coming soon, insya Allah!',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
  alh:'Alhamdulillah!',alhS:"What a beautiful picture! It's saved in My Art.",dyk:'Did you know?',pick:'Pick a color',ok:'OK',gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  saved:'Saved in My Art ✓',cleared:'All clean!',blank:'My drawing',deleted:'Deleted',
- tools:{crayon:'Crayon',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',glitter:'Glitter',stamp:'Stamps',fill:'Paint bucket',eraser:'Eraser'},
+ tools:{crayon:'Crayon',chalk:'Chalk',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',glitter:'Glitter',stamp:'Stamps',fill:'Paint bucket',eraser:'Eraser'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! What a beautiful picture!'},
 id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',color:'Mewarnai',colorS:'Gambar mewarnai',myArt:'Karyaku',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
  choose:'Pilih gambar',pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Gambarmu sudah tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},chooseCat:'Pilih kategori',soonCat:'Segera',soonMsg:'Gambar baru segera hadir, insya Allah!',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
  alh:'Alhamdulillah!',alhS:'Gambarnya bagus sekali! Sudah tersimpan di Karyaku.',dyk:'Tahukah kamu?',pick:'Pilih warna',ok:'OK',gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
  saved:'Tersimpan di Karyaku ✓',cleared:'Bersih lagi!',blank:'Gambarku',deleted:'Dihapus',
- tools:{crayon:'Krayon',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',glitter:'Glitter',stamp:'Stempel',fill:'Ember cat',eraser:'Penghapus'},
+ tools:{crayon:'Krayon',chalk:'Kapur',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',glitter:'Glitter',stamp:'Stempel',fill:'Ember cat',eraser:'Penghapus'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! Gambarnya bagus sekali!'}};
 // language: saved choice here, else the one picked on the Mo Games landing page, else the device language
 let lang=store.get('lang',(()=>{try{const l=localStorage.getItem('moLang');if(l==='en'||l==='id')return l}catch(e){}return /^id\b|^id-/i.test(navigator.language||'')?'id':'en'})());
@@ -649,6 +657,7 @@ const COLORS=[
 const TOOLS=[
  {id:'fill',fill:true},
  {id:'crayon',wf:1.1,alpha:1,grain:true,rough:true,snd:2600,vol:.10},
+ {id:'chalk',wf:1.6,alpha:.92,grain:'chalk',rough:'chalk',snd:3600,vol:.11},
  {id:'marker',wf:2.4,alpha:.42,snd:1700,vol:.07},
  {id:'brush',wf:1.25,alpha:.92,soft:true,snd:700,vol:.06},
  {id:'pen',wf:.75,alpha:1,snd:1300,vol:.06},
@@ -735,6 +744,7 @@ function noise(freq,dur,vol,when=0,type='bandpass',q=1.2,to=0){const a=ac();if(!
 const TOOL_SFX={
  fill(){tone(700,.22,'sine',.18,0,180);tone(420,.12,'sine',.1,.12,900)},
  crayon(){noise(2600,.09,.3);noise(2400,.09,.25,.11);tone(1200,.05,'triangle',.06)},
+ chalk(){noise(3600,.07,.3);noise(3200,.07,.28,.09);noise(3800,.06,.22,.18)},
  marker(){tone(900,.12,'sine',.12,0,1500);tone(1500,.08,'sine',.07,.1,1100)},
  brush(){noise(500,.35,.28,0,'bandpass',.8,2500)},
  pen(){tone(1800,.03,'square',.05);tone(1400,.03,'square',.05,.07)},
@@ -876,6 +886,14 @@ const GRAIN=128,cGrain=document.createElement('canvas');cGrain.width=cGrain.heig
   for(let i=0;i<260;i++){const x=Math.random()*GRAIN,y=Math.random()*GRAIN,a=-.35+(Math.random()-.5)*.6,l=2+Math.random()*7;g.lineWidth=.8+Math.random()*1.4;g.strokeStyle=`rgba(0,0,0,${.45+Math.random()*.55})`;
     for(const ox of [-GRAIN,0,GRAIN])for(const oy of [-GRAIN,0,GRAIN]){g.beginPath();g.moveTo(x+ox,y+oy);g.lineTo(x+ox+Math.cos(a)*l,y+oy+Math.sin(a)*l);g.stroke()}}})();
 const grainURL=cGrain.toDataURL(),grainPat=tctx.createPattern(cGrain,'repeat');
+/* chalk paper texture: dusty and broken, lots of little gaps where the paper shows through (tiles seamlessly) */
+const cChalk=document.createElement('canvas');cChalk.width=cChalk.height=GRAIN;
+(()=>{const g=cChalk.getContext('2d'),im=g.createImageData(GRAIN,GRAIN);for(let i=0;i<GRAIN*GRAIN;i++){const r=Math.random();im.data[i*4+3]=r<.22?0:r<.4?110+Math.random()*60:190+Math.random()*65}g.putImageData(im,0,0);
+  g.globalCompositeOperation='destination-out';g.lineCap='round';
+  for(let i=0;i<420;i++){const x=Math.random()*GRAIN,y=Math.random()*GRAIN,a=(Math.random()-.5)*.5,l=3+Math.random()*10;g.lineWidth=.7+Math.random()*1.6;g.strokeStyle=`rgba(0,0,0,${.5+Math.random()*.5})`;
+    for(const ox of [-GRAIN,0,GRAIN])for(const oy of [-GRAIN,0,GRAIN]){g.beginPath();g.moveTo(x+ox,y+oy);g.lineTo(x+ox+Math.cos(a)*l,y+oy+Math.sin(a)*l);g.stroke()}}})();
+const chalkURL=cChalk.toDataURL(),chalkPat=tctx.createPattern(cChalk,'repeat');
+const texURL=td=>td.grain==='chalk'?chalkURL:grainURL,texPat=td=>td.grain==='chalk'?chalkPat:grainPat;
 
 function hexRgb(h){const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255]}
 function hslRgb(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));return [f(0)*255|0,f(8)*255|0,f(4)*255|0]}
@@ -1076,7 +1094,7 @@ paper.addEventListener('pointerdown',e=>{
   S.base=td.eraser?[255,255,255]:color==='rainbow'?null:hexRgb(color);
   if(td.oil){S.offs=Array.from({length:9},()=>Math.random()*.5-.25)}
   cLive.style.opacity=td.alpha;
-  cLive.style.webkitMaskImage=cLive.style.maskImage=td.grain?`url(${grainURL})`:'none';
+  cLive.style.webkitMaskImage=cLive.style.maskImage=td.grain?`url(${texURL(td)})`:'none';
   lctx.lineCap='round';lctx.lineJoin='round';
   seg(x,y,x+.01,y,x+.02,y+.01);
   scribbleStart(td);
@@ -1109,6 +1127,18 @@ function makeTip(w){
     const k=(yy*sz+xx)*4;d[k]=d[k+1]=d[k+2]=255;d[k+3]=Math.min(255,a*255)}
   x.putImageData(im,0,0);return c;
 }
+/* chalk tip: a wide, dusty tip that leaves broken, powdery marks */
+function makeChalkTip(w){
+  const R=Math.max(2,w/2),sz=Math.ceil(R*2)+2,c=document.createElement('canvas');c.width=c.height=sz;
+  const x=c.getContext('2d'),im=x.createImageData(sz,sz),d=im.data,m=sz/2,p=[Math.random()*6,Math.random()*6];
+  for(let yy=0;yy<sz;yy++)for(let xx=0;xx<sz;xx++){
+    const dx=xx+.5-m,dy=yy+.5-m,r=Math.hypot(dx,dy),th=Math.atan2(dy,dx),e=R*(.84+.09*Math.sin(4*th+p[0])+.07*Math.sin(13*th+p[1]));
+    let a=0;
+    if(r<e){const f=1-r/e;a=Math.random()<.35+.45*f?.35+.5*Math.random():0}
+    else if(r<R*1.05&&Math.random()<.04)a=.4;
+    const k=(yy*sz+xx)*4;d[k]=d[k+1]=d[k+2]=255;d[k+3]=a*255}
+  x.putImageData(im,0,0);return c;
+}
 function tintTips(col){const cs=rgbStr(col);return S.tips.map(t=>{const c=document.createElement('canvas');c.width=t.width;c.height=t.height;const x=c.getContext('2d');x.drawImage(t,0,0);x.globalCompositeOperation='source-in';x.fillStyle=cs;x.fillRect(0,0,c.width,c.height);return c})}
 function seg(ax,ay,cx,cy,bx,by){
   const td=S.td,ctx=lctx,w=S.w;let col;
@@ -1123,9 +1153,10 @@ function seg(ax,ay,cx,cy,bx,by){
       ctx.beginPath();ctx.moveTo(ax+ox,ay+oy);ctx.quadraticCurveTo(cx+ox,cy+oy,bx+ox,by+oy);ctx.stroke()}
   }else if(td.rough){
     // press the ragged tip along the curve, turning it each time, so the edge breaks up like wax on paper
-    if(!S.tips)S.tips=[makeTip(w),makeTip(w),makeTip(w)];
-    if(!S.tinted||!S.base)S.tinted=tintTips(col);
-    const L=Math.hypot(cx-ax,cy-ay)+Math.hypot(bx-cx,by-cy),n=Math.max(1,Math.ceil(L/Math.max(1,w*.09)));
+    const chalk=td.rough==='chalk';
+    if(!S.tips)S.tips=chalk?[makeChalkTip(w),makeChalkTip(w),makeChalkTip(w)]:[makeTip(w),makeTip(w),makeTip(w)];
+    if(!S.tinted||!S.base)S.tinted=tintTips(chalk&&!td.eraser?shade(col,.12):col);
+    const L=Math.hypot(cx-ax,cy-ay)+Math.hypot(bx-cx,by-cy),n=Math.max(1,Math.ceil(L/Math.max(1,w*(chalk?.14:.09))));
     for(let i=1;i<=n;i++){const tt=i/n,u=1-tt,px=u*u*ax+2*u*tt*cx+tt*tt*bx,py=u*u*ay+2*u*tt*cy+tt*tt*by,tip=S.tinted[(Math.random()*3)|0];
       ctx.save();ctx.translate(px,py);ctx.rotate(Math.random()*6.283);ctx.drawImage(tip,-tip.width/2,-tip.height/2);ctx.restore()}
   }else if(td.glitter){
@@ -1157,7 +1188,7 @@ function endStroke(){
   pushUndo(x0,y0,w,h);
   let src=cLive;
   if(s.td.grain){tctx.clearRect(x0,y0,w,h);tctx.globalCompositeOperation='source-over';tctx.drawImage(cLive,x0,y0,w,h,x0,y0,w,h);
-    tctx.globalCompositeOperation='destination-in';tctx.fillStyle=grainPat;tctx.fillRect(x0,y0,w,h);tctx.globalCompositeOperation='source-over';src=cTmp}
+    tctx.globalCompositeOperation='destination-in';tctx.fillStyle=texPat(s.td);tctx.fillRect(x0,y0,w,h);tctx.globalCompositeOperation='source-over';src=cTmp}
   pctx.globalAlpha=s.td.alpha;pctx.drawImage(src,x0,y0,w,h,x0,y0,w,h);pctx.globalAlpha=1;
   lctx.clearRect(0,0,E.W,E.H);
   E.dirty=true;
