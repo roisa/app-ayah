@@ -332,8 +332,12 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
   .colP{padding:8px 12px;flex:0 1 auto}.colors{grid-template-columns:repeat(15,minmax(0,1fr));width:clamp(300px,44vw,620px);gap:6px 4px}.dot{max-width:40px}.colP{flex:0 0 auto}
   .toolsP{order:2;flex:1 1 auto;max-width:560px;align-self:flex-end}
   .lower{display:contents}
-  .edmo{position:absolute;left:0;bottom:0;width:clamp(110px,14vw,190px);margin:0}
-  .dock{padding-left:clamp(100px,13vw,176px)}
+  /* Mo stands in his own strip on the left, as big as the screen allows, never over the picture or the trays */
+  #ed{--moW:clamp(110px,min(15vw,40vh),300px)}
+  #stage{padding-left:calc(var(--moW) + 4px)}
+  .edmo{position:absolute;left:0;bottom:0;width:var(--moW);margin:0}
+  .dock{padding-left:calc(var(--moW) + 8px)}
+  .toolsP{margin-left:auto}.colP{margin-right:auto}
   .colP{order:3}
 
 }
@@ -1054,7 +1058,18 @@ function fitPaper(){
   }
   paper.style.width=w+'px';paper.style.height=h+'px';
   E.scale=E.W/w;
+  centerDock();
   const ts=(GRAIN/E.scale)+'px';cLive.style.webkitMaskSize=cLive.style.maskSize=ts+' '+ts;
+}
+/* wide screens: put the tool and colour trays in the middle when there is room beside Mo */
+function centerDock(){
+  const d=$('.dock'),cs=$('#colors');d.style.paddingLeft=d.style.paddingRight='';cs.style.width='';
+  if(!matchMedia('(orientation:landscape) and (min-width:700px) and (min-height:521px)').matches)return;
+  const moW=$('.edmo').offsetWidth,cp=$('.colP'),gap=parseFloat(getComputedStyle(d).columnGap)||12,toolsW=Math.max(420,Math.min(560,innerWidth*.3));
+  const side=moW+8,room=innerWidth-2*side-gap-toolsW,extra=cp.offsetWidth-cs.offsetWidth;
+  if(room>=cp.offsetWidth){d.style.paddingLeft=d.style.paddingRight=side+'px';return}
+  // shrink the colour tray a little so both trays can sit in the middle, but keep the colour balls big (15 per row, at least ~30px)
+  if(room-extra>=500){cs.style.width=(room-extra)+'px';d.style.paddingLeft=d.style.paddingRight=side+'px'}
 }
 window.addEventListener('resize',()=>{if(cur==='ed')fitPaper()});
 /* phones: fit again after rotating and when the browser bars show or hide */
