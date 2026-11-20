@@ -162,6 +162,40 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 .cat.surprise .ci span{animation:gift 1.6s ease-in-out infinite}
 .cat.surprise .ci img.roll{position:absolute;inset:10% 25%;width:50%;height:80%;object-fit:contain;background:#fff;border-radius:16px;box-shadow:0 6px 14px rgba(0,0,0,.2)}
 @keyframes rbshift{to{background-position:300% 0}}
+/* category screen: scenery background, cloud title, picture cards with a star count */
+#cats{background:#fbdcb4 url(cats/bg-portrait.webp) center top/cover no-repeat}
+@media (orientation:landscape){#cats{background-image:url(cats/bg-landscape.webp)}}
+.cbar{gap:6px}
+.ctitle{position:relative;flex:1;max-width:min(560px,30vh*3.02);margin:-4px auto 0;transform:translateX(-28px)}
+.ctitle img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 6px rgba(70,20,120,.25))}
+.ctitle h2{position:absolute;left:8%;right:8%;top:30%;bottom:8%;display:flex;align-items:center;justify-content:center;text-align:center;white-space:nowrap;
+  font:400 calc(min(560px,30vh*3.02,100vw - 100px)*.075)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:0;text-shadow:0 3px 0 #5b1fa6,0 0 2px #5b1fa6}
+.ctitle h2 em{font-style:normal;color:#ffd23f}
+.cgrid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px;gap:clamp(12px,3vw,20px);padding-top:4px}
+.cat{background:linear-gradient(#fffaf1,#fff0d9);border-radius:30px;padding:8px 8px 4px;box-shadow:inset 0 0 0 3px #fff,0 6px 0 rgba(176,110,40,.28),0 12px 22px rgba(140,80,20,.16)}
+.cat .ci{aspect-ratio:3/2;border-radius:22px;box-shadow:0 3px 6px rgba(0,0,0,.12)}
+.cat .ci img{width:100%;height:100%;object-fit:cover;-webkit-user-drag:none}
+.cat b{color:#4a1d8f;font:400 clamp(16px,4.3vw,24px)/1.08 "Lilita One",sans-serif;min-height:2.3em;display:flex;align-items:center;justify-content:center;padding:4px 4px}
+.cat .n{right:2px;top:-2px;width:clamp(42px,10vw,58px);height:clamp(42px,10vw,58px);min-width:0;padding:0;border-radius:0;box-shadow:none;background:url(ui/star.webp) center/contain no-repeat;
+  color:#4a1d8f;font:400 clamp(16px,4vw,22px)/1 "Lilita One",sans-serif;display:grid;place-items:center;padding-top:6%;filter:drop-shadow(0 3px 2px rgba(0,0,0,.2));animation:twinkle 2.4s ease-in-out infinite}
+.cat .n.sn{width:auto;height:auto;padding:4px 10px;top:12px;right:12px;background:#fff;border-radius:14px;color:#9a8a7a;font:800 12px "Baloo 2",sans-serif;animation:none;filter:none;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+@keyframes twinkle{50%{transform:rotate(8deg) scale(1.08)}}
+.cat.surprise{background:linear-gradient(#ffe36a,#ffb81c);padding:10px;border-radius:36px;box-shadow:inset 0 0 0 3px #fff3b0,0 6px 0 rgba(200,120,0,.35),0 12px 22px rgba(140,80,20,.18)}
+.cat.surprise .ci{aspect-ratio:3/2;height:auto;background:none;animation:none;border-radius:26px}
+.cat.surprise .ci>img:not(.roll){animation:spulse 2.4s ease-in-out infinite}
+@keyframes spulse{50%{transform:scale(1.05)}}
+.cat.surprise b{position:absolute;left:14%;right:14%;bottom:7%;min-height:0;padding:.3em .4em;background:linear-gradient(#fffaf1,#fff0d9);border-radius:999px;box-shadow:inset 0 0 0 3px #fff,0 4px 0 rgba(176,110,40,.25);font-size:clamp(20px,5.4vw,42px)}
+.cat.surprise .ci img.roll{z-index:2}
+@media (orientation:landscape) and (min-width:700px){
+  .cgrid{grid-template-columns:repeat(4,minmax(0,1fr));max-width:1200px}
+  .cat.surprise{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column}
+  .cat.surprise .ci{aspect-ratio:auto;flex:1;height:100%}
+  .cat b{font-size:clamp(15px,1.9vw,22px)}
+  .cat .n{width:clamp(40px,4.4vw,56px);height:clamp(40px,4.4vw,56px);font-size:clamp(15px,1.8vw,21px)}
+  .cat.surprise b{font-size:clamp(20px,3.2vw,46px)}
+}
+@media (prefers-reduced-motion:reduce){.cat .n,.cat.surprise .ci>img{animation:none}}
+
 @keyframes gift{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.1)}}
 .cat.surprise b{font-size:clamp(20px,5vw,26px)}
 .cat.shake{animation:shake .4s}
@@ -389,9 +423,9 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 
 <!-- PAGE PICKER -->
 <section id="cats" class="scr">
-  <div class="bar">
+  <div class="bar cbar">
     <button class="rb back" aria-label="Back"><img class="ico" src="ui/back.webp" alt="" draggable="false"></button>
-    <h2 class="fun" data-t="chooseCat">Choose a category</h2>
+    <div class="ctitle"><img src="cats/title.webp" alt="" draggable="false"><h2><span id="catTitle">Choose a <em>Category</em></span></h2></div>
   </div>
   <div class="scroll"><div class="grid cgrid" id="catGrid"></div></div>
 </section>
@@ -532,13 +566,13 @@ const store={get(k,d){try{const v=localStorage.getItem('mocd.'+k);return v==null
 /* ---------- Text (EN / ID) ---------- */
 const TXT={
 en:{tag:'Play Games the Islamic Way',draw:'Draw',drawS:'Blank paper',color:'Color',colorS:'Coloring pages',myArt:'My Art',legal:'No ads · No data collected · Works offline',
- choose:'Choose a picture',pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your picture is saved.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},chooseCat:'Choose a category',soonCat:'Soon',soonMsg:'New pictures are coming soon, insya Allah!',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
+ choose:'Choose a picture',pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your picture is saved.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},chooseCat:'Choose a Category',soonCat:'Soon',soonMsg:'New pictures are coming soon, insya Allah!',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
  alh:'Alhamdulillah!',alhS:"What a beautiful picture! It's saved in My Art.",dyk:'Did you know?',pick:'Pick a color',ok:'OK',gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  saved:'Saved in My Art ✓',cleared:'All clean!',blank:'My drawing',deleted:'Deleted',
  tools:{crayon:'Crayon',chalk:'Chalk',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',glitter:'Glitter',stamp:'Stamps',fill:'Paint bucket',eraser:'Eraser'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! What a beautiful picture!'},
 id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',color:'Mewarnai',colorS:'Gambar mewarnai',myArt:'Karyaku',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
- choose:'Pilih gambar',pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Gambarmu sudah tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},chooseCat:'Pilih kategori',soonCat:'Segera',soonMsg:'Gambar baru segera hadir, insya Allah!',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
+ choose:'Pilih gambar',pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Gambarmu sudah tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},chooseCat:'Pilih Kategori',soonCat:'Segera',soonMsg:'Gambar baru segera hadir, insya Allah!',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
  alh:'Alhamdulillah!',alhS:'Gambarnya bagus sekali! Sudah tersimpan di Karyaku.',dyk:'Tahukah kamu?',pick:'Pilih warna',ok:'OK',gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
  saved:'Tersimpan di Karyaku ✓',cleared:'Bersih lagi!',blank:'Gambarku',deleted:'Dihapus',
  tools:{crayon:'Krayon',chalk:'Kapur',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',glitter:'Glitter',stamp:'Stempel',fill:'Ember cat',eraser:'Penghapus'},
@@ -556,23 +590,23 @@ const tf=(k,v)=>t(k).replace(/\{(\w+)\}/g,(_,x)=>v[x]??'');
    Categories without pictures yet show as "Soon" (set SHOW_EMPTY_CATS=false to hide them). */
 const SHOW_EMPTY_CATS=true;
 const CATS=[
- {id:'surprise',img:'ui/gift.webp',name:{en:'Surprise Me!',id:'Kejutan!'}},
- {id:'masjid',icon:'🕌',bg:'#22c08d,#0e9a6f',name:{en:'Masjid',id:'Masjid'}},
- {id:'quran',icon:'🐪',bg:'#ffb347,#ff7f50',name:{en:"Animals in the Qur'an",id:"Hewan dalam Al-Qur'an"}},
- {id:'ramadan',icon:'🌙',bg:'#3b2f8f,#7a5cff',name:{en:'Ramadan & Eid',id:'Ramadan & Lebaran'}},
- {id:'pets',icon:'🐱',bg:'#ff9ad5,#ff5fa8',name:{en:'Pets',id:'Hewan Peliharaan'}},
- {id:'dino',icon:'🦕',bg:'#8bd346,#2fa36b',name:{en:'Dinosaurs',id:'Dinosaurus'}},
- {id:'sea',icon:'🐠',bg:'#3fc6f5,#1b7fe0',name:{en:'Sea Animals',id:'Hewan Laut'}},
- {id:'farm',icon:'🐄',bg:'#f4c36a,#e08a3c',name:{en:'Farm Animals',id:'Hewan Ternak'}},
- {id:'bugs',icon:'🦋',bg:'#c8a2ff,#9b4bf0',name:{en:'Bugs & Butterflies',id:'Serangga & Kupu-kupu'}},
- {id:'birds',icon:'🐦',bg:'#7fd6ff,#2f8bff',name:{en:'Birds',id:'Burung'}},
- {id:'flowers',icon:'🌸',bg:'#ffc2e6,#ff7ab8',name:{en:'Flowers & Garden',id:'Bunga & Taman'}},
- {id:'food',icon:'🍉',bg:'#ff7f6e,#ff3b30',name:{en:'Fruits & Food',id:'Buah & Makanan'}},
- {id:'vehicles',icon:'🚗',bg:'#ffd23f,#ff9f1c',name:{en:'Cars & Vehicles',id:'Mobil & Kendaraan'}},
- {id:'space',icon:'🚀',bg:'#1d1b5e,#6b52c4',name:{en:'Space',id:'Luar Angkasa'}},
- {id:'hijaiyah',icon:'ب',ar:true,bg:'#14b8a6,#0e7a3d',name:{en:'Hijaiyah Letters',id:'Huruf Hijaiyah'}},
- {id:'numbers',icon:'🔢',bg:'#ff8a00,#ff5f1f',name:{en:'Numbers & Shapes',id:'Angka & Bentuk'}},
- {id:'patterns',icon:'✨',bg:'#0fb5ba,#1e2f8a',name:{en:'Islamic Patterns',id:'Pola Islami'}},
+ {id:'surprise',img:'cats/surprise.webp',name:{en:'Surprise Me!',id:'Kejutan!'}},
+ {id:'masjid',img:'cats/masjid.webp',icon:'🕌',bg:'#22c08d,#0e9a6f',name:{en:'Masjid',id:'Masjid'}},
+ {id:'quran',img:'cats/quran.webp',icon:'🐪',bg:'#ffb347,#ff7f50',name:{en:"Animals in the Qur'an",id:"Hewan dalam Al-Qur'an"}},
+ {id:'ramadan',img:'cats/ramadan.webp',icon:'🌙',bg:'#3b2f8f,#7a5cff',name:{en:'Ramadan & Eid',id:'Ramadan & Lebaran'}},
+ {id:'pets',img:'cats/pets.webp',icon:'🐱',bg:'#ff9ad5,#ff5fa8',name:{en:'Pets',id:'Hewan Peliharaan'}},
+ {id:'dino',img:'cats/dino.webp',icon:'🦕',bg:'#8bd346,#2fa36b',name:{en:'Dinosaurs',id:'Dinosaurus'}},
+ {id:'sea',img:'cats/sea.webp',icon:'🐠',bg:'#3fc6f5,#1b7fe0',name:{en:'Sea Animals',id:'Hewan Laut'}},
+ {id:'farm',img:'cats/farm.webp',icon:'🐄',bg:'#f4c36a,#e08a3c',name:{en:'Farm Animals',id:'Hewan Ternak'}},
+ {id:'bugs',img:'cats/bugs.webp',icon:'🦋',bg:'#c8a2ff,#9b4bf0',name:{en:'Bugs & Butterflies',id:'Serangga & Kupu-kupu'}},
+ {id:'birds',img:'cats/birds.webp',icon:'🐦',bg:'#7fd6ff,#2f8bff',name:{en:'Birds',id:'Burung'}},
+ {id:'flowers',img:'cats/flowers.webp',icon:'🌸',bg:'#ffc2e6,#ff7ab8',name:{en:'Flowers & Garden',id:'Bunga & Taman'}},
+ {id:'food',img:'cats/food.webp',icon:'🍉',bg:'#ff7f6e,#ff3b30',name:{en:'Fruits & Food',id:'Buah & Makanan'}},
+ {id:'vehicles',img:'cats/vehicles.webp',icon:'🚗',bg:'#ffd23f,#ff9f1c',name:{en:'Cars & Vehicles',id:'Mobil & Kendaraan'}},
+ {id:'space',img:'cats/space.webp',icon:'🚀',bg:'#1d1b5e,#6b52c4',name:{en:'Space',id:'Luar Angkasa'}},
+ {id:'hijaiyah',img:'cats/hijaiyah.webp',icon:'ب',ar:true,bg:'#14b8a6,#0e7a3d',name:{en:'Hijaiyah Letters',id:'Huruf Hijaiyah'}},
+ {id:'numbers',img:'cats/numbers.webp',icon:'🔢',bg:'#ff8a00,#ff5f1f',name:{en:'Numbers & Shapes',id:'Angka & Bentuk'}},
+ {id:'patterns',img:'cats/patterns.webp',icon:'✨',bg:'#0fb5ba,#1e2f8a',name:{en:'Islamic Patterns',id:'Pola Islami'}},
  {id:'jobs',icon:'🚒',bg:'#ff6b4a,#d9482b',name:{en:'Jobs & Helpers',id:'Profesi'}},
  {id:'mo',img:'../home/mo.webp',bg:'#ffd84d,#ffa51f',name:{en:'Mo & Friends',id:'Mo & Teman'}}];
 const PAGES=[
@@ -1288,10 +1322,11 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&E.mode&&E.
 let curCat=null;
 const catPages=id=>PAGES.filter(p=>p.cat&&p.cat.includes(id));
 function renderCats(){
+  {const w=t('chooseCat').split(' '),last=w.pop();$('#catTitle').innerHTML=(w.length?w.join(' ')+' ':'')+`<em>${last}</em>`}
   $('#catGrid').innerHTML=CATS.filter(c=>c.id==='surprise'||SHOW_EMPTY_CATS||catPages(c.id).length).map(c=>{
     const n=c.id==='surprise'?PAGES.length:catPages(c.id).length,soon=c.id!=='surprise'&&!n;
-    const art=c.img?`<img src="${c.img}" alt=""${c.img.includes('mo.webp')?' class="mo"':c.id==='surprise'?' class="gift"':''}>`:`<span${c.ar?' class="ar"':''}>${c.icon}</span>`;
-    return `<button class="cat${c.id==='surprise'?' surprise':''}${soon?' soon':''}" data-cat="${c.id}"><span class="ci" style="${c.bg?`background:linear-gradient(150deg,${c.bg})`:''}">${art}</span>${c.id==='surprise'?'':`<span class="n">${soon?t('soonCat'):n}</span>`}<b>${c.name[lang]}</b></button>`}).join('');
+    const art=c.img?`<img src="${c.img}" alt="" draggable="false"${c.img.includes('mo.webp')?' class="mo"':''}>`:`<span${c.ar?' class="ar"':''}>${c.icon}</span>`;
+    return `<button class="cat${c.id==='surprise'?' surprise':''}${soon?' soon':''}" data-cat="${c.id}"><span class="ci" style="${c.bg?`background:linear-gradient(150deg,${c.bg})`:''}">${art}</span>${c.id==='surprise'?'':`<span class="n${soon?' sn':''}">${soon?t('soonCat'):n}</span>`}<b>${c.name[lang]}</b></button>`}).join('');
 }
 function renderPick(){
   renderCats();if(!curCat)return;
