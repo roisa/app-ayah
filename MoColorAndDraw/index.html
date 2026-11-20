@@ -103,7 +103,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 .ribbon img{display:block;width:100%;height:auto}
 .ribbon .rtxt{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .ribbon text{font:400 50px "Lilita One",sans-serif;fill:#fff;paint-order:stroke;stroke:#5b1fa6;stroke-width:5px;stroke-linejoin:round}
-#home .pchip{margin:0;flex:none;font-size:clamp(12px,2vh,19px)}
+#home .pchip{margin:0;flex:none;font-size:clamp(11px,min(2vh,3.4vw),19px);padding-left:12px;padding-right:12px}
 .modes{display:flex;justify-content:center;gap:var(--gap);flex:none}
 .mode{width:var(--cw);position:relative;background:none;transition:transform .2s cubic-bezier(.3,1.6,.5,1);animation:bob 2.8s ease-in-out infinite;filter:drop-shadow(0 8px 8px rgba(60,40,0,.22))}
 .mode.d{animation-delay:-1.4s}
@@ -147,7 +147,8 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
   #home{--lw:min(84vw,520px,40vh);--cw:min(42vw,30vh,320px);--gap:clamp(12px,4vw,32px);--mw:min(16vh,26vw);--eh:min(15vh,24vw)}
   .hmo{left:0}
   .prop.pb{display:none}
-  .homeFoot{padding:0 calc(var(--mw)*.9 - 8px)}
+  .homeFoot{padding:0 calc(var(--mw)*.78 - 8px)}
+  .homeFoot .legal{font-size:clamp(10.5px,2.9vw,13px)}
 }
 @media (prefers-reduced-motion:reduce){.mode,.hlogo,.hmo{animation:none}.mode img.tap{animation:none;opacity:1}.mode.d img.tap,.mode .rip{display:none}}
 .pill{display:inline-flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:10px 24px 10px 12px;box-shadow:var(--shadow);font:400 22px "Lilita One",sans-serif;color:#c2367a;transition:transform .15s}
@@ -396,6 +397,8 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 /* prayer pause */
 .pchip{margin-top:8px;display:inline-block;background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:5px 14px;font-weight:700;font-size:clamp(13px,2.4vw,15px);box-shadow:0 3px 0 rgba(176,92,0,.2)}
 .pchip:empty{display:none}
+.pchip{text-align:center;max-width:calc(100vw - 24px)}
+.pchip span{white-space:nowrap}
 .pchip b{color:#0e9a6f}
 .lockov{z-index:50;background:linear-gradient(180deg,rgba(14,80,60,.88),rgba(10,50,40,.92))}
 .lockov .box{border:6px solid #b8f0d8}
@@ -893,6 +896,8 @@ const dbDel=id=>dbDo('readwrite',s=>s.delete(id));
 function applyLang(){
   document.documentElement.lang=lang;
   document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t(el.dataset.t)});
+  // lines made of short phrases ("No ads · No data …") only break between phrases
+  document.querySelectorAll('.legal').forEach(el=>{el.innerHTML=t(el.dataset.t).split(' · ').map(x=>`<span style="white-space:nowrap">${x}</span>`).join(' · ')});
   $('#langLbl').textContent=lang.toUpperCase();$('#langIco').src='ui/lang-'+lang+'.webp';
   renderTools();renderColors();renderPick();
 
@@ -1507,7 +1512,7 @@ function activePrayer(now){const td=sched(0),T0=td.t;
 function nextPrayer(now){const td=sched(0).t;for(const p of FIVE)if(td[p]&&td[p]>now)return{p,at:td[p]};return{p:'fajr',at:sched(1).t.fajr}}
 const prayedNow=()=>nurGet('prayed',{})||{};
 function markPrayed(key){const pr=prayedNow();pr[key]=1;const keep={},today=sched(0).key,yest=sched(-1).key;for(const k in pr)if(k.startsWith(today)||k.startsWith(yest))keep[k]=1;nurSet('prayed',keep)}
-function dur(ms){const m=Math.max(0,Math.ceil(ms/60000)),h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
+function dur(ms){const m=Math.max(0,Math.ceil(ms/60000)),h=Math.floor(m/60),H=lang==='id'?'j':'h';return h?`${h}${H} ${m%60}m`:`${m}m`}
 const pn=p=>t('P')[p];
 
 let lock=null,lastCheck=0;window.praying=false;
@@ -1532,13 +1537,17 @@ function closeLock(thanks){ov('lock',false);lock=null;window.praying=false;
   setTimeout(()=>{if(musicPref)musicOn()},1500);renderChip(Date.now())}
 $('#bPrayed').onclick=()=>{if(!lock||$('#bPrayed').disabled)return;if(!lock.demo)markPrayed(lock.key);closeLock(true);lastCheck=0};
 function renderChip(now){try{const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo();
-  $('#pchip').innerHTML=(a&&prayedNow()[a.key]?'✓ '+pn(a.p)+' · ':'')+`<img src="ui/masjid.webp" alt=""> ${t('nextP')}: <b>${pn(nx.p)}</b> ${nx.at?fmtT(nx.at,c.tz):'—'} · ${nx.at?dur(nx.at-now):''} · ${c.name}`}catch(e){}}
+  // each piece stays whole; if the pill must wrap, it breaks between pieces and stays centred
+  const parts=[];if(a&&prayedNow()[a.key])parts.push('✓ '+pn(a.p));
+  parts.push(`<img src="ui/masjid.webp" alt=""> ${t('nextP')}: <b>${pn(nx.p)}</b> ${nx.at?fmtT(nx.at,c.tz):'—'}`);
+  if(nx.at)parts.push(dur(nx.at-now));parts.push(c.name);
+  $('#pchip').innerHTML=parts.map(x=>`<span>${x}</span>`).join(' · ')}catch(e){}}
 
 /* parent settings: city, minimum pause, today's times, preview */
 function renderSettings(){
   $('#citySel').innerHTML=CITIES.map(c=>`<option value="${c[0]}"${c[0]===PS.city?' selected':''}>${c[0]==='custom'?t('customCity'):c[1]}</option>`).join('');
   $('#llRow').classList.toggle('on',PS.city==='custom');$('#latIn').value=PS.lat||'';$('#lngIn').value=PS.lng||'';
-  $('#segWait').innerHTML=[5,10,15,20].map(m=>`<button data-v="${m}" class="${+PS.wait===m?'on':''}">${m} min</button>`).join('');
+  $('#segWait').innerHTML=[5,10,15,20].map(m=>`<button data-v="${m}" class="${+PS.wait===m?'on':''}">${m} ${lang==='id'?'mnt':'min'}</button>`).join('');
   const now=Date.now(),T0=sched(0).t,c=cityInfo(),a=activePrayer(now);
   $('#ptimes').innerHTML=FIVE.map(p=>`<div class="${a&&a.p===p&&a.key.startsWith(sched(0).key)?'now':''}"><b>${T0[p]?fmtT(T0[p],c.tz):'—'}</b>${pn(p)}</div>`).join('');
 }
