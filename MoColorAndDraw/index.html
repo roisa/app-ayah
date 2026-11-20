@@ -65,6 +65,10 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 .rb.mus .sl{display:none}.rb.mus.off .sl{display:block}.rb.mus.off svg{opacity:.75}
 .rb.mus:not(.off) svg{animation:note 1s ease-in-out infinite alternate}
 @keyframes note{to{transform:rotate(-10deg) scale(1.08)}}
+#done .btns{align-items:center;gap:18px}
+#done .btns .rb.big{width:clamp(96px,26vw,116px);height:clamp(96px,26vw,116px);box-shadow:inset 0 0 0 7px var(--yel),0 7px 0 rgba(176,92,0,.3);animation:homePulse 2s ease-in-out infinite}
+.rb.big img.ico{width:70%;height:70%}
+@keyframes homePulse{50%{transform:scale(1.06)}}
 .rb.save{background:radial-gradient(circle at 35% 30%,#ffe066,var(--yel) 55%,var(--yel2));box-shadow:inset 0 -4px 0 rgba(0,0,0,.12),0 5px 0 rgba(176,92,0,.3);width:64px;height:64px}
 .rb.save svg{fill:#fff;width:32px;height:32px;filter:drop-shadow(0 2px 0 rgba(176,92,0,.45))}
 .bar{display:flex;align-items:center;gap:10px;padding:calc(12px + var(--safeT)) 16px 8px;flex:none}
@@ -518,8 +522,8 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
   <img class="artprev" id="doneImg" alt="">
   <div class="fact" id="doneFact"><b data-t="dyk">Did you know?</b><p id="factTxt"></p></div>
   <div class="btns">
-    <button class="rb" id="doneHome" aria-label="Home"><img class="ico" src="ui/home.webp" alt="" draggable="false"></button>
     <button class="rb" id="doneGal" aria-label="My Art"><img class="ico" src="ui/gallery.webp" alt="" draggable="false"></button>
+    <button class="rb big" id="doneHome" aria-label="Home"><img class="ico" src="ui/home.webp" alt="" draggable="false"></button>
     <button class="rb save" id="doneKeep" aria-label="Keep going"><img class="ico" src="ui/pencil.webp" alt="" draggable="false"></button>
   </div>
 </div></div>
