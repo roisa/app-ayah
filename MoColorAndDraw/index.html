@@ -65,8 +65,22 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 .rb.mus .sl{display:none}.rb.mus.off .sl{display:block}.rb.mus.off svg{opacity:.75}
 .rb.mus:not(.off) svg{animation:note 1s ease-in-out infinite alternate}
 @keyframes note{to{transform:rotate(-10deg) scale(1.08)}}
-#done .btns{align-items:center;gap:18px}
-#done .btns .rb.big{width:clamp(96px,26vw,116px);height:clamp(96px,26vw,116px);box-shadow:inset 0 0 0 7px var(--yel),0 7px 0 rgba(176,92,0,.3);animation:homePulse 2s ease-in-out infinite}
+#done .btns{align-items:center;gap:clamp(10px,4vw,18px);flex-wrap:nowrap;margin-top:12px}
+/* the finished card always fits the screen: Mo, picture and Home button shrink on short screens instead of being cut off */
+#done .box{overflow:hidden;padding-top:16px}
+#done .box .mo{height:clamp(54px,13dvh,120px)}
+#done .box .arb{font-size:clamp(24px,min(7vw,5dvh),44px)}
+#done .box h3{font-size:clamp(22px,min(7vw,5dvh),40px)}
+#done .artprev{display:block;width:auto;height:auto;max-width:100%;margin:8px auto 0;border-radius:14px;box-shadow:0 0 0 5px var(--yel),0 6px 0 5px rgba(176,92,0,.22)}
+#done .btns .rb{width:clamp(48px,min(15vw,9dvh),64px);height:clamp(48px,min(15vw,9dvh),64px)}
+@media (max-height:500px) and (orientation:landscape){
+  #done .box{max-width:680px;display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-items:center;align-content:center;padding:14px 16px}
+  #done .box>*{grid-column:2}
+  #done .box .mo,#done .fact{display:none!important}
+  #done .artprev{grid-column:1;grid-row:1/span 4;margin:0;max-width:44vw}
+  #done .box p{font-size:14px;line-height:1.3}
+}
+#done .btns .rb.big{width:clamp(70px,min(26vw,14dvh),116px);height:clamp(70px,min(26vw,14dvh),116px);box-shadow:inset 0 0 0 7px var(--yel),0 7px 0 rgba(176,92,0,.3);animation:homePulse 2s ease-in-out infinite}
 .rb.big img.ico{width:70%;height:70%}
 @keyframes homePulse{50%{transform:scale(1.06)}}
 .rb.save{background:radial-gradient(circle at 35% 30%,#ffe066,var(--yel) 55%,var(--yel2));box-shadow:inset 0 -4px 0 rgba(0,0,0,.12),0 5px 0 rgba(176,92,0,.3);width:64px;height:64px}
@@ -515,6 +529,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 
 <!-- DONE -->
 <div class="ov" id="done"><div class="box">
+  <button class="x" id="doneX" aria-label="Close"><img class="ico" src="ui/close.webp" alt="" draggable="false"></button>
   <img class="mo" src="../home/mo.webp" alt="">
   <div class="arb ar">الْحَمْدُ لِلَّهِ</div>
   <h3 data-t="alh">Alhamdulillah!</h3>
@@ -1327,9 +1342,15 @@ function celebrate(){
   sfx.win();say(t('sayAlh'));confetti();
   $('#doneImg').src=E.lastThumb||'';
   const f=E.page&&E.page.fact;$('#doneFact').style.display=f?'':'none';if(f)$('#factTxt').textContent=f[lang];
-  ov('done',true);
+  ov('done',true);fitDone();$('#doneImg').onload=fitDone;
 }
-$('#doneKeep').onclick=()=>ov('done',false);
+/* size the picture so the whole card fits the screen; the yellow border hugs the picture */
+function fitDone(){const box=$('#done .box'),im=$('#doneImg');if(!$('#done').classList.contains('on'))return;
+  if(matchMedia('(max-height:500px) and (orientation:landscape)').matches){im.style.maxHeight=Math.max(70,innerHeight-80)+'px';return}
+  im.style.maxHeight='0px';const rest=box.scrollHeight,avail=(window.visualViewport?visualViewport.height:innerHeight)-32-rest-14;
+  im.style.maxHeight=Math.max(70,Math.min(avail,innerHeight*.45))+'px'}
+addEventListener('resize',fitDone);
+$('#doneKeep').onclick=$('#doneX').onclick=()=>ov('done',false);
 $('#doneHome').onclick=()=>{ov('done',false);goHome()};
 $('#doneGal').onclick=async()=>{ov('done',false);await leaveEditor();show('gal',false);try{history.replaceState({s:'gal',i:(history.state&&history.state.i)||1},'')}catch(e){}renderGal()};
 
