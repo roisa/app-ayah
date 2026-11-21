@@ -400,7 +400,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 .wwrap{position:relative;width:min(70vw,280px,36dvh);aspect-ratio:1;margin:14px auto 0}
 #wheel{width:100%;height:100%;border-radius:50%;display:block;touch-action:none;will-change:transform}
 .wptr{position:absolute;left:50%;top:-14px;margin-left:-15px;border:15px solid transparent;border-top:28px solid #ff3b5c;border-bottom:0;pointer-events:none;z-index:2}
-#spinBtn{position:absolute;left:50%;top:50%;width:26%;height:26%;margin:-13% 0 0 -13%;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 4px #ff8a1f;display:grid;place-items:center;animation:homePulse 1.6s ease-in-out infinite}
+#spinBtn{position:absolute;left:50%;top:50%;width:26%;height:26%;margin:-13% 0 0 -13%;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 4px #ff6a00;display:grid;place-items:center;animation:homePulse 1.6s ease-in-out infinite}
 #spinBtn img{width:62%;height:62%;object-fit:contain;pointer-events:none}
 .wwrap.spin #spinBtn{animation:none}
 .lwrap{position:relative;margin-top:18px;height:40px}
@@ -1360,7 +1360,7 @@ const wheel=$('#wheel'),wctx=wheel.getContext('2d'),light=$('#light'),gctx=light
 let pk={h:0,s:100,l:50,hex:null},wrot=0;
 const WR=236; // radius of the colour part inside the 560px canvas; the striped ring sits outside it
 (function drawWheel(){const R=280,im=wctx.createImageData(560,560);for(let y=0;y<560;y++)for(let x=0;x<560;x++){const dx=x-R,dy=y-R,d=Math.hypot(dx,dy);if(d>WR)continue;const h=(Math.atan2(dy,dx)*180/Math.PI+360)%360,c=hslRgb(h,Math.min(100,d/WR*100),50),k=(y*560+x)*4;im.data[k]=c[0];im.data[k+1]=c[1];im.data[k+2]=c[2];im.data[k+3]=255}wctx.putImageData(im,0,0);
-  const N=16;for(let i=0;i<N;i++){wctx.beginPath();wctx.arc(R,R,R-1,i*2*Math.PI/N,(i+1)*2*Math.PI/N);wctx.arc(R,R,WR+8,(i+1)*2*Math.PI/N,i*2*Math.PI/N,true);wctx.closePath();wctx.fillStyle=i%2?'#3fb62f':'#ff8a1f';wctx.fill()}
+  const N=16;for(let i=0;i<N;i++){wctx.beginPath();wctx.arc(R,R,R-1,i*2*Math.PI/N,(i+1)*2*Math.PI/N);wctx.arc(R,R,WR+8,(i+1)*2*Math.PI/N,i*2*Math.PI/N,true);wctx.closePath();wctx.fillStyle=i%2?'#00aa0c':'#ff6a00';wctx.fill()}
   wctx.lineWidth=8;wctx.strokeStyle='#fff';wctx.beginPath();wctx.arc(R,R,WR+4,0,7);wctx.stroke()})();
 function pkHex(){if(pk.hex)return pk.hex;const c=hslRgb(pk.h,pk.s,pk.l);return '#'+c.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('')}
 function drawLight(){const g=gctx.createLinearGradient(0,0,600,0);g.addColorStop(0,'#000');g.addColorStop(.5,`hsl(${pk.h},${pk.s}%,50%)`);g.addColorStop(1,'#fff');gctx.clearRect(0,0,600,60);gctx.fillStyle=g;gctx.fillRect(0,0,600,60);

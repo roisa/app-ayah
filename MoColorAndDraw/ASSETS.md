@@ -15,6 +15,8 @@ Put everything in **one Google Drive folder**, using the sub-folders and file na
 
 If your AI image generator can't make transparent backgrounds: generate on a **plain, flat bright-green (#00FF00) background** with no shadow on the background, and Claude will cut it out. Avoid green inside the object itself. White backgrounds are hard to cut cleanly.
 
+**Baby Mo brand colours (from the owner):** green `#00aa0c`, orange `#ff6a00`. Use these two whenever something should be "Baby Mo coloured" (for example the striped ring of the colour wheel).
+
 **Fonts:** the game now uses *Lilita One* (titles) and *Baloo 2* (text). To change them, send the font name (free Google Fonts are best).
 
 **Colours:** send your main palette as hex codes (for example #FFA51F orange) for the backgrounds, panels and button rims. Panels, button rims and shadows are drawn by the game in those colours, so they stay sharp at any size.
