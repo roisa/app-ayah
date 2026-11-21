@@ -800,7 +800,7 @@ function renderStamps(){
   const el=$('#stamps'),on=tool==='stamp';el.classList.toggle('on',on);
   if($('#ed').classList.contains('stamping')!==on){$('#ed').classList.toggle('stamping',on);if(cur==='ed')fitPaper()}
   if(!on)return;
-  el.innerHTML=sizeDots()+'<span class="sep"></span>'+STAMPS.map(st=>`<button class="st${st.id===stampId?' on':''}" data-stamp="${st.id}" aria-label="${st.id}">${stampHTML(st,color)}</button>`).join('');
+  el.innerHTML=sizeDots(ssize)+'<span class="sep"></span>'+STAMPS.map(st=>`<button class="st${st.id===stampId?' on':''}" data-stamp="${st.id}" aria-label="${st.id}">${stampHTML(st,color)}</button>`).join('');
 }
 
 /* the art's colour part is light grey (about 85% bright), so the tint is brightened to land on the real colour after multiply */
@@ -988,7 +988,7 @@ const pctx=cPaint.getContext('2d',{willReadFrequently:true}),lctx=cLive.getConte
 const cTmp=document.createElement('canvas'),tctx=cTmp.getContext('2d');
 const cMask=document.createElement('canvas'),mctx=cMask.getContext('2d');
 let E={};               // editor state
-let tool=store.get('tool','crayon'),color=store.get('color','rainbow'),size=store.get('size',1);
+let tool=store.get('tool','crayon'),color=store.get('color','rainbow'),size=store.get('size2',1),ssize=store.get('ssize',0); // brush size starts medium, stamp size starts smallest; each is remembered on its own
 const toolDef=()=>TOOLS.find(x=>x.id===tool)||TOOLS[0];
 
 /* crayon grain texture */
@@ -1201,7 +1201,7 @@ paper.addEventListener('pointerleave',e=>{if(active===null)showCursor(e,false)})
 paper.addEventListener('pointermove',e=>{if(active===null&&e.pointerType==='mouse')showCursor(e,true)});
 
 function stampAt(x,y){
-  const st=STAMPS.find(s=>s.id===stampId)||STAMPS[0],sz=STAMP_SIZES[size]*E.scale;
+  const st=STAMPS.find(s=>s.id===stampId)||STAMPS[0],sz=STAMP_SIZES[ssize]*E.scale;
   if(S.bb[2]>S.bb[0])lctx.clearRect(S.bb[0],S.bb[1],S.bb[2]-S.bb[0],S.bb[3]-S.bb[1]);
   drawStamp(lctx,st,x,y,sz,color);
   const h=sz*.52+2;S.bb=[Math.max(0,Math.floor(x-h)),Math.max(0,Math.floor(y-h)),Math.min(E.W,Math.ceil(x+h)),Math.min(E.H,Math.ceil(y+h))];
@@ -1325,7 +1325,7 @@ function renderTools(){
   el.innerHTML=TOOLS.filter(x=>!(x.stamp&&E.mode==='color')).map(x=>`<button class="tl${x.id===tool?' on':''}" data-tool="${x.id}" aria-label="${TXT[lang].tools[x.id]}" title="${TXT[lang].tools[x.id]}">${toolHTML(x.id,c)}</button>`).join('');
 }
 const RAINBOW_BG='conic-gradient(#ff3b30,#ffd60a,#1fa64a,#3fc6f5,#2f5bea,#9b4bf0,#ff3b30)';
-function sizeDots(){const c=color==='rainbow'?RAINBOW_BG:color;return SIZES.map((s,i)=>`<button class="sz${i===size?' on':''}" data-size="${i}" aria-label="Size ${i+1}"><i style="width:${[10,18,28][i]}px;height:${[10,18,28][i]}px;background:${c}"></i></button>`).join('')}
+function sizeDots(sel=size){const c=color==='rainbow'?RAINBOW_BG:color;return SIZES.map((s,i)=>`<button class="sz${i===sel?' on':''}" data-size="${i}" aria-label="Size ${i+1}"><i style="width:${[10,18,28][i]}px;height:${[10,18,28][i]}px;background:${c}"></i></button>`).join('')}
 /* brush sizes pop up above the chosen tool (tap the tool again to show or hide them) */
 function renderSizes(show){
   const pop=$('#szPop'),td=toolDef();
@@ -1344,9 +1344,9 @@ function renderColors(){
     +`<button class="dot pk${custom?' on':''}" id="plusBtn" aria-label="${t('pick')}"><img src="ui/palette.webp" alt="" style="width:86%;height:86%;object-fit:contain"><i style="background:${custom?color:'transparent'}"></i></button>`;
 }
 $('#tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;const again=b.dataset.tool===tool;tool=b.dataset.tool;store.set('tool',tool);renderTools();renderStamps();renderSizes(again?!$('#szPop').classList.contains('on'):true);(TOOL_SFX[tool]||sfx.tap)();say(TXT[lang].tools[tool])});
-$('#szPop').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size',size);renderSizes(false);sfx.tap()});
+$('#szPop').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size2',size);renderSizes(false);sfx.tap()});
 $('#stamps').addEventListener('click',e=>{const b=e.target.closest('[data-stamp]');if(!b)return;stampId=b.dataset.stamp;store.set('stamp',stampId);renderStamps();sfx.tap()});
-$('#stamps').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;size=+b.dataset.size;store.set('size',size);renderStamps();sfx.tap()},true);
+$('#stamps').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;ssize=+b.dataset.size;store.set('ssize',ssize);renderStamps();sfx.tap()},true);
 $('#colors').addEventListener('click',e=>{
   if(e.target.closest('#plusBtn')){openPicker();return}
   const b=e.target.closest('[data-color]');if(!b)return;color=b.dataset.color;store.set('color',color);
