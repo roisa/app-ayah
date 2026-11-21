@@ -398,22 +398,29 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 #picker{--ring:var(--yel);--rDk:#d99a00;--gloss:radial-gradient(circle at 32% 26%,rgba(255,255,255,.95) 0 8%,rgba(255,255,255,.45) 17%,rgba(255,255,255,0) 34%),radial-gradient(circle at 50% 115%,rgba(0,0,0,.28),rgba(0,0,0,0) 58%)}
 #picker .box{padding-bottom:16px}
 .wwrap{position:relative;width:min(70vw,280px,36dvh);aspect-ratio:1;margin:14px auto 0}
-#wheel{width:100%;height:100%;border-radius:50%;display:block;touch-action:none;box-shadow:0 0 0 6px #fff,0 0 0 10px var(--yel),0 6px 0 10px rgba(176,92,0,.25);will-change:transform}
-.wptr{position:absolute;left:50%;top:-16px;margin-left:-15px;border:15px solid transparent;border-top:26px solid #ff3b5c;border-bottom:0;filter:drop-shadow(0 3px 0 rgba(0,0,0,.25));pointer-events:none;z-index:2}
-#spinBtn{position:absolute;left:50%;top:50%;width:26%;height:26%;margin:-13% 0 0 -13%;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 4px var(--yel),0 4px 0 rgba(0,0,0,.2);display:grid;place-items:center;animation:homePulse 1.6s ease-in-out infinite}
+#wheel{width:100%;height:100%;border-radius:50%;display:block;touch-action:none;will-change:transform}
+.wptr{position:absolute;left:50%;top:-14px;margin-left:-15px;border:15px solid transparent;border-top:28px solid #ff3b5c;border-bottom:0;pointer-events:none;z-index:2}
+#spinBtn{position:absolute;left:50%;top:50%;width:26%;height:26%;margin:-13% 0 0 -13%;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 4px #ff8a1f;display:grid;place-items:center;animation:homePulse 1.6s ease-in-out infinite}
 #spinBtn img{width:62%;height:62%;object-fit:contain;pointer-events:none}
 .wwrap.spin #spinBtn{animation:none}
 .lwrap{position:relative;margin-top:18px;height:40px}
 #light{width:100%;height:100%;border-radius:20px;display:block;touch-action:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
 #lknob{position:absolute;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:5px solid #fff;box-shadow:0 0 0 3px #3a2410,0 3px 6px rgba(0,0,0,.3);pointer-events:none;box-sizing:border-box}
-.xcols{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:8px 6px;margin-top:16px;justify-items:center}
-.xcols .dot{max-width:40px}
-@media (max-width:480px){.xcols{grid-template-columns:repeat(5,minmax(0,1fr))}.xcols .dot{max-width:44px}}
+/* how-to hints: a hand taps the spin button, then slides the light/dark bar; each goes away once the child has used it */
+.hint{position:absolute;width:54px;pointer-events:none;opacity:0;z-index:3}
+.hint.hw{left:50%;top:50%;margin:-4px 0 0 -8px;animation:hintTap 5s ease-in-out infinite}
+.hint.hl{left:50%;top:50%;margin:-4px 0 0 -22px;animation:hintSlide 5s ease-in-out infinite}
+@keyframes hintTap{0%{opacity:0;transform:translate(30px,30px)}8%{opacity:1;transform:translate(0,0)}13%{transform:scale(.82)}18%{transform:scale(1)}23%{transform:scale(.82)}28%{transform:scale(1)}38%{opacity:1;transform:translate(0,0)}46%,100%{opacity:0;transform:translate(30px,30px)}}
+@keyframes hintSlide{0%,50%{opacity:0;transform:translateX(0)}56%{opacity:1;transform:translateX(0)}66%{transform:translateX(-90px)}80%{transform:translateX(90px)}90%{opacity:1;transform:translateX(0)}96%,100%{opacity:0;transform:translateX(0)}}
+.wwrap.used .hint,.lwrap.used .hint,.wwrap.spin .hint{display:none}
+.lwrap:not(.used) #lknob{animation:knobWig 5s ease-in-out infinite}
+@keyframes knobWig{0%,56%,90%,100%{transform:translateX(0)}66%{transform:translateX(-90px)}80%{transform:translateX(90px)}}
+@media (prefers-reduced-motion:reduce){.hint,.lwrap:not(.used) #lknob{animation:none}}
 .pkrow{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px}
 .pkrow .bigbtn{margin:0}
 .pv{width:58px;height:58px;flex:none;border-radius:50%;box-shadow:0 0 0 5px #fff1d6,0 4px 10px rgba(0,0,0,.15)}
 .pv.pop{animation:boing .5s}
-@media (max-height:600px){.wwrap{width:min(60vw,28dvh)}#picker h3{font-size:24px;margin:0}.lwrap{margin-top:14px;height:34px}#lknob{width:40px;height:40px;margin:-20px 0 0 -20px}.xcols{margin-top:10px;gap:6px}.xcols .dot{max-width:34px}.pkrow{margin-top:10px}.pv{width:46px;height:46px}}
+@media (max-height:600px){.wwrap{width:min(60vw,28dvh)}#picker h3{font-size:24px;margin:0}.lwrap{margin-top:14px;height:34px}#lknob{width:40px;height:40px;margin:-20px 0 0 -20px}.pkrow{margin-top:10px}.pv{width:46px;height:46px}}
 #gate .hb{position:relative;width:110px;height:110px;border-radius:50%;margin:16px auto 4px;background:radial-gradient(circle at 35% 30%,#ffe066,var(--yel) 55%,var(--yel2));display:grid;place-items:center;box-shadow:0 6px 0 rgba(176,92,0,.3);touch-action:none}
 #gate .hb svg{width:44px;height:44px;fill:#fff}
 #gate .hb .ring{inset:-8px}
@@ -585,9 +592,8 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
   <button class="x" id="pkClose" aria-label="Close"><img class="ico" src="ui/close.webp" alt="" draggable="false"></button>
   <h3 data-t="pick">Pick a color</h3>
   <div class="wwrap"><canvas id="wheel" width="560" height="560"></canvas><i class="wptr"></i>
-    <button id="spinBtn" aria-label="Spin"><img src="ui/play.webp" alt="" draggable="false"></button></div>
-  <div class="lwrap"><canvas id="light" width="600" height="60"></canvas><i id="lknob"></i></div>
-  <div class="xcols" id="xcols"></div>
+    <button id="spinBtn" aria-label="Spin"><img src="ui/play.webp" alt="" draggable="false"></button><img class="hint hw" src="ui/hand.webp" alt="" draggable="false"></div>
+  <div class="lwrap"><canvas id="light" width="600" height="60"></canvas><i id="lknob"></i><img class="hint hl" src="ui/hand.webp" alt="" draggable="false"></div>
   <div class="pkrow"><div class="pv" id="pv"></div>
   <button class="bigbtn" id="pkOk" style="animation:none"><img class="bi" src="ui/ok.webp" alt=""> <span data-t="ok">OK</span></button></div>
 </div></div>
@@ -1352,16 +1358,15 @@ $('#colors').addEventListener('click',e=>{
 /* ---------- color wheel ---------- */
 const wheel=$('#wheel'),wctx=wheel.getContext('2d'),light=$('#light'),gctx=light.getContext('2d');
 let pk={h:0,s:100,l:50,hex:null},wrot=0;
-/* 10 extra colours, different from the 29 in the palette */
-const XCOLS=[['#d4af37','Gold','Emas'],['#ffcba4','Peach','Persik'],['#c6f000','Lime','Hijau limau'],['#7a8b2a','Olive','Hijau zaitun'],['#00e5d0','Aqua','Biru aqua'],
- ['#4b2bbf','Indigo','Nila'],['#8e4585','Plum','Ungu plum'],['#fff3d1','Cream','Krem'],['#5b7083','Slate','Abu kebiruan'],['#b7410e','Rust','Cokelat karat']];
-(function drawWheel(){const R=280,im=wctx.createImageData(560,560);for(let y=0;y<560;y++)for(let x=0;x<560;x++){const dx=x-R,dy=y-R,d=Math.hypot(dx,dy);if(d>R)continue;const h=(Math.atan2(dy,dx)*180/Math.PI+360)%360,c=hslRgb(h,Math.min(100,d/R*100),50),k=(y*560+x)*4;im.data[k]=c[0];im.data[k+1]=c[1];im.data[k+2]=c[2];im.data[k+3]=255}wctx.putImageData(im,0,0)})();
+const WR=236; // radius of the colour part inside the 560px canvas; the striped ring sits outside it
+(function drawWheel(){const R=280,im=wctx.createImageData(560,560);for(let y=0;y<560;y++)for(let x=0;x<560;x++){const dx=x-R,dy=y-R,d=Math.hypot(dx,dy);if(d>WR)continue;const h=(Math.atan2(dy,dx)*180/Math.PI+360)%360,c=hslRgb(h,Math.min(100,d/WR*100),50),k=(y*560+x)*4;im.data[k]=c[0];im.data[k+1]=c[1];im.data[k+2]=c[2];im.data[k+3]=255}wctx.putImageData(im,0,0);
+  const N=16;for(let i=0;i<N;i++){wctx.beginPath();wctx.arc(R,R,R-1,i*2*Math.PI/N,(i+1)*2*Math.PI/N);wctx.arc(R,R,WR+8,(i+1)*2*Math.PI/N,i*2*Math.PI/N,true);wctx.closePath();wctx.fillStyle=i%2?'#3fb62f':'#ff8a1f';wctx.fill()}
+  wctx.lineWidth=8;wctx.strokeStyle='#fff';wctx.beginPath();wctx.arc(R,R,WR+4,0,7);wctx.stroke()})();
 function pkHex(){if(pk.hex)return pk.hex;const c=hslRgb(pk.h,pk.s,pk.l);return '#'+c.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('')}
 function drawLight(){const g=gctx.createLinearGradient(0,0,600,0);g.addColorStop(0,'#000');g.addColorStop(.5,`hsl(${pk.h},${pk.s}%,50%)`);g.addColorStop(1,'#fff');gctx.clearRect(0,0,600,60);gctx.fillStyle=g;gctx.fillRect(0,0,600,60);
-  const k=$('#lknob'),w=light.clientWidth||300;k.style.left=Math.max(23,Math.min(w-23,pk.l/100*w))+'px';k.style.background=pk.hex?'transparent':pkHex();$('#pv').style.background=pkHex();
-  document.querySelectorAll('#xcols .dot').forEach(d=>d.classList.toggle('on',d.dataset.x===pk.hex))}
+  const k=$('#lknob'),w=light.clientWidth||300;k.style.left=Math.max(23,Math.min(w-23,pk.l/100*w))+'px';k.style.background=pk.hex?'transparent':pkHex();$('#pv').style.background=pkHex();}
 function openPicker(){
-  $('#xcols').innerHTML=XCOLS.map(([c,en,id])=>`<button class="dot${c==='#fff3d1'?' w':''}" data-x="${c}" aria-label="${lang==='id'?id:en}" style="background-color:${c}"></button>`).join('');
+  $('.wwrap').classList.remove('used');$('.lwrap').classList.remove('used');
   ov('picker',true);drawLight();sfx.tap()}
 function onDrag(el,fn){let on=false;el.addEventListener('pointerdown',e=>{on=true;try{el.setPointerCapture(e.pointerId)}catch(_){}fn(e)});el.addEventListener('pointermove',e=>on&&fn(e));['pointerup','pointercancel'].forEach(v=>el.addEventListener(v,()=>on=false))}
 /* the wheel: tap a spot to choose that colour, or drag / flick / press the middle button to spin it.
@@ -1371,24 +1376,23 @@ const ptrHue=()=>(((-90-wrot)%360)+360)%360;
 let spinRaf=0,lastTick=0;
 function pickAtPointer(final){pk.h=ptrHue();pk.s=100;pk.l=50;pk.hex=null;drawLight();if(final){sfx.pop();const v=$('#pv');v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')}}
 function spinWheel(v){ // v: degrees per frame
-  cancelAnimationFrame(spinRaf);$('.wwrap').classList.add('spin');
+  cancelAnimationFrame(spinRaf);$('.wwrap').classList.add('spin','used');
   const step=()=>{setRot(wrot+v);v*=.98;const tk=Math.floor(wrot/30);if(tk!==lastTick){lastTick=tk;tone(900+Math.random()*200,.03,'square',.04)}
     pickAtPointer(false);
     if(Math.abs(v)>.25&&$('#picker').classList.contains('on'))spinRaf=requestAnimationFrame(step);else{$('.wwrap').classList.remove('spin');pickAtPointer(true)}};
   spinRaf=requestAnimationFrame(step)}
 $('#spinBtn').onclick=()=>{ac();spinWheel((14+Math.random()*14)*(Math.random()<.5?-1:1))};
 {let d=null;const ang=e=>{const r=wheel.parentElement.getBoundingClientRect();return Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2)*180/Math.PI};
- wheel.addEventListener('pointerdown',e=>{cancelAnimationFrame(spinRaf);$('.wwrap').classList.remove('spin');try{wheel.setPointerCapture(e.pointerId)}catch(_){}d={x:e.clientX,y:e.clientY,a:ang(e),r0:wrot,moved:false,v:0,la:ang(e)}});
+ wheel.addEventListener('pointerdown',e=>{$('.wwrap').classList.add('used');cancelAnimationFrame(spinRaf);$('.wwrap').classList.remove('spin');try{wheel.setPointerCapture(e.pointerId)}catch(_){}d={x:e.clientX,y:e.clientY,a:ang(e),r0:wrot,moved:false,v:0,la:ang(e)}});
  wheel.addEventListener('pointermove',e=>{if(!d)return;if(!d.moved&&Math.hypot(e.clientX-d.x,e.clientY-d.y)<10)return;d.moved=true;
    const a=ang(e);let da=a-d.la;if(da>180)da-=360;if(da<-180)da+=360;d.la=a;d.v=d.v*.5+da*.5;setRot(wrot+da);pickAtPointer(false)});
  const up=e=>{if(!d)return;const q=d;d=null;
    if(!q.moved){ // a tap: choose exactly this spot
      const r=wheel.parentElement.getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2;
-     pk.h=(((Math.atan2(dy,dx)*180/Math.PI-wrot)%360)+360)%360;pk.s=Math.min(100,Math.hypot(dx,dy)/(r.width/2)*100);pk.l=50;pk.hex=null;drawLight();sfx.tap();return}
+     pk.h=(((Math.atan2(dy,dx)*180/Math.PI-wrot)%360)+360)%360;pk.s=Math.min(100,Math.hypot(dx,dy)/(r.width/2*WR/280)*100);pk.l=50;pk.hex=null;drawLight();sfx.tap();return}
    if(Math.abs(q.v)>2)spinWheel(Math.max(-30,Math.min(30,q.v)));else pickAtPointer(true)};
  wheel.addEventListener('pointerup',up);wheel.addEventListener('pointercancel',()=>{d=null})}
-onDrag(light,e=>{const r=light.getBoundingClientRect();pk.l=Math.max(5,Math.min(95,(e.clientX-r.left)/r.width*100));pk.hex=null;drawLight()});
-$('#xcols').addEventListener('click',e=>{const b=e.target.closest('[data-x]');if(!b)return;cancelAnimationFrame(spinRaf);pk.hex=b.dataset.x;drawLight();colorNote(pk.hex);const n=XCOLS.find(x=>x[0]===pk.hex);say(lang==='id'?n[2]:n[1])});
+onDrag(light,e=>{$('.lwrap').classList.add('used');const r=light.getBoundingClientRect();pk.l=Math.max(5,Math.min(95,(e.clientX-r.left)/r.width*100));pk.hex=null;drawLight()});
 $('#pkClose').onclick=()=>ov('picker',false);
 $('#pkOk').onclick=()=>{const c=pkHex();color=c;store.set('color',c);if(toolDef().eraser)tool='crayon';renderColors();renderTools();renderSizes();renderStamps();ov('picker',false);sfx.pop()};
 
