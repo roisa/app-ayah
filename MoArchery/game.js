@@ -648,7 +648,7 @@ function layout(){
   const W=innerWidth,H=innerHeight,d=DPR();[cv,fxc].forEach(c=>{c.width=Math.round(W*d);c.height=Math.round(H*d)});cam.W=W;cam.H=H;
   const land=W>H;$('#game').classList.toggle('land',land);document.body.classList.toggle('land',land);
   if(!G)return;const lv=G.lv,vw=lv.width+.8,vh=Math.max(lv.top+2.2,8.5),gr=1.2;
-  const pick=true,left=land&&pick?Math.min(84,W*.1):0,top=land?64:132,botP=land?0:pick?112:64;
+  const pick=true,two=G.av.length+1>5,left=land&&pick?(two?Math.min(126,W*.16):Math.min(84,W*.1)):0,top=land?64:132,botP=land?0:pick?112:64;
   /* levels 1-3 always fit on one screen; later ones may be wider than the screen and the camera moves */
   const avW=W-left,want=G.n<=3?vw:Math.min(vw,land?18:12.5);
   const s=Math.min(avW/want,(H-top-botP)/(vh+gr));cam.s=s;cam.left=left;
@@ -768,8 +768,10 @@ function renderHud(){
   $('#coinHud b').textContent=G.coinShown;
   const c=$('#picker .cnt');if(c&&c.textContent!==String(G.shots)){c.textContent=G.shots;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}}
 function bumpGoal(){document.querySelectorAll('#goals .goal').forEach(g=>{g.classList.add('bump');setTimeout(()=>g.classList.remove('bump'),180)})}
-function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.remove('off');
-  G.av.forEach(at=>{const b=document.createElement('button');b.className=(at===G.asel?'on':'')+(at===G.newA?' new':'');b.setAttribute('aria-label',t('AR')[at]);b.append(arrowIcon(at,120));if(at===G.asel)b.insertAdjacentHTML('beforeend',`<i class="cnt">${G.shots}</i>`);
+function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.remove('off');p.classList.toggle('two',G.av.length+1>5);
+  /* one quiver for all arrow kinds: every shot takes one arrow from it, whatever kind it is */
+  const q=document.createElement('div');q.className='quiv';q.setAttribute('aria-label','arrows left');q.append(upIcon('quiver',0,120));q.insertAdjacentHTML('beforeend',`<i class="cnt">${G.shots}</i>`);p.appendChild(q);
+  G.av.forEach(at=>{const b=document.createElement('button');b.className=(at===G.asel?'on':'')+(at===G.newA?' new':'');b.setAttribute('aria-label',t('AR')[at]);b.append(arrowIcon(at,120));
     b.onclick=e=>{e.stopPropagation();if(G.state!=='ready'&&G.state!=='bism')return;G.asel=at;store.set('asel',at);G.newA=null;sfx.tap();toast(t('AR')[at]+': '+t('ARD')[at]);renderPicker();renderHud()};p.appendChild(b)})}
 
 /* aiming: press anywhere, pull back, let go */
