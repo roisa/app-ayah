@@ -509,6 +509,8 @@ function rockDraw(x,u,s,w){const W=u.w*s,H=u.h*s;rr(x,-W/2,-H/2,W,H+s*.2,s*.35);
 const cv=$('#cv'),cx=cv.getContext('2d'),fxc=$('#fx'),fxx=fxc.getContext('2d');
 let G=null,cam={s:30,ox:0,oy:0,W:0,H:0},bgCache=null,parts=[],flyers=[],texts=[],conf=[];
 let prog=store.get('prog',{open:1,stars:{}});
+/* Little (3+): every level is open, so young children can play any stage. Big Kid unlocks them one by one. */
+const openTo=()=>age==='little'?LEVELS:prog.open;
 const totalStars=()=>Object.values(prog.stars).reduce((a,b)=>a+b,0);
 const sx=X=>cam.ox+X*cam.s,sy=Y=>cam.oy-Y*cam.s;
 function layout(){
@@ -726,7 +728,7 @@ function renderHomeArt(){
     drawLauncher(x,'bow',W*.3,gy,W*.3,gy-s*1.5,s*.9,.45,.6,true);
     x.setLineDash([4,7]);x.strokeStyle='#fff';x.lineWidth=3;x.beginPath();x.moveTo(W*.38,gy-s*1.9);x.quadraticCurveTo(W*.5,gy-s*3.6,W*.6,gy-s*2.9);x.stroke();x.setLineDash([])}
   const b=$('#cvLau');if(b){const x=b.getContext('2d'),W=b.width,H=b.height;x.clearRect(0,0,W,H);const av=LORDER;
-    const q=Math.min(W,H)*.5;av.forEach((L,i)=>{const c=launcherIcon(L,160,true),cx0=W/2+(i%2?0:-q)+4*(i%2?1:-1),cy0=H/2+(i<2?-q:0);x.globalAlpha=LAUNCH[L].unlock<=prog.open?1:.4;x.drawImage(c,cx0,cy0,q,q);x.globalAlpha=1})}}
+    const q=Math.min(W,H)*.5;av.forEach((L,i)=>{const c=launcherIcon(L,160,true),cx0=W/2+(i%2?0:-q)+4*(i%2?1:-1),cy0=H/2+(i<2?-q:0);x.globalAlpha=LAUNCH[L].unlock<=openTo()?1:.4;x.drawImage(c,cx0,cy0,q,q);x.globalAlpha=1})}}
 let idleT=0,idleI=0,idleN=0;
 function stopNudge(){clearTimeout(idleT);clearInterval(idleI);document.querySelectorAll('.mode.nudge').forEach(m=>m.classList.remove('nudge'))}
 function armNudge(){stopNudge();if(cur!=='home')return;idleT=setTimeout(()=>{const step=()=>{if(cur!=='home'||document.querySelector('.ov.on')){stopNudge();return}
@@ -734,7 +736,7 @@ function armNudge(){stopNudge();if(cur!=='home')return;idleT=setTimeout(()=>{con
 ['pointerdown','keydown','wheel'].forEach(ev=>document.addEventListener(ev,()=>{if(cur==='home')armNudge();else stopNudge()},true));
 function renderHome(){armNudge();paintBg();renderHomeArt();
   $('#advBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${totalStars()}`;
-  $('#lauBadge').textContent=`${unlockedAt(prog.open).length}/${LORDER.length}`;
+  $('#lauBadge').textContent=`${unlockedAt(openTo()).length}/${LORDER.length}`;
   document.querySelectorAll('#age button').forEach(b=>b.classList.toggle('on',b.dataset.a===age))}
 $('#age').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;age=b.dataset.a;store.set('age',age);sfx.tap();renderHome()});
 let picking=false;
@@ -742,25 +744,25 @@ function pickMode(btn,go){if(picking)return;picking=true;btn.classList.add('pick
 $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
 $('#goLau').onclick=e=>pickMode(e.currentTarget,()=>{renderLau();ov('lauOv',true)});
 $('#lauClose').onclick=()=>ov('lauOv',false);
-function renderLau(){const el=$('#lauList');el.innerHTML='';LORDER.forEach(L=>{const open=LAUNCH[L].unlock<=prog.open,d=document.createElement('div');d.className=open?'':'lock';
+function renderLau(){const el=$('#lauList');el.innerHTML='';LORDER.forEach(L=>{const open=LAUNCH[L].unlock<=openTo(),d=document.createElement('div');d.className=open?'':'lock';
   d.append(launcherIcon(L,144));d.insertAdjacentHTML('beforeend',`<b>${t('L')[L]}</b><small>${open?t('LD')[L]:tf('unlockAt',{n:LAUNCH[L].unlock})}</small>`);el.appendChild(d)})}
 function openMap(){renderMap();show('map');const c=$('#worlds .lv.cur')||[...document.querySelectorAll('#worlds .lv:not(.lock)')].pop();if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),60)}
 function renderMap(){
   $('#mapSum').innerHTML=`<img src="ui/star.webp" alt=""><span>${totalStars()}/${LEVELS*3}</span>`;
   const el=$('#worlds');el.innerHTML='';
-  WORLDS.forEach((WD,w)=>{const first=w*WN+1,last=first+WN-1,lockW=first>prog.open;let st=0;for(let n=first;n<=last;n++)st+=prog.stars[n]||0;
+  WORLDS.forEach((WD,w)=>{const first=w*WN+1,last=first+WN-1,lockW=first>openTo();let st=0;for(let n=first;n<=last;n++)st+=prog.stars[n]||0;
     const sec=document.createElement('div');sec.className='world w'+w+(lockW?' lock':'');
     const th=document.createElement('canvas');th.width=th.height=132;{const x=th.getContext('2d');paintWorld(x,w,132,132,104,14);x.save();x.translate(66,80);drawGoal(x,WD.goals[0],WD.goals[0]==='cage'?WD.animals[0]:w===5?'lantern':'pink',52,0);x.restore()}
     sec.innerHTML=`<div class="wh"><span class="thc"></span><div><b>${t('W')[w]}</b><small>${tf('levelsR',{a:first,b:last})}</small></div><span class="ws"><img src="ui/star.webp" alt=""> ${st}/${WN*3}</span></div><div class="lvls"></div>`;
     sec.querySelector('.thc').replaceWith(th);
     const g=sec.querySelector('.lvls');
-    for(let n=first;n<=last;n++){const lk=n>prog.open,sn=prog.stars[n]||0,cu=n===prog.open&&!sn,b=document.createElement('button');b.className='lv'+(lk?' lock':cu?' cur':'');b.dataset.n=n;b.setAttribute('aria-label',tf('level',{n}));
+    for(let n=first;n<=last;n++){const lk=n>openTo(),sn=prog.stars[n]||0,cu=n===prog.open&&!sn,b=document.createElement('button');b.className='lv'+(lk?' lock':cu?' cur':'');b.dataset.n=n;b.setAttribute('aria-label',tf('level',{n}));
       b.innerHTML=lk?'<img src="ui/lock.webp" alt="">':`${n}<span class="st">${[0,1,2].map(k=>`<i class="${k<sn?'on':''}"></i>`).join('')}</span>`;
       const nl=LORDER.find(L=>LAUNCH[L].unlock===n&&n>1);if(nl){const s=document.createElement('span');s.className='ln';s.append(launcherIcon(nl,80));b.appendChild(s)}
       g.appendChild(b)}
     if(lockW)sec.insertAdjacentHTML('beforeend',`<div class="wlock"><img src="ui/lock.webp" alt="">${tf('lockedW',{w:t('W')[w-1]})}</div>`);
     el.appendChild(sec)})}
-$('#worlds').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)return;const n=+b.dataset.n;if(n>prog.open){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame(n)});
+$('#worlds').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)return;const n=+b.dataset.n;if(n>openTo()){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame(n)});
 
 /* ---------- language, sound ---------- */
 function applyLang(){document.documentElement.lang=lang;document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t(el.dataset.t)});$('#langIco').src='ui/lang-'+lang+'.webp';renderHome()}
