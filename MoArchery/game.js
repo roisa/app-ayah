@@ -23,11 +23,11 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your game will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
- AR:{normal:'Arrow',heavy:'Heavy arrow',triple:'Triple arrow',diamond:'Diamond arrow',fire:'Firework arrow'},
- ARD:{normal:'Breaks glass, ice and wood',heavy:'Strong and heavy. Good for bricks',triple:'Three arrows at once',diamond:'Sharp diamond tip. Breaks stone',fire:'Bursts into fireworks and breaks things nearby'},
- newA:'New arrow: {a}!',unlockAt:'Opens at level {n}',moreA:'Here are 3 more arrows!',bonusA:'+1 arrow!',
+ AR:{normal:'Arrow',flame:'Fire arrow',heavy:'Heavy arrow',triple:'Triple arrow',diamond:'Diamond arrow',firework:'Firework arrow'},
+ ARD:{normal:'Breaks glass, ice and wood. Too weak for brick and stone',flame:'Sets wood on fire and melts ice',heavy:'Strong and heavy. Breaks bricks',triple:'Three arrows at once',diamond:'Sharp diamond tip. The only arrow that breaks stone',firework:'Bursts into fireworks and breaks things nearby'},
+ newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',moreA:'Here are 3 more arrows!',bonusA:'+1 arrow!',
  IT:{chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
- tipM:{glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the firework barrel to break everything around it!'},
+ tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the firework barrel to break everything around it!'},
  wind:'Wind! It pushes your arrows.',
  workshop:'Bow Workshop',workshopS:'Make your bow stronger with coins',coinsWon:'+{n} coins',buy:'Buy',maxed:'Best!',needC:'Open more treasures to get coins!',upDone:'Upgraded: {u}!',arrowsT:'Arrows',
  UP:{bow:'Bow',quiver:'Quiver',sight:'Aim sight'},
@@ -61,11 +61,11 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Permainanmu akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
  setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
- AR:{normal:'Anak panah',heavy:'Panah berat',triple:'Panah tiga',diamond:'Panah berlian',fire:'Panah kembang api'},
- ARD:{normal:'Memecahkan kaca, es, dan kayu',heavy:'Kuat dan berat. Cocok untuk bata',triple:'Tiga anak panah sekaligus',diamond:'Ujung berlian yang tajam. Bisa memecah batu',fire:'Meletus jadi kembang api dan memecahkan yang di dekatnya'},
- newA:'Panah baru: {a}!',unlockAt:'Terbuka di level {n}',moreA:'Ini 3 anak panah lagi!',bonusA:'+1 anak panah!',
+ AR:{normal:'Anak panah',flame:'Panah api',heavy:'Panah berat',triple:'Panah tiga',diamond:'Panah berlian',firework:'Panah kembang api'},
+ ARD:{normal:'Memecahkan kaca, es, dan kayu. Tidak kuat untuk bata dan batu',flame:'Membakar kayu dan mencairkan es',heavy:'Kuat dan berat. Bisa memecah bata',triple:'Tiga anak panah sekaligus',diamond:'Ujung berlian yang tajam. Satu-satunya panah yang memecah batu',firework:'Meletus jadi kembang api dan memecahkan yang di dekatnya'},
+ newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',moreA:'Ini 3 anak panah lagi!',bonusA:'+1 anak panah!',
  IT:{chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
- tipM:{glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak tong kembang api untuk memecahkan semua di sekitarnya!'},
+ tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak tong kembang api untuk memecahkan semua di sekitarnya!'},
  wind:'Ada angin! Anak panahmu akan terdorong.',
  workshop:'Bengkel Busur',workshopS:'Buat busurmu lebih kuat dengan koin',coinsWon:'+{n} koin',buy:'Beli',maxed:'Terbaik!',needC:'Buka lebih banyak harta untuk mendapat koin!',upDone:'Ditingkatkan: {u}!',arrowsT:'Anak panah',
  UP:{bow:'Busur',quiver:'Tabung panah',sight:'Bidikan'},
@@ -140,13 +140,14 @@ const sfx={
  pull(){tone(220,.12,'triangle',.05,0,260)},
  shoot(at){tone(at==='heavy'?140:190,.22,'triangle',.16,0,95);noise(3000,.12,.08,0,'highpass',.7);
    if(at==='triple'){tone(240,.15,'triangle',.08,.04,120);tone(220,.15,'triangle',.08,.08,110)}
-   if(at==='fire')tone(700,.25,'sine',.06,0,1400);if(at==='diamond')tone(2400,.15,'sine',.05,0,3200)},
+   if(at==='firework')tone(700,.25,'sine',.06,0,1400);if(at==='flame')noise(1500,.3,.08,0,'bandpass',.6);if(at==='diamond')tone(2400,.15,'sine',.05,0,3200)},
  hit(m,s){const now=performance.now();if(now-lastHit<70)return;lastHit=now;const v=Math.min(.2,.04+s*.012);
    if(m==='ice'||m==='glass'){tone(1700+Math.random()*500,.08,'sine',v*.8);noise(6500,.05,v*.6,0,'highpass',1)}
    else if(m==='stone'||m==='brick'){tone(m==='brick'?200:150,.1,'triangle',v);noise(500,.08,v*.8,0,'lowpass',1)}
    else if(m==='iron'){tone(520,.25,'sine',v*.7);tone(1310,.2,'sine',v*.3)}
    else if(m==='ground'){noise(300,.12,v*.7,0,'lowpass',.8)}
    else{tone(260+Math.random()*60,.08,'triangle',v);noise(900,.06,v*.7)}},
+ burn(){noise(900,.5,.06,0,'bandpass',.5)},
  brk(m){if(m==='ice'||m==='glass'){[0,1,2,3].forEach(i=>tone(1800+Math.random()*1400,.12,'sine',.07,i*.03));noise(7000,.2,.12,0,'highpass',.8)}
    else if(m==='stone'||m==='brick'){noise(m==='brick'?600:380,.35,.22,0,'lowpass',.8);tone(95,.25,'triangle',.15,0,60)}
    else{noise(1200,.25,.18,0,'bandpass',.9);tone(180,.14,'triangle',.1,0,120)}},
@@ -219,15 +220,22 @@ const LEVELS=60,WN=10;
 const worldOf=n=>Math.min(5,Math.floor((n-1)/WN));
 const LX=2.75,OY=1.5,BOWV=17.5;   // where the bow stands, its height and how fast a full pull shoots
 /* arrows: v = speed factor, d = density */
-const ARROWS={normal:{unlock:1,d:6,v:1},heavy:{unlock:6,d:15,v:.9},triple:{unlock:13,d:6,v:1},diamond:{unlock:21,d:8,v:1},fire:{unlock:34,d:6,v:1}};
-const AORDER=['normal','heavy','triple','diamond','fire'];
+const ARROWS={normal:{unlock:1,d:6,v:1},flame:{unlock:6,d:6,v:1},heavy:{unlock:11,d:15,v:.9},triple:{unlock:16,d:6,v:1},diamond:{unlock:21,d:8,v:1},firework:{unlock:34,d:6,v:1}};
+const AORDER=['normal','flame','heavy','triple','diamond','firework'];
 const MAT={glass:{d:.8,f:.4,r:.05,hp:1.6},ice:{d:.9,f:.3,r:.05,hp:2.6},wood:{d:1,f:.7,r:.05,hp:6},brick:{d:1.8,f:.8,r:.02,hp:10},stone:{d:2.4,f:.8,r:.02,hp:16},iron:{d:3.4,f:.6,r:.02,hp:0}};
 /* damage = impulse x this, by what was hit (iron has no hp, so it never breaks) */
-const MULT={normal:{glass:2.6,ice:2,wood:1.1,brick:.45,stone:.18,goal:1.6,barrel:3},
- heavy:{glass:2.6,ice:2.2,wood:1.5,brick:1.15,stone:.35,goal:1.6,barrel:3},
+/* each arrow only breaks the materials it is made for (0 = too strong: the block just shakes) */
+const MULT={normal:{glass:2.6,ice:2,wood:1.1,brick:0,stone:0,goal:1.6,barrel:3},
+ heavy:{glass:2.6,ice:2.2,wood:1.5,brick:1.15,stone:0,goal:1.6,barrel:3},
  diamond:{glass:2.6,ice:2.2,wood:1.2,brick:1.3,stone:1.15,goal:1.6,barrel:3}};
-MULT.triple=MULT.normal;MULT.fire=MULT.normal;
-const BLAST={glass:2,ice:2,wood:1.3,brick:1,stone:.6,goal:1.2,barrel:3};
+MULT.triple=MULT.normal;MULT.firework=MULT.normal;
+/* the fire arrow lights wood instead of smashing it (the fire does the work) */
+MULT.flame={...MULT.normal,wood:.05};
+/* which arrow to suggest when a block is too strong */
+const NEEDS={brick:'heavy',stone:'diamond'};
+/* blocks knocked over break only if they are weak; bricks and stone never break by falling */
+const FALLK={glass:1.6,ice:1,wood:1,brick:0,stone:0,goal:1,barrel:1};
+const BLAST={glass:2,ice:2,wood:1.3,brick:1,stone:0,goal:1.2,barrel:3};
 /* the treasures: hp to break them open and how many coins they give */
 const ITEM={chest:{hp:3.4,c:20},gift:{hp:2.4,c:6},star:{hp:2,c:6},cage:{hp:3.4,c:8},gem:{hp:2.6,c:15},gold:{hp:3,c:15},pearl:{hp:2.6,c:12},crown:{hp:3,c:25},ring:{hp:2.6,c:15},lantern:{hp:2,c:6},crystal:{hp:2.4,c:12}};
 /* workshop upgrades (bought with coins) */
@@ -242,7 +250,7 @@ const upLv=k=>(prog.up&&prog.up[k])||0;
 const PW=.42,PH=1.7,PT=.42,GS=1.1,CR=.9,CB=.55;
 /* from the test bot: arrows a good player needs (PAR) and which seed makes each level (LVK).
    Re-run the bot whenever the level maker changes. */
-const PAR=[1,1,2,2,2,2,2,1,2,2,1,1,2,2,2,2,3,4,2,2,1,1,2,2,3,1,5,3,2,4,2,1,2,2,1,2,3,2,2,3,1,1,2,2,2,1,6,2,2,2,1,2,3,2,3,2,2,2,2,4];
+const PAR=[1,1,2,2,2,2,1,1,1,2,1,1,2,2,2,2,3,3,2,3,1,1,2,3,3,1,4,3,2,4,2,1,1,2,1,3,5,3,2,3,1,1,2,2,2,2,6,2,2,3,1,2,3,2,3,3,2,5,3,4];
 const LVK=[];
 const LVC={};
 function genLevel(n){if(LVC[n])return LVC[n];let lv;const k0=LVK[n-1]||0;for(let k=k0;k<k0+12;k++){lv=genRaw(n,k);if(stable(lv))break}return LVC[n]=lv}
@@ -331,7 +339,13 @@ function makeSim(lv,opt){opt=opt||{};
     else if(it.k==='coin'||it.k==='bundle'){S.bonus.push(u);S.list.push(u);continue}
     if(b){u.b=b;b.setUserData(u)}S.list.push(u)}
   W.on('post-solve',(c,imp)=>onImpact(S,c,imp));
-  W.on('begin-contact',c=>{for(const f of [c.getFixtureA(),c.getFixtureB()]){const u=f.getBody().getUserData();if(u&&u.k==='proj'){u.touched=1;if(u.at==='fire'&&!u.burst)u.burstQ=1}}});
+  /* an arrow that is too weak for a block bounces off it: the block only shakes */
+  W.on('pre-solve',c=>{if(!S.dmgOn)return;const A=c.getFixtureA().getBody().getUserData(),B=c.getFixtureB().getBody().getUserData();
+    const p=A&&A.k==='proj'?A:B&&B.k==='proj'?B:null,u=p===A?B:A;
+    if(!p||!u||!u.hp||u.dead||MULT[p.at][keyOf(u)]!==0)return;c.setEnabled(false);
+    if(!p.blocked){p.blocked=1;p.touched=1;if(S.steps-(u.toughT||-99)>40){u.toughT=S.steps;S.ev.push({e:'tough',u,at:p.at})}}});
+  W.on('begin-contact',c=>{for(const f of [c.getFixtureA(),c.getFixtureB()]){const u=f.getBody().getUserData();if(u&&u.k==='proj'){u.touched=1;if(u.at==='firework'&&!u.burst)u.burstQ=1;
+      if(u.at==='flame'&&!u.lit){const o=(f===c.getFixtureA()?c.getFixtureB():c.getFixtureA()).getBody().getUserData();if(o&&!o.dead){if(o.mat==='wood'){u.lit=1;if(!o.burn){o.burn=1;S.ev.push({e:'ignite',x:o.b.getPosition().x,y:o.b.getPosition().y})}}else if(o.mat==='ice'){u.lit=1;S.hitQ.add(o)}}}}}});
   for(let k=0;k<90;k++)W.step(1/60,8,3);
   for(const u of S.list)if(u.b&&u.b.isDynamic()){u.b.setLinearVelocity(V(0,0));u.b.setAngularVelocity(0);if(u.k==='goal')u.y0=u.b.getPosition().y}
   S.goalsLeft=S.goals.length;S.dmgOn=true;return S}
@@ -344,8 +358,10 @@ function onImpact(S,c,imp){
   if(s>S.maxImp){S.maxImp=s;const u=(A&&A.mat)?A:(B&&B.mat)?B:null;S.maxMat=u?u.mat:'ground'}}
 const keyOf=u=>u.k==='goal'?'goal':u.k==='barrel'?'barrel':u.mat;
 function hurt(S,u,s,p){
-  if(!u||!u.hp||u.dead)return;const key=keyOf(u);
-  const d=p?s*MULT[p.at][key]*S.dmgK:Math.max(0,s-.9)*(key==='glass'?1.6:1);
+  if(!u||u.dead)return;
+  if(p&&s>1.2&&u.mat==='iron'&&S.steps-(u.toughT||-99)>40){u.toughT=S.steps;S.ev.push({e:'tough',u,at:p.at})}
+  if(!u.hp)return;const key=keyOf(u);
+  const d=p?s*MULT[p.at][key]*S.dmgK:Math.max(0,s-.9)*FALLK[key];
   if(d<=0)return;u.dmg+=d;if(u.dmg>=u.hp)S.hitQ.add(u)}
 function removeBody(S,u,lost){
   if(u.dead)return;u.dead=1;const q=u.b.getPosition();
@@ -365,10 +381,17 @@ function simStep(S){
     if(!p.touched){const v=p.b.getLinearVelocity();p.b.setTransform(q,Math.atan2(v.y,v.x));p.b.setAngularVelocity(0)}
     if(lv.wind&&!p.touched)p.b.applyForceToCenter(V(p.b.getMass()*lv.wind,0),true)}
   S.W.step(1/60,8,3);
+  for(const p of S.proj)if(p.blocked===1&&!p.dead){p.blocked=2;const v=p.b.getLinearVelocity();p.b.setLinearVelocity(V(-v.x*.18,Math.abs(v.y)*.1+1.5));p.b.setAngularVelocity(6)}
   // arrows flying through coins and arrow bundles
   for(const p of S.proj){if(p.dead||p.px==null)continue;const q=p.b.getPosition();
     for(const o of S.bonus)if(!o.got&&segPt(p.px,p.py,q.x,q.y,o.x,o.y)<.55){o.got=1;S.ev.push({e:o.k,x:o.x,y:o.y})}}
   for(const p of S.proj)if(p.burstQ&&!p.dead){p.burst=1;const q=p.b.getPosition();S.ev.push({e:'boom',x:q.x,y:q.y,small:1});blast(S,{x:q.x,y:q.y},2.4,4.2);removeBody(S,p)}
+  // fire: burning wood spreads to the wood it touches, then burns away
+  for(const u of S.list)if(u.burn&&!u.dead){u.burn++;
+    if(u.burn===35){const a=u.b.getFixtureList().getAABB(0);
+      for(const o of S.list)if(o.mat==='wood'&&!o.burn&&!o.dead&&o.b){const q=o.b.getFixtureList().getAABB(0);
+        if(q.lowerBound.x<a.upperBound.x+.1&&q.upperBound.x>a.lowerBound.x-.1&&q.lowerBound.y<a.upperBound.y+.1&&q.upperBound.y>a.lowerBound.y-.1)o.burn=1}}
+    if(u.burn>=110)S.hitQ.add(u)}
   for(let g=0;g<6&&S.hitQ.size;g++){const q=[...S.hitQ];S.hitQ.clear();for(const u of q)removeBody(S,u)}
   // treasures that fall out of their fort onto the ground are collected too
   for(const u of S.list){if(u.dead||!u.b||!u.b.isDynamic())continue;const q=u.b.getPosition();
@@ -391,7 +414,7 @@ function fire(S,at,ang,pow){ang=clampAng(ang);const [x,y]=launchPos(ang);
   const angs=at==='triple'?[ang-.09,ang,ang+.09]:[ang];
   for(const a of angs){const [vx,vy]=launchVel(at,a,pow);spawnArrow(S,at,x,y+(a-ang)*.5,vx,vy)}}
 /* a turn ends when everything has settled */
-function turnDone(S){const T=S.turn;if(!T)return false;let moving=false;
+function turnDone(S){const T=S.turn;if(!T)return false;let moving=S.list.some(u=>u.burn&&!u.dead);
   for(const u of S.list){if(!u.b||!u.b.isDynamic()||!u.b.isAwake())continue;const v=u.b.getLinearVelocity();if(v.x*v.x+v.y*v.y>.04||Math.abs(u.b.getAngularVelocity())>.3){moving=true;break}}
   if(!moving)for(const p of S.proj){const v=p.b.getLinearVelocity();if(v.x*v.x+v.y*v.y>.12){moving=true;break}}
   T.quiet=moving?0:T.quiet+1;
@@ -537,17 +560,18 @@ function drawBundle(x,s){x.save();x.rotate(-.5);for(const k of [-1,0,1]){x.save(
   x.fillStyle='#ff5fa8';rr(x,-s*.12,-s*.18,s*.24,s*.36,s*.06);x.fill();x.lineWidth=lw(s)*.7;x.strokeStyle=OUT;x.stroke();
   x.font=`400 ${s*.42}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.lineWidth=3;x.strokeText('+1',s*.32,-s*.42);x.fillStyle='#fff';x.fillText('+1',s*.32,-s*.42)}
 /* an arrow pointing along +x, s = pixels per metre */
-const ACOL={normal:['#ff5f5f','#ffd23f','#c8d2dc'],heavy:['#7a5ad0','#b8a0ff','#5a5a70'],triple:['#3fa8ff','#7fd0ff','#c8d2dc'],diamond:['#2fd4c8','#9ff0ff','#bff8ff'],fire:['#ff8a1f','#ffd23f','#ff4f8a']};
+const ACOL={normal:['#ff5f5f','#ffd23f','#c8d2dc'],heavy:['#7a5ad0','#b8a0ff','#5a5a70'],triple:['#3fa8ff','#7fd0ff','#c8d2dc'],diamond:['#2fd4c8','#9ff0ff','#bff8ff'],flame:['#ff6a1f','#ffd23f','#ff9a2a'],firework:['#ff8a1f','#ffd23f','#ff4f8a']};
 function drawArrow(x,at,s,ang){x.save();x.rotate(-ang);const L=s*.5,[f1,f2,hc]=ACOL[at]||ACOL.normal,l=lw(s);x.lineJoin='round';x.lineCap='round';
   const thick=at==='heavy'?1.5:1;
   x.strokeStyle=OUT;x.lineWidth=Math.max(3,s*.11*thick);x.beginPath();x.moveTo(-L,0);x.lineTo(L*.8,0);x.stroke();
   x.strokeStyle=at==='heavy'?'#8a6a4a':'#d48a3a';x.lineWidth=Math.max(1.6,s*.06*thick);x.stroke();
   const hw=at==='heavy'?s*.17:s*.12;x.beginPath();
   if(at==='diamond'){x.moveTo(L*1.2,0);x.lineTo(L*.92,-hw);x.lineTo(L*.66,0);x.lineTo(L*.92,hw)}
-  else if(at==='fire'){x.moveTo(L*1.15,0);x.quadraticCurveTo(L*.95,-hw*1.3,L*.65,-hw);x.lineTo(L*.65,hw);x.quadraticCurveTo(L*.95,hw*1.3,L*1.15,0)}
+  else if(at==='firework'){x.moveTo(L*1.15,0);x.quadraticCurveTo(L*.95,-hw*1.3,L*.65,-hw);x.lineTo(L*.65,hw);x.quadraticCurveTo(L*.95,hw*1.3,L*1.15,0)}
   else{x.moveTo(L*1.12,0);x.lineTo(L*.7,-hw);x.lineTo(L*.78,0);x.lineTo(L*.7,hw)}
   x.closePath();x.fillStyle=hc;x.fill();x.lineWidth=l*.7;x.strokeStyle=OUT;x.stroke();
-  if(at==='fire'){star5(x,L*.88,0,hw*.55,hw*.24);x.fillStyle='#fff';x.fill()}
+  if(at==='firework'){star5(x,L*.88,0,hw*.55,hw*.24);x.fillStyle='#fff';x.fill()}
+  if(at==='flame'){const tt=performance.now()/90;for(const [k,c] of [[1,'#ff6a1f'],[.6,'#ffd23f']]){x.beginPath();x.moveTo(L*1.0,-hw*.6*k);x.quadraticCurveTo(L*(.62+.04*Math.sin(tt)),-hw*1.5*k,L*.42,0);x.quadraticCurveTo(L*(.62+.04*Math.cos(tt)),hw*1.5*k,L*1.0,hw*.6*k);x.closePath();x.fillStyle=c;x.fill()}}
   if(at==='diamond'){x.fillStyle='rgba(255,255,255,.85)';x.beginPath();x.arc(L*.95,-hw*.3,hw*.18,0,7);x.fill()}
   for(const k of [-1,1]){x.beginPath();x.moveTo(-L*.55,0);x.lineTo(-L*1.02,k*s*.15);x.lineTo(-L*.82,0);x.closePath();x.fillStyle=k<0?f1:f2;x.fill();x.stroke()}
   x.restore()}
@@ -647,12 +671,23 @@ function drawGame(now){
   if(aim&&aim.p>.08){const [vx,vy]=launchVel(at,aim.a,aim.p),[px,py]=launchPos(aim.a),T=age==='little'?2.4:SIGHT[upLv('sight')];
     for(let tt=.05,i=0;tt<T;tt+=.07,i++){const X=px+vx*tt+.5*wind*tt*tt,Y=py+vy*tt-5*tt*tt;if(Y<0)break;const r=Math.max(2,s*(.13-i*.002));
       x.beginPath();x.arc(sx(X),sy(Y),r,0,7);x.fillStyle='#fff';x.globalAlpha=Math.max(.35,1-tt/T*.6);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke();x.globalAlpha=1}}
+  if(aim&&aim.p>.02){const deg=Math.round(clampAng(aim.a)*180/Math.PI),pw=Math.round(Math.min(1,aim.p)*100),bx=sx(LX)-s*.2,by=sy(OY)-s*2.3,W=Math.max(110,s*3),H=Math.max(34,s*.95);
+    x.save();rr(x,bx-W/2,by-H/2,W,H,H/2);x.fillStyle='rgba(255,255,255,.92)';x.fill();x.lineWidth=2;x.strokeStyle=OUT;x.stroke();
+    x.font=`400 ${H*.42}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillStyle='#d07a00';x.fillText(deg+'°  '+pw+'%',bx,by-H*.18);
+    const bw=W*.78,bh=H*.2,b0=bx-bw/2,b1=by+H*.22;rr(x,b0,b1-bh/2,bw,bh,bh/2);x.fillStyle='#eadfcf';x.fill();
+    const gg=x.createLinearGradient(b0,0,b0+bw,0);gg.addColorStop(0,'#3fcf5a');gg.addColorStop(.6,'#ffd23f');gg.addColorStop(1,'#ff4f5e');rr(x,b0,b1-bh/2,Math.max(bh,bw*pw/100),bh,bh/2);x.fillStyle=gg;x.fill();
+    x.lineWidth=1.5;rr(x,b0,b1-bh/2,bw,bh,bh/2);x.stroke();x.restore()}
   // bodies
-  for(const u of S.list){const k=u.k;if(!u.b||k==='rock')continue;const q=u.b.getPosition(),a=u.b.getAngle();x.save();x.translate(sx(q.x),sy(q.y));x.rotate(-a);
+  for(const u of S.list){const k=u.k;if(!u.b||k==='rock')continue;const q=u.b.getPosition(),a=u.b.getAngle();x.save();x.translate(sx(q.x),sy(q.y));
+    if(u.shakeT&&now-u.shakeT<450){const kk=1-(now-u.shakeT)/450;x.translate(Math.sin(now/22)*s*.07*kk,Math.cos(now/31)*s*.03*kk)}x.rotate(-a);
     if(k==='goal'){if(u.g!=='cage'&&u.g!=='gift'&&u.g!=='chest'){x.save();x.globalAlpha=.25+.15*Math.sin(now/300+u.x);x.beginPath();x.arc(0,0,u.w*s*.62,0,7);x.fillStyle='#fff6c0';x.fill();x.restore()}
       drawGoal(x,u.g,u.v,u.w*s);if(u.dmg>.25*u.hp)cracks(x,u,-u.w*s/2,-u.h*s/2,u.w*s,u.h*s,s)}
     else if(k==='barrel'){drawBarrel(x,s);cracks(x,u,-.4*s,-.45*s,.8*s,.9*s,s)}
-    else drawBlock(x,u,s);x.restore()}
+    else{drawBlock(x,u,s);if(u.burn){const kk=Math.min(1,u.burn/110);rr(x,-u.w*s/2,-u.h*s/2,u.w*s,u.h*s,Math.min(u.w,u.h)*s*.2);x.fillStyle=`rgba(40,20,10,${kk*.55})`;x.fill()}}x.restore()}
+  // flames on burning wood (drawn upright)
+  for(const u of S.list)if(u.burn&&u.b){const q=u.b.getPosition(),n2=Math.max(2,Math.round(u.w*2.2));
+    for(let i=0;i<n2;i++){const fx=sx(q.x+(i/(n2-1||1)-.5)*u.w*.8),fy=sy(q.y)-u.h*s*.2,h=s*(.35+.18*Math.sin(now/90+i*1.7+u.x));
+      for(const [k2,c] of [[1,'rgba(255,110,30,.9)'],[.6,'rgba(255,220,80,.95)']]){x.beginPath();x.moveTo(fx-s*.14*k2,fy);x.quadraticCurveTo(fx-s*.12*k2,fy-h*k2*.6,fx,fy-h*k2);x.quadraticCurveTo(fx+s*.12*k2,fy-h*k2*.6,fx+s*.14*k2,fy);x.closePath();x.fillStyle=c;x.fill()}}}
   // the bow
   const ready=G.state==='ready'||G.state==='aim',ang=aim?clampAng(aim.a):.55;
   drawBow(x,upLv('bow'),sx(LX),sy(0),sx(LX),sy(OY),s,ang,aim?aim.p:0,ready&&G.shots>0?at:null);
@@ -738,7 +773,7 @@ let cheerN=0;
 function cheer(){const c=document.createElement('div');const i=cheerN++%4;c.className='cheer c'+(i+1);c.innerHTML=`<b>${t('cheer')[i]}</b><small>${t('cheerM')[i]}</small>`;document.body.appendChild(c);setTimeout(()=>c.remove(),1450);if(Math.random()<.6)say(t('cheer')[i])}
 function freeBird(b){if(!BIRDS.includes(b))return;if(prog.birds[b])return;prog.birds[b]=1;store.set('prog',prog);if(G)G.newB.push(b);setTimeout(()=>toast(tf('newB',{b:t('BD')[b]})),600)}
 const say2=(X,Y,s,c)=>texts.push({x:X,y:Y,s,c,t:0});
-function addCoins(n,X,Y){G.coins+=n;prog.coins+=n;store.set('prog',prog);sparkle(X,Y,'coin',Math.min(10,2+Math.round(n/3)));setTimeout(sfx.coin,120)}
+function addCoins(n,X,Y){G.coins+=n;prog.coins+=n;store.set('prog',prog);if(!store.get('coinTip',0)){store.set('coinTip',1);setTimeout(()=>toast(t('coinTip')),900)}sparkle(X,Y,'coin',Math.min(10,2+Math.round(n/3)));setTimeout(sfx.coin,120)}
 function handleEvents(){
   const S=G.sim;let goalsNow=0;
   for(const ev of S.ev){const X=ev.x,Y=Math.max(.6,ev.y||0);
@@ -750,6 +785,10 @@ function handleEvents(){
       else{sfx.gift();sparkle(X,Y,'star',6);debris(X,Y,'goal',8);say2(X,Y+.6,pickT('got'),'#ffe14a')}
       addCoins(c,X,Y);say2(X,Y-.2,'+'+c,'#ffd23f')}
     else if(ev.e==='coin'){addCoins(3,X,Y);say2(X,Y+.3,'+3','#ffd23f')}
+    else if(ev.e==='ignite'){sfx.burn();sparkle(X,Y,'dot',10,['#ff6a1f','#ffd23f','#fff'])}
+    else if(ev.e==='tough'){const u=ev.u,q=u.b?u.b.getPosition():{x:X,y:Y};u.shakeT=performance.now();sfx.hit(u.mat,3);say2(q.x,q.y+.6,t('tough'),'#fff');
+      const m=u.mat,need=NEEDS[m];G.tough=G.tough||{};
+      if(!G.tough[m]){G.tough[m]=1;if(m==='iron')toast(t('tipM').iron);else if(need){const n=ARROWS[need].unlock;toast(G.av.includes(need)?tf('toughT',{a:t('AR')[need]}):tf('toughL',{a:t('AR')[need],n}))}}}
     else if(ev.e==='bundle'){G.shots++;renderHud();sfx.unlock();sparkle(X,Y,'dot',12,['#fff','#ffd23f','#ff5fa8']);say2(X,Y+.3,t('bonusA'),'#fff')}}
   S.ev.length=0;
   if(goalsNow){renderHud();bumpGoal();if(goalsNow>=2||S.goalsLeft===0)cheer()}
