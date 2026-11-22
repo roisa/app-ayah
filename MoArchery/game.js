@@ -648,7 +648,7 @@ function layout(){
   const W=innerWidth,H=innerHeight,d=DPR();[cv,fxc].forEach(c=>{c.width=Math.round(W*d);c.height=Math.round(H*d)});cam.W=W;cam.H=H;
   const land=W>H;$('#game').classList.toggle('land',land);document.body.classList.toggle('land',land);
   if(!G)return;const lv=G.lv,vw=lv.width+.8,vh=Math.max(lv.top+2.2,8.5),gr=1.2;
-  const pick=G.av.length>1,left=land&&pick?Math.min(84,W*.1):0,top=land?64:132,botP=land?0:pick?112:64;
+  const pick=true,left=land&&pick?Math.min(84,W*.1):0,top=land?64:132,botP=land?0:pick?112:64;
   /* levels 1-3 always fit on one screen; later ones may be wider than the screen and the camera moves */
   const avW=W-left,want=G.n<=3?vw:Math.min(vw,land?18:12.5);
   const s=Math.min(avW/want,(H-top-botP)/(vh+gr));cam.s=s;cam.left=left;
@@ -766,10 +766,10 @@ function renderHud(){
   const el=$('#goals');el.innerHTML='';
   goalKeys(G.sim).forEach(e=>{const d=document.createElement('div');d.className='goal'+(e.left?'':' done');d.append(keyIcon(e.key,76));d.insertAdjacentHTML('beforeend',`<b>${e.left?e.left:'✓'}</b>`);el.appendChild(d)});
   $('#coinHud b').textContent=G.coinShown;
-  const sh=$('#shots');sh.innerHTML='';sh.append(arrowIcon(G.asel,68));sh.insertAdjacentHTML('beforeend',`<b>${G.shots}</b>`)}
+  const c=$('#picker .cnt');if(c&&c.textContent!==String(G.shots)){c.textContent=G.shots;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}}
 function bumpGoal(){document.querySelectorAll('#goals .goal').forEach(g=>{g.classList.add('bump');setTimeout(()=>g.classList.remove('bump'),180)})}
-function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.toggle('off',G.av.length<2);
-  G.av.forEach(at=>{const b=document.createElement('button');b.className=(at===G.asel?'on':'')+(at===G.newA?' new':'');b.setAttribute('aria-label',t('AR')[at]);b.append(arrowIcon(at,120));
+function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.remove('off');
+  G.av.forEach(at=>{const b=document.createElement('button');b.className=(at===G.asel?'on':'')+(at===G.newA?' new':'');b.setAttribute('aria-label',t('AR')[at]);b.append(arrowIcon(at,120));if(at===G.asel)b.insertAdjacentHTML('beforeend',`<i class="cnt">${G.shots}</i>`);
     b.onclick=e=>{e.stopPropagation();if(G.state!=='ready'&&G.state!=='bism')return;G.asel=at;store.set('asel',at);G.newA=null;sfx.tap();toast(t('AR')[at]+': '+t('ARD')[at]);renderPicker();renderHud()};p.appendChild(b)})}
 
 /* aiming: press anywhere, pull back, let go */
