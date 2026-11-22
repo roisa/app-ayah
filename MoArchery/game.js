@@ -432,9 +432,9 @@ function simulate(n,shots,lv){const S=makeSim(lv||genLevel(n));let used=0;
    Drawing helpers (pixel space). s = pixels per metre.
    Code drawings until the owner's art arrives.
    ================================================================= */
-const IMG={};[['mo','../home/mo.webp'],['jump','art/mo-jump.webp'],['star','ui/star.webp']].forEach(([k,src])=>{const i=new Image();i.onload=()=>{i.ok=1;if(typeof renderHomeArt==='function')renderHomeArt()};i.src=src;IMG[k]=i});
+const IMG={};[['mo','../home/mo.webp'],['jump','art/mo-jump.webp'],['star','art/star.webp']].forEach(([k,src])=>{const i=new Image();i.onload=()=>{i.ok=1;if(typeof renderHomeArt==='function')renderHomeArt()};i.src=src;IMG[k]=i});
 function lw(s){return Math.max(1.4,s*.055)}
-function drawBlock(x,u,s){
+function drawBlockC(x,u,s){
   const W=u.w*s,H=u.h*s,m=u.mat,l=lw(s);x.lineJoin='round';
   if(u.k==='tri'){x.beginPath();x.moveTo(-W/2,0);x.lineTo(W/2,0);x.lineTo(0,-H);x.closePath();
     const g=x.createLinearGradient(0,-H,0,0);matStops(g,m);x.fillStyle=g;x.fill();x.lineWidth=l;x.strokeStyle=OUT;x.stroke();
@@ -476,10 +476,10 @@ function gemShape(x,cx,cy,r){x.beginPath();x.moveTo(cx-r,cy-r*.3);x.lineTo(cx-r*
 function gemDraw(x,cx,cy,r,c,l){gemShape(x,cx,cy,r);const g=x.createLinearGradient(cx-r,cy-r,cx+r,cy+r);g.addColorStop(0,mix(c,.55));g.addColorStop(1,mix(c,-.15));x.fillStyle=g;x.fill();x.lineWidth=l;x.strokeStyle=OUT;x.stroke();
   x.strokeStyle='rgba(255,255,255,.6)';x.lineWidth=l*.6;x.beginPath();x.moveTo(cx-r,cy-r*.3);x.lineTo(cx+r,cy-r*.3);x.moveTo(cx-r*.3,cy-r*.3);x.lineTo(cx,cy+r*.9);x.moveTo(cx+r*.3,cy-r*.3);x.lineTo(cx,cy+r*.9);x.stroke();
   x.fillStyle='rgba(255,255,255,.8)';x.beginPath();x.ellipse(cx-r*.45,cy-r*.52,r*.14,r*.08,-.4,0,7);x.fill()}
-function coinDraw(x,cx,cy,r){x.beginPath();x.arc(cx,cy,r,0,7);const g=x.createRadialGradient(cx-r*.3,cy-r*.3,r*.1,cx,cy,r);g.addColorStop(0,'#fff3a0');g.addColorStop(1,'#f5a800');x.fillStyle=g;x.fill();x.lineWidth=Math.max(1.2,r*.14);x.strokeStyle=OUT;x.stroke();
+function coinDrawC(x,cx,cy,r){x.beginPath();x.arc(cx,cy,r,0,7);const g=x.createRadialGradient(cx-r*.3,cy-r*.3,r*.1,cx,cy,r);g.addColorStop(0,'#fff3a0');g.addColorStop(1,'#f5a800');x.fillStyle=g;x.fill();x.lineWidth=Math.max(1.2,r*.14);x.strokeStyle=OUT;x.stroke();
   x.beginPath();x.arc(cx,cy,r*.68,0,7);x.strokeStyle='rgba(176,92,0,.55)';x.lineWidth=Math.max(1,r*.1);x.stroke();star5(x,cx,cy,r*.42,r*.18);x.fillStyle='#d98a00';x.fill()}
 /* treasures, centred at 0,0, size s (pixels for a 1.1 m box) */
-function drawGoal(x,g,v,s){
+function drawGoalC(x,g,v,s){
   const l=lw(s/GS),h=s/2;x.lineJoin='round';x.lineCap='round';x.lineWidth=l;x.strokeStyle=OUT;
   const fill=c=>{x.fillStyle=c;x.fill();x.stroke()};
   if(g==='gift'){const c=GIFTC[v]||'#ff5fa8';rr(x,-h*.9,-h*.6,h*1.8,h*1.5,h*.18);const gg=x.createLinearGradient(0,-h*.6,0,h);gg.addColorStop(0,mix(c,.35));gg.addColorStop(1,mix(c,-.2));x.fillStyle=gg;x.fill();x.stroke();
@@ -526,7 +526,7 @@ function drawGoal(x,g,v,s){
   rr(x,h*.45,h*.05,h*.32,h*.3,h*.06);x.fillStyle='#ffd23f';x.fill();x.lineWidth=l*.7;x.stroke()}
 /* birds: body centred at cx,cy, radius r, facing left; flap 0..1 lifts the wing */
 const BIRDC={hoopoe:['#f0a050','#fff1dc'],sparrow:['#b9824a','#f6e2c4'],finch:['#ffd23f','#fff7c8'],dove:['#ffffff','#e8eef8'],swallow:['#2f4aa8','#ffe9d6'],parrot:['#2fc46a','#ffd23f'],owl:['#a8784a','#f0dcc0'],redbird:['#ff4f5e','#ffd6d0'],robin:['#8a6a4a','#ff7a3a']};
-function drawBird(x,v,cx,cy,r,happy,flap){
+function drawBirdC(x,v,cx,cy,r,happy,flap){
   const [c,b]=BIRDC[v]||BIRDC.sparrow,l=Math.max(1.2,r*.09);x.lineWidth=l;x.strokeStyle=OUT;x.lineJoin='round';x.lineCap='round';
   const fill=col=>{x.fillStyle=col;x.fill();x.stroke()};
   // tail
@@ -556,16 +556,16 @@ function drawBird(x,v,cx,cy,r,happy,flap){
     x.closePath();x.fillStyle=v==='hoopoe'?'#3a2a20':'#ffb02a';x.fill();x.stroke()}
   x.fillStyle='rgba(255,110,140,.45)';x.beginPath();x.ellipse(cx-r*.1,cy+r*.08,r*.13,r*.08,0,0,7);x.fill();
   if(happy){x.lineWidth=l*.7;x.beginPath();x.arc(ex,ey,r*.17,Math.PI*1.1,Math.PI*1.9);x.stroke()}}
-function drawBarrel(x,s){const W=.8*s,H=.9*s,l=lw(s);rr(x,-W/2,-H/2,W,H,W*.25);const g=x.createLinearGradient(-W/2,0,W/2,0);g.addColorStop(0,'#ff6a5e');g.addColorStop(.45,'#ff9a8a');g.addColorStop(1,'#d8383a');x.fillStyle=g;x.fill();x.lineWidth=l;x.strokeStyle=OUT;x.stroke();
+function drawBarrelC(x,s){const W=.8*s,H=.9*s,l=lw(s);rr(x,-W/2,-H/2,W,H,W*.25);const g=x.createLinearGradient(-W/2,0,W/2,0);g.addColorStop(0,'#ff6a5e');g.addColorStop(.45,'#ff9a8a');g.addColorStop(1,'#d8383a');x.fillStyle=g;x.fill();x.lineWidth=l;x.strokeStyle=OUT;x.stroke();
   x.fillStyle='#ffd23f';for(const yy of [-H*.32,H*.24]){x.fillRect(-W/2,yy,W,H*.1);x.strokeRect(-W/2,yy,W,H*.1)}
   star5(x,0,-H*.02,W*.26,W*.11);x.fillStyle='#fff';x.fill();x.lineWidth=l*.6;x.stroke();
   x.beginPath();x.moveTo(0,-H/2);x.quadraticCurveTo(W*.1,-H*.7,W*.25,-H*.68);x.lineWidth=l;x.stroke();x.beginPath();x.arc(W*.27,-H*.68,s*.05,0,7);x.fillStyle='#ffd23f';x.fill()}
-function drawBundle(x,s){x.save();x.rotate(-.5);for(const k of [-1,0,1]){x.save();x.translate(0,k*s*.1);drawArrow(x,'normal',s*.8,0);x.restore()}x.restore();
+function drawBundleC(x,s){x.save();x.rotate(-.5);for(const k of [-1,0,1]){x.save();x.translate(0,k*s*.1);drawArrow(x,'normal',s*.8,0);x.restore()}x.restore();
   x.fillStyle='#ff5fa8';rr(x,-s*.12,-s*.18,s*.24,s*.36,s*.06);x.fill();x.lineWidth=lw(s)*.7;x.strokeStyle=OUT;x.stroke();
   x.font=`400 ${s*.42}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.lineWidth=3;x.strokeText('+1',s*.32,-s*.42);x.fillStyle='#fff';x.fillText('+1',s*.32,-s*.42)}
 /* an arrow pointing along +x, s = pixels per metre */
 const ACOL={normal:['#ff5f5f','#ffd23f','#c8d2dc'],heavy:['#7a5ad0','#b8a0ff','#5a5a70'],triple:['#3fa8ff','#7fd0ff','#c8d2dc'],diamond:['#2fd4c8','#9ff0ff','#bff8ff'],flame:['#ff6a1f','#ffd23f','#ff9a2a'],firework:['#ff8a1f','#ffd23f','#ff4f8a']};
-function drawArrow(x,at,s,ang){x.save();x.rotate(-ang);const L=s*.5,[f1,f2,hc]=ACOL[at]||ACOL.normal,l=lw(s);x.lineJoin='round';x.lineCap='round';
+function drawArrowC(x,at,s,ang){x.save();x.rotate(-ang);const L=s*.5,[f1,f2,hc]=ACOL[at]||ACOL.normal,l=lw(s);x.lineJoin='round';x.lineCap='round';
   const thick=at==='heavy'?1.5:1;
   x.strokeStyle=OUT;x.lineWidth=Math.max(3,s*.11*thick);x.beginPath();x.moveTo(-L,0);x.lineTo(L*.8,0);x.stroke();
   x.strokeStyle=at==='heavy'?'#8a6a4a':'#d48a3a';x.lineWidth=Math.max(1.6,s*.06*thick);x.stroke();
@@ -581,7 +581,7 @@ function drawArrow(x,at,s,ang){x.save();x.rotate(-ang);const L=s*.5,[f1,f2,hc]=A
   x.restore()}
 /* the bow on its stand: foot at gx,gy, pivot at px,py (pixels); ang = aim, pull 0..1; tier 0-3 */
 const BOWC=['#d0782a','#9ccc4a','#c8d4e4','#ffcc2a'];
-function drawBow(x,tier,gx,gy,px,py,s,ang,pull,ammo){
+function drawBowC(x,tier,gx,gy,px,py,s,ang,pull,ammo){
   const l=lw(s);x.lineJoin='round';x.lineCap='round';const c=Math.cos(ang),sn=Math.sin(ang);
   const wood=(x0,y0,x1,y1,w)=>{x.beginPath();x.moveTo(x0,y0);x.lineTo(x1,y1);x.lineWidth=w+l*2;x.strokeStyle=OUT;x.stroke();x.lineWidth=w;x.strokeStyle='#c97a2c';x.stroke()};
   wood(gx-s*.35,gy,px,py+s*.15,s*.12);wood(gx+s*.35,gy,px,py+s*.15,s*.12);
@@ -597,6 +597,53 @@ function drawBow(x,tier,gx,gy,px,py,s,ang,pull,ammo){
   if(tier===3)for(const k of [-.6,.6]){star5(x,ox+Math.cos(a0+k)*R,oy+Math.sin(a0+k)*R,s*.1,s*.045);x.fillStyle='#fff';x.fill()}
   x.lineWidth=s*.05;x.strokeStyle=tier===3?'#ff5fa8':'#ffd23f';x.beginPath();x.arc(ox,oy,R,a0-.12,a0+.12);x.stroke();
   if(ammo){x.save();x.translate(nx+c*s*.62,ny-sn*s*.62);drawArrow(x,ammo,s*1.25,ang);if(ammo==='triple'){x.translate(0,-s*.14);drawArrow(x,ammo,s*1.1,ang);x.translate(0,s*.28);drawArrow(x,ammo,s*1.1,ang)}x.restore()}}
+
+/* =================================================================
+   The owner's art (art/*.webp). Every drawing falls back to the code drawing until its image has loaded.
+   ================================================================= */
+const ART={};
+const ARTN=['wood-sq','wood-pl','glass-sq','glass-pl','ice-sq','ice-pl','brick-sq','brick-pl','stone-sq','stone-pl','iron-sq','iron-pl',
+ 'chest','chest-open','gift-pink','gift-blue','gift-purple','gift-green','star-item','gem-ruby','gem-emerald','gem-sapphire','gold','pearl','crown','ring','lantern','crystal','cage','barrel','bundle','quiver','target',
+ 'ar-normal','ar-flame','ar-heavy','ar-triple','ar-diamond','ar-firework','bow0','bow1','bow2','bow3','stand0','stand2','stand3','up',
+ 'coin','coin-stack','coin-pile','coin-heap','coin-sack','coin-chest','fx-firework','fx-dust','fx-wood','fx-glass','fx-brick','fx-stone','fx-flame','fx-hearts',
+ ...BIRDS.flatMap(b=>['bird-'+b,'fly-'+b])];
+let artLeft=ARTN.length;
+ARTN.forEach(n=>{const i=new Image();i.onload=()=>{i.ok=1;if(--artLeft<=0){try{renderHomeArt();if(G){renderPicker();renderHud()}}catch(e){}}};i.onerror=()=>{artLeft--};i.src='art/'+n+'.webp';ART[n]=i});
+const AI=n=>{const i=ART[n];return i&&i.ok?i:null};
+/* draw an image centred at cx,cy, fitted inside w x h */
+function fitImg(x,im,cx,cy,w,h){const k=Math.min(w/im.naturalWidth,h/im.naturalHeight),W=im.naturalWidth*k,H=im.naturalHeight*k;x.drawImage(im,cx-W/2,cy-H/2,W,H)}
+/* stretch a horizontal plank image to W x H keeping its two ends (3-slice) */
+function slice3(x,im,X,Y,W,H){const iw=im.naturalWidth,ih=im.naturalHeight,cs=Math.min(iw/3,ih*.7),cd=Math.min(W/2,cs*H/ih);
+  x.drawImage(im,0,0,cs,ih,X,Y,cd,H);x.drawImage(im,cs,0,iw-2*cs,ih,X+cd,Y,W-2*cd,H);x.drawImage(im,iw-cs,0,cs,ih,X+W-cd,Y,cd,H)}
+function drawBlock(x,u,s){
+  if(u.k!=='box'){drawBlockC(x,u,s);return}
+  const W=u.w*s,H=u.h*s,long=Math.max(W,H)/Math.min(W,H)>1.6,im=AI(u.mat+(long?'-pl':'-sq'));if(!im){drawBlockC(x,u,s);return}
+  if(!long)x.drawImage(im,-W/2,-H/2,W,H);
+  else if(W>=H)slice3(x,im,-W/2,-H/2,W,H);
+  else{x.save();x.rotate(Math.PI/2);slice3(x,im,-H/2,-W/2,H,W);x.restore()}
+  cracks(x,u,-W/2,-H/2,W,H,s)}
+const GOALIMG=(g,v)=>g==='gift'?'gift-'+(v||'pink'):g==='gem'?'gem-'+(v||'ruby'):g==='star'?'star-item':g;
+function drawGoal(x,g,v,s){
+  if(g==='cage'){const im=AI('cage');if(!im){drawGoalC(x,g,v,s);return}drawBird(x,v||'sparrow',0,s*.12,s*.3,false,0);fitImg(x,im,0,0,s*1.02,s*1.12);return}
+  const im=AI(GOALIMG(g,v));if(!im){drawGoalC(x,g,v,s);return}fitImg(x,im,0,0,s*1.05,s*1.05)}
+function drawBird(x,v,cx,cy,r,happy,flap){const im=AI((happy?'fly-':'bird-')+v);if(!im){drawBirdC(x,v,cx,cy,r,happy,flap);return}
+  fitImg(x,im,cx,cy,r*2.6,r*2.6)}
+function drawBarrel(x,s){const im=AI('barrel');if(!im){drawBarrelC(x,s);return}fitImg(x,im,0,-s*.08,s*1.05,s*1.2)}
+function drawBundle(x,s){const im=AI('bundle');if(!im){drawBundleC(x,s);return}fitImg(x,im,0,0,s*.95,s*.95)}
+function coinDraw(x,cx,cy,r){const im=AI('coin');if(!im){coinDrawC(x,cx,cy,r);return}x.drawImage(im,cx-r,cy-r,r*2,r*2)}
+/* arrow images point up-right at 45 degrees; one=true draws a single arrow for the triple kind (each flying arrow is one) */
+function drawArrow(x,at,s,ang,one){const im=AI('ar-'+(one&&at==='triple'?'normal':at));if(!im){drawArrowC(x,one&&at==='triple'?'normal':at,s,ang);return}
+  x.save();x.rotate(Math.PI/4-ang);const L=s*1.12/1.414*1.06;x.drawImage(im,-L/2,-L/2,L,L*im.naturalHeight/im.naturalWidth);x.restore()}
+function drawBow(x,tier,gx,gy,px,py,s,ang,pull,ammo){
+  const im=AI('bow'+tier),st=AI(tier>=3?'stand3':tier===2?'stand2':'stand0');if(!im||!st){drawBowC(x,tier,gx,gy,px,py,s,ang,pull,ammo);return}
+  const sh=(gy-py)*.78,sw=sh*.7;x.drawImage(st,gx-sw/2+s*.05,gy-sh,sw,sh);
+  const H=s*2.15,W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W;
+  x.save();x.translate(px,py);x.rotate(-ang);
+  const tx=-.63*W,ty=.46*H,nx=tx-s*(.05+pull*.75);
+  x.beginPath();x.moveTo(tx,-ty);x.lineTo(nx,0);x.lineTo(tx,ty);x.lineWidth=Math.max(1.4,s*.04);x.strokeStyle=OUT;x.stroke();x.lineWidth=Math.max(.8,s*.022);x.strokeStyle='#fff6e0';x.stroke();
+  x.drawImage(im,-gripX,-H/2,W,H);
+  if(ammo){x.save();x.translate(nx+s*.6,0);drawArrow(x,ammo,s*1.2,0);x.restore()}
+  x.restore()}
 
 /* =================================================================
    Backgrounds (drawn in code until the owner's art arrives). gy = ground line in pixels.
@@ -703,18 +750,20 @@ function drawGame(now){
   // flames on burning wood (drawn upright)
   for(const u of S.list)if(u.burn&&u.b){const q=u.b.getPosition(),n2=Math.max(2,Math.round(u.w*2.2));
     for(let i=0;i<n2;i++){const fx=sx(q.x+(i/(n2-1||1)-.5)*u.w*.8),fy=sy(q.y)-u.h*s*.2,h=s*(.35+.18*Math.sin(now/90+i*1.7+u.x));
+      const fl=AI('fx-flame');if(fl){const fw=s*.5,fh=h*1.5;x.drawImage(fl,fx-fw/2,fy-fh,fw,fh);continue}
       for(const [k2,c] of [[1,'rgba(255,110,30,.9)'],[.6,'rgba(255,220,80,.95)']]){x.beginPath();x.moveTo(fx-s*.14*k2,fy);x.quadraticCurveTo(fx-s*.12*k2,fy-h*k2*.6,fx,fy-h*k2);x.quadraticCurveTo(fx+s*.12*k2,fy-h*k2*.6,fx+s*.14*k2,fy);x.closePath();x.fillStyle=c;x.fill()}}}
   // the bow
   const ready=G.state==='ready'||G.state==='aim',ang=aim?clampAng(aim.a):.55;
   drawBow(x,upLv('bow'),sx(LX),sy(0),sx(LX),sy(OY),s,ang,aim?aim.p:0,ready&&G.shots>0?at:null);
-  for(const p of S.proj){const q=p.b.getPosition();x.save();x.translate(sx(q.x),sy(q.y));drawArrow(x,p.at,s,p.b.getAngle());x.restore()}
+  for(const p of S.proj){const q=p.b.getPosition();x.save();x.translate(sx(q.x),sy(q.y));drawArrow(x,p.at,s,p.b.getAngle(),1);x.restore()}
   drawParts(x,now,s)}
 /* particles in world units */
 function drawParts(x,now,s){
   const dt=1/60;
   parts=parts.filter(p=>{p.t+=dt;if(p.t>p.life)return false;p.vy-=p.g*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.r+=p.vr*dt;const k=1-p.t/p.life;
     x.save();x.translate(sx(p.x),sy(p.y));x.rotate(p.r);x.globalAlpha=Math.min(1,k*2);
-    if(p.k==='star'&&IMG.star.ok){const z=p.z*s;x.drawImage(IMG.star,-z/2,-z/2,z,z)}
+    if(p.k==='img'){const im=AI(p.im);if(im){const z=p.z*s*(1+(p.grow||0)*p.t/p.life);x.globalAlpha=Math.min(1,k*1.6);x.drawImage(im,-z/2,-z/2*im.naturalHeight/im.naturalWidth,z,z*im.naturalHeight/im.naturalWidth)}}
+    else if(p.k==='star'&&IMG.star.ok){const z=p.z*s;x.drawImage(IMG.star,-z/2,-z/2,z,z)}
     else if(p.k==='coin')coinDraw(x,0,0,p.z*s);
     else if(p.k==='heart'){const z=p.z*s;x.fillStyle='#ff5f8a';x.beginPath();x.moveTo(0,z*.3);x.bezierCurveTo(-z*.6,-z*.1,-z*.3,-z*.6,0,-z*.25);x.bezierCurveTo(z*.3,-z*.6,z*.6,-z*.1,0,z*.3);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke()}
     else if(p.k==='dot'){x.beginPath();x.arc(0,0,p.z*s*k+1,0,7);x.fillStyle=p.c;x.fill()}
@@ -765,7 +814,7 @@ function goalKeys(S){const m=new Map();for(const g of S.goals){const e=m.get(g.k
 function keyIcon(key,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d');x.translate(px/2,px/2+px*.04);const [,g,v]=key.split(':');
   drawGoal(x,g,v||(g==='gift'?'pink':g==='gem'?'ruby':g==='cage'?'sparrow':''),px*.72);return c}
 function arrowIcon(at,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d');x.translate(px/2,px/2);
-  if(at==='triple'){for(const k of [-1,0,1]){x.save();x.translate(0,k*px*.16);drawArrow(x,at,px*.75,.6);x.restore()}}else drawArrow(x,at,px*.85,.6);return c}
+  if(at==='triple'&&!AI('ar-triple')){for(const k of [-1,0,1]){x.save();x.translate(0,k*px*.16);drawArrow(x,at,px*.75,.6);x.restore()}}else drawArrow(x,at,px*.85,.6);return c}
 function bowIcon(tier,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),s=px/2.7;const gx=px*.45,gy=px*.94;drawBow(x,tier,gx,gy,gx,gy-OY*s,s,.55,.35,'normal');return c}
 $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));if(!G)return;G.state='ready';G.idle=performance.now();
   const intro=canPan();if(intro){setTimeout(()=>{if(G&&G.camT===cam.max&&!G.panning){G.camT=cam.min;G.camSp=.035}},1100);
@@ -821,8 +870,10 @@ function handleEvents(){
   const S=G.sim;let goalsNow=0;
   for(const ev of S.ev){const X=ev.x,Y=Math.max(.6,ev.y||0);
     if(ev.e==='hit')sfx.hit(ev.m,ev.s);
-    else if(ev.e==='break'){sfx.brk(ev.u.mat);debris(ev.x,ev.y,ev.u.mat,ev.lost?0:10,ev.u.w>1.5)}
-    else if(ev.e==='boom'){sfx.boom();firework(X,Y,!ev.small);if(!ev.small)debris(X,Y,'goal',8,true)}
+    else if(ev.e==='break'){sfx.brk(ev.u.mat);if(!ev.lost){debris(ev.x,ev.y,ev.u.mat,5,ev.u.w>1.5);const ch={wood:'fx-wood',glass:'fx-glass',ice:'fx-glass',brick:'fx-brick',stone:'fx-stone'}[ev.u.mat];
+      if(ch)parts.push({k:'img',im:ch,x:ev.x,y:ev.y,vx:(Math.random()-.5)*3,vy:3+Math.random()*2,g:12,t:0,life:.8,r:0,vr:(Math.random()-.5)*6,z:.9});
+      parts.push({k:'img',im:'fx-dust',x:ev.x,y:ev.y,vx:0,vy:.6,g:0,t:0,life:.55,r:0,vr:0,z:.9,grow:.7})}}
+    else if(ev.e==='boom'){sfx.boom();firework(X,Y,!ev.small);parts.push({k:'img',im:'fx-firework',x:X,y:Y,vx:0,vy:0,g:0,t:0,life:.7,r:0,vr:0,z:ev.small?1.8:3,grow:.5});if(!ev.small)debris(X,Y,'goal',8,true)}
     else if(ev.e==='goal'){goalsNow++;const u=ev.u,c=ITEM[u.g].c;
       if(u.g==='cage'){sfx.free();debris(X,Y,'wood',8);flyers.push({v:u.v,x:X,y:Y,vx:(Math.random()<.5?-1:1)*(1.4+Math.random()),t:0});sparkle(X,Y,'heart',5);say2(X,Y+.7,pickT('thanks'),'#ff9ad5');freeBird(u.v)}
       else{sfx.gift();sparkle(X,Y,'star',6);debris(X,Y,'goal',8);say2(X,Y+.6,pickT('got'),'#ffe14a')}
@@ -964,7 +1015,7 @@ function drawVillage(x,W,H,stars,small){
   if(stars>=0&&IMG.mo.ok){const h=u*2.2,w=h*IMG.mo.naturalWidth/IMG.mo.naturalHeight;x.drawImage(IMG.mo,W*.06+u*1.4,gy-h,w,h)}}
 function renderVillage(){const st=totalStars(),c=$('#vilCv'),wrap=$('#vilWrap'),d=DPR(),H=wrap.clientHeight||300,W=Math.max(wrap.clientWidth,Math.round(H*2.6));
   c.style.width=W+'px';c.style.height=H+'px';c.width=Math.round(W*d);c.height=Math.round(H*d);const x=c.getContext('2d');x.scale(d,d);drawVillage(x,W,H,st,false);
-  $('#vilSum').innerHTML=`<img src="ui/star.webp" alt=""><span>${st}</span>`;
+  $('#vilSum').innerHTML=`<img src="art/star.webp" alt=""><span>${st}</span>`;
   const nx=VILLAGE.find(b=>b.cost>st);$('#vilNext').textContent=nx?tf('vNext',{b:t('B')[nx.id],n:nx.cost}):t('vDone');
   const nb=nx?VILLAGE[VILLAGE.indexOf(nx)-1]:VILLAGE[VILLAGE.length-2];if(nb)setTimeout(()=>{wrap.scrollLeft=Math.max(0,nb.x*W-wrap.clientWidth/2)},30)}
 function openVillage(){show('village');renderVillage()}
@@ -975,6 +1026,7 @@ function renderStk(){const el=$('#stkList');el.innerHTML='';
     d.insertAdjacentHTML('beforeend',on?`<b>${t('BD')[b]}</b><small>${t('BF')[b]}</small>`:`<b>?</b><small>${t('lockedB')}</small>`);el.appendChild(d)})}
 /* ---------- Bow Workshop ---------- */
 function upIcon(k,lvl,px){if(k==='bow')return bowIcon(Math.min(3,lvl),px);const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d');
+  {const im=AI(k==='quiver'?'quiver':'target');if(im){fitImg(x,im,px/2,px/2,px*.9,px*.9);return c}}
   if(k==='quiver'){x.save();x.translate(px*.5,px*.55);x.rotate(.35);rr(x,-px*.16,-px*.3,px*.32,px*.62,px*.1);x.fillStyle='#c97a2c';x.fill();x.lineWidth=3;x.strokeStyle=OUT;x.stroke();
     for(const k2 of [-1,0,1]){x.save();x.translate(k2*px*.08,-px*.36);x.rotate(-Math.PI/2);drawArrow(x,'normal',px*.4,0);x.restore()}x.restore()}
   else{x.translate(px/2,px/2);x.beginPath();x.arc(0,0,px*.32,0,7);x.lineWidth=px*.07;x.strokeStyle='#ff5f5f';x.stroke();x.beginPath();x.arc(0,0,px*.16,0,7);x.strokeStyle='#ffd23f';x.stroke();
@@ -1019,8 +1071,8 @@ function armNudge(){stopNudge();if(cur!=='home')return;idleT=setTimeout(()=>{con
   const ms=[$('#goAdv'),$('#goAdv'),$('#goVil')];ms.forEach(m=>m.classList.remove('nudge'));ms[idleN%3].classList.add('nudge');idleN++};step();idleI=setInterval(step,3200)},4000)}
 ['pointerdown','keydown','wheel'].forEach(ev=>document.addEventListener(ev,()=>{if(cur==='home')armNudge();else stopNudge()},true));
 function renderHome(){armNudge();paintBg();renderHomeArt();
-  $('#advBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${totalStars()}`;
-  $('#vilBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${totalStars()}`;const nk=BIRDS.filter(b=>prog.birds[b]).length;$('#stkBadge').textContent=nk?nk+'/'+BIRDS.length:'';
+  $('#advBadge').innerHTML=`<img src="art/star.webp" alt=""> ${totalStars()}`;
+  $('#vilBadge').innerHTML=`<img src="art/star.webp" alt=""> ${totalStars()}`;const nk=BIRDS.filter(b=>prog.birds[b]).length;$('#stkBadge').textContent=nk?nk+'/'+BIRDS.length:'';
   $('#coinBadge').textContent=prog.coins||'';
   document.querySelectorAll('#age button').forEach(b=>b.classList.toggle('on',b.dataset.a===age))}
 $('#age').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;age=b.dataset.a;store.set('age',age);sfx.tap();renderHome()});
@@ -1034,25 +1086,25 @@ $('#stkClose').onclick=()=>ov('stkOv',false);
 $('#lauClose').onclick=()=>{ov('lauOv',false);renderHome()};
 function openMap(){renderMap();show('map');const c=$('#worlds .lv.cur')||[...document.querySelectorAll('#worlds .lv:not(.lock)')].pop();if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),60)}
 function renderMap(){
-  $('#mapSum').innerHTML=`<img src="ui/star.webp" alt=""><span>${totalStars()}/${LEVELS*3}</span>`;
+  $('#mapSum').innerHTML=`<img src="art/star.webp" alt=""><span>${totalStars()}/${LEVELS*3}</span>`;
   const el=$('#worlds');el.innerHTML='';
   WORLDS.forEach((WD,w)=>{const first=w*WN+1,last=first+WN-1,lockW=first>openTo();let st=0;for(let n=first;n<=last;n++)st+=prog.stars[n]||0;
     const sec=document.createElement('div');sec.className='world w'+w+(lockW?' lock':'');
     const th=document.createElement('canvas');th.width=th.height=132;{const x=th.getContext('2d');paintWorld(x,w,132,132,104,14);x.save();x.translate(66,80);drawGoal(x,WD.items[0],WD.items[0]==='gift'?'pink':'',52);x.restore()}
-    sec.innerHTML=`<div class="wh"><span class="thc"></span><div><b>${t('W')[w]}</b><small>${tf('levelsR',{a:first,b:last})}</small></div><span class="ws"><img src="ui/star.webp" alt=""> ${st}/${WN*3}</span></div><div class="lvls"></div>`;
+    sec.innerHTML=`<div class="wh"><span class="thc"></span><div><b>${t('W')[w]}</b><small>${tf('levelsR',{a:first,b:last})}</small></div><span class="ws"><img src="art/star.webp" alt=""> ${st}/${WN*3}</span></div><div class="lvls"></div>`;
     sec.querySelector('.thc').replaceWith(th);
     const g=sec.querySelector('.lvls');
-    for(let n=first;n<=last;n++){const lk=n>openTo(),sn=prog.stars[n]||0,cu=n===prog.open&&!sn,b=document.createElement('button');b.className='lv'+(lk?' lock':cu?' cur':'');b.dataset.n=n;b.setAttribute('aria-label',tf('level',{n}));
-      b.innerHTML=lk?'<img src="ui/lock.webp" alt="">':`${n}<span class="st">${[0,1,2].map(k=>`<i class="${k<sn?'on':''}"></i>`).join('')}</span>`;
+    for(let n=first;n<=last;n++){const lk=n>openTo(),sn=prog.stars[n]||0,cu=n===prog.open&&!sn,b=document.createElement('button');b.className='lv'+(lk?' lock':cu?' cur':sn?' done':'');b.dataset.n=n;b.setAttribute('aria-label',tf('level',{n}));
+      b.innerHTML=lk?'<img src="art/lock.webp" alt="">':`${n}<span class="st">${[0,1,2].map(k=>`<i class="${k<sn?'on':''}"></i>`).join('')}</span>`;
       const na=AORDER.find(a=>ARROWS[a].unlock===n&&n>1);if(na){const s=document.createElement('span');s.className='ln';s.append(arrowIcon(na,80));b.appendChild(s)}
       g.appendChild(b)}
-    if(lockW)sec.insertAdjacentHTML('beforeend',`<div class="wlock"><img src="ui/lock.webp" alt="">${tf('lockedW',{w:t('W')[w-1]})}</div>`);
+    if(lockW)sec.insertAdjacentHTML('beforeend',`<div class="wlock"><img src="art/lock.webp" alt="">${tf('lockedW',{w:t('W')[w-1]})}</div>`);
     el.appendChild(sec)})}
 $('#worlds').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)return;const n=+b.dataset.n;if(n>openTo()){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame(n)});
 
 /* ---------- language, sound ---------- */
 function applyLang(){document.documentElement.lang=lang;document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t(el.dataset.t)});$('#langIco').src='ui/lang-'+lang+'.webp';renderHome()}
-function renderSnd(){$('#sndIco').src=soundOn?'ui/sound-on.webp':'ui/sound-off.webp'}
+function renderSnd(){$('#sndIco').src=soundOn?'art/b-sound.webp':'art/b-sound-off.webp'}
 $('#langBtn').onclick=()=>{lang=lang==='en'?'id':'en';store.set('lang',lang);try{localStorage.setItem('moLang',lang)}catch(e){}applyLang();sfx.tap()};
 $('#sndBtn').onclick=()=>{soundOn=!soundOn;store.set('sound',soundOn);renderSnd();sfx.tap()};
 let gateFn=null;
