@@ -123,6 +123,20 @@ img{-webkit-user-drag:none}
 .scr .bar h2,.mapsum,#home .tag,.legal{text-shadow:0 2px 4px rgba(0,50,110,.6),0 0 2px rgba(0,50,110,.5)}
 #home .logo{display:block;width:min(88vw,500px);max-height:25vh;object-fit:contain;margin:0 auto;filter:drop-shadow(0 8px 10px rgba(0,40,90,.3));animation:wave 3s ease-in-out infinite;transform-origin:50% 90%}
 #home h1{margin:0}
+/* Mo leaning beside the logo */
+.htop{display:flex;align-items:center;justify-content:center;gap:0;width:100%;max-width:600px;margin:0 auto}
+.htop .hmo{height:min(26vh,210px);width:auto;flex:none;margin-right:-4%;filter:drop-shadow(0 6px 8px rgba(0,40,0,.3));animation:wave 3s ease-in-out infinite;transform-origin:50% 95%;position:relative;z-index:1}
+.htop h1{flex:1;min-width:0}
+#home .htop .logo{width:100%;max-width:420px;max-height:24vh}
+@media (orientation:landscape) and (max-height:560px){.htop .hmo{height:110px}#home .htop .logo{max-height:110px}}
+/* idle hint: the cards take turns to wiggle and a hand taps on them */
+.mode{position:relative}
+.tapHand{position:absolute;right:6%;bottom:22%;width:clamp(54px,14vw,84px);z-index:3;pointer-events:none;opacity:0;filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+.mode.nudge{animation:nudge 1.6s ease-in-out infinite!important;box-shadow:0 0 0 6px #fff7a0,0 0 26px 10px rgba(255,236,120,.9),var(--shadow)}
+.mode.nudge .tapHand{animation:handTap 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:scale(1) rotate(0)}12%{transform:scale(1.07) rotate(-3deg)}24%{transform:scale(1.07) rotate(3deg)}36%{transform:scale(1.04) rotate(-1deg)}48%{transform:scale(1) rotate(0)}}
+@keyframes handTap{0%{opacity:0;transform:translate(30px,40px) rotate(-14deg)}20%{opacity:1;transform:translate(0,0) rotate(-14deg)}35%{transform:translate(0,0) rotate(-14deg) scale(.82)}50%{opacity:1;transform:translate(0,0) rotate(-14deg) scale(1)}70%,100%{opacity:0;transform:translate(12px,18px) rotate(-14deg)}}
+@media (prefers-reduced-motion:reduce){.mode.nudge,.mode.nudge .tapHand{animation:none}.mode.nudge .tapHand{opacity:1}}
 .howto{display:flex;align-items:flex-end;justify-content:center;gap:6px;margin:16px auto 0;padding:0 12px;max-width:520px}
 .howto .mp{height:clamp(120px,22vh,170px);width:auto;flex:none;filter:drop-shadow(0 6px 6px rgba(0,40,0,.3))}
 .htips{display:flex;flex-direction:column;gap:8px;padding-bottom:6px}
@@ -371,16 +385,16 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
   </div>
   <div class="scroll">
     <div class="hero">
-      <h1><img class="logo" src="art/logo.webp" alt="Mo Bubble Shot"></h1>
+      <div class="htop"><img class="hmo" src="art/mo-point.webp" alt=""><h1><img class="logo" src="art/logo.webp" alt="Mo Bubble Shot"></h1></div>
       <p class="tag" data-t="tag">Play Games the Islamic Way</p>
       <p class="pchip" id="pchip"></p>
     </div>
     <div class="modes">
-      <button class="mode a" id="goAdv">
+      <button class="mode a" id="goAdv"><img class="tapHand" src="ui/hand.webp" alt="">
         <span class="in"><canvas id="cvAdv" width="300" height="300"></canvas><span class="badge" id="advBadge"></span></span>
         <span class="lbl"><span data-t="adv">Adventure</span><small data-t="advS">60 levels in 6 worlds</small></span>
       </button>
-      <button class="mode e" id="goEnd">
+      <button class="mode e" id="goEnd"><img class="tapHand" src="ui/hand.webp" alt="">
         <span class="in"><canvas id="cvEnd" width="300" height="300"></canvas><span class="badge" id="endBadge"></span></span>
         <span class="lbl"><span data-t="end">Endless</span><small data-t="endS">Pop as many as you can</small></span>
       </button>
@@ -388,14 +402,6 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0;animation:bou
     <div class="age" id="age">
       <button data-a="little"><span data-t="little">Little</span><small data-t="littleS">Ages 3+</small></button>
       <button data-a="big"><span data-t="big">Big Kid</span><small data-t="bigS">Ages 6+</small></button>
-    </div>
-    <div class="howto">
-      <img class="mp" src="art/mo-point.webp" alt="">
-      <div class="htips">
-        <div class="htip p"><img src="art/icon-target.webp" alt=""><span data-t="tip1">Aim carefully</span></div>
-        <div class="htip g"><img src="art/icon-trio.webp" alt=""><span data-t="tip2">Match colours</span></div>
-        <div class="htip o"><img src="art/star.webp" alt=""><span data-t="tip3">Free the treasures</span></div>
-      </div>
     </div>
     <div class="homeFoot">
       <button class="pill" id="goSkins"><img src="art/b-rainbow.webp" alt=""><span data-t="skins">Bubble skins</span></button>
@@ -1245,7 +1251,15 @@ function renderHomeArt(){
   draw($('#cvAdv'),[[0,0,0],[1,0,0,'moon'],[2,0,3],[3,0,3],[0,1,1],[1,1,2,'star'],[2,1,3],[0,2,1],[1,2,2],[2,2,4,'lantern'],[3,2,4],[1,3,5],[2,3,0]]);
   draw($('#cvEnd'),[[0,0,4],[1,0,4],[2,0,1],[3,0,1],[0,1,4],[1,1,3],[2,1,1],[0,2,2],[1,2,3],[2,2,RB],[3,2,0],[1,3,2],[2,3,5]],eskin());
 }
+/* idle hint on the main menu: after a few quiet seconds, Adventure and Endless take turns to wiggle */
+let idleT=0,idleI=0,idleN=0;
+function stopNudge(){clearTimeout(idleT);clearInterval(idleI);document.querySelectorAll('.mode.nudge').forEach(m=>m.classList.remove('nudge'))}
+function armNudge(){stopNudge();if(cur!=='home')return;idleT=setTimeout(()=>{const step=()=>{if(cur!=='home'||document.querySelector('.ov.on')){stopNudge();return}
+  const ms=[$('#goAdv'),$('#goEnd')];ms.forEach((m,i)=>m.classList.toggle('nudge',i===idleN%2));idleN++};step();idleI=setInterval(step,3200)},4000)}
+['pointerdown','keydown','wheel'].forEach(ev=>document.addEventListener(ev,()=>{if(cur==='home')armNudge();else stopNudge()},true));
+document.addEventListener('scroll',()=>{if(cur==='home')armNudge()},true);
 function renderHome(){
+  armNudge();
   setScene('classic');renderHomeArt();
   $('#advBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${totalStars()}`;
   $('#endBadge').innerHTML=`<img src="ui/star.webp" alt=""> ${best[age]}`;
