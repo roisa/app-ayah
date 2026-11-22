@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>Mo Archery – Islamic Physics Shooting Game for Kids | Mo Games</title>
-<meta name="description" content="Mo Archery: a free Islamic physics game for kids aged 3+. Pull back the bow, slingshot, cannon or catapult and knock down the towers to open the gifts, clean up the rubbish and free the animals. 60 levels in 6 worlds. Start with Bismillah, finish with Alhamdulillah. No ads, no data collected. English and Bahasa Indonesia.">
+<meta name="description" content="Mo Archery: a free Islamic physics game for kids aged 3+. Pull back the bow, break the barriers of glass, wood, brick and stone, and collect the treasures: gold, jewels, pearls, gifts and stars. Free the birds and upgrade your bow. 60 levels in 6 worlds. Start with Bismillah, finish with Alhamdulillah. No ads, no data collected. English and Bahasa Indonesia.">
 <meta name="keywords" content="Islamic archery game, Muslim kids game, physics game for kids, game memanah anak, game anak muslim, game edukasi islami, aplikasi anak islami">
 <link rel="canonical" href="https://roisa.github.io/app-ayah/MoArchery/">
 <meta name="theme-color" content="#ffa51f">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Mo Archery – Islamic Physics Game for Kids">
-<meta property="og:description" content="Pull back, let go and knock the towers down! Open the gifts, clean up the rubbish and free the animals. No ads.">
+<meta property="og:description" content="Pull back the bow and break the barriers! Collect treasures, free the birds and upgrade your bow. No ads.">
 <meta property="og:url" content="https://roisa.github.io/app-ayah/MoArchery/">
 <meta property="og:image" content="https://roisa.github.io/app-ayah/MoArchery/icons/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -213,7 +213,15 @@ body.ing:not(.land) #toast{top:calc(132px + var(--safeT))}
 .goalline span{display:flex;align-items:center;gap:2px;background:#fff6e0;border-radius:18px;padding:2px 12px 2px 4px}
 .goalline canvas{width:44px;height:44px}
 .lnch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-@media (orientation:landscape) and (max-height:600px){#lauOv .box{max-width:min(760px,94vw)}.lnch{grid-template-columns:repeat(4,1fr)}.lnch canvas{width:60px;height:60px}}
+.lnch.ups{grid-template-columns:repeat(3,1fr)}.lnch.ars{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+#lauOv .box{max-height:92vh;overflow-y:auto}
+.wsc{display:inline-flex;align-items:center;gap:4px;margin-top:6px;background:#fff6e0;border-radius:999px;padding:2px 14px 2px 4px;font:400 22px "Lilita One",sans-serif;color:#d07a00}.wsc canvas{width:32px;height:32px}
+.arh{margin-top:12px;font:400 19px "Lilita One",sans-serif;color:var(--ink)}
+.buy{margin-top:6px;display:inline-flex;align-items:center;gap:3px;background:linear-gradient(180deg,#38d39f,#13a876);color:#fff;border-radius:999px;padding:4px 14px 4px 6px;font:400 18px "Lilita One",sans-serif;box-shadow:0 4px 0 rgba(0,90,60,.35)}
+.lnch .buy canvas{width:24px;height:24px;margin:0}.buy.poor{background:linear-gradient(180deg,#cfc6bb,#a89c8e);box-shadow:0 4px 0 rgba(0,0,0,.2)}.buy.max{background:linear-gradient(180deg,#ffd23f,#f5a800);padding:4px 14px}
+.unl.coins{background:#fff3c4;color:#b06a00;justify-content:center;font:400 20px "Lilita One",sans-serif}.unl.coins canvas{width:40px;height:40px}
+.pill i.cb{background:#f5a800}
+@media (orientation:landscape) and (max-height:600px){#lauOv .box{max-width:min(760px,94vw)}.lnch.ars{grid-template-columns:repeat(5,1fr)}.lnch canvas{width:60px;height:60px}}
 .lnch div{background:#fff6e0;border-radius:22px;padding:8px;text-align:center}
 .lnch div.lock{opacity:.55;filter:grayscale(.8)}
 .lnch canvas{width:72px;height:72px;display:block;margin:0 auto}
@@ -303,7 +311,7 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
       <button data-a="little"><span data-t="little">Little</span><small data-t="littleS">Ages 3+</small></button>
       <button data-a="big"><span data-t="big">Big Kid</span><small data-t="bigS">Ages 6+</small></button>
     </div>
-    <div class="homeFoot"><div class="pills"><button class="pill" id="goLau"><canvas id="pLau" width="96" height="96"></canvas><span data-t="launchers">Launchers</span></button><button class="pill" id="goStk"><canvas id="pStk" width="96" height="96"></canvas><span data-t="stickers">Animal Friends</span><i id="stkBadge"></i></button></div><p class="legal" data-t="legal">No ads · No data collected · Works offline</p></div>
+    <div class="homeFoot"><div class="pills"><button class="pill" id="goLau"><canvas id="pLau" width="96" height="96"></canvas><span data-t="workshop">Bow Workshop</span><i id="coinBadge" class="cb"></i></button><button class="pill" id="goStk"><canvas id="pStk" width="96" height="96"></canvas><span data-t="birds">Birds I Freed</span><i id="stkBadge"></i></button></div><p class="legal" data-t="legal">No ads · No data collected · Works offline</p></div>
   </div>
 </section>
 
@@ -388,16 +396,19 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 <!-- LAUNCHERS -->
 <div class="ov" id="lauOv"><div class="box">
   <button class="x" id="lauClose" aria-label="Close"><img src="ui/close.webp" alt=""></button>
-  <h3 data-t="launchers">Launchers</h3>
-  <p data-t="lauS">Finish levels to unlock more!</p>
-  <div class="lnch" id="lauList"></div>
+  <h3 data-t="workshop">Bow Workshop</h3>
+  <p data-t="workshopS">Make your bow stronger with coins</p>
+  <div class="wsc" id="wsCoins"></div>
+  <div class="lnch ups" id="lauList"></div>
+  <h4 class="arh" data-t="arrowsT">Arrows</h4>
+  <div class="lnch ars" id="arList"></div>
 </div></div>
 
 <!-- ANIMAL FRIENDS -->
 <div class="ov" id="stkOv"><div class="box stkbox">
   <button class="x" id="stkClose" aria-label="Close"><img src="ui/close.webp" alt=""></button>
-  <h3 data-t="stickers">Animal Friends</h3>
-  <p data-t="stickersS">Animals from the Qur'an and hadith</p>
+  <h3 data-t="birds">Birds I Freed</h3>
+  <p data-t="birdsS">Birds in the Qur'an and hadith</p>
   <div class="stk" id="stkList"></div>
 </div></div>
 
