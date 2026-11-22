@@ -25,13 +25,13 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  AR:{normal:'Arrow',flame:'Fire arrow',heavy:'Heavy arrow',triple:'Triple arrow',diamond:'Diamond arrow',firework:'Firework arrow'},
  ARD:{normal:'Breaks glass, ice and wood. Too weak for brick and stone',flame:'Sets wood on fire and melts ice',heavy:'Strong and heavy. Breaks bricks',triple:'Three arrows at once',diamond:'Sharp diamond tip. The only arrow that breaks stone',firework:'Bursts into fireworks and breaks things nearby'},
- newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',lookTip:'Drag on the right side to look around!',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',moreA:'Here are 3 more arrows!',bonusA:'+1 arrow!',
+ newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',lookTip:'Drag on the right side to look around!',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',noA:'No more: {a}!',overTL:'Let\'s try again!',overPL:'All the arrows are used up. Think about which arrow breaks which barrier, and try again!',bonusA:'+1 arrow!',
  IT:{chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
  tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the firework barrel to break everything around it!'},
  wind:'Wind! It pushes your arrows.',
  workshop:'Bow Workshop',workshopS:'Make your bow stronger with coins',coinsWon:'+{n} coins',buy:'Buy',maxed:'Best!',needC:'Open more treasures to get coins!',upDone:'Upgraded: {u}!',arrowsT:'Arrows',
  UP:{bow:'Bow',quiver:'Quiver',sight:'Aim sight'},
- UPD:{bow:'Arrows hit harder',quiver:'+1 arrow in every level',sight:'Longer aim line'},
+ UPD:{bow:'Arrows hit harder',quiver:'+1 normal arrow in every level',sight:'Longer aim line'},
  BOWT:['Wooden bow','Bamboo bow','Silver bow','Golden bow'],
  village:'My Village',villageS:'Build it with your stars',
  vNext:'Next: {b} at {n} stars',vDone:'Your village is complete, MasyaAllah!',vBuilt:'New in your village: {b}!',
@@ -63,13 +63,13 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
  AR:{normal:'Anak panah',flame:'Panah api',heavy:'Panah berat',triple:'Panah tiga',diamond:'Panah berlian',firework:'Panah kembang api'},
  ARD:{normal:'Memecahkan kaca, es, dan kayu. Tidak kuat untuk bata dan batu',flame:'Membakar kayu dan mencairkan es',heavy:'Kuat dan berat. Bisa memecah bata',triple:'Tiga anak panah sekaligus',diamond:'Ujung berlian yang tajam. Satu-satunya panah yang memecah batu',firework:'Meletus jadi kembang api dan memecahkan yang di dekatnya'},
- newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',lookTip:'Geser di sisi kanan untuk melihat sekeliling!',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',moreA:'Ini 3 anak panah lagi!',bonusA:'+1 anak panah!',
+ newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',lookTip:'Geser di sisi kanan untuk melihat sekeliling!',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',noA:'Habis: {a}!',overTL:'Ayo coba lagi!',overPL:'Anak panahnya sudah habis. Pikirkan panah mana yang bisa memecahkan penghalangnya, lalu coba lagi!',bonusA:'+1 anak panah!',
  IT:{chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
  tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak tong kembang api untuk memecahkan semua di sekitarnya!'},
  wind:'Ada angin! Anak panahmu akan terdorong.',
  workshop:'Bengkel Busur',workshopS:'Buat busurmu lebih kuat dengan koin',coinsWon:'+{n} koin',buy:'Beli',maxed:'Terbaik!',needC:'Buka lebih banyak harta untuk mendapat koin!',upDone:'Ditingkatkan: {u}!',arrowsT:'Anak panah',
  UP:{bow:'Busur',quiver:'Tabung panah',sight:'Bidikan'},
- UPD:{bow:'Anak panah lebih kuat',quiver:'+1 anak panah di setiap level',sight:'Garis bidik lebih panjang'},
+ UPD:{bow:'Anak panah lebih kuat',quiver:'+1 anak panah biasa di setiap level',sight:'Garis bidik lebih panjang'},
  BOWT:['Busur kayu','Busur bambu','Busur perak','Busur emas'],
  village:'Desaku',villageS:'Bangun dengan bintangmu',
  vNext:'Berikutnya: {b} di {n} bintang',vDone:'Desamu sudah lengkap, MasyaAllah!',vBuilt:'Baru di desamu: {b}!',
@@ -250,8 +250,10 @@ const upLv=k=>(prog.up&&prog.up[k])||0;
 const PW=.42,PH=1.7,PT=.42,GS=1.1,CR=.9,CB=.55;
 /* from the test bot: arrows a good player needs (PAR) and which seed makes each level (LVK).
    Re-run the bot whenever the level maker changes. */
-const PAR=[1,1,2,2,2,2,1,2,1,2,1,1,2,2,2,2,3,4,2,3,1,1,2,3,3,1,4,4,2,4,2,1,1,2,2,3,5,3,2,3,1,1,2,2,3,2,6,2,2,3,1,3,3,2,3,3,2,4,3,4];
-const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
+const PAR=[1,1,2,1,2,2,1,1,1,1,1,1,2,2,2,1,3,4,3,3,1,1,3,2,3,1,4,4,3,4,2,1,2,3,2,3,5,4,2,4,1,1,1,2,3,1,6,2,2,4,1,2,3,1,2,3,2,4,3,4];
+const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+/* special arrows the bot needed in each level (f fire, h heavy, t triple, d diamond, w firework) */
+const USE=["","","","","","","f1","","f1","f1","","h1","f1","f1","","","t1","","h1","f1","","","","h1","t1","t1","","t1","h1","d1","","","t1","","","d1","w1","","","h1t1","","","","t1","t1","t1","t1w1","","","w1","","t1","","t1","w1","h2","","t1","t1d1","h2"];
 const LVC={};
 function genLevel(n){if(LVC[n])return LVC[n];let lv;const k0=LVK[n-1]||0;for(let k=k0;k<k0+12;k++){lv=genRaw(n,k);if(stable(lv))break}return LVC[n]=lv}
 function stable(lv){const S=makeSim(lv);for(let i=0;i<300;i++)simStep(S);return S.goals.every(g=>!g.done)&&!S.ev.some(e=>e.e==='break'||e.e==='boom')}
@@ -648,7 +650,7 @@ function layout(){
   const W=innerWidth,H=innerHeight,d=DPR();[cv,fxc].forEach(c=>{c.width=Math.round(W*d);c.height=Math.round(H*d)});cam.W=W;cam.H=H;
   const land=W>H;$('#game').classList.toggle('land',land);document.body.classList.toggle('land',land);
   if(!G)return;const lv=G.lv,vw=lv.width+.8,vh=Math.max(lv.top+2.2,8.5),gr=1.2;
-  const pick=true,two=G.av.length+1>5,left=land&&pick?(two?Math.min(126,W*.16):Math.min(84,W*.1)):0,top=land?64:132,botP=land?0:pick?112:64;
+  const pick=true,two=G.av.length>5,left=land&&pick?(two?Math.min(126,W*.16):Math.min(84,W*.1)):0,top=land?64:132,botP=land?0:pick?112:64;
   /* levels 1-3 always fit on one screen; later ones may be wider than the screen and the camera moves */
   const avW=W-left,want=G.n<=3?vw:Math.min(vw,land?18:12.5);
   const s=Math.min(avW/want,(H-top-botP)/(vh+gr));cam.s=s;cam.left=left;
@@ -736,11 +738,21 @@ function drawConf(){const d=DPR();fxx.setTransform(1,0,0,1,0,0);fxx.clearRect(0,
    Playing a level
    ================================================================= */
 /* spare arrows over par: Big Kid 2, Little 4, plus the quiver upgrade. Little also gets refills. */
-function shotsFor(lv){return lv.par+(age==='little'?4:2)+upLv('quiver')}
+/* every arrow kind has its own count. Normal arrows: par + spare (+ quiver upgrade).
+   Special arrows are precious: the ones the level needs get 1 spare (Little 2), the others 1 each. */
+const AK={f:'flame',h:'heavy',t:'triple',d:'diamond',w:'firework'};
+function ammoFor(lv){const n=lv.n,av=arrowsAt(n),lit=age==='little',need={};
+  (USE[n-1]||'').replace(/([a-z])(\d)/g,(_,k,v)=>{need[AK[k]]=+v});
+  if(lv.mats.includes('brick')&&av.includes('heavy'))need.heavy=Math.max(need.heavy||0,1);
+  if(lv.mats.includes('stone')&&av.includes('diamond'))need.diamond=Math.max(need.diamond||0,1);
+  const a={normal:Math.max(lv.par,2)+(lit?4:2)+upLv('quiver')};
+  for(const k of av)if(k!=='normal')a[k]=need[k]?need[k]+(lit?2:1):1;
+  return a}
+const sumA=a=>Object.values(a).reduce((x,y)=>x+y,0);
 function startGame(n){
   const lv=genLevel(n);G={n,lv,sim:makeSim(lv,{dmgK:BOWK[upLv('bow')]}),state:'bism',shots:0,used:0,aim:null,won:false,shotT:0,idle:0,newB:[],coins:0,av:arrowsAt(n)};
-  G.shots=shotsFor(lv);
-  const pref=store.get('asel','normal');G.asel=G.av.includes(pref)?pref:'normal';
+  G.ammo=ammoFor(lv);G.shots=sumA(G.ammo);
+  const pref=store.get('asel','normal');G.asel=G.av.includes(pref)&&G.ammo[pref]>0?pref:'normal';
   const nw=store.get('newA',null);if(nw&&G.av.includes(nw)){G.asel=nw;store.set('newA',null);G.newA=nw}
   parts=[];flyers=[];texts=[];
   show('game');cam.x=null;layout();cam.x=cam.max;G.camT=cam.max;setCam();G.coinShown=prog.coins;renderHud();renderPicker();
@@ -766,13 +778,12 @@ function renderHud(){
   const el=$('#goals');el.innerHTML='';
   goalKeys(G.sim).forEach(e=>{const d=document.createElement('div');d.className='goal'+(e.left?'':' done');d.append(keyIcon(e.key,76));d.insertAdjacentHTML('beforeend',`<b>${e.left?e.left:'✓'}</b>`);el.appendChild(d)});
   $('#coinHud b').textContent=G.coinShown;
-  const c=$('#picker .cnt');if(c&&c.textContent!==String(G.shots)){c.textContent=G.shots;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}}
+  document.querySelectorAll('#picker button[data-at]').forEach(b=>{const n=G.ammo[b.dataset.at]||0,c=b.querySelector('.cnt');b.classList.toggle('empty',!n);
+    if(c&&c.textContent!==String(n)){c.textContent=n;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}})}
 function bumpGoal(){document.querySelectorAll('#goals .goal').forEach(g=>{g.classList.add('bump');setTimeout(()=>g.classList.remove('bump'),180)})}
-function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.remove('off');p.classList.toggle('two',G.av.length+1>5);
-  /* one quiver for all arrow kinds: every shot takes one arrow from it, whatever kind it is */
-  const q=document.createElement('div');q.className='quiv';q.setAttribute('aria-label','arrows left');q.append(upIcon('quiver',0,120));q.insertAdjacentHTML('beforeend',`<i class="cnt">${G.shots}</i>`);p.appendChild(q);
-  G.av.forEach(at=>{const b=document.createElement('button');b.className=(at===G.asel?'on':'')+(at===G.newA?' new':'');b.setAttribute('aria-label',t('AR')[at]);b.append(arrowIcon(at,120));
-    b.onclick=e=>{e.stopPropagation();if(G.state!=='ready'&&G.state!=='bism')return;G.asel=at;store.set('asel',at);G.newA=null;sfx.tap();toast(t('AR')[at]+': '+t('ARD')[at]);renderPicker();renderHud()};p.appendChild(b)})}
+function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.remove('off');p.classList.toggle('two',G.av.length>5);
+  G.av.forEach(at=>{const b=document.createElement('button');b.className=(at===G.asel?'on':'')+(at===G.newA?' new':'');b.setAttribute('aria-label',t('AR')[at]);b.dataset.at=at;b.append(arrowIcon(at,120));const n=G.ammo[at]||0;if(!n)b.classList.add('empty');b.insertAdjacentHTML('beforeend',`<i class="cnt">${n}</i>`);
+    b.onclick=e=>{e.stopPropagation();if(G.state!=='ready'&&G.state!=='bism')return;if(!(G.ammo[at]>0)){sfx.bad();toast(tf('noA',{a:t('AR')[at]}));return}G.asel=at;store.set('asel',at);G.newA=null;sfx.tap();toast(t('AR')[at]+': '+t('ARD')[at]);renderPicker();renderHud()};p.appendChild(b)})}
 
 /* aiming: press anywhere, pull back, let go */
 let aimStart=null;
@@ -790,7 +801,8 @@ function release(e){if(G&&G.panning&&e.pointerId===G.panning.id){G.panning=null;
   if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const A=aimFrom(e);aimStart=null;
   if(A.p<.12||window.praying){G.state='ready';G.aim=null;return}shoot(A.a,A.p)}
 cv.addEventListener('pointerup',release);cv.addEventListener('pointercancel',e=>{if(G)G.panning=null;if(G&&G.state==='aim'){G.state='ready';G.aim=null;aimStart=null}});
-function shoot(a,p){const at=G.asel;fire(G.sim,at,a,p);G.state='fly';G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);renderHud()}
+function shoot(a,p){const at=G.asel;if(!(G.ammo[at]>0))return;fire(G.sim,at,a,p);G.state='fly';G.ammo[at]--;G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);
+  if(!G.ammo[at]){const nx=G.av.find(k=>G.ammo[k]>0);if(nx){G.asel=nx;setTimeout(()=>{if(G)toast(tf('noA',{a:t('AR')[at]}))},400)}renderPicker()}renderHud()}
 
 let cheerN=0;
 function cheer(){const c=document.createElement('div');const i=cheerN++%4;c.className='cheer c'+(i+1);c.innerHTML=`<b>${t('cheer')[i]}</b><small>${t('cheerM')[i]}</small>`;document.body.appendChild(c);setTimeout(()=>c.remove(),1450);if(Math.random()<.6)say(t('cheer')[i])}
@@ -820,12 +832,12 @@ function handleEvents(){
     else if(ev.e==='tough'){const u=ev.u,q=u.b?u.b.getPosition():{x:X,y:Y};u.shakeT=performance.now();sfx.hit(u.mat,3);say2(q.x,q.y+.6,t('tough'),'#fff');
       const m=u.mat,need=NEEDS[m];G.tough=G.tough||{};
       if(!G.tough[m]){G.tough[m]=1;if(m==='iron')toast(t('tipM').iron);else if(need){const n=ARROWS[need].unlock;toast(G.av.includes(need)?tf('toughT',{a:t('AR')[need]}):tf('toughL',{a:t('AR')[need],n}))}}}
-    else if(ev.e==='bundle'){G.shots++;renderHud();sfx.unlock();sparkle(X,Y,'dot',12,['#fff','#ffd23f','#ff5fa8']);say2(X,Y+.3,t('bonusA'),'#fff')}}
+    else if(ev.e==='bundle'){G.shots++;G.ammo.normal++;renderHud();sfx.unlock();sparkle(X,Y,'dot',12,['#fff','#ffd23f','#ff5fa8']);say2(X,Y+.3,t('bonusA'),'#fff')}}
   S.ev.length=0;
   if(goalsNow){renderHud();bumpGoal();if(goalsNow>=2||S.goalsLeft===0)cheer()}
   if(S.goalsLeft<=0&&!G.won&&!G.winAt)G.winAt=performance.now()+1300}
 function levelWin(){
-  const n=G.n,par=G.lv.par,st=G.refill?1:G.used<=par?3:G.used<=par+2?2:1;G.won=true;G.state='end';
+  const n=G.n,par=G.lv.par,st=G.used<=par?3:G.used<=par+2?2:1;G.won=true;G.state='end';
   const before=prog.open,old=prog.stars[n]||0;prog.stars[n]=Math.max(old,st);prog.open=Math.max(prog.open,Math.min(LEVELS,n+1));
   const bonus=Math.max(0,st-old)*5;prog.coins+=bonus;G.coins+=bonus;store.set('prog',prog);G.coinShown+=bonus;$('#coinHud b').textContent=G.coinShown;
   sfx.win();say(t('sayAlh'));confetti();
@@ -848,9 +860,8 @@ $('#winMap').onclick=()=>{ov('win',false);G=null;openMap()};
 $('#overAgain').onclick=()=>{ov('over',false);startGame(G.n)};
 $('#overMap').onclick=()=>{ov('over',false);G=null;openMap()};
 function outOfShots(){
-  if(age==='little'){G.shots+=3;G.refill=1;renderHud();sfx.unlock();toast(t('moreA'));return}
-  G.state='end';sfx.over();setTimeout(()=>{if(!G||cur!=='game')return;
-  $('#overT').textContent=t('overT');$('#overP').textContent=t('overP');
+  G.state='end';sfx.over();setTimeout(()=>{if(!G||cur!=='game')return;const L=age==='little';
+  $('#overT').textContent=t(L?'overTL':'overT');$('#overP').textContent=t(L?'overPL':'overP');
   $('#overFact').textContent=fact(G.n+Math.floor(Math.random()*9));ov('over',true)},500)}
 
 /* hint: a hand shows "press, pull back, let go" */
@@ -1148,5 +1159,5 @@ renderSnd();renderMus();applyLang();layout();setTimeout(()=>tickPrayer(Date.now(
 document.fonts&&document.fonts.ready.then(()=>renderHome());
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* for automated tests only */
-window.__moa={get G(){return G},genLevel,genRaw,stable,makeSim,simulate,fire,simStep,turnDone,endTurn,ARROWS,AORDER,arrowsAt,PAR,startGame,shoot,
+window.__moa={get G(){return G},LVK,genLevel,genRaw,stable,makeSim,simulate,fire,simStep,turnDone,endTurn,ARROWS,AORDER,arrowsAt,PAR,startGame,shoot,
   get prog(){return prog},setProg(p){prog=p;store.set('prog',p)},cam};

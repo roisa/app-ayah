@@ -159,7 +159,9 @@ img{-webkit-user-drag:none}
 #game.land #picker.two .quiv{margin:0}
 #game.land #picker.two button.on{transform:scale(1.06)}
 #game.land #picker .quiv{width:clamp(48px,11vh,66px);height:clamp(48px,11vh,66px);border-radius:18px;margin:0 0 6px}
-#picker .cnt{position:absolute;right:-8px;bottom:-8px;min-width:30px;height:30px;padding:0 7px;border-radius:15px;background:#ff5fa8;color:#fff;font:400 20px/30px "Lilita One",sans-serif;font-style:normal;box-shadow:0 0 0 3px #fff,0 3px 0 rgba(0,0,0,.2)}
+#picker button.empty{opacity:.45;filter:grayscale(.9)}
+#picker button.empty .cnt{background:#9a8f84}
+#picker .cnt{position:absolute;right:-7px;bottom:-7px;min-width:26px;height:26px;padding:0 6px;border-radius:13px;font-size:17px!important;line-height:26px!important;background:#ff5fa8;color:#fff;font:400 20px/30px "Lilita One",sans-serif;font-style:normal;box-shadow:0 0 0 3px #fff,0 3px 0 rgba(0,0,0,.2)}
 #picker .cnt.pop{animation:cntPop .35s}
 @keyframes cntPop{50%{transform:scale(1.4)}}
 #picker button.new::after{content:"NEW";position:absolute;top:-10px;right:-8px;background:#ff5fa8;color:#fff;font:400 12px "Lilita One",sans-serif;padding:1px 6px;border-radius:999px}
