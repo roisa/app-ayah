@@ -25,7 +25,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  AR:{normal:'Arrow',flame:'Fire arrow',heavy:'Heavy arrow',triple:'Triple arrow',diamond:'Diamond arrow',firework:'Firework arrow'},
  ARD:{normal:'Breaks glass, ice and wood. Too weak for brick and stone',flame:'Sets wood on fire and melts ice',heavy:'Strong and heavy. Breaks bricks',triple:'Three arrows at once',diamond:'Sharp diamond tip. The only arrow that breaks stone',firework:'Bursts into fireworks and breaks things nearby'},
- newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',moreA:'Here are 3 more arrows!',bonusA:'+1 arrow!',
+ newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',lookTip:'Drag on the right side to look around!',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',moreA:'Here are 3 more arrows!',bonusA:'+1 arrow!',
  IT:{chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
  tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the firework barrel to break everything around it!'},
  wind:'Wind! It pushes your arrows.',
@@ -63,7 +63,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
  AR:{normal:'Anak panah',flame:'Panah api',heavy:'Panah berat',triple:'Panah tiga',diamond:'Panah berlian',firework:'Panah kembang api'},
  ARD:{normal:'Memecahkan kaca, es, dan kayu. Tidak kuat untuk bata dan batu',flame:'Membakar kayu dan mencairkan es',heavy:'Kuat dan berat. Bisa memecah bata',triple:'Tiga anak panah sekaligus',diamond:'Ujung berlian yang tajam. Satu-satunya panah yang memecah batu',firework:'Meletus jadi kembang api dan memecahkan yang di dekatnya'},
- newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',moreA:'Ini 3 anak panah lagi!',bonusA:'+1 anak panah!',
+ newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',lookTip:'Geser di sisi kanan untuk melihat sekeliling!',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',moreA:'Ini 3 anak panah lagi!',bonusA:'+1 anak panah!',
  IT:{chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
  tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak tong kembang api untuk memecahkan semua di sekitarnya!'},
  wind:'Ada angin! Anak panahmu akan terdorong.',
@@ -250,8 +250,8 @@ const upLv=k=>(prog.up&&prog.up[k])||0;
 const PW=.42,PH=1.7,PT=.42,GS=1.1,CR=.9,CB=.55;
 /* from the test bot: arrows a good player needs (PAR) and which seed makes each level (LVK).
    Re-run the bot whenever the level maker changes. */
-const PAR=[1,1,2,2,2,2,1,1,1,2,1,1,2,2,2,2,3,3,2,3,1,1,2,3,3,1,4,3,2,4,2,1,1,2,1,3,5,3,2,3,1,1,2,2,2,2,6,2,2,3,1,2,3,2,3,3,2,5,3,4];
-const LVK=[];
+const PAR=[1,1,2,2,2,2,1,2,1,2,1,1,2,2,2,2,3,4,2,3,1,1,2,3,3,1,4,4,2,4,2,1,1,2,2,3,5,3,2,3,1,1,2,2,3,2,6,2,2,3,1,3,3,2,3,3,2,4,3,4];
+const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
 const LVC={};
 function genLevel(n){if(LVC[n])return LVC[n];let lv;const k0=LVK[n-1]||0;for(let k=k0;k<k0+12;k++){lv=genRaw(n,k);if(stable(lv))break}return LVC[n]=lv}
 function stable(lv){const S=makeSim(lv);for(let i=0;i<300;i++)simStep(S);return S.goals.every(g=>!g.done)&&!S.ev.some(e=>e.e==='break'||e.e==='boom')}
@@ -289,7 +289,9 @@ function genRaw(n,k){
   else if(n===2)tower(12,0,1,2.3,['wood'],[0],'goal');
   else if(n===3){tower(10.5,0,1,2.3,['glass'],[1],null);tower(14.3,0,1,2.3,['wood'],[0],'goal')}
   else{
-    const nS=i<2?1:i<6?2:(w>=1?3:2);let x=9.4;
+    /* some later levels put the forts far away, so the camera has to travel to them */
+    const far=n>=4&&i%3===1?r1(3+w*.6):0;lv.far=far;
+    const nS=i<2?1:i<6?2:(w>=1?3:2);let x=9.4+far;
     for(let s=0;s<nS;s++){
       const ped=(w>=1&&R()<.3)?r1(rnd(.8,1.8)):0;
       const kind=n>=5&&R()<.3?'vault':n>5&&R()<.2?'pile':'tower';
@@ -647,9 +649,21 @@ function layout(){
   const land=W>H;$('#game').classList.toggle('land',land);document.body.classList.toggle('land',land);
   if(!G)return;const lv=G.lv,vw=lv.width+.8,vh=Math.max(lv.top+2.2,8.5),gr=1.2;
   const pick=G.av.length>1,left=land&&pick?Math.min(84,W*.1):0,top=land?64:132,botP=land?0:pick?112:64;
-  const s=Math.min((W-left)/vw,(H-top-botP)/(vh+gr));cam.s=s;
-  cam.ox=left+(W-left-vw*s)/2+.4*s;cam.oy=H-Math.max(gr*s,botP);
+  /* levels 1-3 always fit on one screen; later ones may be wider than the screen and the camera moves */
+  const avW=W-left,want=G.n<=3?vw:Math.min(vw,land?18:12.5);
+  const s=Math.min(avW/want,(H-top-botP)/(vh+gr));cam.s=s;cam.left=left;
+  const viewW=avW/s;cam.viewW=viewW;cam.min=-.4-Math.max(0,(viewW-vw)/2);cam.max=cam.min+Math.max(0,vw-viewW);
+  cam.x=camClamp(cam.x==null?cam.min:cam.x);cam.oy=H-Math.max(gr*s,botP);setCam();
   bgCache=null}
+const camClamp=v=>Math.max(cam.min,Math.min(cam.max,v));
+const canPan=()=>cam.max>cam.min+.3;
+function setCam(){cam.ox=cam.left-cam.x*cam.s}
+/* camera: shows the target first, follows the arrow, then slides back to Mo */
+function camStep(now){if(!G)return;
+  if(G.state==='fly'&&!G.panning){const p=G.sim.proj[0];if(p&&!p.dead){G.camT=p.b.getPosition().x-cam.viewW*.45;G.camSp=.12}}
+  if(G.backT&&now>G.backT&&G.state==='ready'&&!G.panning){G.backT=0;if(!G.looked){G.camT=cam.min;G.camSp=.06}}
+  if(!G.panning&&G.camT!=null){const tg=camClamp(G.camT);cam.x+=(tg-cam.x)*(G.camSp||.1);if(Math.abs(tg-cam.x)<.005)cam.x=tg}
+  setCam()}
 function drawBg(){const d=DPR();if(!bgCache||bgCache.w!==cv.width||bgCache.h!==cv.height||bgCache.world!==G.lv.w){const c=document.createElement('canvas');c.width=cv.width;c.height=cv.height;const x=c.getContext('2d');x.scale(d,d);paintWorld(x,G.lv.w,cam.W,cam.H,cam.oy,cam.s);bgCache={c,w:cv.width,h:cv.height,world:G.lv.w}}
   cx.drawImage(bgCache.c,0,0)}
 function drawGame(now){
@@ -729,7 +743,7 @@ function startGame(n){
   const pref=store.get('asel','normal');G.asel=G.av.includes(pref)?pref:'normal';
   const nw=store.get('newA',null);if(nw&&G.av.includes(nw)){G.asel=nw;store.set('newA',null);G.newA=nw}
   parts=[];flyers=[];texts=[];
-  show('game');layout();renderHud();renderPicker();
+  show('game');cam.x=null;layout();cam.x=cam.max;G.camT=cam.max;setCam();G.coinShown=prog.coins;renderHud();renderPicker();
   $('#lvlChip').textContent=tf('level',{n});
   $('#bismGoal').textContent=t('mGoal');
   $('#bismGoals').innerHTML='';goalKeys(G.sim).forEach(e=>{const sp=document.createElement('span');sp.append(keyIcon(e.key,88),document.createTextNode('× '+e.total));$('#bismGoals').appendChild(sp)});
@@ -742,13 +756,16 @@ function arrowIcon(at,px){const c=document.createElement('canvas');c.width=c.hei
   if(at==='triple'){for(const k of [-1,0,1]){x.save();x.translate(0,k*px*.16);drawArrow(x,at,px*.75,.6);x.restore()}}else drawArrow(x,at,px*.85,.6);return c}
 function bowIcon(tier,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),s=px/2.7;const gx=px*.45,gy=px*.94;drawBow(x,tier,gx,gy,gx,gy-OY*s,s,.55,.35,'normal');return c}
 $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));if(!G)return;G.state='ready';G.idle=performance.now();
-  if(G.n<=2||!store.get('hinted',0))setTimeout(showHint,700);
+  const intro=canPan();if(intro){setTimeout(()=>{if(G&&G.camT===cam.max&&!G.panning){G.camT=cam.min;G.camSp=.035}},1100);
+    if(!store.get('lookTip',0))setTimeout(()=>{if(G&&cur==='game'){store.set('lookTip',1);toast(t('lookTip'))}},3600)}
+  if(G.n<=2||!store.get('hinted',0))setTimeout(showHint,intro?3200:700);
   const tips=[...G.lv.mats].filter(m=>t('tipM')[m]&&!store.get('tip:'+m,0));if(G.lv.wind&&!store.get('tip:wind',0))tips.push('wind');
   let d=G.newA?2600:500;if(G.newA)setTimeout(()=>{if(G&&G.state!=='bism')toast(tf('newA',{a:t('AR')[G.newA]})+' '+t('ARD')[G.newA])},500);
   tips.slice(0,2).forEach(m=>{setTimeout(()=>{if(G&&cur==='game'){toast(m==='wind'?t('wind'):t('tipM')[m]);store.set('tip:'+m,1)}},d);d+=2600})};
 function renderHud(){
   const el=$('#goals');el.innerHTML='';
   goalKeys(G.sim).forEach(e=>{const d=document.createElement('div');d.className='goal'+(e.left?'':' done');d.append(keyIcon(e.key,76));d.insertAdjacentHTML('beforeend',`<b>${e.left?e.left:'✓'}</b>`);el.appendChild(d)});
+  $('#coinHud b').textContent=G.coinShown;
   const sh=$('#shots');sh.innerHTML='';sh.append(arrowIcon(G.asel,68));sh.insertAdjacentHTML('beforeend',`<b>${G.shots}</b>`)}
 function bumpGoal(){document.querySelectorAll('#goals .goal').forEach(g=>{g.classList.add('bump');setTimeout(()=>g.classList.remove('bump'),180)})}
 function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.toggle('off',G.av.length<2);
@@ -762,18 +779,30 @@ function aimFrom(e){const dx=aimStart.x-e.clientX,dy=aimStart.y-e.clientY,dist=M
   let a=Math.atan2(-dy,dx);if(dist<8)a=G.aim?G.aim.a:.55;
   return{a:clampAng(a),p:Math.min(1,dist/maxPull())}}
 cv.addEventListener('pointerdown',e=>{if(!G||window.praying)return;hideHint();G.idle=performance.now();
+  if(G.state==='ready'&&canPan()&&e.clientX>cam.W*.5){G.panning={x:e.clientX,cx:cam.x,id:e.pointerId};G.looked=1;try{cv.setPointerCapture(e.pointerId)}catch(_){}return}
+  if(G.camT!==cam.min){G.camT=cam.min;G.camSp=.15}G.looked=0;
   if(G.state!=='ready'||G.shots<=0)return;aimStart={x:e.clientX,y:e.clientY,id:e.pointerId};G.state='aim';G.aim={a:.55,p:0};try{cv.setPointerCapture(e.pointerId)}catch(_){}sfx.pull()});
-cv.addEventListener('pointermove',e=>{if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const o=G.aim.p;G.aim=aimFrom(e);if(Math.floor(G.aim.p*5)!==Math.floor(o*5)&&G.aim.p>o)tone(200+G.aim.p*300,.05,'triangle',.05)});
-function release(e){if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const A=aimFrom(e);aimStart=null;
+cv.addEventListener('pointermove',e=>{if(G&&G.panning&&e.pointerId===G.panning.id){cam.x=camClamp(G.panning.cx+(G.panning.x-e.clientX)/cam.s);G.camT=cam.x;setCam();return}
+  if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const o=G.aim.p;G.aim=aimFrom(e);if(Math.floor(G.aim.p*5)!==Math.floor(o*5)&&G.aim.p>o)tone(200+G.aim.p*300,.05,'triangle',.05)});
+function release(e){if(G&&G.panning&&e.pointerId===G.panning.id){G.panning=null;return}
+  if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const A=aimFrom(e);aimStart=null;
   if(A.p<.12||window.praying){G.state='ready';G.aim=null;return}shoot(A.a,A.p)}
-cv.addEventListener('pointerup',release);cv.addEventListener('pointercancel',e=>{if(G&&G.state==='aim'){G.state='ready';G.aim=null;aimStart=null}});
+cv.addEventListener('pointerup',release);cv.addEventListener('pointercancel',e=>{if(G)G.panning=null;if(G&&G.state==='aim'){G.state='ready';G.aim=null;aimStart=null}});
 function shoot(a,p){const at=G.asel;fire(G.sim,at,a,p);G.state='fly';G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);renderHud()}
 
 let cheerN=0;
 function cheer(){const c=document.createElement('div');const i=cheerN++%4;c.className='cheer c'+(i+1);c.innerHTML=`<b>${t('cheer')[i]}</b><small>${t('cheerM')[i]}</small>`;document.body.appendChild(c);setTimeout(()=>c.remove(),1450);if(Math.random()<.6)say(t('cheer')[i])}
 function freeBird(b){if(!BIRDS.includes(b))return;if(prog.birds[b])return;prog.birds[b]=1;store.set('prog',prog);if(G)G.newB.push(b);setTimeout(()=>toast(tf('newB',{b:t('BD')[b]})),600)}
+/* coins fly up to the coin counter, which counts up as each one lands */
+const coinImg=(()=>{const c=document.createElement('canvas');c.width=c.height=64;coinDraw(c.getContext('2d'),32,32,28);return c.toDataURL()})();
+coinDraw($('#coinHud canvas').getContext('2d'),34,34,29);
+function flyCoins(n,x0,y0){const hud=$('#coinHud'),r=hud.getBoundingClientRect(),x1=r.left+r.height*.5,y1=r.top+r.height/2,k=Math.min(6,Math.max(1,Math.round(n/3)));let left=n;
+  for(let i=0;i<k;i++){const share=i===k-1?left:Math.floor(n/k);left-=share;const im=document.createElement('img');im.src=coinImg;im.className='flycoin';document.body.appendChild(im);
+    const mx=(x0+x1)/2+(Math.random()-.5)*80,my=Math.min(y0,y1)-60-Math.random()*60;
+    const a=im.animate([{transform:`translate(${x0}px,${y0}px) scale(.6)`},{transform:`translate(${mx}px,${my}px) scale(1.25)`,offset:.45},{transform:`translate(${x1}px,${y1}px) scale(.8)`}],{duration:750,delay:i*110,easing:'ease-in',fill:'both'});
+    a.onfinish=()=>{im.remove();if(!G)return;G.coinShown+=share;$('#coinHud b').textContent=G.coinShown;hud.classList.remove('bump');void hud.offsetWidth;hud.classList.add('bump');setTimeout(()=>hud.classList.remove('bump'),160);tone(1568+Math.random()*300,.06,'square',.035)}}}
 const say2=(X,Y,s,c)=>texts.push({x:X,y:Y,s,c,t:0});
-function addCoins(n,X,Y){G.coins+=n;prog.coins+=n;store.set('prog',prog);if(!store.get('coinTip',0)){store.set('coinTip',1);setTimeout(()=>toast(t('coinTip')),900)}sparkle(X,Y,'coin',Math.min(10,2+Math.round(n/3)));setTimeout(sfx.coin,120)}
+function addCoins(n,X,Y){G.coins+=n;prog.coins+=n;store.set('prog',prog);flyCoins(n,sx(X),sy(Y));if(!store.get('coinTip',0)){store.set('coinTip',1);setTimeout(()=>toast(t('coinTip')),900)}sparkle(X,Y,'coin',Math.min(10,2+Math.round(n/3)));setTimeout(sfx.coin,120)}
 function handleEvents(){
   const S=G.sim;let goalsNow=0;
   for(const ev of S.ev){const X=ev.x,Y=Math.max(.6,ev.y||0);
@@ -796,7 +825,7 @@ function handleEvents(){
 function levelWin(){
   const n=G.n,par=G.lv.par,st=G.refill?1:G.used<=par?3:G.used<=par+2?2:1;G.won=true;G.state='end';
   const before=prog.open,old=prog.stars[n]||0;prog.stars[n]=Math.max(old,st);prog.open=Math.max(prog.open,Math.min(LEVELS,n+1));
-  const bonus=Math.max(0,st-old)*5;prog.coins+=bonus;G.coins+=bonus;store.set('prog',prog);
+  const bonus=Math.max(0,st-old)*5;prog.coins+=bonus;G.coins+=bonus;store.set('prog',prog);G.coinShown+=bonus;$('#coinHud b').textContent=G.coinShown;
   sfx.win();say(t('sayAlh'));confetti();
   setTimeout(()=>{if(!G||cur!=='game')return;
     $('#winSub').textContent=n>=LEVELS?t('allDone'):tf('lvlDone',{n});
@@ -837,14 +866,14 @@ function loop(now){requestAnimationFrame(loop);
   const dt=Math.min(.1,(now-(lastT||now))/1000);lastT=now;
   if(cur==='game'&&G){
     if(!window.praying&&G.state!=='bism'){acc+=dt;let n=0;while(acc>=1/60&&n<4){simStep(G.sim);acc-=1/60;n++;
-        if(G.state==='fly'&&turnDone(G.sim)){endTurn(G.sim);renderHud();if(G.sim.goalsLeft>0){G.state='ready';G.idle=now}}
+        if(G.state==='fly'&&turnDone(G.sim)){endTurn(G.sim);renderHud();if(G.sim.goalsLeft>0){G.state='ready';G.idle=now;G.backT=now+900}}
         if(G.state==='ready'&&G.shots<=0&&G.sim.goalsLeft>0&&!G.winAt)outOfShots()}
       if(acc>1/60)acc=0;handleEvents();
       if(G.winAt&&now>G.winAt&&!G.won&&G.state!=='aim'){G.winAt=0;levelWin()}
       if(G.state==='ready'&&age==='little'&&!hintAnim&&now-G.idle>9000){G.idle=now;showHint()}}
     if(G.demo&&G.state==='ready'){const k=((now-G.demo)%2400)/2400,p=k<.15?0:k<.6?(k-.15)/.45*.8:k<.75?.8:0;G.aim=p?{a:.6,p}:null}
     else if(G.demo===0&&G.state==='ready'&&G.aim&&!aimStart)G.aim=null;
-    drawGame(now)}
+    camStep(now);drawGame(now)}
   if(conf.length||fxDirty){drawConf();fxDirty=conf.length>0}}
 let fxDirty=false;
 requestAnimationFrame(loop);
