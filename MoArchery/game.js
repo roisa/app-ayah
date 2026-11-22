@@ -818,11 +818,11 @@ function arrowIcon(at,px){const c=document.createElement('canvas');c.width=c.hei
 function bowIcon(tier,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),s=px/2.7;const gx=px*.45,gy=px*.94;drawBow(x,tier,gx,gy,gx,gy-OY*s,s,.55,.35,'normal');return c}
 $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));if(!G)return;G.state='ready';G.idle=performance.now();
   const intro=canPan();if(intro){setTimeout(()=>{if(G&&G.camT===cam.max&&!G.panning){G.camT=cam.min;G.camSp=.035}},1100);
-    if(!store.get('lookTip',0))setTimeout(()=>{if(G&&cur==='game'){store.set('lookTip',1);toast(t('lookTip'))}},3600)}
+    if(!store.get('lookTip',0))setTimeout(()=>{if(G&&cur==='game'&&G.state!=='end'&&!G.winAt){store.set('lookTip',1);toast(t('lookTip'))}},3600)}
   if(G.n<=2||!store.get('hinted',0))setTimeout(showHint,intro?3200:700);
   const tips=[...G.lv.mats].filter(m=>t('tipM')[m]&&!store.get('tip:'+m,0));if(G.lv.wind&&!store.get('tip:wind',0))tips.push('wind');
   let d=G.newA?2600:500;if(G.newA)setTimeout(()=>{if(G&&G.state!=='bism')toast(tf('newA',{a:t('AR')[G.newA]})+' '+t('ARD')[G.newA])},500);
-  tips.slice(0,2).forEach(m=>{setTimeout(()=>{if(G&&cur==='game'){toast(m==='wind'?t('wind'):t('tipM')[m]);store.set('tip:'+m,1)}},d);d+=2600})};
+  tips.slice(0,2).forEach(m=>{setTimeout(()=>{if(G&&cur==='game'&&G.state!=='end'&&!G.winAt){toast(m==='wind'?t('wind'):t('tipM')[m]);store.set('tip:'+m,1)}},d);d+=2600})};
 function renderHud(){
   const el=$('#goals');el.innerHTML='';
   goalKeys(G.sim).forEach(e=>{const d=document.createElement('div');d.className='goal'+(e.left?'':' done');d.append(keyIcon(e.key,76));d.insertAdjacentHTML('beforeend',`<b>${e.left?e.left:'✓'}</b>`);el.appendChild(d)});
@@ -875,8 +875,8 @@ function handleEvents(){
       parts.push({k:'img',im:'fx-dust',x:ev.x,y:ev.y,vx:0,vy:.6,g:0,t:0,life:.55,r:0,vr:0,z:.9,grow:.7})}}
     else if(ev.e==='boom'){sfx.boom();firework(X,Y,!ev.small);parts.push({k:'img',im:'fx-firework',x:X,y:Y,vx:0,vy:0,g:0,t:0,life:.7,r:0,vr:0,z:ev.small?1.8:3,grow:.5});if(!ev.small)debris(X,Y,'goal',8,true)}
     else if(ev.e==='goal'){goalsNow++;const u=ev.u,c=ITEM[u.g].c;
-      if(u.g==='cage'){sfx.free();debris(X,Y,'wood',8);flyers.push({v:u.v,x:X,y:Y,vx:(Math.random()<.5?-1:1)*(1.4+Math.random()),t:0});sparkle(X,Y,'heart',5);say2(X,Y+.7,pickT('thanks'),'#ff9ad5');freeBird(u.v)}
-      else{sfx.gift();sparkle(X,Y,'star',6);debris(X,Y,'goal',8);say2(X,Y+.6,pickT('got'),'#ffe14a')}
+      if(u.g==='cage'){sfx.free();debris(X,Y,'wood',8);flyers.push({v:u.v,x:X,y:Y,vx:(Math.random()<.5?-1:1)*(1.4+Math.random()),t:0});sparkle(X,Y,'heart',5);parts.push({k:'img',im:'fx-hearts',x:X,y:Y+.4,vx:0,vy:1.2,g:0,t:0,life:1.1,r:0,vr:0,z:1.1,grow:.4});say2(X,Y+.7,pickT('thanks'),'#ff9ad5');freeBird(u.v)}
+      else{sfx.gift();sparkle(X,Y,'star',6);for(let j=0;j<3;j++)parts.push({k:'img',im:'sparkle',x:X+(Math.random()-.5)*1.2,y:Y+(Math.random()-.2)*1.2,vx:0,vy:.5,g:0,t:-j*.12,life:.7,r:0,vr:0,z:.45,grow:.6});debris(X,Y,'goal',8);say2(X,Y+.6,pickT('got'),'#ffe14a')}
       addCoins(c,X,Y);say2(X,Y-.2,'+'+c,'#ffd23f')}
     else if(ev.e==='coin'){addCoins(3,X,Y);say2(X,Y+.3,'+3','#ffd23f')}
     else if(ev.e==='ignite'){sfx.burn();sparkle(X,Y,'dot',10,['#ff6a1f','#ffd23f','#fff'])}
@@ -897,7 +897,8 @@ function levelWin(){
     const is=$('#winStars').children;[...is].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
     $('#winFact').textContent=fact(n);
     const u=$('#winUnl');u.innerHTML='';
-    const cn=document.createElement('div');cn.className='unl coins';const cc=document.createElement('canvas');cc.width=cc.height=96;coinDraw(cc.getContext('2d'),48,48,40);cn.append(cc,document.createTextNode(tf('coinsWon',{n:G.coins})));u.appendChild(cn);
+    const cn=document.createElement('div');cn.className='unl coins';const cpic=G.coins>=60?'coin-chest':G.coins>=30?'coin-heap':G.coins>=12?'coin-pile':G.coins>=4?'coin-stack':'coin',cim=AI(cpic);let cc;
+    if(cim){cc=document.createElement('img');cc.src=cim.src;cc.className='cpic'}else{cc=document.createElement('canvas');cc.width=cc.height=96;coinDraw(cc.getContext('2d'),48,48,40)}cn.append(cc,document.createTextNode(tf('coinsWon',{n:G.coins})));u.appendChild(cn);
     const na=AORDER.find(a=>ARROWS[a].unlock===n+1),vb=VILLAGE.filter(b=>b.cost>totalStars()-(prog.stars[n]-old)&&b.cost<=totalStars()&&b.cost>0);
     const row=(node,txt)=>{const d=document.createElement('div');d.className='unl';if(node)d.append(node);d.append(document.createTextNode(txt));u.appendChild(d)};
     if(na&&before<n+1){store.set('newA',na);setTimeout(sfx.unlock,1300);row(arrowIcon(na,128),tf('newA',{a:t('AR')[na]})+' '+t('ARD')[na])}
@@ -946,7 +947,7 @@ addEventListener('resize',()=>{layout();if(cur==='home')renderHome();if(cur==='v
 /* =================================================================
    Screens, navigation (house button = main menu; no swipe-back inside the game)
    ================================================================= */
-function ov(id,on){$('#'+id).classList.toggle('on',on);if(on)fxDirty=true}
+function ov(id,on){$('#'+id).classList.toggle('on',on);if(on&&(id==='win'||id==='over'))$('#toast').classList.remove('on');if(on)fxDirty=true}
 let toastT;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2200)}
 let cur='home';
 function show(s,push=true){
