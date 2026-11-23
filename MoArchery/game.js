@@ -606,16 +606,19 @@ const ARTN=['wood-sq','wood-pl','glass-sq','glass-pl','ice-sq','ice-pl','brick-s
  'chest','chest-open','gift-pink','gift-blue','gift-purple','gift-green','star-item','gem-ruby','gem-emerald','gem-sapphire','gold','pearl','crown','ring','lantern','crystal','cage','barrel','bundle','quiver','target',
  'ar-normal','ar-flame','ar-heavy','ar-triple','ar-diamond','ar-firework','bow0','bow1','bow2','bow3','stand0','stand2','stand3','up',
  'coin','coin-stack','coin-pile','coin-heap','coin-sack','coin-chest','fx-firework','fx-dust','fx-wood','fx-glass','fx-brick','fx-stone','fx-flame','fx-hearts',
- ...BIRDS.flatMap(b=>['bird-'+b,'fly-'+b])];
+ ...BIRDS.flatMap(b=>['bird-'+b,'fly-'+b]),'bg-home','bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night',
+ 'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick'];
 let artLeft=ARTN.length;
-ARTN.forEach(n=>{const i=new Image();i.onload=()=>{i.ok=1;if(--artLeft<=0){try{renderHomeArt();if(G){renderPicker();renderHud()}}catch(e){}}};i.onerror=()=>{artLeft--};i.src='art/'+n+'.webp';ART[n]=i});
+ARTN.forEach(n=>{const i=new Image();i.onload=()=>{i.ok=1;if(--artLeft<=0){try{bgCache=null;if(cur!=='game')paintBg();if(cur==='village')renderVillage();renderHomeArt();if(G){renderPicker();renderHud()}}catch(e){}}};i.onerror=()=>{artLeft--};i.src='art/'+n+'.webp';ART[n]=i});
 const AI=n=>{const i=ART[n];return i&&i.ok?i:null};
 /* draw an image centred at cx,cy, fitted inside w x h */
 function fitImg(x,im,cx,cy,w,h){const k=Math.min(w/im.naturalWidth,h/im.naturalHeight),W=im.naturalWidth*k,H=im.naturalHeight*k;x.drawImage(im,cx-W/2,cy-H/2,W,H)}
 /* stretch a horizontal plank image to W x H keeping its two ends (3-slice) */
 function slice3(x,im,X,Y,W,H){const iw=im.naturalWidth,ih=im.naturalHeight,cs=Math.min(iw/3,ih*.7),cd=Math.min(W/2,cs*H/ih);
   x.drawImage(im,0,0,cs,ih,X,Y,cd,H);x.drawImage(im,cs,0,iw-2*cs,ih,X+cd,Y,W-2*cd,H);x.drawImage(im,iw-cs,0,cs,ih,X+W-cd,Y,cd,H)}
+const ROOF={wood:'wood',glass:'glass',ice:'glass',stone:'stone',iron:'stone',brick:'brick'};
 function drawBlock(x,u,s){
+  if(u.k==='tri'){const im=AI('roof-'+(ROOF[u.mat]||'wood'));if(im){const W=u.w*s*1.06,H=u.h*s*1.12;x.drawImage(im,-W/2,-H+s*.04,W,H);cracks(x,u,-W/4,-H*.6,W/2,H*.5,s);return}}
   if(u.k!=='box'){drawBlockC(x,u,s);return}
   const W=u.w*s,H=u.h*s,long=Math.max(W,H)/Math.min(W,H)>1.6,im=AI(u.mat+(long?'-pl':'-sq'));if(!im){drawBlockC(x,u,s);return}
   if(!long)x.drawImage(im,-W/2,-H/2,W,H);
@@ -645,10 +648,21 @@ function drawBow(x,tier,gx,gy,px,py,s,ang,pull,ammo){
   if(ammo){x.save();x.translate(nx+s*.6,0);drawArrow(x,ammo,s*1.2,0);x.restore()}
   x.restore()}
 
+
+/* world backgrounds: the image's ground row (BGY, 0..1 from the top) lines up with the game's ground line */
+const BGN=['bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night'],BGY=[.79,.79,.785,.79,.77,.79];
+function paintWorld(x,w,W,H,gy,s,noSun,home){const im=AI(home?'bg-home':BGN[w]);if(!im){paintWorldC(x,w,W,H,gy,s,noSun);return}
+  const G=home?.79:BGY[w],iw=im.naturalWidth,ih=im.naturalHeight,k=Math.max(W/iw,gy/(G*ih),(H-gy)/((1-G)*ih)),dw=iw*k,dh=ih*k;
+  x.drawImage(im,(W-dw)/2,gy-G*dh,dw,dh)}
+/* rock pedestals: the grassy (sandy, snowy) top stays the same, the stone body stretches */
+const PEDN=['ped-grass','ped-sand','ped-grass','ped-sand','ped-snow','ped-night'];
+function rockDraw(x,u,s,w){const im=AI(PEDN[w]);if(!im){rockDrawC(x,u,s,w);return}
+  const W=u.w*s*1.04,H=u.h*s+s*.25,iw=im.naturalWidth,ih=im.naturalHeight,top=-u.h*s/2-s*.12,ct=ih*.55,cb=ih*.22,dt=Math.min(H*.7,W*ct/iw),db=Math.min(H*.25,W*cb/iw);
+  x.drawImage(im,0,0,iw,ct,-W/2,top,W,dt);x.drawImage(im,0,ct,iw,ih-ct-cb,-W/2,top+dt-1,W,Math.max(0,H-dt-db)+2);x.drawImage(im,0,ih-cb,iw,cb,-W/2,top+H-db,W,db)}
 /* =================================================================
    Backgrounds (drawn in code until the owner's art arrives). gy = ground line in pixels.
    ================================================================= */
-function paintWorld(x,w,W,H,gy,s,noSun){
+function paintWorldC(x,w,W,H,gy,s,noSun){
   const WD=WORLDS[w],R=seeded(w*101+5);
   const g=x.createLinearGradient(0,0,0,gy);g.addColorStop(0,WD.sky[0]);g.addColorStop(1,WD.sky[1]);x.fillStyle=g;x.fillRect(0,0,W,H);
   const u=Math.max(16,Math.min(s,H/9));
@@ -677,7 +691,7 @@ function palm(x,px,gy,h){x.strokeStyle='#8a5a2a';x.lineWidth=h*.07;x.lineCap='ro
 function masjid(x,cx,by,u,col='rgba(200,120,50,.55)'){x.fillStyle=col;x.fillRect(cx-u*1.4,by-u*.2,u*2.8,u*1.4);x.beginPath();x.arc(cx,by-u*.2,u*.9,Math.PI,0);x.fill();
   x.beginPath();x.moveTo(cx-u*.1,by-u*1.1);x.lineTo(cx,by-u*1.45);x.lineTo(cx+u*.1,by-u*1.1);x.fill();
   for(const k of [-1,1]){x.fillRect(cx+k*u*1.7-u*.14,by-u*1.6,u*.28,u*2.8);x.beginPath();x.moveTo(cx+k*u*1.7-u*.2,by-u*1.6);x.lineTo(cx+k*u*1.7,by-u*2);x.lineTo(cx+k*u*1.7+u*.2,by-u*1.6);x.fill()}}
-function rockDraw(x,u,s,w){const W=u.w*s,H=u.h*s;rr(x,-W/2,-H/2,W,H+s*.2,s*.35);
+function rockDrawC(x,u,s,w){const W=u.w*s,H=u.h*s;rr(x,-W/2,-H/2,W,H+s*.2,s*.35);
   const g=x.createLinearGradient(0,-H/2,0,H/2);g.addColorStop(0,'#b0a08c');g.addColorStop(1,'#7a6a58');x.fillStyle=g;x.fill();x.lineWidth=lw(s);x.strokeStyle=OUT;x.stroke();
   x.fillStyle='rgba(60,40,20,.2)';for(const [a,b,r] of [[-.3,.1,.08],[.25,.25,.06],[.1,-.05,.05]]){x.beginPath();x.arc(a*W,b*H,r*s*2,0,7);x.fill()}
   rr(x,-W/2-s*.05,-H/2-s*.08,W+s*.1,s*.3,s*.15);x.fillStyle=WORLDS[w].cap;x.fill();x.lineWidth=lw(s)*.8;x.stroke()}
@@ -1007,7 +1021,7 @@ function drawBuilding(x,id,cx,gy,u,W){
   if(id==='lights'){x.strokeStyle='rgba(74,44,20,.6)';x.lineWidth=2;x.beginPath();for(let X=0;X<=W;X+=W/40)x.lineTo(X,gy-u*4.6+Math.sin(X/W*Math.PI*6)*u*.35);x.stroke();
     for(let i=0;i<22;i++){const X=(i+.5)*W/22,Y=gy-u*4.6+Math.sin(X/W*Math.PI*6)*u*.35;x.save();x.shadowColor='#ffd060';x.shadowBlur=u*.4;x.beginPath();x.arc(X,Y+u*.15,u*.13,0,7);x.fillStyle=['#ffd23f','#ff5fa8','#7df0c2','#9fe2ff'][i%4];x.fill();x.restore()}}}
 function drawVillage(x,W,H,stars,small){
-  const gy=H*.86,u=Math.min(H/7,W/(small?16:22));paintWorld(x,0,W,H,gy,u,!small);
+  const gy=H*.86,u=Math.min(H/7,W/(small?16:22));paintWorld(x,0,W,H,gy,u,!small,true);
   const next=VILLAGE.find(b=>b.cost>stars);
   for(const b of VILLAGE){const built=b.cost<=stars;if(!built&&b!==next)continue;const cx=b.x*W;
     x.save();if(!built)x.globalAlpha=.3;drawBuilding(x,b.id,cx,gy,u,W);x.restore();
@@ -1051,7 +1065,7 @@ function renderLau(){
 
 /* ---------- home ---------- */
 function paintBg(){const c=$('#bg'),d=DPR(),W=innerWidth,H=innerHeight;c.width=Math.round(W*d);c.height=Math.round(H*d);const x=c.getContext('2d');x.scale(d,d);
-  paintWorld(x,0,W,H,H*.88,Math.min(W,H)/12)}
+  paintWorld(x,0,W,H,H*.88,Math.min(W,H)/12,false,true)}
 function renderHomeArt(){
   const a=$('#cvAdv');if(a){const x=a.getContext('2d'),W=a.width,H=a.height,s=W/7.2;x.clearRect(0,0,W,H);
     const gy=H*.9;x.fillStyle='#7ad35a';x.fillRect(0,gy,W,H-gy);x.strokeStyle=OUT;x.lineWidth=2;x.beginPath();x.moveTo(0,gy);x.lineTo(W,gy);x.stroke();
