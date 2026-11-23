@@ -19,7 +19,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  thanks:['Thank you!','Jazakallah khair!','Yay, free!'],got:['Got it!','Yay!','Treasure!','MasyaAllah!'],
  W:['Green Garden','Sunny Beach','Shady Forest','Desert Oasis','Snowy Peaks','Lantern Night'],
  lockedW:'Finish {w} first',lockedLv:'Finish the level before to open this one',levelsR:'Levels {a}–{b}',worldOpen:'{w} is now open!',
- sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Pull back and let go!',rot:'Turn sideways for a bigger view',
+ sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Pull the yellow button back, then let go!',rot:'Turn sideways for a bigger view',
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your game will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
@@ -73,7 +73,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  thanks:['Terima kasih!','Jazakallah khair!','Hore, bebas!'],got:['Dapat!','Hore!','Harta karun!','MasyaAllah!'],
  W:['Taman Hijau','Pantai Cerah','Hutan Rindang','Oasis Gurun','Puncak Salju','Malam Lentera'],
  lockedW:'Selesaikan {w} dulu',lockedLv:'Selesaikan level sebelumnya untuk membuka level ini',levelsR:'Level {a}–{b}',worldOpen:'{w} sekarang terbuka!',
- sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Tarik ke belakang, lalu lepaskan!',rot:'Miringkan HP agar lebih besar',
+ sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Tarik tombol kuning ke belakang, lalu lepaskan!',rot:'Miringkan HP agar lebih besar',
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Permainanmu akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
  setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
@@ -818,7 +818,7 @@ function drawGame(now){
     for(let tt=.05,i=0;tt<T;tt+=.07,i++){const X=px+vx*tt+.5*wind*tt*tt,Y=py+vy*tt-5*tt*tt;if(Y<0)break;const r=Math.max(2,s*(.13-i*.002));
       x.beginPath();x.arc(sx(X),sy(Y),r,0,7);x.fillStyle='#fff';x.globalAlpha=Math.max(.35,1-tt/T*.6);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke();x.globalAlpha=1}}
   /* aim gauge for small children: a quarter pie (flat to straight up) and a power bar, no numbers */
-  if(aim&&aim.p>.02){const A=Math.max(0,Math.min(Math.PI/2,clampAng(aim.a))),pw=Math.min(1,aim.p),R=Math.max(46,s*1.5),cx0=sx(LX)-R*.9,cy0=sy(OY)-s*1.75,lw2=Math.max(2,R*.06);
+  if(aim&&aim.p>.02){const A=Math.max(0,Math.min(Math.PI/2,clampAng(aim.a))),pw=Math.min(1,aim.p),P=padGeo(),R=Math.max(40,Math.min(s*1.5,P.R*.8)),cx0=P.cx+P.R+16,cy0=P.cy+R*.25,lw2=Math.max(2,R*.06);
     x.save();x.lineJoin='round';x.lineCap='round';
     // quarter disc background
     x.beginPath();x.moveTo(cx0,cy0);x.arc(cx0,cy0,R,-Math.PI/2,0);x.closePath();x.fillStyle='rgba(255,255,255,.9)';x.fill();x.lineWidth=lw2;x.strokeStyle=OUT;x.stroke();
@@ -857,7 +857,32 @@ function drawGame(now){
   for(const p of S.proj){const q=p.b.getPosition();p.tr=p.tr||[];const l=p.tr[p.tr.length-1];if(!l||Math.hypot(l.x-q.x,l.y-q.y)>.12){p.tr.push({x:q.x,y:q.y});if(p.tr.length>30)p.tr.shift()}
     if(prog.trail&&prog.trail!=='none'&&!p.touched)drawTrail(x,p.tr.map(o=>[sx(o.x),sy(o.y)]),prog.trail,s,now);
     x.save();x.translate(sx(q.x),sy(q.y));drawArrow(x,p.at,s,p.b.getAngle(),1);x.restore()}
-  drawParts(x,now,s)}
+  drawParts(x,now,s);drawPad(x,now)}
+/* the aiming pad: a wide ring with a yellow button. The button moves opposite to the shot, like pulling a bowstring. */
+function drawPad(x,now){if(G.won||G.state==='bism'||G.shots<=0)return;const P=padGeo(),{cx,cy,R}=P,aim=G.aim,live=G.state==='ready'||G.state==='aim';
+  x.save();x.globalAlpha=live?1:.35;x.lineCap='round';x.lineJoin='round';
+  // base disc and rings
+  x.beginPath();x.arc(cx,cy,R,0,7);x.fillStyle='rgba(255,255,255,.3)';x.fill();x.lineWidth=Math.max(4,R*.07);x.strokeStyle='rgba(255,255,255,.95)';x.stroke();
+  x.lineWidth=2;x.strokeStyle='rgba(74,44,20,.55)';x.beginPath();x.arc(cx,cy,R+Math.max(2,R*.035),0,7);x.stroke();
+  x.setLineDash([R*.07,R*.09]);x.strokeStyle='rgba(255,255,255,.8)';x.lineWidth=2;x.beginPath();x.arc(cx,cy,R*.6,0,7);x.stroke();x.setLineDash([]);
+  const kr=R*.34;let kx=cx,ky=cy,A=.6;
+  if(aim&&aim.p>.01){A=clampAng(aim.a);const d=Math.min(R-kr*.35,aim.p*R*1.1);kx=cx-Math.cos(A)*d;ky=cy+Math.sin(A)*d;
+    // the shot direction from the centre, longer with more power
+    const L=R*(.35+.6*aim.p),ex=cx+Math.cos(A)*L,ey=cy-Math.sin(A)*L,col=aim.p<.5?'#3fcf5a':aim.p<.8?'#ffb020':'#ff4f5e';
+    x.strokeStyle=OUT;x.lineWidth=R*.13;x.beginPath();x.moveTo(cx,cy);x.lineTo(ex,ey);x.stroke();x.strokeStyle=col;x.lineWidth=R*.08;x.stroke();
+    x.save();x.translate(ex,ey);x.rotate(-A);x.beginPath();x.moveTo(R*.16,0);x.lineTo(-R*.08,-R*.13);x.lineTo(-R*.08,R*.13);x.closePath();x.fillStyle=col;x.fill();x.lineWidth=2.5;x.strokeStyle=OUT;x.stroke();x.restore();
+    // a stretchy band from the centre to the button
+    x.strokeStyle='rgba(255,255,255,.95)';x.lineWidth=R*.05;x.beginPath();x.moveTo(cx,cy);x.lineTo(kx,ky);x.stroke()}
+  else if(live){// chevrons: "pull this way" (down and back)
+    const k=(now%1400)/1400;for(let i=0;i<2;i++){const t2=(k+i*.5)%1,d=R*(.45+t2*.4);x.save();x.globalAlpha=(live?1:.35)*Math.sin(t2*Math.PI);x.translate(cx-Math.cos(A)*d,cy+Math.sin(A)*d);x.rotate(-A+Math.PI);
+      x.beginPath();x.moveTo(-R*.07,-R*.12);x.lineTo(R*.07,0);x.lineTo(-R*.07,R*.12);x.lineWidth=R*.07;x.strokeStyle='#fff';x.stroke();x.restore()}}
+  // the yellow button with the chosen arrow on it
+  const pulse=live&&!aim?1+Math.sin(now/260)*.05:1,r=kr*pulse;
+  x.beginPath();x.arc(kx,ky+r*.12,r,0,7);x.fillStyle='rgba(120,60,0,.35)';x.fill();
+  const g=x.createRadialGradient(kx-r*.3,ky-r*.35,r*.1,kx,ky,r);g.addColorStop(0,'#fff6b0');g.addColorStop(.55,'#ffd23f');g.addColorStop(1,'#f0a000');
+  x.beginPath();x.arc(kx,ky,r,0,7);x.fillStyle=g;x.fill();x.lineWidth=Math.max(2.5,r*.1);x.strokeStyle=OUT;x.stroke();
+  x.save();x.translate(kx,ky);x.scale(.92,.92);drawArrow(x,G.asel,r*1.25,A,1);x.restore();
+  x.restore()}
 /* particles in world units */
 function drawParts(x,now,s){
   const dt=1/60;
@@ -919,7 +944,7 @@ function arrowIcon(at,px){const c=document.createElement('canvas');c.width=c.hei
 function bowIcon(tier,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),s=px/2.7;const gx=px*.45,gy=px*.94;drawBow(x,tier,gx,gy,gx,gy-OY*s,s,.55,.35,'normal');return c}
 $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));if(!G)return;G.state='ready';G.idle=performance.now();
   const intro=canPan();if(intro){setTimeout(()=>{if(G&&G.camT===cam.max&&!G.panning){G.camT=cam.min;G.camSp=.035}},1100);
-    if(!store.get('lookTip',0))setTimeout(()=>{if(G&&cur==='game'&&G.state!=='end'&&!G.winAt){store.set('lookTip',1);toast(t('lookTip'))}},3600)}
+}
   if(G.n<=2||!store.get('hinted',0))setTimeout(showHint,intro?3200:700);
   const tips=[...G.lv.mats].filter(m=>t('tipM')[m]&&!store.get('tip:'+m,0));if(G.lv.wind&&!store.get('tip:wind',0))tips.push('wind');
   let d=G.newA?2600:500;if(G.newA)setTimeout(()=>{if(G&&G.state!=='bism')toast(tf('newA',{a:t('AR')[G.newA]})+' '+t('ARD')[G.newA])},500);
@@ -938,13 +963,24 @@ function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.remove('
   G.av.forEach(at=>{const b=document.createElement('button');b.className=(at===G.asel?'on':'')+(at===G.newA?' new':'');b.setAttribute('aria-label',t('AR')[at]);b.dataset.at=at;b.append(arrowIcon(at,120));const n=G.ammo[at]||0;if(!n)b.classList.add('empty');b.insertAdjacentHTML('beforeend',`<i class="cnt">${n}</i>`);
     b.onclick=e=>{e.stopPropagation();if(G.state!=='ready'&&G.state!=='bism')return;if(!(G.ammo[at]>0)){sfx.bad();toast(tf('noA',{a:t('AR')[at]}));return}G.asel=at;store.set('asel',at);G.newA=null;sfx.tap();toast(t('AR')[at]+': '+t('ARD')[at]);renderPicker();renderHud()};p.appendChild(b)})}
 
-/* aiming: press anywhere, pull back, let go */
-let aimStart=null;
+/* aiming: a big round pad on the left. Grab the yellow button, pull it back, let go.
+   Pressing anywhere else on the left half still works too. */
+let aimStart=null,padC=null;
 const maxPull=()=>Math.max(90,Math.min(220,Math.min(cam.W,cam.H)*.32));
+function padGeo(){const now=performance.now();if(padC&&now-padC.t<500&&padC.W===cam.W&&padC.H===cam.H)return padC;
+  const W=cam.W,H=cam.H,land=W>H,sl=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safeL'))||0;
+  let R=Math.max(50,Math.min(96,Math.min(W,H)*.21));
+  const pr=$('#picker').getBoundingClientRect(),gb=$('#gbar').getBoundingClientRect(),gl=$('#goals')?$('#goals').getBoundingClientRect():gb;
+  const top=Math.max(gb.bottom,gl.bottom)+8,moTop=sy(OY)-cam.s*1.6-10;
+  R=Math.max(42,Math.min(R,(moTop-top)/2));const cy=Math.max(top+R,moTop-R),left=land&&pr.width&&pr.bottom>cy-R-10?pr.right+14:16+sl;
+  return padC={t:now,W,H,cx:left+R,cy,R}}
+function inPad(e){if(!G||G.won)return false;const P=padGeo();return Math.hypot(e.clientX-P.cx,e.clientY-P.cy)<P.R*1.3}
 function aimFrom(e){const dx=aimStart.x-e.clientX,dy=aimStart.y-e.clientY,dist=Math.hypot(dx,dy);
   let a=Math.atan2(-dy,dx);if(dist<8)a=G.aim?G.aim.a:.55;
-  return{a:clampAng(a),p:Math.min(1,dist/maxPull())}}
+  return{a:clampAng(a),p:Math.min(1,dist/(aimStart.r||maxPull()))}}
 cv.addEventListener('pointerdown',e=>{if(!G||window.praying)return;hideHint();G.idle=performance.now();
+  const pad=G.state==='ready'&&G.shots>0&&inPad(e);
+  if(pad){if(G.camT!==cam.min){G.camT=cam.min;G.camSp=.15}G.looked=0;const P=padGeo();aimStart={x:P.cx,y:P.cy,id:e.pointerId,r:P.R*1.1};G.state='aim';G.aim=aimFrom(e);try{cv.setPointerCapture(e.pointerId)}catch(_){}sfx.pull();return}
   if(G.state==='ready'&&canPan()&&e.clientX>cam.W*.5){G.panning={x:e.clientX,cx:cam.x,id:e.pointerId};G.looked=1;try{cv.setPointerCapture(e.pointerId)}catch(_){}return}
   if(G.camT!==cam.min){G.camT=cam.min;G.camSp=.15}G.looked=0;
   if(G.state!=='ready'||G.shots<=0)return;aimStart={x:e.clientX,y:e.clientY,id:e.pointerId};G.state='aim';G.aim={a:.55,p:0};try{cv.setPointerCapture(e.pointerId)}catch(_){}sfx.pull()});
@@ -1029,7 +1065,7 @@ function outOfShots(){
 
 /* hint: a hand shows "press, pull back, let go" */
 let hintAnim=null;
-function showHint(){if(!G||G.state!=='ready'||cur!=='game')return;const x0=sx(LX)+cam.s*1.2,y0=sy(OY)-cam.s*.2,dx=-Math.min(120,cam.s*2.6),dy=Math.min(90,cam.s*1.6);
+function showHint(){if(!G||G.state!=='ready'||cur!=='game'||G.shots<=0)return;const P=padGeo(),x0=P.cx,y0=P.cy,dx=-Math.cos(.6)*P.R*.85,dy=Math.sin(.6)*P.R*.85;
   const h=$('#hint');h.style.display='block';toast(t('aimHint'));
   hintAnim=h.animate([{transform:`translate(${x0-14}px,${y0}px) scale(1)`,opacity:0},{transform:`translate(${x0-14}px,${y0}px) scale(.85)`,opacity:1,offset:.15},
     {transform:`translate(${x0-14+dx}px,${y0+dy}px) scale(.85)`,opacity:1,offset:.6},{transform:`translate(${x0-14+dx}px,${y0+dy}px) scale(1)`,opacity:0,offset:.75},{transform:`translate(${x0-14+dx}px,${y0+dy}px) scale(1)`,opacity:0}],{duration:2400,iterations:Infinity});
@@ -1042,11 +1078,11 @@ function loop(now){requestAnimationFrame(loop);
   const dt=Math.min(.1,(now-(lastT||now))/1000);lastT=now;
   if(cur==='game'&&G){
     if(!window.praying&&G.state!=='bism'){acc+=dt;let n=0;while(acc>=1/60&&n<4){simStep(G.sim);acc-=1/60;n++;
-        if(G.state==='fly'&&turnDone(G.sim)){endTurn(G.sim);renderHud();if(G.sim.goalsLeft>0){G.state='ready';G.idle=now;G.backT=now+900}}
+        if(G.state==='fly'&&turnDone(G.sim)){endTurn(G.sim);renderHud();if(G.sim.goalsLeft>0){G.state='ready';G.idle=now;G.backT=now+900;if(canPan()&&!store.get('lookTip',0)){store.set('lookTip',1);setTimeout(()=>{if(G&&cur==='game'&&G.state==='ready'&&!G.winAt)toast(t('lookTip'))},1500)}}}
         if(G.state==='ready'&&G.shots<=0&&G.sim.goalsLeft>0&&!G.winAt)outOfShots()}
       if(acc>1/60)acc=0;handleEvents();
       if(G.winAt&&now>G.winAt&&!G.won&&G.state!=='aim'){G.winAt=0;levelWin()}
-      if(G.state==='ready'&&age==='little'&&!hintAnim&&now-G.idle>9000){G.idle=now;showHint()}}
+      if(G.state==='ready'&&!hintAnim&&Math.abs(cam.x-cam.min)<.3&&now-G.idle>(G.used===0&&(age==='little'||!store.get('hinted',0))?4000:age==='little'?9000:1e9)){G.idle=now;showHint()}}
     if(G.demo&&G.state==='ready'){const k=((now-G.demo)%2400)/2400,p=k<.15?0:k<.6?(k-.15)/.45*.8:k<.75?.8:0;G.aim=p?{a:.6,p}:null}
     else if(G.demo===0&&G.state==='ready'&&G.aim&&!aimStart)G.aim=null;
     camStep(now);drawGame(now)}
