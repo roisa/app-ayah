@@ -241,6 +241,11 @@ body.ing:not(.land) #toast{top:calc(132px + var(--safeT))}
 .pill i.cb{background:#f5a800}
 @media (orientation:landscape) and (max-height:600px){#lauOv .box{max-width:min(760px,94vw)}.lnch.ars{grid-template-columns:repeat(5,1fr)}.lnch canvas{width:60px;height:60px}}
 .lnch div{background:#fff6e0;border-radius:22px;padding:8px;text-align:center}
+.mktabs{display:flex;gap:6px;justify-content:center;margin-top:10px;background:#fff6e0;border-radius:999px;padding:4px}
+.mktabs button{flex:1;border-radius:999px;padding:7px 10px;font:400 18px "Lilita One",sans-serif;color:#9a7a5a;background:transparent}
+.mktabs button.on{background:linear-gradient(180deg,#ffd23f,#f5a800);color:#fff;box-shadow:0 3px 0 rgba(176,92,0,.3);-webkit-text-stroke:1px #b06a00;paint-order:stroke fill}
+.mosoon{width:120px;display:block;margin:16px auto 4px}
+#lauOv .lnch.ars{grid-template-columns:repeat(3,1fr);gap:8px}#lauOv .lnch.ars div{padding:6px 4px}#lauOv .lnch.ars canvas{width:64px;height:64px}#lauOv .lnch.ars .buy{padding:3px 10px 3px 4px;font-size:16px}
 .lnch div.lock{opacity:.55;filter:grayscale(.8)}
 .lnch canvas{width:72px;height:72px;display:block;margin:0 auto}
 .lnch b{display:block;font:400 17px/1.1 "Lilita One",sans-serif;color:var(--ink)}
@@ -319,6 +324,7 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 #goals .gi{width:clamp(30px,8vw,40px);height:clamp(30px,8vw,40px);filter:grayscale(1) brightness(1.1) opacity(.75) drop-shadow(0 2px 0 rgba(0,0,0,.15));transition:filter .3s}
 #goals .gi.on{filter:drop-shadow(0 2px 0 rgba(0,0,0,.2)) drop-shadow(0 0 6px rgba(255,230,120,.9))}
 #goals .gi.got{animation:giPop .6s cubic-bezier(.3,1.6,.5,1)}
+#goals.many .gi{width:28px;height:28px}#goals.lots .gi{width:22px;height:22px}#goals.lots{gap:0}
 @keyframes giPop{0%{transform:scale(.4)}60%{transform:scale(1.5)}100%{transform:scale(1)}}
 
 .sdq div{display:flex;flex-direction:column;align-items:center}
@@ -460,14 +466,28 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 <!-- LAUNCHERS -->
 <div class="ov" id="lauOv"><div class="box">
   <button class="x" id="lauClose" aria-label="Close"><img src="art/b-close.webp" alt=""></button>
-  <h3 data-t="workshop">Bow Workshop</h3>
-  <p data-t="workshopS">Make your bow stronger with coins</p>
+  <h3 data-t="workshop">Market</h3>
+  <p data-t="workshopS">Buy bows, looks and more with your coins</p>
   <div class="wsc" id="wsCoins"></div>
-  <div class="lnch ups" id="lauList"></div>
-  <h4 class="arh" data-t="arrowsT">Arrows</h4>
-  <div class="lnch ars" id="arList"></div>
-  <h4 class="arh" data-t="trailsT">Arrow trails</h4>
-  <div class="lnch ars" id="trList"></div>
+  <div class="mktabs" id="mkTabs"><button data-k="bow" data-t="tabBow">Bows</button><button data-k="arrow" data-t="tabArrow">Arrows</button><button data-k="mo" data-t="tabMo">Baby Mo</button></div>
+  <div class="mk" data-k="bow">
+    <h4 class="arh" data-t="upT">Make it stronger</h4>
+    <div class="lnch ups" id="lauList"></div>
+    <h4 class="arh" data-t="bowLook">Bow colour</h4>
+    <div class="lnch ars" id="bsList"></div>
+    <h4 class="arh" data-t="bowSize">Bow size</h4>
+    <div class="lnch ars" id="bzList"></div>
+  </div>
+  <div class="mk" data-k="arrow" hidden>
+    <h4 class="arh" data-t="arrowsT">Arrows</h4>
+    <div class="lnch ars" id="arList"></div>
+    <h4 class="arh" data-t="trailsT">Arrow trails</h4>
+    <div class="lnch ars" id="trList"></div>
+  </div>
+  <div class="mk" data-k="mo" hidden>
+    <img class="mosoon" src="art/mo-win.webp" alt="">
+    <p data-t="moSoon">Hats, pets and a horse for Baby Mo are coming soon, in sha Allah!</p>
+  </div>
 </div></div>
 
 <!-- SADAQAH JAR -->

@@ -45,7 +45,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  IT:{chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
  tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the firework barrel to break everything around it!'},
  wind:'Wind! It pushes your arrows.',
- workshop:'Bow Workshop',workshopS:'Make your bow stronger with coins',coinsWon:'+{n} coins',buy:'Buy',maxed:'Best!',needC:'Open more treasures to get coins!',upDone:'Upgraded: {u}!',arrowsT:'Arrows',
+ workshop:'Market',workshopS:'Buy bows, looks and more with your coins',tabBow:'Bows',tabArrow:'Arrows',tabMo:'Baby Mo',upT:'Make it stronger',bowLook:'Bow colour',bowSize:'Bow size',BSK:{classic:'Wood',leaf:'Leaf',pink:'Pink',ice:'Ice',night:'Night',rainbow:'Rainbow',gold:'Gold'},BSZ:{small:'Small',normal:'Normal',big:'Big'},moSoon:'Hats, pets and a horse for Baby Mo are coming soon, in sha Allah!',coinsWon:'+{n} coins',buy:'Buy',maxed:'Best!',needC:'Open more treasures to get coins!',upDone:'Upgraded: {u}!',arrowsT:'Arrows',
  UP:{bow:'Bow',quiver:'Quiver',sight:'Aim sight'},
  UPD:{bow:'Arrows hit harder',quiver:'+1 normal arrow in every level',sight:'Longer aim line'},
  BOWT:['Wooden bow','Bamboo bow','Silver bow','Golden bow'],
@@ -99,7 +99,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  IT:{chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
  tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak tong kembang api untuk memecahkan semua di sekitarnya!'},
  wind:'Ada angin! Anak panahmu akan terdorong.',
- workshop:'Bengkel Busur',workshopS:'Buat busurmu lebih kuat dengan koin',coinsWon:'+{n} koin',buy:'Beli',maxed:'Terbaik!',needC:'Buka lebih banyak harta untuk mendapat koin!',upDone:'Ditingkatkan: {u}!',arrowsT:'Anak panah',
+ workshop:'Pasar',workshopS:'Beli busur, hiasan dan lainnya dengan koinmu',tabBow:'Busur',tabArrow:'Panah',tabMo:'Baby Mo',upT:'Buat lebih kuat',bowLook:'Warna busur',bowSize:'Ukuran busur',BSK:{classic:'Kayu',leaf:'Daun',pink:'Merah muda',ice:'Es',night:'Malam',rainbow:'Pelangi',gold:'Emas'},BSZ:{small:'Kecil',normal:'Biasa',big:'Besar'},moSoon:'Topi, hewan peliharaan dan kuda untuk Baby Mo segera hadir, in sya Allah!',coinsWon:'+{n} koin',buy:'Beli',maxed:'Terbaik!',needC:'Buka lebih banyak harta untuk mendapat koin!',upDone:'Ditingkatkan: {u}!',arrowsT:'Anak panah',
  UP:{bow:'Busur',quiver:'Tabung panah',sight:'Bidikan'},
  UPD:{bow:'Anak panah lebih kuat',quiver:'+1 anak panah biasa di setiap level',sight:'Garis bidik lebih panjang'},
  BOWT:['Busur kayu','Busur bambu','Busur perak','Busur emas'],
@@ -282,9 +282,9 @@ const NEEDS={brick:'heavy',stone:'diamond'};
 const FALLK={glass:1.6,ice:1,wood:1,brick:0,stone:0,goal:1,barrel:1};
 const BLAST={glass:2,ice:2,wood:1.3,brick:1,stone:0,goal:1.2,barrel:3};
 /* the treasures: hp to break them open and how many coins they give */
-const ITEM={chest:{hp:3.4,c:20},gift:{hp:2.4,c:6},star:{hp:2,c:6},cage:{hp:3.4,c:8},gem:{hp:2.6,c:15},gold:{hp:3,c:15},pearl:{hp:2.6,c:12},crown:{hp:3,c:25},ring:{hp:2.6,c:15},lantern:{hp:2,c:6},crystal:{hp:2.4,c:12}};
+const ITEM={chest:{hp:3.4,c:2},gift:{hp:2.4,c:1},star:{hp:2,c:1},cage:{hp:3.4,c:1},gem:{hp:2.6,c:1},gold:{hp:3,c:1},pearl:{hp:2.6,c:1},crown:{hp:3,c:2},ring:{hp:2.6,c:1},lantern:{hp:2,c:1},crystal:{hp:2.4,c:1}};
 /* workshop upgrades (bought with coins) */
-const UPS={bow:{cost:[80,200,400]},quiver:{cost:[50,150,300]},sight:{cost:[40,120,250]}};
+const UPS={bow:{cost:[15,30,50]},quiver:{cost:[10,20,35]},sight:{cost:[8,18,30]}};
 const BOWK=[1,1.2,1.4,1.65],SIGHT=[.45,.8,1.3,2.4];
 const upLv=k=>(prog.up&&prog.up[k])||0;
 
@@ -295,10 +295,10 @@ const upLv=k=>(prog.up&&prog.up[k])||0;
 const PW=.42,PH=1.7,PT=.42,GS=1.1,CR=.9,CB=.55;
 /* from the test bot: arrows a good player needs (PAR) and which seed makes each level (LVK).
    Re-run the bot whenever the level maker changes. */
-const PAR=[1,1,2,1,2,2,1,1,1,1,1,2,2,2,2,1,3,4,2,2,1,1,3,4,3,1,3,4,3,4,2,1,1,2,2,3,4,4,2,4,1,1,1,2,3,1,6,2,2,3,1,2,3,2,3,3,2,4,3,4];
-const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+const PAR=[1,1,2,1,2,4,2,2,2,2,1,4,2,2,3,2,3,2,2,5,1,1,1,3,8,2,4,5,2,7,4,3,2,4,3,4,3,5,6,5,3,3,2,5,2,3,6,3,4,3,2,2,5,1,3,4,4,5,4,7];
+const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,0,1,1,0,1,2,4,7,0,1,2,1,4,0,0,3,1,6,0,9,2];
 /* special arrows the bot needed in each level (f fire, h heavy, t triple, d diamond, w firework) */
-const USE=["","","","","","","f1","f1","f1","f1","","","","","","t1","f1","t1h1","h1","t2","","","f1","","t1","","t1","t1h1","f1h1","t1h1","t1","","h1","f1","","","t1","w1","","h1t1","","","d1","d1","t1","","d1t2","","","h1","","f1","t1d1","","t1","","","t1","t1","t1d1"];
+const USE=["","","","","","","f1","f1","f1","","h1","h1","","f1","","t1","","","h1","h1","t1","t1","h1","t1","t1f1","h1","t2","h1t1","","d2","d1","t1","h1","t1d1","t1","f1","t1","h1d1","d1t1","t1","","","","t1","","t1h1","","","t1","t1h1","w1","","h1d1","","h2","h1","","t1","w1","d1t1"];
 const LVC={};
 function genLevel(n){if(LVC[n])return LVC[n];let lv;const k0=LVK[n-1]||0;for(let k=k0;k<k0+12;k++){lv=genRaw(n,k);if(stable(lv))break}return LVC[n]=lv}
 function stable(lv){const S=makeSim(lv);for(let i=0;i<300;i++)simStep(S);return S.goals.every(g=>!g.done)&&!S.ev.some(e=>e.e==='break'||e.e==='boom')}
@@ -317,12 +317,13 @@ function genRaw(n,k){
   const goal=(x,y)=>{const g=WD.items[ii++%WD.items.length];const v=g==='cage'?WD.birds[bi++%WD.birds.length]:g==='gift'?['pink','blue','purple','green'][ci++%4]:g==='gem'?['ruby','emerald','sapphire'][ci++%3]:'';
     items.push({k:'goal',g,v,x,y:y+GS/2,w:GS,h:GS});top=Math.max(top,y+GS)};
   const barrel=(x,y)=>{items.push({k:'barrel',x,y:y+.45,w:.8,h:.9});top=Math.max(top,y+.9)};
-  function frame(x,y,L,m,fill){
-    box(m,x-L/2+PW/2,y+PH/2,PW,PH);box(m,x+L/2-PW/2,y+PH/2,PW,PH);if(L>3.5)box(m,x,y+PH/2,PW,PH);
+  function frame(x,y,L,m,fill,ph){ph=ph||PH;
+    box(m,x-L/2+PW/2,y+ph/2,PW,ph);box(m,x+L/2-PW/2,y+ph/2,PW,ph);if(L>3.5)box(m,x,y+ph/2,PW,ph);
     if(fill){if(L>3.5){fill(x-L/4-.02,y);fill(x+L/4+.02,y)}else fill(x,y)}
-    box(m,x,y+PH+PT/2,L,PT);return y+PH+PT}
+    box(m,x,y+ph+PT/2,L,PT);return y+ph+PT}
+  /* tall towers (3 floors or more) use shorter floors, so a 6-floor tower still fits on the screen */
   function tower(x,y,floors,L,ms,inside,topK){
-    let yy=y;for(let f=0;f<floors;f++)yy=frame(x,yy,L,ms[f%ms.length],inside[f]?goal:null);
+    let yy=y;const ph=floors>=3?1.25:PH;for(let f=0;f<floors;f++)yy=frame(x,yy,L,ms[f%ms.length],inside[f]?goal:null,ph);
     if(topK==='goal')goal(x,yy);else if(topK==='roof'){/* roofs keep the art's shape: a wide tower gets two roofs */const rw=L>3.5?L/2:L,rh=r1(rw*.5);if(L>3.5){tri(ms[0],x-L/4,yy,rw,rh);tri(ms[0],x+L/4,yy,rw,rh)}else tri(ms[0],x,yy,rw,rh)}else if(topK==='crate')box(ms[0],x,yy+CR/2,CR,CR);else if(topK==='barrel')barrel(x,yy);
     return yy}
   /* a vault: a block wall all round a treasure, 4 x 4 small blocks with the treasure in the middle */
@@ -331,14 +332,16 @@ function genRaw(n,k){
     items.push({k:'goal',...nextGoal(),x,y:y+CB*2,w:GS,h:GS});top=Math.max(top,y+CB*4);return y+CB*4}
   function nextGoal(){const g=WD.items[ii++%WD.items.length];return{g,v:g==='cage'?WD.birds[bi++%WD.birds.length]:g==='gift'?['pink','blue','purple','green'][ci++%4]:g==='gem'?['ruby','emerald','sapphire'][ci++%3]:''}}
   function pile(x,y,rows,m){let yy=y;for(let r=0;r<rows;r++){const kk=rows-r+1;for(let c=0;c<kk;c++)box(m,x+(c-(kk-1)/2)*(CR+.04),yy+CR/2,CR,CR);yy+=CR}goal(x,yy);return yy}
-  const maxF=Math.min(3,1+Math.floor((n-1)/12));
+  /* from level 6 the towers grow: 2 floors, then up to 6 floors by the last world */
+  const maxF=n<6?1:Math.min(6,2+Math.floor((n-6)/10));
   if(n===1)tower(11,0,1,2.3,['wood'],[1],null);
   else if(n===2)tower(12,0,1,2.3,['wood'],[0],'goal');
   else if(n===3){tower(10.5,0,1,2.3,['glass'],[1],null);tower(14.3,0,1,2.3,['wood'],[0],'goal')}
   else{
     /* some later levels put the forts far away, so the camera has to travel to them */
-    const far=n>=4&&i%3===1?r1(3+w*.6):0;lv.far=far;
-    const nS=i<2?1:i<6?2:(w>=1?3:2);let x=9.4+far;
+    /* from level 6: more forts, and every other level they stand further away */
+    const nS=n<6?(i<2?1:2):2+(i>=4?1:0)+(n>=31&&i>=7?1:0);
+    const far=nS>=4?0:n>=6?(i%2===1?r1(3+w*.9):0):n>=4&&i%3===1?r1(3+w*.6):0;lv.far=far;let x=9.4+far;
     for(let s=0;s<nS;s++){
       const ped=(w>=1&&R()<.3)?r1(rnd(.8,1.8)):0;
       const kind=n>=5&&R()<.3?'vault':n>5&&R()<.2?'pile':'tower';
@@ -346,8 +349,8 @@ function genRaw(n,k){
       if(s>0)x+=span/2+1.6;else x+=span/2;
       let base=0;if(ped){rock(x,span+.8,ped);base=ped}
       if(kind==='vault')vault(x,base,mat());
-      else if(kind==='pile')pile(x,base,R()<.5?1:2,mat());
-      else{const floors=1+Math.floor(R()*maxF),ms=[...Array(floors)].map(mat);
+      else if(kind==='pile')pile(x,base,n>15&&R()<.4?3:R()<.5?1:2,mat());
+      else{const floors=Math.max(1,maxF-2)+Math.floor(R()*Math.min(3,maxF)),ms=[...Array(floors)].map(mat);
         const inside=[...Array(floors)].map((_,f)=>f===0?R()<.7:R()<.5);
         let topK=pick(['goal','goal','roof','crate',null]);if(n>=5&&R()<.25)topK='barrel';
         if(!inside.some(Boolean)&&topK!=='goal')inside[floors-1]=1;
@@ -684,10 +687,24 @@ function coinDraw(x,cx,cy,r){const im=AI('coin');if(!im){coinDrawC(x,cx,cy,r);re
 /* arrow images point up-right at 45 degrees; one=true draws a single arrow for the triple kind (each flying arrow is one) */
 function drawArrow(x,at,s,ang,one){const im=AI('ar-'+(one&&at==='triple'?'normal':at));if(!im){drawArrowC(x,one&&at==='triple'?'normal':at,s,ang);return}
   x.save();x.rotate(Math.PI/4-ang);const L=s*1.12/1.414*1.06;x.drawImage(im,-L/2,-L/2,L,L*im.naturalHeight/im.naturalWidth);x.restore()}
+/* bow looks from the Market: a colour (the bow art recoloured) and a size. bowView lets the shop preview a look. */
+const BSKINS=[{id:'classic',cost:0},{id:'leaf',cost:5,c:['#c6f27a','#2f9e3a']},{id:'pink',cost:5,c:['#ffc2e6','#ff4fa0']},{id:'ice',cost:8,c:['#d8f8ff','#1fa8ee']},
+  {id:'night',cost:10,c:['#d6c2ff','#5b32c8']},{id:'rainbow',cost:12,c:'rainbow'},{id:'gold',cost:15,c:['#ffe14a','#ff9500']}];
+const BSIZES=[{id:'small',cost:3,k:.78},{id:'normal',cost:0,k:1},{id:'big',cost:8,k:1.3}];
+let bowView=null;const bowCache={};
+const bowSkin=()=>bowView?bowView.skin:(prog.bowSkin||'classic'),bowK=()=>(BSIZES.find(z=>z.id===(bowView?bowView.size:(prog.bowSize||'normal')))||BSIZES[1]).k;
+function bowArt(tier){const im=AI('bow'+tier),sk=BSKINS.find(b=>b.id===bowSkin());if(!im||!sk||!sk.c)return im;const key=tier+sk.id;if(bowCache[key])return bowCache[key];
+  const c=document.createElement('canvas'),w=c.width=im.naturalWidth,h=c.height=im.naturalHeight,x=c.getContext('2d');c.naturalWidth=w;c.naturalHeight=h;
+  /* grey copy, brightened, then tinted with multiply so light parts take the colour and the outline stays dark */
+  x.drawImage(im,0,0);{const D=x.getImageData(0,0,w,h),d=D.data;for(let i=0;i<d.length;i+=4){let l=(d[i]*.3+d[i+1]*.59+d[i+2]*.11)*1.35;l=(l-128)*1.15+128;l=l<0?0:l>255?255:l;d[i]=d[i+1]=d[i+2]=l}x.putImageData(D,0,0)}let g;
+  if(sk.c==='rainbow'){g=x.createLinearGradient(0,0,0,h);['#ff4d4d','#ff9f1a','#ffe034','#3fd65a','#2fa8ff','#a35bff'].forEach((col,i)=>g.addColorStop(i/5,col))}
+  else{g=x.createLinearGradient(0,0,w,h);g.addColorStop(0,sk.c[0]);g.addColorStop(1,sk.c[1])}
+  x.globalCompositeOperation='multiply';x.fillStyle=g;x.fillRect(0,0,w,h);
+  x.globalCompositeOperation='destination-in';x.drawImage(im,0,0);return bowCache[key]=c}
 function drawBow(x,tier,gx,gy,px,py,s,ang,pull,ammo){
-  const im=AI('bow'+tier),st=AI(tier>=3?'stand3':tier===2?'stand2':'stand0');if(!im||!st){drawBowC(x,tier,gx,gy,px,py,s,ang,pull,ammo);return}
+  const im=bowArt(tier),st=AI(tier>=3?'stand3':tier===2?'stand2':'stand0');if(!im||!st){drawBowC(x,tier,gx,gy,px,py,s,ang,pull,ammo);return}
   const sh=(gy-py)*.78,sw=sh*.7;x.drawImage(st,gx-sw/2+s*.05,gy-sh,sw,sh);
-  const H=s*2.15,W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W;
+  const H=s*2.15*bowK(),W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W;
   x.save();x.translate(px,py);x.rotate(-ang);
   const tx=-.63*W,ty=.46*H,nx=tx-s*(.05+pull*.75);
   x.beginPath();x.moveTo(tx,-ty);x.lineTo(nx,0);x.lineTo(tx,ty);x.lineWidth=Math.max(1.4,s*.04);x.strokeStyle=OUT;x.stroke();x.lineWidth=Math.max(.8,s*.022);x.strokeStyle='#fff6e0';x.stroke();
@@ -716,7 +733,7 @@ function rockDraw(x,u,s,w){const im=AI(PEDN[w]);if(!im){rockDrawC(x,u,s,w);retur
 const MK=.0041,MO={body:{sh:[169,46],bsh:[74,41],neck:[128,17]},head:[168,274],arm:{p:[29,46.5],len:232},uarm:{p:[24,43],len:153},farm:{el:[234,50],len:208}};
 const moReady=()=>['mo-body','mo-head','mo-arm','mo-uarm','mo-farm'].every(AI);
 function drawBowHeld(x,tier,px,py,s,ang,pull,ammo){
-  const im=AI('bow'+tier),H=s*1.55,W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W,tx=-.63*W,ty=.46*H,nx=tx-s*(.05+pull*.6);
+  const im=bowArt(tier),H=s*1.55*bowK(),W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W,tx=-.63*W,ty=.46*H,nx=tx-s*(.05+pull*.6);
   x.save();x.translate(px,py);x.rotate(-ang);
   x.beginPath();x.moveTo(tx,-ty);x.lineTo(nx,0);x.lineTo(tx,ty);x.lineWidth=Math.max(1.4,s*.04);x.strokeStyle=OUT;x.stroke();x.lineWidth=Math.max(.8,s*.022);x.strokeStyle='#fff6e0';x.stroke();
   x.drawImage(im,-gripX,-H/2,W,H);
@@ -781,7 +798,7 @@ function rockDrawC(x,u,s,w){const W=u.w*s,H=u.h*s;rr(x,-W/2,-H/2,W,H+s*.2,s*.35)
    ================================================================= */
 const cv=$('#cv'),cx=cv.getContext('2d'),fxc=$('#fx'),fxx=fxc.getContext('2d');
 let G=null,cam={s:30,ox:0,oy:0,W:0,H:0},bgCache=null,parts=[],flyers=[],texts=[],conf=[];
-let prog=store.get('prog',{open:1,stars:{}});
+let prog=store.get('prog',{open:1,stars:{}});if(!prog.eco2){prog.coins=Math.ceil((prog.coins||0)/20);prog.eco2=1;store.set('prog',prog)}
 if(prog.coins==null)prog.coins=0;if(!prog.up)prog.up={bow:0,quiver:0,sight:0};if(!prog.birds)prog.birds={};
 /* Little (3+): every level is open, so young children can play any stage. Big Kid unlocks them one by one. */
 const openTo=()=>age==='little'?LEVELS:prog.open;
@@ -809,8 +826,11 @@ function camStep(now){if(!G)return;
   setCam()}
 function drawBg(){const d=DPR();if(!bgCache||bgCache.w!==cv.width||bgCache.h!==cv.height||bgCache.world!==G.lv.w){const c=document.createElement('canvas');c.width=cv.width;c.height=cv.height;const x=c.getContext('2d');x.scale(d,d);paintWorld(x,G.lv.w,cam.W,cam.H,cam.oy,cam.s);bgCache={c,w:cv.width,h:cv.height,world:G.lv.w}}
   cx.drawImage(bgCache.c,0,0)}
+let shakeA=0;
 function drawGame(now){
   const d=DPR(),x=cx,s=cam.s,S=G.sim,w=G.lv.w;x.setTransform(1,0,0,1,0,0);drawBg();x.setTransform(d,0,0,d,0,0);
+  /* a little screen shake when big things break */
+  if(shakeA>.3){x.translate((Math.random()-.5)*shakeA,(Math.random()-.5)*shakeA);shakeA*=.86}else shakeA=0;
   for(const u of S.list)if(u.k==='rock'){x.save();x.translate(sx(u.x),sy(u.y));rockDraw(x,u,s,w);x.restore()}
   // Mo
   const puppet=moReady();
@@ -853,7 +873,7 @@ function drawGame(now){
 /* the aiming pad: a wide ring with a yellow button. The button moves opposite to the shot, like pulling a bowstring. */
 function drawPad(x,now){if(G.won||G.state==='bism'||G.shots<=0)return;const P=padGeo(),{cx,cy,R}=P,aim=G.aim,live=G.state==='ready'||G.state==='aim';
   /* minimal: a thin ring, a white button, a thin angle arc and a growing power arrow */
-  x.save();x.globalAlpha=live?1:.3;x.lineCap='round';x.lineJoin='round';
+  const away=Math.abs(cam.x-cam.min)>1&&!aim;x.save();x.globalAlpha=live&&!away?1:.3;x.lineCap='round';x.lineJoin='round';
   const shade=b=>{x.shadowColor='rgba(0,40,80,.28)';x.shadowBlur=b;x.shadowOffsetY=b/4};
   x.beginPath();x.arc(cx,cy,R,0,7);x.fillStyle='rgba(255,255,255,.16)';x.fill();
   x.lineWidth=1;x.strokeStyle='rgba(0,40,80,.3)';x.beginPath();x.arc(cx,cy,R+2,0,7);x.stroke();x.beginPath();x.arc(cx,cy,R,0,7);x.save();shade(6);x.lineWidth=2.5;x.strokeStyle='rgba(255,255,255,.95)';x.stroke();x.restore();
@@ -941,7 +961,7 @@ function keyIcon(key,px){const c=document.createElement('canvas');c.width=c.heig
   drawGoal(x,g,v||(g==='gift'?'pink':g==='gem'?'ruby':g==='cage'?'sparrow':''),px*.72);return c}
 function arrowIcon(at,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d');x.translate(px/2,px/2);
   if(at==='triple'&&!AI('ar-triple')){for(const k of [-1,0,1]){x.save();x.translate(0,k*px*.16);drawArrow(x,at,px*.75,.6);x.restore()}}else drawArrow(x,at,px*.85,.6);return c}
-function bowIcon(tier,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),s=px/2.7;const gx=px*.45,gy=px*.94;drawBow(x,tier,gx,gy,gx,gy-OY*s,s,.55,.35,'normal');return c}
+function bowIcon(tier,px,view){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),s=px/2.7/(view&&view.size==='big'?1.08:1);bowView=view||null;const gx=px*.45,gy=px*.94;drawBow(x,tier,gx,gy,gx,gy-OY*s,s,.55,.35,'normal');bowView=null;return c}
 $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();voice('bismillah',t('sayBism'));if(!G)return;G.state='ready';G.idle=performance.now();
   const intro=canPan();if(intro){setTimeout(()=>{if(G&&G.camT===cam.max&&!G.panning){G.camT=cam.min;G.camSp=.035}},1100);
 }
@@ -950,7 +970,7 @@ $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();voice('bismillah',t('sayB
   let d=G.newA?2600:500;if(G.newA)setTimeout(()=>{if(G&&G.state!=='bism')toast(tf('newA',{a:t('AR')[G.newA]})+' '+t('ARD')[G.newA])},500);
   tips.slice(0,2).forEach(m=>{setTimeout(()=>{if(G&&cur==='game'&&G.state!=='end'&&!G.winAt){toast(m==='wind'?t('wind'):t('tipM')[m]);store.set('tip:'+m,1)}},d);d+=2600})};
 function renderHud(){
-  const el=$('#goals');el.innerHTML='';
+  const el=$('#goals');el.innerHTML='';const ng=G.sim.goals.length;el.classList.toggle('many',ng>6&&ng<=9);el.classList.toggle('lots',ng>9);
   /* one icon per treasure: grey until it is collected, then full colour */
   G.gotShown=G.gotShown||new Set();
   [...G.sim.goals].sort((a,b)=>(a.u.x||0)-(b.u.x||0)).forEach(g=>{const c=keyIcon(g.key+(g.key==='g:cage'||g.key==='g:gift'||g.key==='g:gem'?':'+(g.u.v||''):''),76);c.className='gi'+(g.done?' on':'');
@@ -999,7 +1019,7 @@ function freeBird(b){if(!BIRDS.includes(b))return;if(prog.birds[b])return;prog.b
 /* coins fly up to the coin counter, which counts up as each one lands */
 const coinImg=(()=>{const c=document.createElement('canvas');c.width=c.height=64;coinDraw(c.getContext('2d'),32,32,28);return c.toDataURL()})();
 coinDraw($('#coinHud canvas').getContext('2d'),34,34,29);
-function flyCoins(n,x0,y0){const hud=$('#coinHud'),r=hud.getBoundingClientRect(),x1=r.left+r.height*.5,y1=r.top+r.height/2,k=Math.min(6,Math.max(1,Math.round(n/3)));let left=n;
+function flyCoins(n,x0,y0){const hud=$('#coinHud'),r=hud.getBoundingClientRect(),x1=r.left+r.height*.5,y1=r.top+r.height/2,k=Math.min(10,Math.max(1,n));let left=n;
   for(let i=0;i<k;i++){const share=i===k-1?left:Math.floor(n/k);left-=share;const im=document.createElement('img');im.src=coinImg;im.className='flycoin';document.body.appendChild(im);
     const mx=(x0+x1)/2+(Math.random()-.5)*80,my=Math.min(y0,y1)-60-Math.random()*60;
     const a=im.animate([{transform:`translate(${x0}px,${y0}px) scale(.6)`},{transform:`translate(${mx}px,${my}px) scale(1.25)`,offset:.45},{transform:`translate(${x1}px,${y1}px) scale(.8)`}],{duration:750,delay:i*110,easing:'ease-in',fill:'both'});
@@ -1010,15 +1030,15 @@ function handleEvents(){
   const S=G.sim;let goalsNow=0;
   for(const ev of S.ev){const X=ev.x,Y=Math.max(.6,ev.y||0);
     if(ev.e==='hit')sfx.hit(ev.m,ev.s);
-    else if(ev.e==='break'){sfx.brk(ev.u.mat);if(!ev.lost){debris(ev.x,ev.y,ev.u.mat,5,ev.u.w>1.5);const ch={wood:'fx-wood',glass:'fx-glass',ice:'fx-glass',brick:'fx-brick',stone:'fx-stone'}[ev.u.mat];
+    else if(ev.e==='break'){sfx.brk(ev.u.mat);shakeA=Math.max(shakeA,ev.u.w>1.5||ev.u.h>1.5?7:3);if(!ev.lost){debris(ev.x,ev.y,ev.u.mat,5,ev.u.w>1.5);const ch={wood:'fx-wood',glass:'fx-glass',ice:'fx-glass',brick:'fx-brick',stone:'fx-stone'}[ev.u.mat];
       if(ch)parts.push({k:'img',im:ch,x:ev.x,y:ev.y,vx:(Math.random()-.5)*3,vy:3+Math.random()*2,g:12,t:0,life:.8,r:0,vr:(Math.random()-.5)*6,z:.9});
       parts.push({k:'img',im:'fx-dust',x:ev.x,y:ev.y,vx:0,vy:.6,g:0,t:0,life:.55,r:0,vr:0,z:.9,grow:.7})}}
-    else if(ev.e==='boom'){sfx.boom();firework(X,Y,!ev.small);parts.push({k:'img',im:'fx-firework',x:X,y:Y,vx:0,vy:0,g:0,t:0,life:.7,r:0,vr:0,z:ev.small?1.8:3,grow:.5});if(!ev.small)debris(X,Y,'goal',8,true)}
+    else if(ev.e==='boom'){sfx.boom();shakeA=Math.max(shakeA,ev.small?6:13);firework(X,Y,!ev.small);parts.push({k:'img',im:'fx-firework',x:X,y:Y,vx:0,vy:0,g:0,t:0,life:.7,r:0,vr:0,z:ev.small?1.8:3,grow:.5});if(!ev.small)debris(X,Y,'goal',8,true)}
     else if(ev.e==='goal'){goalsNow++;const u=ev.u,c=ITEM[u.g].c;
       if(u.g==='cage'){sfx.free();debris(X,Y,'wood',8);flyers.push({v:u.v,x:X,y:Y,vx:(Math.random()<.5?-1:1)*(1.4+Math.random()),t:0});sparkle(X,Y,'heart',5);parts.push({k:'img',im:'fx-hearts',x:X,y:Y+.4,vx:0,vy:1.2,g:0,t:0,life:1.1,r:0,vr:0,z:1.1,grow:.4});say2(X,Y+.7,pickT('thanks'),'#ff9ad5');freeBird(u.v)}
       else{sfx.gift();sparkle(X,Y,'star',6);for(let j=0;j<3;j++)parts.push({k:'img',im:'sparkle',x:X+(Math.random()-.5)*1.2,y:Y+(Math.random()-.2)*1.2,vx:0,vy:.5,g:0,t:-j*.12,life:.7,r:0,vr:0,z:.45,grow:.6});debris(X,Y,'goal',8);say2(X,Y+.6,pickT('got'),'#ffe14a')}
       addCoins(c,X,Y);say2(X,Y-.2,'+'+c,'#ffd23f')}
-    else if(ev.e==='coin'){addCoins(3,X,Y);say2(X,Y+.3,'+3','#ffd23f')}
+    else if(ev.e==='coin'){addCoins(1,X,Y);say2(X,Y+.3,'+1','#ffd23f')}
     else if(ev.e==='ignite'){sfx.burn();sparkle(X,Y,'dot',10,['#ff6a1f','#ffd23f','#fff'])}
     else if(ev.e==='tough'){const u=ev.u,q=u.b?u.b.getPosition():{x:X,y:Y};u.shakeT=performance.now();sfx.hit(u.mat,3);say2(q.x,q.y+.6,t('tough'),'#fff');
       const m=u.mat,need=NEEDS[m];G.tough=G.tough||{};
@@ -1033,9 +1053,9 @@ function levelWin(){
   /* badges: sharp shooter (par arrows or fewer), simple archer (normal arrows only), coin catcher (every coin in the air) */
   const coinsAll=G.sim.bonus.filter(o=>o.k==='coin').every(o=>o.got),bits=(G.used<=par?1:0)|(G.special?0:2)|(coinsAll?4:0);
   prog.badges=prog.badges||{};const oldb=prog.badges[n]||0,nb=bits&~oldb;prog.badges[n]=oldb|bits;const nbc=[1,2,4].filter(b=>nb&b).length;
-  if(nbc){prog.coins+=nbc*10;G.coins+=nbc*10}
+  if(nbc){prog.coins+=nbc;G.coins+=nbc}
   const before=prog.open,old=prog.stars[n]||0;prog.stars[n]=Math.max(old,st);prog.open=Math.max(prog.open,Math.min(LEVELS,n+1));
-  const bonus=Math.max(0,st-old)*5;prog.coins+=bonus;G.coins+=bonus;store.set('prog',prog);G.coinShown+=bonus;$('#coinHud b').textContent=G.coinShown;
+  const bonus=Math.max(0,st-old);prog.coins+=bonus;G.coins+=bonus;store.set('prog',prog);G.coinShown+=bonus;$('#coinHud b').textContent=G.coinShown;
   sfx.win();voice('win',t('sayAlh'));confetti();
   setTimeout(()=>{if(!G||cur!=='game')return;
     $('#winSub').textContent=n>=LEVELS?t('allDone'):tf('lvlDone',{n});
@@ -1214,6 +1234,15 @@ function renderLau(){
     b.onclick=()=>{if(cost==null)return;if(cost>prog.coins){sfx.bad();toast(t('needC'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}
       prog.coins-=cost;prog.up[k]=lvl+1;store.set('prog',prog);sfx.unlock();confetti();fxDirty=true;toast(tf('upDone',{u:k==='bow'?t('BOWT')[lvl+1]:t('UP')[k]}));renderLau();renderHomeArt()};
     d.append(b);el.appendChild(d)}
+  /* bow colours and sizes: buy once, then switch freely */
+  const look=(el,list,owned,curKey,name,icon)=>{el.innerHTML='';prog[owned]=prog[owned]||{};
+    list.forEach(it=>{const own=!it.cost||!!prog[owned][it.id],on=(prog[curKey]||list.find(q=>!q.cost).id)===it.id,d=document.createElement('div');d.append(icon(it));d.insertAdjacentHTML('beforeend',`<b>${name[it.id]}</b>`);
+      const b=document.createElement('button');b.className='buy'+(on?' max':!own&&it.cost>prog.coins?' poor':'');
+      if(on)b.textContent=t('using');else if(own)b.textContent=t('use');else{const ic=document.createElement('canvas');ic.width=ic.height=48;coinDraw(ic.getContext('2d'),24,24,20);b.append(ic,document.createTextNode(it.cost))}
+      b.onclick=()=>{if(on)return;if(!own){if(it.cost>prog.coins){sfx.bad();toast(t('needC'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}prog.coins-=it.cost;prog[owned][it.id]=1;sfx.unlock();confetti();fxDirty=true}
+        prog[curKey]=it.id;store.set('prog',prog);sfx.tap();renderLau();renderHomeArt()};d.append(b);el.appendChild(d)})};
+  look($('#bsList'),BSKINS,'bskins','bowSkin',t('BSK'),it=>bowIcon(upLv('bow'),130,{skin:it.id,size:prog.bowSize||'normal'}));
+  look($('#bzList'),BSIZES,'bsizes','bowSize',t('BSZ'),it=>bowIcon(upLv('bow'),130,{skin:prog.bowSkin||'classic',size:it.id}));
   const tl=$('#trList');tl.innerHTML='';prog.trails=prog.trails||{none:1};
   TRAILS.forEach(tr=>{const own=!!prog.trails[tr.id],on=(prog.trail||'none')===tr.id,d=document.createElement('div');d.append(trailIcon(tr.id,120));d.insertAdjacentHTML('beforeend',`<b>${t('TR')[tr.id]}</b>`);
     const b=document.createElement('button');b.className='buy'+(on?' max':!own&&tr.cost>prog.coins?' poor':'');
@@ -1226,8 +1255,8 @@ function renderLau(){
 
 
 /* ---------- Sadaqah Jar: coins become good deeds, each with a verified verse or hadith ---------- */
-const SDQ=[{id:'iftar',cost:60,img:'v-palms'},{id:'water',cost:150,img:'v-well'},{id:'food',cost:250,img:'v-market'},{id:'orphan',cost:400,img:'gift-pink'},{id:'trees',cost:550,img:'v-garden'},
- {id:'books',cost:750,img:'v-school'},{id:'wudu',cost:950,img:'v-fountain'},{id:'lights',cost:1200,img:'lantern'},{id:'clothes',cost:1500,img:'gift-blue'},{id:'village',cost:2000,img:'coin-chest'}];
+const SDQ=[{id:'iftar',cost:3,img:'v-palms'},{id:'water',cost:5,img:'v-well'},{id:'food',cost:8,img:'v-market'},{id:'orphan',cost:10,img:'gift-pink'},{id:'trees',cost:12,img:'v-garden'},
+ {id:'books',cost:15,img:'v-school'},{id:'wudu',cost:18,img:'v-fountain'},{id:'lights',cost:20,img:'lantern'},{id:'clothes',cost:25,img:'gift-blue'},{id:'village',cost:30,img:'coin-chest'}];
 function imgEl(n,cls){const im=AI(n),e=document.createElement('img');if(im)e.src=im.src;e.className=cls||'';e.alt='';return e}
 function renderSdq(){$('#sdqCoins').innerHTML='';const cc=document.createElement('canvas');cc.width=cc.height=64;coinDraw(cc.getContext('2d'),32,32,27);$('#sdqCoins').append(cc,document.createTextNode(prog.coins));
   const el=$('#sdqList');el.innerHTML='';prog.sdq=prog.sdq||{};
@@ -1240,7 +1269,7 @@ function giveSdq(d){if(prog.coins<d.cost){sfx.bad();toast(t('needC'));return}
   prog.coins-=d.cost;prog.sdq[d.id]=1;store.set('prog',prog);sfx.win();confetti();fxDirty=true;voice('win',t('deedOk'));renderSdq();
   const w=$('#deedImg');w.innerHTML='';w.append(imgEl(d.img));$('#deedName').textContent=t('SD')[d.id];$('#deedFact').textContent=t('SDF')[d.id];ov('deedOv',true)}
 /* ---------- arrow trails (bought in the workshop, looks only) ---------- */
-const TRAILS=[{id:'none',cost:0},{id:'rainbow',cost:300},{id:'stars',cost:500},{id:'hearts',cost:700},{id:'lantern',cost:900},{id:'gold',cost:1200}];
+const TRAILS=[{id:'none',cost:0},{id:'rainbow',cost:10},{id:'stars',cost:15},{id:'hearts',cost:20},{id:'lantern',cost:25},{id:'gold',cost:30}];
 function heartPath(x,cx,cy,z){x.beginPath();x.moveTo(cx,cy+z*.3);x.bezierCurveTo(cx-z*.6,cy-z*.1,cx-z*.3,cy-z*.6,cx,cy-z*.25);x.bezierCurveTo(cx+z*.3,cy-z*.6,cx+z*.6,cy-z*.1,cx,cy+z*.3)}
 function drawTrail(x,P,id,s,now){const n=P.length;if(n<2)return;x.save();x.lineCap='round';
   for(let i=1;i<n;i++){const k=i/n,[X,Y]=P[i];
@@ -1256,7 +1285,7 @@ function trailIcon(id,px){const c=document.createElement('canvas');c.width=c.hei
 function badgeRow(bits,nb){const d=document.createElement('div');d.className='badges';
   [['sharp',1,'target'],['simple',2,'ar-normal'],['coins',4,'coin']].forEach(([k,b,img])=>{const e=document.createElement('span');e.className='bdg'+(bits&b?' on':'')+(nb&b?' new':'');
     const m=document.createElement('i');m.append(imgEl(img));e.append(m);e.insertAdjacentHTML('beforeend',`<b>${t('BG')[k]}</b><small>${t('BGD')[k]}</small>`);d.appendChild(e)});
-  if(nb){const nbc=[1,2,4].filter(b=>nb&b).length;d.insertAdjacentHTML('beforeend',`<em>${tf('newBadge',{n:nbc*10})}</em>`)}
+  if(nb){const nbc=[1,2,4].filter(b=>nb&b).length;d.insertAdjacentHTML('beforeend',`<em>${tf('newBadge',{n:nbc})}</em>`)}
   return d}
 /* ---------- daily challenge: the same new level for everyone each day ---------- */
 const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
@@ -1268,7 +1297,7 @@ function dailyAmmo(lv){const av=arrowsAt(lv.n),m=lv.mats,a={normal:lv.par+(age==
 function startDaily(){startGame(0,dailyLevel())}
 function dailyWin(){G.won=true;G.state='end';const first=!(prog.daily&&prog.daily.key===todayKey());let streak=prog.daily?prog.daily.streak||0:0;
   if(first){const y=new Date(Date.now()-864e5),yk=y.getFullYear()+'-'+(y.getMonth()+1)+'-'+y.getDate();streak=prog.daily&&prog.daily.key===yk?streak+1:1;
-    const rw=40+Math.min(6,streak)*10;prog.coins+=rw;G.coins+=rw;G.coinShown+=rw;$('#coinHud b').textContent=G.coinShown;prog.daily={key:todayKey(),streak}}
+    const rw=3+Math.min(5,streak);prog.coins+=rw;G.coins+=rw;G.coinShown+=rw;$('#coinHud b').textContent=G.coinShown;prog.daily={key:todayKey(),streak}}
   store.set('prog',prog);sfx.win();voice('win',t('sayAlh'));confetti();
   setTimeout(()=>{if(!G||cur!=='game')return;$('#winSub').textContent=t('daily');
     const st=G.used<=G.lv.par?3:G.used<=G.lv.par+2?2:1;[...$('#winStars').children].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
@@ -1309,6 +1338,8 @@ let picking=false;
 function pickMode(btn,go){if(picking)return;picking=true;btn.classList.add('pick');sfx.tap();setTimeout(()=>{btn.classList.remove('pick');picking=false;go()},420)}
 $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
 $('#goLau').onclick=()=>{sfx.tap();renderLau();ov('lauOv',true)};
+function mkTab(k){document.querySelectorAll('#mkTabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));document.querySelectorAll('#lauOv .mk').forEach(m=>m.hidden=m.dataset.k!==k);store.set('mkTab',k)}
+$('#mkTabs').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;sfx.tap();mkTab(b.dataset.k)});mkTab(store.get('mkTab','bow'));
 $('#goVil').onclick=e=>pickMode(e.currentTarget,openVillage);
 $('#goStk').onclick=()=>{sfx.tap();renderStk();ov('stkOv',true)};
 $('#goSdq').onclick=()=>{sfx.tap();renderSdq();ov('sdqOv',true)};$('#sdqClose').onclick=()=>{ov('sdqOv',false);renderHome()};
