@@ -839,40 +839,36 @@ function drawGame(now){
   drawParts(x,now,s);drawPad(x,now)}
 /* the aiming pad: a wide ring with a yellow button. The button moves opposite to the shot, like pulling a bowstring. */
 function drawPad(x,now){if(G.won||G.state==='bism'||G.shots<=0)return;const P=padGeo(),{cx,cy,R}=P,aim=G.aim,live=G.state==='ready'||G.state==='aim';
-  x.save();x.globalAlpha=live?1:.35;x.lineCap='round';x.lineJoin='round';
-  // base disc and rings
-  x.beginPath();x.arc(cx,cy,R,0,7);x.fillStyle='rgba(255,255,255,.3)';x.fill();x.lineWidth=Math.max(4,R*.07);x.strokeStyle='rgba(255,255,255,.95)';x.stroke();
-  x.lineWidth=2;x.strokeStyle='rgba(74,44,20,.55)';x.beginPath();x.arc(cx,cy,R+Math.max(2,R*.035),0,7);x.stroke();
-  x.setLineDash([R*.07,R*.09]);x.strokeStyle='rgba(255,255,255,.8)';x.lineWidth=2;x.beginPath();x.arc(cx,cy,R*.6,0,7);x.stroke();x.setLineDash([]);
-  const kr=R*.34;let kx=cx,ky=cy,A=.6,knobDone=false;
-  // the yellow button with the chosen arrow on it
-  const knob=()=>{const pulse=live&&!aim?1+Math.sin(now/260)*.05:1,r=kr*pulse;
-    x.beginPath();x.arc(kx,ky+r*.12,r,0,7);x.fillStyle='rgba(120,60,0,.35)';x.fill();
-    const g=x.createRadialGradient(kx-r*.3,ky-r*.35,r*.1,kx,ky,r);g.addColorStop(0,'#fff6b0');g.addColorStop(.55,'#ffd23f');g.addColorStop(1,'#f0a000');
-    x.beginPath();x.arc(kx,ky,r,0,7);x.fillStyle=g;x.fill();x.lineWidth=Math.max(2.5,r*.1);x.strokeStyle=OUT;x.stroke();
-    x.save();x.translate(kx,ky);x.scale(.92,.92);drawArrow(x,G.asel,r*1.25,A,1);x.restore();knobDone=true};
-  if(aim&&aim.p>.01){A=clampAng(aim.a);const d=Math.min(R-kr*.35,aim.p*R*1.1);kx=cx-Math.cos(A)*d;ky=cy+Math.sin(A)*d;
-    const pr=R*.9,A2=Math.max(0,Math.min(Math.PI/2,A)),pw=Math.min(1,aim.p);
-    // angle pie: a quarter from flat to straight up, filled up to the aim
-    x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,pr,-Math.PI/2,0);x.closePath();x.fillStyle='rgba(255,255,255,.55)';x.fill();
-    x.strokeStyle='rgba(74,44,20,.22)';x.lineWidth=2;for(const t of [Math.PI/6,Math.PI/3]){x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+Math.cos(t)*pr,cy-Math.sin(t)*pr);x.stroke()}
-    if(A2>.01){x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,pr,-A2,0);x.closePath();x.fillStyle='rgba(255,170,30,.7)';x.fill();x.lineWidth=2;x.strokeStyle='rgba(200,110,0,.8)';x.beginPath();x.arc(cx,cy,pr,-A2,0);x.stroke()}
-    x.strokeStyle='rgba(255,255,255,.95)';x.lineWidth=R*.05;x.beginPath();x.moveTo(cx,cy);x.lineTo(kx,ky);x.stroke();knob();
-    // the arrow is the power bar: green at the centre, red at full power
-    const L=pr*.97,hx=Math.cos(A),hy=-Math.sin(A),w=R*.15,gr=x.createLinearGradient(cx,cy,cx+hx*L,cy+hy*L);gr.addColorStop(0,'#3fcf5a');gr.addColorStop(.55,'#ffd23f');gr.addColorStop(1,'#ff4f5e');
-    x.strokeStyle=OUT;x.lineWidth=w+5;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+hx*L*.86,cy+hy*L*.86);x.stroke();
-    x.strokeStyle='rgba(255,255,255,.95)';x.lineWidth=w;x.stroke();
-    const fl=Math.max(.05,pw)*L*.86;x.strokeStyle=gr;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+hx*fl,cy+hy*fl);x.stroke();
-    const hc=pw<.5?'#3fcf5a':pw<.8?'#ffd23f':'#ff4f5e';x.save();x.translate(cx+hx*L*.86,cy+hy*L*.86);x.rotate(-A);x.beginPath();x.moveTo(R*.2,0);x.lineTo(-R*.05,-R*.15);x.lineTo(-R*.05,R*.15);x.closePath();x.fillStyle=hc;x.fill();x.lineWidth=2.5;x.strokeStyle=OUT;x.stroke();x.restore();
-    // numbers: the angle on the rim, the power beside the arrow head
-    const fs=Math.max(14,R*.22);x.font=`400 ${fs}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.lineJoin='round';
-    const tag=(str,X,Y,c)=>{x.lineWidth=5;x.strokeStyle='#fff';x.strokeText(str,X,Y);x.fillStyle=c;x.fillText(str,X,Y)};
-    const da=Math.max(.12,Math.min(Math.PI/2-.12,A2)),dr=R+fs*1.05;tag(Math.round(A2*180/Math.PI)+'°',cx+Math.cos(da)*dr,cy-Math.sin(da)*dr,OUT);
-    const pa=A+(A>.9?-.5:.5),prr=L*.62;tag(Math.round(pw*100)+'%',cx+Math.cos(pa)*prr,cy-Math.sin(pa)*prr,hc==='#ffd23f'?'#c98a00':hc)}
-  else if(live){// chevrons: "pull this way" (down and back)
-    const k=(now%1400)/1400;for(let i=0;i<2;i++){const t2=(k+i*.5)%1,d=R*(.45+t2*.4);x.save();x.globalAlpha=(live?1:.35)*Math.sin(t2*Math.PI);x.translate(cx-Math.cos(A)*d,cy+Math.sin(A)*d);x.rotate(-A+Math.PI);
-      x.beginPath();x.moveTo(-R*.07,-R*.12);x.lineTo(R*.07,0);x.lineTo(-R*.07,R*.12);x.lineWidth=R*.07;x.strokeStyle='#fff';x.stroke();x.restore()}}
-  if(!knobDone)knob();
+  /* minimal: a thin ring, a white button, a thin angle arc and a growing power arrow */
+  x.save();x.globalAlpha=live?1:.3;x.lineCap='round';x.lineJoin='round';
+  const shade=b=>{x.shadowColor='rgba(0,40,80,.28)';x.shadowBlur=b;x.shadowOffsetY=b/4};
+  x.beginPath();x.arc(cx,cy,R,0,7);x.fillStyle='rgba(255,255,255,.16)';x.fill();
+  x.lineWidth=1;x.strokeStyle='rgba(0,40,80,.3)';x.beginPath();x.arc(cx,cy,R+2,0,7);x.stroke();x.beginPath();x.arc(cx,cy,R,0,7);x.save();shade(6);x.lineWidth=2.5;x.strokeStyle='rgba(255,255,255,.95)';x.stroke();x.restore();
+  const kr=R*.25;let kx=cx,ky=cy,A=.6;
+  if(aim&&aim.p>.01){A=clampAng(aim.a);const pw=Math.min(1,aim.p),d=Math.min(R-kr*.6,pw*R*1.1);kx=cx-Math.cos(A)*d;ky=cy+Math.sin(A)*d;
+    const A2=Math.max(0,Math.min(Math.PI/2,A)),hx=Math.cos(A),hy=-Math.sin(A);
+    // angle: a faint quarter guide on the ring, the aimed part bright
+    x.lineWidth=4;x.strokeStyle='rgba(255,255,255,.35)';x.beginPath();x.arc(cx,cy,R,-Math.PI/2,0);x.stroke();
+    if(A2>.01){x.save();shade(4);x.strokeStyle='#ffc531';x.beginPath();x.arc(cx,cy,R,-A2,0);x.stroke();x.restore()}
+    // band to the button
+    x.lineWidth=2;x.strokeStyle='rgba(255,255,255,.7)';x.beginPath();x.moveTo(cx,cy);x.lineTo(kx,ky);x.stroke();
+    // power: a thin track, filled green to red, the arrow head rides on the end
+    const Lm=R*.78,fl=Lm*Math.max(.08,pw),col=pw<.45?'#3fcf5a':pw<.75?'#ffc531':'#ff5a5a';
+    x.lineWidth=6;x.strokeStyle='rgba(255,255,255,.4)';x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+hx*Lm,cy+hy*Lm);x.stroke();
+    const gr=x.createLinearGradient(cx,cy,cx+hx*Lm,cy+hy*Lm);gr.addColorStop(0,'#3fcf5a');gr.addColorStop(.55,'#ffc531');gr.addColorStop(1,'#ff5a5a');
+    x.save();shade(4);x.strokeStyle=gr;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+hx*fl,cy+hy*fl);x.stroke();
+    x.translate(cx+hx*fl,cy+hy*fl);x.rotate(-A);x.beginPath();x.moveTo(R*.13,0);x.lineTo(-R*.02,-R*.08);x.lineTo(-R*.02,R*.08);x.closePath();x.fillStyle=col;x.fill();x.restore();
+    // small numbers
+    const fs=Math.max(12,R*.17);x.font=`400 ${fs}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';
+    const tag=(str,X,Y)=>{x.save();x.lineWidth=3;x.strokeStyle='rgba(0,40,80,.45)';x.strokeText(str,X,Y);x.shadowColor='rgba(0,30,60,.5)';x.shadowBlur=4;x.fillStyle='#fff';x.fillText(str,X,Y);x.restore()};
+    const da=Math.max(.1,Math.min(Math.PI/2-.1,A2)),dr=R+fs*.95;tag(Math.round(A2*180/Math.PI)+'°',cx+Math.cos(da)*dr,cy-Math.sin(da)*dr);
+    const pa=A+(A>.9?-.38:.38),pd=Math.max(fl,R*.35)*.75;tag(Math.round(pw*100)+'%',cx+Math.cos(pa)*pd,cy-Math.sin(pa)*pd)}
+  else if(live){// a soft ring grows out of the button: "grab me"
+    const k=(now%1600)/1600;x.lineWidth=2;x.strokeStyle=`rgba(255,255,255,${.8*(1-k)})`;x.beginPath();x.arc(cx,cy,kr*(1+k*1.4),0,7);x.stroke()}
+  // the button: white, with a thin yellow ring
+  x.save();shade(8);x.beginPath();x.arc(kx,ky,kr,0,7);x.fillStyle='#fff';x.fill();x.restore();
+  x.lineWidth=3;x.strokeStyle='#ffc531';x.beginPath();x.arc(kx,ky,kr-1.5,0,7);x.stroke();
+  x.beginPath();x.arc(kx,ky,kr*.22,0,7);x.fillStyle='#ffc531';x.fill();
   x.restore()}
 /* particles in world units */
 function drawParts(x,now,s){
