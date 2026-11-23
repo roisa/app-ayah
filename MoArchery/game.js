@@ -765,7 +765,11 @@ function drawGame(now){
     // power bar under the pie
     const bw=R*1.25,bh=Math.max(8,R*.2),b0=cx0-bw*.12,b1=cy0+bh*.9;rr(x,b0,b1,bw,bh,bh/2);x.fillStyle='rgba(255,255,255,.9)';x.fill();
     const gg=x.createLinearGradient(b0,0,b0+bw,0);gg.addColorStop(0,'#3fcf5a');gg.addColorStop(.6,'#ffd23f');gg.addColorStop(1,'#ff4f5e');rr(x,b0,b1,Math.max(bh,bw*pw),bh,bh/2);x.fillStyle=gg;x.fill();
-    x.lineWidth=lw2*.8;x.strokeStyle=OUT;rr(x,b0,b1,bw,bh,bh/2);x.stroke();x.restore()}
+    x.lineWidth=lw2*.8;x.strokeStyle=OUT;rr(x,b0,b1,bw,bh,bh/2);x.stroke();
+    // small numbers for grown-ups and bigger kids
+    const fs=Math.max(11,R*.26);x.font=`400 ${fs}px "Lilita One",sans-serif`;x.textBaseline='middle';x.lineWidth=3;x.strokeStyle='#fff';x.fillStyle=OUT;
+    const dt=Math.round(A*180/Math.PI)+'°';x.textAlign='left';x.strokeText(dt,cx0+R*.62,cy0-R*.95);x.fillText(dt,cx0+R*.62,cy0-R*.95);
+    const pt=Math.round(pw*100)+'%';x.strokeText(pt,b0+bw+4,b1+bh/2);x.fillText(pt,b0+bw+4,b1+bh/2);x.restore()}
   // bodies
   for(const u of S.list){const k=u.k;if(!u.b||k==='rock')continue;const q=u.b.getPosition(),a=u.b.getAngle();x.save();x.translate(sx(q.x),sy(q.y));
     if(u.shakeT&&now-u.shakeT<450){const kk=1-(now-u.shakeT)/450;x.translate(Math.sin(now/22)*s*.07*kk,Math.cos(now/31)*s*.03*kk)}x.rotate(-a);
