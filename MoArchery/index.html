@@ -245,7 +245,7 @@ body.ing:not(.land) #toast{top:calc(132px + var(--safeT))}
 .mktabs button{flex:1;border-radius:999px;padding:7px 10px;font:400 18px "Lilita One",sans-serif;color:#9a7a5a;background:transparent}
 .mktabs button.on{background:linear-gradient(180deg,#ffd23f,#f5a800);color:#fff;box-shadow:0 3px 0 rgba(176,92,0,.3);-webkit-text-stroke:1px #b06a00;paint-order:stroke fill}
 .mosoon{width:120px;display:block;margin:16px auto 4px}
-#lauOv .lnch.ars{grid-template-columns:repeat(3,1fr);gap:8px}#lauOv .lnch.ars div{padding:6px 4px}#lauOv .lnch.ars canvas{width:64px;height:64px}#lauOv .lnch.ars .buy{padding:3px 10px 3px 4px;font-size:16px}
+#lauOv .lnch.ars{grid-template-columns:repeat(3,1fr);gap:8px}#lauOv .lnch.ars div{padding:6px 4px}#lauOv .lnch.ars canvas{width:64px;height:64px}#lauOv .lnch.bws{grid-template-columns:repeat(2,1fr)}@media (orientation:landscape){#lauOv .lnch.bws{grid-template-columns:repeat(4,1fr)}}#lauOv #lauList{grid-template-columns:1fr 1fr}#lauOv .lnch.ars .buy{padding:3px 10px 3px 4px;font-size:16px}
 .lnch div.lock{opacity:.55;filter:grayscale(.8)}
 .lnch canvas{width:72px;height:72px;display:block;margin:0 auto}
 .lnch b{display:block;font:400 17px/1.1 "Lilita One",sans-serif;color:var(--ink)}
@@ -471,7 +471,9 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
   <div class="wsc" id="wsCoins"></div>
   <div class="mktabs" id="mkTabs"><button data-k="bow" data-t="tabBow">Bows</button><button data-k="arrow" data-t="tabArrow">Arrows</button><button data-k="mo" data-t="tabMo">Baby Mo</button></div>
   <div class="mk" data-k="bow">
-    <h4 class="arh" data-t="upT">Make it stronger</h4>
+    <h4 class="arh" data-t="bowsT">Bows</h4>
+    <div class="lnch ars bws" id="bwList"></div>
+    <h4 class="arh" data-t="upT">More arrows, longer aim line</h4>
     <div class="lnch ups" id="lauList"></div>
     <h4 class="arh" data-t="bowLook">Bow colour</h4>
     <div class="lnch ars" id="bsList"></div>

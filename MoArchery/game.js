@@ -45,7 +45,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  IT:{chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
  tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the firework barrel to break everything around it!'},
  wind:'Wind! It pushes your arrows.',
- workshop:'Market',workshopS:'Buy bows, looks and more with your coins',tabBow:'Bows',tabArrow:'Arrows',tabMo:'Baby Mo',upT:'Make it stronger',bowLook:'Bow colour',bowSize:'Bow size',BSK:{classic:'Wood',leaf:'Leaf',pink:'Pink',ice:'Ice',night:'Night',rainbow:'Rainbow',gold:'Gold'},BSZ:{small:'Small',normal:'Normal',big:'Big'},moSoon:'Hats, pets and a horse for Baby Mo are coming soon, in sha Allah!',coinsWon:'+{n} coins',buy:'Buy',maxed:'Best!',needC:'Open more treasures to get coins!',upDone:'Upgraded: {u}!',arrowsT:'Arrows',
+ workshop:'Market',workshopS:'Buy bows, looks and more with your coins',tabBow:'Bows',tabArrow:'Arrows',tabMo:'Baby Mo',upT:'More arrows, longer aim line',bowsT:'Bows',power:'Power {n}',needPrev:'Buy the {b} first!',bowLook:'Bow colour',bowSize:'Bow size',BSK:{classic:'Wood',leaf:'Leaf',pink:'Pink',ice:'Ice',night:'Night',rainbow:'Rainbow',gold:'Gold'},BSZ:{small:'Small',normal:'Normal',big:'Big'},moSoon:'Hats, pets and a horse for Baby Mo are coming soon, in sha Allah!',coinsWon:'+{n} coins',buy:'Buy',maxed:'Best!',needC:'Open more treasures to get coins!',upDone:'Upgraded: {u}!',arrowsT:'Arrows',
  UP:{bow:'Bow',quiver:'Quiver',sight:'Aim sight'},
  UPD:{bow:'Arrows hit harder',quiver:'+1 normal arrow in every level',sight:'Longer aim line'},
  BOWT:['Wooden bow','Bamboo bow','Silver bow','Golden bow'],
@@ -99,7 +99,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  IT:{chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
  tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak tong kembang api untuk memecahkan semua di sekitarnya!'},
  wind:'Ada angin! Anak panahmu akan terdorong.',
- workshop:'Pasar',workshopS:'Beli busur, hiasan dan lainnya dengan koinmu',tabBow:'Busur',tabArrow:'Panah',tabMo:'Baby Mo',upT:'Buat lebih kuat',bowLook:'Warna busur',bowSize:'Ukuran busur',BSK:{classic:'Kayu',leaf:'Daun',pink:'Merah muda',ice:'Es',night:'Malam',rainbow:'Pelangi',gold:'Emas'},BSZ:{small:'Kecil',normal:'Biasa',big:'Besar'},moSoon:'Topi, hewan peliharaan dan kuda untuk Baby Mo segera hadir, in sya Allah!',coinsWon:'+{n} koin',buy:'Beli',maxed:'Terbaik!',needC:'Buka lebih banyak harta untuk mendapat koin!',upDone:'Ditingkatkan: {u}!',arrowsT:'Anak panah',
+ workshop:'Pasar',workshopS:'Beli busur, hiasan dan lainnya dengan koinmu',tabBow:'Busur',tabArrow:'Panah',tabMo:'Baby Mo',upT:'Lebih banyak panah, garis bidik lebih panjang',bowsT:'Busur',power:'Kekuatan {n}',needPrev:'Beli {b} dulu!',bowLook:'Warna busur',bowSize:'Ukuran busur',BSK:{classic:'Kayu',leaf:'Daun',pink:'Merah muda',ice:'Es',night:'Malam',rainbow:'Pelangi',gold:'Emas'},BSZ:{small:'Kecil',normal:'Biasa',big:'Besar'},moSoon:'Topi, hewan peliharaan dan kuda untuk Baby Mo segera hadir, in sya Allah!',coinsWon:'+{n} koin',buy:'Beli',maxed:'Terbaik!',needC:'Buka lebih banyak harta untuk mendapat koin!',upDone:'Ditingkatkan: {u}!',arrowsT:'Anak panah',
  UP:{bow:'Busur',quiver:'Tabung panah',sight:'Bidikan'},
  UPD:{bow:'Anak panah lebih kuat',quiver:'+1 anak panah biasa di setiap level',sight:'Garis bidik lebih panjang'},
  BOWT:['Busur kayu','Busur bambu','Busur perak','Busur emas'],
@@ -693,6 +693,7 @@ const BSKINS=[{id:'classic',cost:0},{id:'leaf',cost:5,c:['#c6f27a','#2f9e3a']},{
   {id:'night',cost:10,c:['#d6c2ff','#5b32c8']},{id:'rainbow',cost:12,c:'rainbow'},{id:'gold',cost:15,c:['#ffe14a','#ff9500']}];
 const BSIZES=[{id:'small',cost:3,k:.78},{id:'normal',cost:0,k:1},{id:'big',cost:8,k:1.3}];
 let bowView=null;const bowCache={};
+const bowLook=()=>{const L=upLv('bow');return prog.bowTier==null?L:Math.min(prog.bowTier,L)};
 const bowSkin=()=>bowView?bowView.skin:(prog.bowSkin||'classic'),bowK=()=>(BSIZES.find(z=>z.id===(bowView?bowView.size:(prog.bowSize||'normal')))||BSIZES[1]).k;
 function bowArt(tier){const im=AI('bow'+tier),sk=BSKINS.find(b=>b.id===bowSkin());if(!im||!sk||!sk.c)return im;const key=tier+sk.id;if(bowCache[key])return bowCache[key];
   const c=document.createElement('canvas'),w=c.width=im.naturalWidth,h=c.height=im.naturalHeight,x=c.getContext('2d');c.naturalWidth=w;c.naturalHeight=h;
@@ -757,10 +758,9 @@ function moFrame(now,aim){const G2=G;let f='r4',ang=0,nock=0,ammo=null,dx=0,hop=
 function moBowW(M){const F=M.F;return[LX+MOX+M.dx+(F.b[0]-F.a[0])*MFK,(F.a[1]-F.b[1])*MFK+M.hop]}
 function drawMoF(x,s,now,aim){const M=moFrame(now,aim),F=M.F,im=AI('mf-'+M.f),k=MFK*s,X=sx(LX+MOX+M.dx),Y=sy(M.hop);
   const bx=X+(F.b[0]-F.a[0])*k,by=Y+(F.b[1]-F.a[1])*k;
-  /* the bow goes behind Mo (so it never covers his face), then his fists are drawn again on top of the grip and the string */
-  if(M.f!=='f5')drawBowHeld(x,upLv('bow'),bx,by,s*.62,M.ang,0,M.ammo,M.nock?M.nock*k:null);
+  /* the bow is in front of Mo; his fists are drawn again on top of the grip and the string */
   x.drawImage(im,X-F.a[0]*k,Y-F.a[1]*k,im.naturalWidth*k,im.naturalHeight*k);
-  if(M.f!=='f5'){
+  if(M.f!=='f5'){drawBowHeld(x,bowLook(),bx,by,s*.62,M.ang,0,M.ammo,M.nock?M.nock*k:null);
     /* his fingers go over the bow grip and over the string, so he really holds them */
     const hand=(p2,r)=>{x.save();x.beginPath();x.arc(X+(p2[0]-F.a[0])*k,Y+(p2[1]-F.a[1])*k,r*k,0,7);x.clip();x.drawImage(im,X-F.a[0]*k,Y-F.a[1]*k,im.naturalWidth*k,im.naturalHeight*k);x.restore()};
     hand(F.b,15);if(F.d&&M.ammo)hand(F.d,15)}
@@ -781,7 +781,7 @@ function drawMo(x,s,ang,pull,ammo,happy,now){
   // front arm + bow
   x.save();x.translate(SX,SY);x.rotate(-ang);dimg(arm,-MO.arm.p[0]*sc,-MO.arm.p[1]*sc);x.restore();
   const fx=SX+Math.cos(ang)*MO.arm.len*sc,fy=SY-Math.sin(ang)*MO.arm.len*sc;
-  const [nx,ny]=drawBowHeld(x,upLv('bow'),fx,fy,s,ang,pull,ammo);
+  const [nx,ny]=drawBowHeld(x,bowLook(),fx,fy,s,ang,pull,ammo);
   // head looks a little up along the arrow
   const hx=bx+B.neck[0]*sc,hy=by+B.neck[1]*sc+sc*6;x.save();x.translate(hx,hy);x.rotate(-ang*.18);dimg(head,-MO.head[0]*sc,-MO.head[1]*sc);x.restore();
   // back arm, like a real archer: the forearm lies along the arrow with the hand on the string,
@@ -901,7 +901,7 @@ function drawGame(now){
   const ready=G.state==='ready'||G.state==='aim',ang=aim?clampAng(aim.a):.55;
   if(mfReady())drawMoF(x,s,now,aim);
   else if(puppet){if(!G.won){let hop=G.shotT&&now-G.shotT<250?Math.sin((now-G.shotT)/250*Math.PI)*s*.05:0;x.save();x.translate(0,-hop);drawMo(x,s,aim?ang:(G.lastA??.45),aim?aim.p:0,ready&&G.shots>0?at:null,false,now);x.restore()}}
-  else drawBow(x,upLv('bow'),sx(LX),sy(0),sx(LX),sy(OY),s,ang,aim?aim.p:0,ready&&G.shots>0?at:null);
+  else drawBow(x,bowLook(),sx(LX),sy(0),sx(LX),sy(OY),s,ang,aim?aim.p:0,ready&&G.shots>0?at:null);
   for(const p of S.proj){const q=p.b.getPosition();p.tr=p.tr||[];const l=p.tr[p.tr.length-1];if(!l||Math.hypot(l.x-q.x,l.y-q.y)>.12){p.tr.push({x:q.x,y:q.y});if(p.tr.length>30)p.tr.shift()}
     if(prog.trail&&prog.trail!=='none'&&!p.touched)drawTrail(x,p.tr.map(o=>[sx(o.x),sy(o.y)]),prog.trail,s,now);
     const rk=G.relOff?Math.max(0,1-(now-G.shotT)/180):0;x.save();x.translate(sx(q.x+(rk?G.relOff[0]*rk:0)),sy(q.y+(rk?G.relOff[1]*rk:0)));drawArrow(x,p.at,s,p.b.getAngle(),1);x.restore()}
@@ -1260,8 +1260,21 @@ function upIcon(k,lvl,px){if(k==='bow')return bowIcon(Math.min(3,lvl),px);const 
   return c}
 function renderLau(){
   $('#wsCoins').innerHTML='';const cc=document.createElement('canvas');cc.width=cc.height=64;coinDraw(cc.getContext('2d'),32,32,27);$('#wsCoins').append(cc,document.createTextNode(prog.coins));
+  /* all bows stay in the list: use any bow you own, buy the next one */
+  const bw=$('#bwList');bw.innerHTML='';const bl=upLv('bow'),cur=bowLook();
+  t('BOWT').forEach((nm,i)=>{const d=document.createElement('div');d.append(bowIcon(i,130,{skin:prog.bowSkin||'classic',size:prog.bowSize||'normal'}));
+    d.insertAdjacentHTML('beforeend',`<b>${nm}</b><small>${i>upLv('bow')?t('UPD').bow:''}</small>`);
+    const own=i<=bl,next=i===bl+1,cost=next||!own?UPS.bow.cost[i-1]:0,b=document.createElement('button');
+    b.className='buy'+(own?(i===cur?' max':''):(next&&cost<=prog.coins?'':' poor'));
+    if(own)b.textContent=i===cur?t('using'):t('use');else{const ic=document.createElement('canvas');ic.width=ic.height=48;coinDraw(ic.getContext('2d'),24,24,20);b.append(ic,document.createTextNode(cost))}
+    b.onclick=()=>{if(own){if(i!==cur){prog.bowTier=i;store.set('prog',prog);sfx.tap();renderLau();renderHomeArt()}return}
+      const shake=()=>b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});
+      if(!next){sfx.bad();toast(tf('needPrev',{b:t('BOWT')[i-1]}));shake();return}
+      if(cost>prog.coins){sfx.bad();toast(t('needC'));shake();return}
+      prog.coins-=cost;prog.up.bow=i;prog.bowTier=i;store.set('prog',prog);sfx.unlock();confetti();fxDirty=true;toast(tf('upDone',{u:nm}));renderLau();renderHomeArt()};
+    d.append(b);bw.appendChild(d)});
   const el=$('#lauList');el.innerHTML='';
-  for(const k of ['bow','quiver','sight']){const lvl=upLv(k),cost=UPS[k].cost[lvl],d=document.createElement('div');
+  for(const k of ['quiver','sight']){const lvl=upLv(k),cost=UPS[k].cost[lvl],d=document.createElement('div');
     const nx=cost==null?lvl:lvl+1;d.append(upIcon(k,nx,144));
     const nm=k==='bow'?t('BOWT')[nx]:t('UP')[k]+' +'+nx;
     d.insertAdjacentHTML('beforeend',`<b>${nm}</b><small>${t('UPD')[k]}</small>`);
@@ -1277,8 +1290,8 @@ function renderLau(){
       if(on)b.textContent=t('using');else if(own)b.textContent=t('use');else{const ic=document.createElement('canvas');ic.width=ic.height=48;coinDraw(ic.getContext('2d'),24,24,20);b.append(ic,document.createTextNode(it.cost))}
       b.onclick=()=>{if(on)return;if(!own){if(it.cost>prog.coins){sfx.bad();toast(t('needC'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}prog.coins-=it.cost;prog[owned][it.id]=1;sfx.unlock();confetti();fxDirty=true}
         prog[curKey]=it.id;store.set('prog',prog);sfx.tap();renderLau();renderHomeArt()};d.append(b);el.appendChild(d)})};
-  look($('#bsList'),BSKINS,'bskins','bowSkin',t('BSK'),it=>bowIcon(upLv('bow'),130,{skin:it.id,size:prog.bowSize||'normal'}));
-  look($('#bzList'),BSIZES,'bsizes','bowSize',t('BSZ'),it=>bowIcon(upLv('bow'),130,{skin:prog.bowSkin||'classic',size:it.id}));
+  look($('#bsList'),BSKINS,'bskins','bowSkin',t('BSK'),it=>bowIcon(bowLook(),130,{skin:it.id,size:prog.bowSize||'normal'}));
+  look($('#bzList'),BSIZES,'bsizes','bowSize',t('BSZ'),it=>bowIcon(bowLook(),130,{skin:prog.bowSkin||'classic',size:it.id}));
   const tl=$('#trList');tl.innerHTML='';prog.trails=prog.trails||{none:1};
   TRAILS.forEach(tr=>{const own=!!prog.trails[tr.id],on=(prog.trail||'none')===tr.id,d=document.createElement('div');d.append(trailIcon(tr.id,120));d.insertAdjacentHTML('beforeend',`<b>${t('TR')[tr.id]}</b>`);
     const b=document.createElement('button');b.className='buy'+(on?' max':!own&&tr.cost>prog.coins?' poor':'');
@@ -1352,12 +1365,12 @@ function renderHomeArt(){
     x.save();x.translate(bx,gy-s*2.66);drawGoal(x,'cage','hoopoe',s*1.1);x.restore();
     x.save();x.translate(W*.5,gy-s*3.4);coinDraw(x,0,0,s*.3);x.restore();
     if(IMG.mo.ok){const h=s*2.2,w=h*IMG.mo.naturalWidth/IMG.mo.naturalHeight;x.drawImage(IMG.mo,W*.04,gy-h,w,h)}
-    drawBow(x,upLv('bow'),W*.3,gy,W*.3,gy-s*1.5,s*.9,.45,.6,'normal');
+    drawBow(x,bowLook(),W*.3,gy,W*.3,gy-s*1.5,s*.9,.45,.6,'normal');
     x.setLineDash([4,7]);x.strokeStyle='#fff';x.lineWidth=3;x.beginPath();x.moveTo(W*.38,gy-s*1.9);x.quadraticCurveTo(W*.5,gy-s*3.6,W*.6,gy-s*2.9);x.stroke();x.setLineDash([])}
   const v=$('#cvVil');if(v){const x=v.getContext('2d');x.save();rr(x,0,0,v.width,v.height,0);x.clip();drawVillage(x,v.width,v.height,Math.max(totalStars(),18),true);x.restore()}
   const pq=$('#pSdq');if(pq){const x=pq.getContext('2d');x.clearRect(0,0,96,96);const im=AI('coin-sack');if(im)fitImg(x,im,48,50,84,84)}
   const pd=$('#pDaily');if(pd){const x=pd.getContext('2d');x.clearRect(0,0,96,96);const im=AI('target');if(im)fitImg(x,im,48,48,84,84)}
-  const pl=$('#pLau');if(pl){const x=pl.getContext('2d');x.clearRect(0,0,96,96);x.drawImage(bowIcon(upLv('bow'),96),0,0)}
+  const pl=$('#pLau');if(pl){const x=pl.getContext('2d');x.clearRect(0,0,96,96);x.drawImage(bowIcon(bowLook(),96),0,0)}
   const ps=$('#pStk');if(ps){const x=ps.getContext('2d');x.clearRect(0,0,96,96);drawBird(x,'hoopoe',50,58,28,true,.4)}}
 let idleT=0,idleI=0,idleN=0;
 function stopNudge(){clearTimeout(idleT);clearInterval(idleI);document.querySelectorAll('.mode.nudge').forEach(m=>m.classList.remove('nudge'))}
