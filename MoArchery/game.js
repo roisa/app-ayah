@@ -607,7 +607,8 @@ const ARTN=['wood-sq','wood-pl','glass-sq','glass-pl','ice-sq','ice-pl','brick-s
  'ar-normal','ar-flame','ar-heavy','ar-triple','ar-diamond','ar-firework','bow0','bow1','bow2','bow3','stand0','stand2','stand3','up',
  'coin','coin-stack','coin-pile','coin-heap','coin-sack','coin-chest','fx-firework','fx-dust','fx-wood','fx-glass','fx-brick','fx-stone','fx-flame','fx-hearts',
  ...BIRDS.flatMap(b=>['bird-'+b,'fly-'+b]),'bg-home','bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night',
- 'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick'];
+ 'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick',
+ ...['house','garden','well','palms','swing','school','market','pond','fountain','masjid','minaret','sign','lights'].map(n=>'v-'+n)];
 let artLeft=ARTN.length;
 ARTN.forEach(n=>{const i=new Image();i.onload=()=>{i.ok=1;if(--artLeft<=0){try{bgCache=null;if(cur!=='game')paintBg();if(cur==='village')renderVillage();renderHomeArt();if(G){renderPicker();renderHud()}}catch(e){}}};i.onerror=()=>{artLeft--};i.src='art/'+n+'.webp';ART[n]=i});
 const AI=n=>{const i=ART[n];return i&&i.ok?i:null};
@@ -1020,7 +1021,7 @@ function drawBuilding(x,id,cx,gy,u,W){
     x.beginPath();x.arc(cx,gy-u*4.15,u*.14,.6,5.7);x.stroke();return}
   if(id==='lights'){x.strokeStyle='rgba(74,44,20,.6)';x.lineWidth=2;x.beginPath();for(let X=0;X<=W;X+=W/40)x.lineTo(X,gy-u*4.6+Math.sin(X/W*Math.PI*6)*u*.35);x.stroke();
     for(let i=0;i<22;i++){const X=(i+.5)*W/22,Y=gy-u*4.6+Math.sin(X/W*Math.PI*6)*u*.35;x.save();x.shadowColor='#ffd060';x.shadowBlur=u*.4;x.beginPath();x.arc(X,Y+u*.15,u*.13,0,7);x.fillStyle=['#ffd23f','#ff5fa8','#7df0c2','#9fe2ff'][i%4];x.fill();x.restore()}}}
-function drawVillage(x,W,H,stars,small){
+function drawVillageC(x,W,H,stars,small){
   const gy=H*.86,u=Math.min(H/7,W/(small?16:22));paintWorld(x,0,W,H,gy,u,!small,true);
   const next=VILLAGE.find(b=>b.cost>stars);
   for(const b of VILLAGE){const built=b.cost<=stars;if(!built&&b!==next)continue;const cx=b.x*W;
@@ -1028,11 +1029,33 @@ function drawVillage(x,W,H,stars,small){
     if(!built&&!small){const ty=b.id==='lights'?gy-u*5.3:gy-u*(b.id==='minaret'?4.7:3.2);x.fillStyle='#fff';rr(x,cx-u*.85,ty-u*.4,u*1.7,u*.8,u*.4);x.fill();x.lineWidth=2;x.strokeStyle=OUT;x.stroke();
       x.font=`400 ${u*.5}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillStyle='#d07a00';x.fillText('★ '+b.cost,cx,ty+u*.02)}}
   if(stars>=0&&IMG.mo.ok){const h=u*2.2,w=h*IMG.mo.naturalWidth/IMG.mo.naturalHeight;x.drawImage(IMG.mo,W*.06+u*1.4,gy-h,w,h)}}
-function renderVillage(){const st=totalStars(),c=$('#vilCv'),wrap=$('#vilWrap'),d=DPR(),H=wrap.clientHeight||300,W=Math.max(wrap.clientWidth,Math.round(H*2.6));
+/* building sizes in village units (height); the art keeps its own width */
+const VH={house:2.4,garden:1.2,well:2.4,palms:3.4,swing:2.2,school:2.9,market:2.3,pond:1.3,fountain:1.8,masjid:3.6,minaret:4.8};
+const VUSE=()=>VILLAGE.every(b=>AI('v-'+b.id))&&AI('v-sign');
+/* left-to-right layout in units: returns {x:{id:centre}, total} (Mo stands next to the house) */
+function vLayout(){const pos={};let xx=.8;
+  for(const b of VILLAGE){if(b.id==='lights')continue;const im=AI('v-'+b.id),w=VH[b.id]*im.naturalWidth/im.naturalHeight;pos[b.id]=xx+w/2;xx+=w+.6;if(b.id==='house')xx+=1.6}
+  return{pos,total:xx+.4}}
+function drawVillage(x,W,H,stars,small){
+  if(!VUSE()){drawVillageC(x,W,H,stars,small);return}
+  const L=vLayout(),gy=H*.86,u=small?H/5.2:Math.min(H/6.2,W/L.total);paintWorld(x,0,W,H,gy,u,!small,true);
+  const ox=small?0:(W-L.total*u)/2,next=VILLAGE.find(b=>b.cost>stars);
+  for(const b of VILLAGE){const built=b.cost<=stars;if(!built&&b!==next)continue;const im=AI('v-'+b.id);
+    if(b.id==='lights'){const h=u*1.3,w=h*im.naturalWidth/im.naturalHeight;x.save();if(!built)x.globalAlpha=.3;for(let X=0;X<W;X+=w*.98)x.drawImage(im,X,H*.02,w,h);x.restore();
+      if(!built&&!small)priceTag(x,W/2,H*.02+h+u*.5,u,b.cost);continue}
+    const h=VH[b.id]*u,w=h*im.naturalWidth/im.naturalHeight,cx=ox+L.pos[b.id]*u;
+    x.save();if(!built)x.globalAlpha=.35;x.drawImage(im,cx-w/2,gy-h+u*.08,w,h);x.restore();
+    if(!built){const sg=AI('v-sign'),sh=u*1.3,sw=sh*sg.naturalWidth/sg.naturalHeight;x.drawImage(sg,cx-sw/2,gy-sh+u*.05,sw,sh);if(!small)priceTag(x,cx,gy-h-u*.55,u,b.cost)}}
+  if(IMG.mo.ok){const h=u*2.2,w=h*IMG.mo.naturalWidth/IMG.mo.naturalHeight,hx=ox+(L.pos.house+VH.house*AI('v-house').naturalWidth/AI('v-house').naturalHeight/2+.8)*u;x.drawImage(IMG.mo,hx-w/2,gy-h,w,h)}}
+function priceTag(x,cx,ty,u,cost){x.fillStyle='#fff';rr(x,cx-u*.85,ty-u*.4,u*1.7,u*.8,u*.4);x.fill();x.lineWidth=2;x.strokeStyle=OUT;x.stroke();
+  x.font=`400 ${u*.5}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillStyle='#d07a00';x.fillText('★ '+cost,cx,ty+u*.02)}
+function renderVillage(){const st=totalStars(),c=$('#vilCv'),wrap=$('#vilWrap'),d=DPR(),H=wrap.clientHeight||300,art=VUSE(),L=art?vLayout():null;
+  const W=Math.max(wrap.clientWidth,Math.round(art?H/6.2*L.total:H*2.6));
   c.style.width=W+'px';c.style.height=H+'px';c.width=Math.round(W*d);c.height=Math.round(H*d);const x=c.getContext('2d');x.scale(d,d);drawVillage(x,W,H,st,false);
   $('#vilSum').innerHTML=`<img src="art/star.webp" alt=""><span>${st}</span>`;
   const nx=VILLAGE.find(b=>b.cost>st);$('#vilNext').textContent=nx?tf('vNext',{b:t('B')[nx.id],n:nx.cost}):t('vDone');
-  const nb=nx?VILLAGE[VILLAGE.indexOf(nx)-1]:VILLAGE[VILLAGE.length-2];if(nb)setTimeout(()=>{wrap.scrollLeft=Math.max(0,nb.x*W-wrap.clientWidth/2)},30)}
+  const nb=nx&&nx.id!=='lights'?nx:VILLAGE[VILLAGE.length-2];
+  setTimeout(()=>{const uu=art?Math.min(H/6.2,W/L.total):0,fx=art?((W-L.total*uu)/2+L.pos[nb.id]*uu)/W:nb.x;wrap.scrollLeft=Math.max(0,fx*W-wrap.clientWidth/2)},30)}
 function openVillage(){show('village');renderVillage()}
 /* ---------- Birds I Freed ---------- */
 function renderStk(){const el=$('#stkList');el.innerHTML='';
