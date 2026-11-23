@@ -232,6 +232,19 @@ const TTS='speechSynthesis' in window;let voices=[];
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
 if(TTS){loadVoices();try{speechSynthesis.addEventListener('voiceschanged',loadVoices)}catch(e){}}
 function say(text){if(!TTS||!soundOn)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const L=lang==='id'?'id':'en';u.lang=L==='id'?'id-ID':'en-US';const v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(L));if(v)u.voice=v;u.rate=.95;u.pitch=1.2;speechSynthesis.speak(u)}catch(e){}}
+/* Baby Mo's recorded voice (the same clips as Nur Connect, voice/<lang>/<key>.mp3). They play through Web Audio so the music
+   keeps playing; a clip that is not loaded yet falls back to the phone's text-to-speech. */
+const VKEYS=['bismillah','win','masya1','subhan','akbar','barak','lose','taqabbal','pray-fajr','pray-dhuhr','pray-asr','pray-maghrib','pray-isha'],VRAW={},VBUF={};
+['en','id'].forEach(l=>VKEYS.forEach(k=>{VRAW[l+'/'+k]=fetch(`voice/${l}/${k}.mp3`).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null)}));
+const VDEC={};function vbuf(id){const a=ac();if(!a)return Promise.resolve(null);if(!VDEC[id])VDEC[id]=(VRAW[id]||Promise.resolve(null)).then(b=>b?new Promise((res,rej)=>a.decodeAudioData(b.slice(0),res,rej)):null).then(b=>VBUF[id]=b).catch(()=>null);return VDEC[id]}
+let vSrc=null;
+function voice(key,text){if(!soundOn)return;const id=(lang==='id'?'id':'en')+'/'+key,a=ac();
+  const play=buf=>{try{if(vSrc)vSrc.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}try{const s2=a.createBufferSource();s2.buffer=buf;s2.connect(a.destination);s2.start();vSrc=s2}catch(e){}};
+  if(a&&VBUF[id]){play(VBUF[id]);return}
+  let done=false;const t0=setTimeout(()=>{if(!done){done=true;if(text)say(text)}},700);
+  vbuf(id).then(b=>{if(done)return;done=true;clearTimeout(t0);if(b&&a)play(b);else if(text)say(text)})}
+/* decode the clips once the audio is unlocked by the first tap */
+document.addEventListener('pointerdown',function f(){if(ac()){VKEYS.forEach(k=>vbuf((lang==='id'?'id':'en')+'/'+k));document.removeEventListener('pointerdown',f,true)}},true);
 
 /* =================================================================
    Worlds, arrows, barriers and treasures
@@ -929,7 +942,7 @@ function keyIcon(key,px){const c=document.createElement('canvas');c.width=c.heig
 function arrowIcon(at,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d');x.translate(px/2,px/2);
   if(at==='triple'&&!AI('ar-triple')){for(const k of [-1,0,1]){x.save();x.translate(0,k*px*.16);drawArrow(x,at,px*.75,.6);x.restore()}}else drawArrow(x,at,px*.85,.6);return c}
 function bowIcon(tier,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),s=px/2.7;const gx=px*.45,gy=px*.94;drawBow(x,tier,gx,gy,gx,gy-OY*s,s,.55,.35,'normal');return c}
-$('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));if(!G)return;G.state='ready';G.idle=performance.now();
+$('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();voice('bismillah',t('sayBism'));if(!G)return;G.state='ready';G.idle=performance.now();
   const intro=canPan();if(intro){setTimeout(()=>{if(G&&G.camT===cam.max&&!G.panning){G.camT=cam.min;G.camSp=.035}},1100);
 }
   if(G.n<=2||!store.get('hinted',0))setTimeout(showHint,intro?3200:700);
@@ -981,7 +994,7 @@ function shoot(a,p){const at=G.asel;G.lastA=clampAng(a);if(at!=='normal')G.speci
   if(!G.ammo[at]){const nx=G.av.find(k=>G.ammo[k]>0);if(nx){G.asel=nx;setTimeout(()=>{if(G)toast(tf('noA',{a:t('AR')[at]}))},400)}renderPicker()}renderHud()}
 
 let cheerN=0;
-function cheer(){const c=document.createElement('div');const i=cheerN++%4;c.className='cheer c'+(i+1);c.innerHTML=`<b>${t('cheer')[i]}</b><small>${t('cheerM')[i]}</small>`;document.body.appendChild(c);setTimeout(()=>c.remove(),1450);if(Math.random()<.6)say(t('cheer')[i])}
+function cheer(quiet){const c=document.createElement('div');const i=cheerN++%4;if(!quiet)voice(['masya1','subhan','akbar','barak'][i],t('cheer')[i]);c.className='cheer c'+(i+1);c.innerHTML=`<b>${t('cheer')[i]}</b><small>${t('cheerM')[i]}</small>`;document.body.appendChild(c);setTimeout(()=>c.remove(),1450);if(Math.random()<.6)say(t('cheer')[i])}
 function freeBird(b){if(!BIRDS.includes(b))return;if(prog.birds[b])return;prog.birds[b]=1;store.set('prog',prog);if(G)G.newB.push(b);setTimeout(()=>toast(tf('newB',{b:t('BD')[b]})),600)}
 /* coins fly up to the coin counter, which counts up as each one lands */
 const coinImg=(()=>{const c=document.createElement('canvas');c.width=c.height=64;coinDraw(c.getContext('2d'),32,32,28);return c.toDataURL()})();
@@ -1012,7 +1025,7 @@ function handleEvents(){
       if(!G.tough[m]){G.tough[m]=1;if(m==='iron')toast(t('tipM').iron);else if(need){const n=ARROWS[need].unlock;toast(G.av.includes(need)?tf('toughT',{a:t('AR')[need]}):tf('toughL',{a:t('AR')[need],n}))}}}
     else if(ev.e==='bundle'){G.shots++;G.ammo.normal++;renderHud();sfx.unlock();sparkle(X,Y,'dot',12,['#fff','#ffd23f','#ff5fa8']);say2(X,Y+.3,t('bonusA'),'#fff')}}
   S.ev.length=0;
-  if(goalsNow){renderHud();bumpGoal();if(goalsNow>=2||S.goalsLeft===0)cheer()}
+  if(goalsNow){renderHud();bumpGoal();if(goalsNow>=2||S.goalsLeft===0)cheer(S.goalsLeft===0)}
   if(S.goalsLeft<=0&&!G.won&&!G.winAt)G.winAt=performance.now()+1300}
 function levelWin(){
   if(G.daily){dailyWin();return}
@@ -1023,7 +1036,7 @@ function levelWin(){
   if(nbc){prog.coins+=nbc*10;G.coins+=nbc*10}
   const before=prog.open,old=prog.stars[n]||0;prog.stars[n]=Math.max(old,st);prog.open=Math.max(prog.open,Math.min(LEVELS,n+1));
   const bonus=Math.max(0,st-old)*5;prog.coins+=bonus;G.coins+=bonus;store.set('prog',prog);G.coinShown+=bonus;$('#coinHud b').textContent=G.coinShown;
-  sfx.win();say(t('sayAlh'));confetti();
+  sfx.win();voice('win',t('sayAlh'));confetti();
   setTimeout(()=>{if(!G||cur!=='game')return;
     $('#winSub').textContent=n>=LEVELS?t('allDone'):tf('lvlDone',{n});
     const is=$('#winStars').children;[...is].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
@@ -1046,7 +1059,7 @@ $('#winMap').onclick=()=>{ov('win',false);G=null;openMap()};
 $('#overAgain').onclick=()=>{ov('over',false);replay()};
 $('#overMap').onclick=()=>{ov('over',false);G=null;openMap()};
 function outOfShots(){
-  G.state='end';sfx.over();setTimeout(()=>{if(!G||cur!=='game')return;const L=age==='little';
+  G.state='end';sfx.over();setTimeout(()=>{if(!G||cur!=='game')return;voice('lose');const L=age==='little';
   $('#overT').textContent=t(L?'overTL':'overT');$('#overP').textContent=t(L?'overPL':'overP');
   $('#overFact').textContent=fact(G.n+Math.floor(Math.random()*9));ov('over',true)},500)}
 
@@ -1224,7 +1237,7 @@ function renderSdq(){$('#sdqCoins').innerHTML='';const cc=document.createElement
       b.onclick=()=>giveSdq(d);c.append(b)}
     el.appendChild(c)})}
 function giveSdq(d){if(prog.coins<d.cost){sfx.bad();toast(t('needC'));return}
-  prog.coins-=d.cost;prog.sdq[d.id]=1;store.set('prog',prog);sfx.win();confetti();fxDirty=true;say(t('deedOk'));renderSdq();
+  prog.coins-=d.cost;prog.sdq[d.id]=1;store.set('prog',prog);sfx.win();confetti();fxDirty=true;voice('win',t('deedOk'));renderSdq();
   const w=$('#deedImg');w.innerHTML='';w.append(imgEl(d.img));$('#deedName').textContent=t('SD')[d.id];$('#deedFact').textContent=t('SDF')[d.id];ov('deedOv',true)}
 /* ---------- arrow trails (bought in the workshop, looks only) ---------- */
 const TRAILS=[{id:'none',cost:0},{id:'rainbow',cost:300},{id:'stars',cost:500},{id:'hearts',cost:700},{id:'lantern',cost:900},{id:'gold',cost:1200}];
@@ -1256,7 +1269,7 @@ function startDaily(){startGame(0,dailyLevel())}
 function dailyWin(){G.won=true;G.state='end';const first=!(prog.daily&&prog.daily.key===todayKey());let streak=prog.daily?prog.daily.streak||0:0;
   if(first){const y=new Date(Date.now()-864e5),yk=y.getFullYear()+'-'+(y.getMonth()+1)+'-'+y.getDate();streak=prog.daily&&prog.daily.key===yk?streak+1:1;
     const rw=40+Math.min(6,streak)*10;prog.coins+=rw;G.coins+=rw;G.coinShown+=rw;$('#coinHud b').textContent=G.coinShown;prog.daily={key:todayKey(),streak}}
-  store.set('prog',prog);sfx.win();say(t('sayAlh'));confetti();
+  store.set('prog',prog);sfx.win();voice('win',t('sayAlh'));confetti();
   setTimeout(()=>{if(!G||cur!=='game')return;$('#winSub').textContent=t('daily');
     const st=G.used<=G.lv.par?3:G.used<=G.lv.par+2?2:1;[...$('#winStars').children].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
     $('#winFact').textContent=fact(dayNum());const u=$('#winUnl');u.innerHTML='';
@@ -1401,12 +1414,12 @@ function bell(){[[1046,0],[784,.35],[1046,.7]].forEach(([f,w])=>{tone(f,1.6,'sin
 function openLock(){
   window.praying=true;musicOff();try{speechSynthesis.cancel()}catch(e){}
   if(G&&G.state==='aim'){G.state='ready';G.aim=null;aimStart=null}hideHint();
-  ov('lock',true);bell();const pName=pn(lock.p);setTimeout(()=>{if(lock)say(tf('sayPray',{p:pName}))},900);renderLock(Date.now())}
+  ov('lock',true);bell();const pName=pn(lock.p);setTimeout(()=>{if(lock)voice('pray-'+lock.p,tf('sayPray',{p:pName}))},900);renderLock(Date.now())}
 function renderLock(now){const p=pn(lock.p);$('#lockRib').textContent=t('pray');$('#lockTitle').textContent=tf('lockT',{p});$('#lockBody').textContent=tf('lockB',{p});
   const ready=lock.demo?lock.readyAt:lock.start+(+PS.wait||10)*60000,rem=ready-now,b=$('#bPrayed');b.textContent='✓ '+tf('prayed',{p});
   if(rem>0){b.disabled=true;const s=Math.ceil(rem/1000);$('#lockCount').textContent=tf('lockWait',{m:Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})}else{b.disabled=false;$('#lockCount').textContent=t('lockReady')}}
 function closeLock(thanks){ov('lock',false);lock=null;window.praying=false;
-  if(thanks){say(t('taq'));toast(t('taq'));confetti();fxDirty=true;sfx.win()}
+  if(thanks){voice('taqabbal',t('taq'));toast(t('taq'));confetti();fxDirty=true;sfx.win()}
   setTimeout(()=>{if(musicPref)musicOn()},1500);renderChip(Date.now())}
 $('#bPrayed').onclick=()=>{if(!lock||$('#bPrayed').disabled)return;if(!lock.demo)markPrayed(lock.key);closeLock(true);lastCheck=0};
 function renderChip(now){try{const a=activePrayer(now),nx=nextPrayer(now),c=cityInfo();
