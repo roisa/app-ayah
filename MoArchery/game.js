@@ -739,12 +739,12 @@ const MF={"w1":{"a":[105.6,380.0],"b":[196.8,232.8]},"w2":{"a":[96.8,376.8],"b":
 const AIMF=['a1','a2','a3','a4','a5','a6'];
 const mfReady=()=>Object.keys(MF).every(n=>AI('mf-'+n));
 /* which frame, and where the bow goes, for what Mo is doing now */
-function moFrame(now,aim){const G2=G;let f='r4',ang=0,nock=0,ammo=null,dx=0,hop=0;const at=G2.asel,has=G2.shots>0;
+function moFrame(now,aim){const G2=G;let f='r4',ang=0,nock=0,ammo=null,dx=0,hop=0,lean=0;const at=G2.asel,has=G2.shots>0;
   if(G2.won){f='f5';ang=1.1;hop=Math.abs(Math.sin(now/180))*.35}
   else if(G2.state==='end'){f='f6';ang=.2}
   else if(G2.walkT!=null&&now-G2.walkT<1900&&!aim){const t2=Math.max(0,now-G2.walkT);
     if(t2<1400){f='w'+(1+Math.floor(t2/115)%6);dx=-2.6*(1-t2/1400)}else if(t2<1650)f='r2';else{f='r3';ammo=has?at:null}}
-  else if(aim&&aim.p>.02){const A=clampAng(aim.a)*180/Math.PI;f=AIMF.reduce((b2,n)=>Math.abs(MF[n].t-A)<Math.abs(MF[b2].t-A)?n:b2,'a1');ang=clampAng(aim.a);ammo=at}
+  else if(aim&&aim.p>.02){const A=clampAng(aim.a)*180/Math.PI;f=AIMF.reduce((b2,n)=>Math.abs(MF[n].t-A)<Math.abs(MF[b2].t-A)?n:b2,'a1');lean=Math.max(-5,Math.min(9,(A-MF[f].t)*.5))*Math.PI/180;ang=MF[f].t*Math.PI/180;ammo=at}
   else if(G2.shotT&&now-G2.shotT<260){f='f2';ang=G2.lastA||0}
   else if(G2.shotT&&now-G2.shotT<700){f='f3';ang=G2.lastA||0}
   else if(G2.state==='fly'){f='f4';ang=-.35}
@@ -753,10 +753,12 @@ function moFrame(now,aim){const G2=G;let f='r4',ang=0,nock=0,ammo=null,dx=0,hop=
   else if(!has)f='r1';
   else{f='r4';ang=MF.r4.t*Math.PI/180;ammo=at}
   const F=MF[f];if(F.d&&ammo)nock=Math.hypot(F.b[0]-F.d[0],F.b[1]-F.d[1]);
-  return{f,F,ang,nock,ammo,dx,hop}}
+  return{f,F,ang,nock,ammo,dx,hop,lean}}
 /* world position of the bow fist for a frame (used to start the arrow where Mo's bow is) */
-function moBowW(M){const F=M.F;return[LX+MOX+M.dx+(F.b[0]-F.a[0])*MFK,(F.a[1]-F.b[1])*MFK+M.hop]}
-function drawMoF(x,s,now,aim){const M=moFrame(now,aim),F=M.F,im=AI('mf-'+M.f),k=MFK*s,X=sx(LX+MOX+M.dx),Y=sy(M.hop);
+function moBowW(M){const F=M.F,ux=(F.b[0]-F.a[0])*MFK,uy=(F.a[1]-F.b[1])*MFK,c=Math.cos(M.lean),sn=Math.sin(M.lean);return[LX+MOX+M.dx+ux*c-uy*sn,ux*sn+uy*c+M.hop]}
+function drawMoF(x,s,now,aim){const M=moFrame(now,aim),F=M.F,im=AI('mf-'+M.f),k=MFK*s,X0=sx(LX+MOX+M.dx),Y0=sy(M.hop);
+  /* drawn around his feet, leaning back for very high shots; the arrow always lies between his two hands */
+  x.save();x.translate(X0,Y0);x.rotate(-M.lean);const X=0,Y=0;
   const bx=X+(F.b[0]-F.a[0])*k,by=Y+(F.b[1]-F.a[1])*k;
   /* the bow is in front of Mo; his fists are drawn again on top of the grip and the string */
   x.drawImage(im,X-F.a[0]*k,Y-F.a[1]*k,im.naturalWidth*k,im.naturalHeight*k);
@@ -764,7 +766,7 @@ function drawMoF(x,s,now,aim){const M=moFrame(now,aim),F=M.F,im=AI('mf-'+M.f),k=
     /* his fingers go over the bow grip and over the string, so he really holds them */
     const hand=(p2,r)=>{x.save();x.beginPath();x.arc(X+(p2[0]-F.a[0])*k,Y+(p2[1]-F.a[1])*k,r*k,0,7);x.clip();x.drawImage(im,X-F.a[0]*k,Y-F.a[1]*k,im.naturalWidth*k,im.naturalHeight*k);x.restore()};
     hand(F.b,15);if(F.d&&M.ammo)hand(F.d,15)}
-  G.moM=M}
+  x.restore();G.moM=M}
 const moReady=()=>['mo-body','mo-head','mo-arm','mo-uarm','mo-farm'].every(AI);
 function drawBowHeld(x,tier,px,py,s,ang,pull,ammo,nd){
   const im=bowArt(tier),H=s*1.55*bowK(),W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W,tx=-.63*W,ty=.46*H,nx=nd?Math.min(tx-s*.05,-nd):tx-s*(.05+pull*.6);
