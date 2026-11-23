@@ -657,7 +657,8 @@ const ARTN=['wood-sq','wood-pl','glass-sq','glass-pl','ice-sq','ice-pl','brick-s
  ...BIRDS.flatMap(b=>['bird-'+b,'fly-'+b]),'bg-home','bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night',
  'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick',
  ...['house','garden','well','palms','swing','school','market','pond','fountain','masjid','minaret','sign','lights'].map(n=>'v-'+n),
- 'mo-body','mo-head','mo-head-happy','mo-arm','mo-uarm','mo-farm','mo-win'];
+ 'mo-body','mo-head','mo-head-happy','mo-arm','mo-uarm','mo-farm','mo-win',
+ ...['w1','w2','w3','w4','w5','w6','r1','r2','r3','r4','a1','a2','a3','a4','a5','a6','f2','f3','f4','f5','f6'].map(n=>'mf-'+n)];
 let artLeft=ARTN.length;
 ARTN.forEach(n=>{const i=new Image();i.onload=()=>{i.ok=1;if(--artLeft<=0){try{bgCache=null;if(cur!=='game')paintBg();if(cur==='village')renderVillage();renderHomeArt();if(G){renderPicker();renderHud()}}catch(e){}}};i.onerror=()=>{artLeft--};i.src='art/'+n+'.webp';ART[n]=i});
 const AI=n=>{const i=ART[n];return i&&i.ok?i:null};
@@ -731,13 +732,46 @@ function rockDraw(x,u,s,w){const im=AI(PEDN[w]);if(!im){rockDrawC(x,u,s,w);retur
    reaches the string with simple two-bone IK, so it bends back as the pull grows.
    ================================================================= */
 const MK=.0041,MO={body:{sh:[169,46],bsh:[74,41],neck:[128,17]},head:[168,274],arm:{p:[29,46.5],len:232},uarm:{p:[24,43],len:153},farm:{el:[234,50],len:208}};
+/* Baby Mo as frames (owner's pose sheets): walk in, get ready, aim at 6 angles, release, watch, cheer, shrug.
+   a = feet/torso anchor, b = the fist that holds the bow, d = the hand that pulls the string, t = angle of the arrow line (degrees). */
+const MF={"w1":{"a":[105.6,380.0],"b":[196.8,232.8]},"w2":{"a":[96.8,376.8],"b":[173.6,260.0]},"w3":{"a":[103.2,376.8],"b":[194.4,248.0]},"w4":{"a":[103.2,380.0],"b":[183.2,235.2]},"w5":{"a":[100.8,381.6],"b":[188.0,214.4]},"w6":{"a":[102.4,380.0],"b":[181.6,272.0]},"r1":{"a":[97.6,375.2],"b":[180.0,273.6]},"r2":{"a":[108.8,379.2],"b":[197.6,275.2]},"r3":{"a":[109.6,376.0],"b":[181.6,203.2],"d":[151.2,203.2],"t":0.0},"r4":{"a":[123.2,378.4],"b":[236.8,180.0],"d":[155.2,203.2],"t":15.9},"a1":{"a":[137.6,377.6],"b":[260.8,219.2],"d":[100.0,176.0],"t":-15.0},"a2":{"a":[142.4,379.2],"b":[272.0,180.8],"d":[93.6,166.4],"t":-4.6},"a3":{"a":[128.8,379.2],"b":[268.8,140.0],"d":[101.6,177.6],"t":12.7},"a4":{"a":[126.4,378.4],"b":[276.8,120.0],"d":[105.6,176.8],"t":18.4},"a5":{"a":[132.8,379.2],"b":[259.2,86.4],"d":[109.6,172.0],"t":29.8},"a6":{"a":[142.4,376.8],"b":[270.4,60.0],"d":[109.6,167.2],"t":33.7},"f2":{"a":[149.6,379.2],"b":[287.2,156.8]},"f3":{"a":[139.2,377.6],"b":[274.4,153.6]},"f4":{"a":[138.4,382.4],"b":[260.0,220.8]},"f5":{"a":[126.4,337.6],"b":[224.8,80.8]},"f6":{"a":[126.4,383.2],"b":[230.4,184.0]}},MFK=2.25/378,MOX=.25;
+const AIMF=['a1','a2','a3','a4','a5','a6'];
+const mfReady=()=>Object.keys(MF).every(n=>AI('mf-'+n));
+/* which frame, and where the bow goes, for what Mo is doing now */
+function moFrame(now,aim){const G2=G;let f='r4',ang=0,nock=0,ammo=null,dx=0,hop=0;const at=G2.asel,has=G2.shots>0;
+  if(G2.won){f='f5';ang=1.1;hop=Math.abs(Math.sin(now/180))*.35}
+  else if(G2.state==='end'){f='f6';ang=.2}
+  else if(G2.walkT!=null&&now-G2.walkT<1900&&!aim){const t2=Math.max(0,now-G2.walkT);
+    if(t2<1400){f='w'+(1+Math.floor(t2/115)%6);dx=-2.6*(1-t2/1400)}else if(t2<1650)f='r2';else{f='r3';ammo=has?at:null}}
+  else if(aim&&aim.p>.02){const A=clampAng(aim.a)*180/Math.PI;f=AIMF.reduce((b2,n)=>Math.abs(MF[n].t-A)<Math.abs(MF[b2].t-A)?n:b2,'a1');ang=clampAng(aim.a);ammo=at}
+  else if(G2.shotT&&now-G2.shotT<260){f='f2';ang=G2.lastA||0}
+  else if(G2.shotT&&now-G2.shotT<700){f='f3';ang=G2.lastA||0}
+  else if(G2.state==='fly'){f='f4';ang=-.35}
+  else if(G2.readyT&&now-G2.readyT<230)f='r2';
+  else if(G2.readyT&&now-G2.readyT<460){f='r3';ammo=has?at:null}
+  else if(!has)f='r1';
+  else{f='r4';ang=MF.r4.t*Math.PI/180;ammo=at}
+  const F=MF[f];if(F.d&&ammo)nock=Math.hypot(F.b[0]-F.d[0],F.b[1]-F.d[1]);
+  return{f,F,ang,nock,ammo,dx,hop}}
+/* world position of the bow fist for a frame (used to start the arrow where Mo's bow is) */
+function moBowW(M){const F=M.F;return[LX+MOX+M.dx+(F.b[0]-F.a[0])*MFK,(F.a[1]-F.b[1])*MFK+M.hop]}
+function drawMoF(x,s,now,aim){const M=moFrame(now,aim),F=M.F,im=AI('mf-'+M.f),k=MFK*s,X=sx(LX+MOX+M.dx),Y=sy(M.hop);
+  const bx=X+(F.b[0]-F.a[0])*k,by=Y+(F.b[1]-F.a[1])*k;
+  /* the bow goes behind Mo (so it never covers his face), then his fists are drawn again on top of the grip and the string */
+  if(M.f!=='f5')drawBowHeld(x,upLv('bow'),bx,by,s*.62,M.ang,0,M.ammo,M.nock?M.nock*k:null);
+  x.drawImage(im,X-F.a[0]*k,Y-F.a[1]*k,im.naturalWidth*k,im.naturalHeight*k);
+  if(M.f!=='f5'){
+    /* his fingers go over the bow grip and over the string, so he really holds them */
+    const hand=(p2,r)=>{x.save();x.beginPath();x.arc(X+(p2[0]-F.a[0])*k,Y+(p2[1]-F.a[1])*k,r*k,0,7);x.clip();x.drawImage(im,X-F.a[0]*k,Y-F.a[1]*k,im.naturalWidth*k,im.naturalHeight*k);x.restore()};
+    hand(F.b,15);if(F.d&&M.ammo)hand(F.d,15)}
+  G.moM=M}
 const moReady=()=>['mo-body','mo-head','mo-arm','mo-uarm','mo-farm'].every(AI);
-function drawBowHeld(x,tier,px,py,s,ang,pull,ammo){
-  const im=bowArt(tier),H=s*1.55*bowK(),W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W,tx=-.63*W,ty=.46*H,nx=tx-s*(.05+pull*.6);
+function drawBowHeld(x,tier,px,py,s,ang,pull,ammo,nd){
+  const im=bowArt(tier),H=s*1.55*bowK(),W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W,tx=-.63*W,ty=.46*H,nx=nd?Math.min(tx-s*.05,-nd):tx-s*(.05+pull*.6);
   x.save();x.translate(px,py);x.rotate(-ang);
   x.beginPath();x.moveTo(tx,-ty);x.lineTo(nx,0);x.lineTo(tx,ty);x.lineWidth=Math.max(1.4,s*.04);x.strokeStyle=OUT;x.stroke();x.lineWidth=Math.max(.8,s*.022);x.strokeStyle='#fff6e0';x.stroke();
   x.drawImage(im,-gripX,-H/2,W,H);
-  if(ammo){x.save();x.translate(nx+s*.55,0);drawArrow(x,ammo,s*1.05,0);x.restore()}
+  if(ammo){if(nd){const Al=-nx+s*.45;x.save();x.translate(nx+Al/2,0);drawArrow(x,ammo,Al/1.187,0);x.restore()}else{x.save();x.translate(nx+s*.55,0);drawArrow(x,ammo,s*1.05,0);x.restore()}}
   x.restore();const c=Math.cos(ang),sn=Math.sin(ang);return[px+nx*c,py-nx*sn]}
 function drawMo(x,s,ang,pull,ammo,happy,now){
   const sc=MK*s,SX=sx(LX),SY=sy(OY),B=MO.body,bx=SX-B.sh[0]*sc,by=SY-B.sh[1]*sc;
@@ -834,7 +868,7 @@ function drawGame(now){
   for(const u of S.list)if(u.k==='rock'){x.save();x.translate(sx(u.x),sy(u.y));rockDraw(x,u,s,w);x.restore()}
   // Mo
   const puppet=moReady();
-  if(puppet&&G.won&&AI('mo-win')){const im=AI('mo-win'),h=2.3*s,w=h*im.naturalWidth/im.naturalHeight,hop=Math.abs(Math.sin(now/180))*s*.3;x.drawImage(im,sx(LX-.2)-w/2,sy(0)-h-hop,w,h)}
+  if(puppet&&G.won&&AI('mo-win')&&!mfReady()){const im=AI('mo-win'),h=2.3*s,w=h*im.naturalWidth/im.naturalHeight,hop=Math.abs(Math.sin(now/180))*s*.3;x.drawImage(im,sx(LX-.2)-w/2,sy(0)-h-hop,w,h)}
   const mo=G.won&&IMG.jump.ok?IMG.jump:IMG.mo;if(!puppet&&mo.ok){const h=2.05*s*(mo===IMG.jump?1.12:1),mw=h*mo.naturalWidth/mo.naturalHeight;let hop=0;
     if(G.won)hop=Math.abs(Math.sin(now/180))*s*.3;else if(G.shotT&&now-G.shotT<350)hop=Math.sin((now-G.shotT)/350*Math.PI)*s*.12;
     x.drawImage(mo,sx(1.05)-mw/2,sy(0)-h-hop,mw,h)}
@@ -848,7 +882,8 @@ function drawGame(now){
   // aim dots (the wind bends them too)
   const at=G.asel,aim=G.aim,wind=G.lv.wind||0;
   if(aim&&aim.p>.08){const [vx,vy]=launchVel(at,aim.a,aim.p),[px,py]=launchPos(aim.a),T=age==='little'?2.4:SIGHT[upLv('sight')];
-    for(let tt=.05,i=0;tt<T;tt+=.07,i++){const X=px+vx*tt+.5*wind*tt*tt,Y=py+vy*tt-5*tt*tt;if(Y<0)break;const r=Math.max(2,s*(.13-i*.002));
+    const bw=G.moM&&G.moM.F.d?moBowW(G.moM):null,ox=bw?bw[0]-px:0,oy=bw?bw[1]-py:0;
+    for(let tt=.05,i=0;tt<T;tt+=.07,i++){const ok=Math.max(0,1-tt/.4),X=px+vx*tt+.5*wind*tt*tt+ox*ok,Y=py+vy*tt-5*tt*tt+oy*ok;if(Y<0)break;const r=Math.max(2,s*(.13-i*.002));
       x.beginPath();x.arc(sx(X),sy(Y),r,0,7);x.fillStyle='#fff';x.globalAlpha=Math.max(.35,1-tt/T*.6);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke();x.globalAlpha=1}}
   // bodies
   for(const u of S.list){const k=u.k;if(!u.b||k==='rock')continue;const q=u.b.getPosition(),a=u.b.getAngle();x.save();x.translate(sx(q.x),sy(q.y));
@@ -864,11 +899,12 @@ function drawGame(now){
       for(const [k2,c] of [[1,'rgba(255,110,30,.9)'],[.6,'rgba(255,220,80,.95)']]){x.beginPath();x.moveTo(fx-s*.14*k2,fy);x.quadraticCurveTo(fx-s*.12*k2,fy-h*k2*.6,fx,fy-h*k2);x.quadraticCurveTo(fx+s*.12*k2,fy-h*k2*.6,fx+s*.14*k2,fy);x.closePath();x.fillStyle=c;x.fill()}}}
   // the bow
   const ready=G.state==='ready'||G.state==='aim',ang=aim?clampAng(aim.a):.55;
-  if(puppet){if(!G.won){let hop=G.shotT&&now-G.shotT<250?Math.sin((now-G.shotT)/250*Math.PI)*s*.05:0;x.save();x.translate(0,-hop);drawMo(x,s,aim?ang:(G.lastA??.45),aim?aim.p:0,ready&&G.shots>0?at:null,false,now);x.restore()}}
+  if(mfReady())drawMoF(x,s,now,aim);
+  else if(puppet){if(!G.won){let hop=G.shotT&&now-G.shotT<250?Math.sin((now-G.shotT)/250*Math.PI)*s*.05:0;x.save();x.translate(0,-hop);drawMo(x,s,aim?ang:(G.lastA??.45),aim?aim.p:0,ready&&G.shots>0?at:null,false,now);x.restore()}}
   else drawBow(x,upLv('bow'),sx(LX),sy(0),sx(LX),sy(OY),s,ang,aim?aim.p:0,ready&&G.shots>0?at:null);
   for(const p of S.proj){const q=p.b.getPosition();p.tr=p.tr||[];const l=p.tr[p.tr.length-1];if(!l||Math.hypot(l.x-q.x,l.y-q.y)>.12){p.tr.push({x:q.x,y:q.y});if(p.tr.length>30)p.tr.shift()}
     if(prog.trail&&prog.trail!=='none'&&!p.touched)drawTrail(x,p.tr.map(o=>[sx(o.x),sy(o.y)]),prog.trail,s,now);
-    x.save();x.translate(sx(q.x),sy(q.y));drawArrow(x,p.at,s,p.b.getAngle(),1);x.restore()}
+    const rk=G.relOff?Math.max(0,1-(now-G.shotT)/180):0;x.save();x.translate(sx(q.x+(rk?G.relOff[0]*rk:0)),sy(q.y+(rk?G.relOff[1]*rk:0)));drawArrow(x,p.at,s,p.b.getAngle(),1);x.restore()}
   drawParts(x,now,s);drawPad(x,now)}
 /* the aiming pad: a wide ring with a yellow button. The button moves opposite to the shot, like pulling a bowstring. */
 function drawPad(x,now){if(G.won||G.state==='bism'||G.shots<=0)return;const P=padGeo(),{cx,cy,R}=P,aim=G.aim,live=G.state==='ready'||G.state==='aim';
@@ -962,7 +998,7 @@ function keyIcon(key,px){const c=document.createElement('canvas');c.width=c.heig
 function arrowIcon(at,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d');x.translate(px/2,px/2);
   if(at==='triple'&&!AI('ar-triple')){for(const k of [-1,0,1]){x.save();x.translate(0,k*px*.16);drawArrow(x,at,px*.75,.6);x.restore()}}else drawArrow(x,at,px*.85,.6);return c}
 function bowIcon(tier,px,view){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),s=px/2.7/(view&&view.size==='big'?1.08:1);bowView=view||null;const gx=px*.45,gy=px*.94;drawBow(x,tier,gx,gy,gx,gy-OY*s,s,.55,.35,'normal');bowView=null;return c}
-$('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();voice('bismillah',t('sayBism'));if(!G)return;G.state='ready';G.idle=performance.now();
+$('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();voice('bismillah',t('sayBism'));if(!G)return;G.state='ready';G.walkT=performance.now();G.idle=performance.now();
   const intro=canPan();if(intro){setTimeout(()=>{if(G&&G.camT===cam.max&&!G.panning){G.camT=cam.min;G.camSp=.035}},1100);
 }
   if(G.n<=2||!store.get('hinted',0))setTimeout(showHint,intro?3200:700);
@@ -1010,7 +1046,7 @@ function release(e){if(G&&G.panning&&e.pointerId===G.panning.id){G.panning=null;
   if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const A=aimFrom(e);aimStart=null;
   if(A.p<.12||window.praying){G.state='ready';G.aim=null;return}shoot(A.a,A.p)}
 cv.addEventListener('pointerup',release);cv.addEventListener('pointercancel',e=>{if(G)G.panning=null;if(G&&G.state==='aim'){G.state='ready';G.aim=null;aimStart=null}});
-function shoot(a,p){const at=G.asel;G.lastA=clampAng(a);if(at!=='normal')G.special=1;if(!(G.ammo[at]>0))return;fire(G.sim,at,a,p);G.state='fly';G.ammo[at]--;G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);
+function shoot(a,p){const at=G.asel;G.lastA=clampAng(a);{const lp=launchPos(clampAng(a)),bw=G.moM&&G.moM.F.d?moBowW(G.moM):null;G.relOff=bw?[bw[0]-lp[0],bw[1]-lp[1]]:null}if(at!=='normal')G.special=1;if(!(G.ammo[at]>0))return;fire(G.sim,at,a,p);G.state='fly';G.ammo[at]--;G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);
   if(!G.ammo[at]){const nx=G.av.find(k=>G.ammo[k]>0);if(nx){G.asel=nx;setTimeout(()=>{if(G)toast(tf('noA',{a:t('AR')[at]}))},400)}renderPicker()}renderHud()}
 
 let cheerN=0;
@@ -1098,7 +1134,7 @@ function loop(now){requestAnimationFrame(loop);
   const dt=Math.min(.1,(now-(lastT||now))/1000);lastT=now;
   if(cur==='game'&&G){
     if(!window.praying&&G.state!=='bism'){acc+=dt;let n=0;while(acc>=1/60&&n<4){simStep(G.sim);acc-=1/60;n++;
-        if(G.state==='fly'&&turnDone(G.sim)){endTurn(G.sim);renderHud();if(G.sim.goalsLeft>0){G.state='ready';G.idle=now;G.backT=now+900;if(canPan()&&!store.get('lookTip',0)){store.set('lookTip',1);setTimeout(()=>{if(G&&cur==='game'&&G.state==='ready'&&!G.winAt)toast(t('lookTip'))},1500)}}}
+        if(G.state==='fly'&&turnDone(G.sim)){endTurn(G.sim);renderHud();if(G.sim.goalsLeft>0){G.state='ready';G.idle=now;G.readyT=now;G.backT=now+900;if(canPan()&&!store.get('lookTip',0)){store.set('lookTip',1);setTimeout(()=>{if(G&&cur==='game'&&G.state==='ready'&&!G.winAt)toast(t('lookTip'))},1500)}}}
         if(G.state==='ready'&&G.shots<=0&&G.sim.goalsLeft>0&&!G.winAt)outOfShots()}
       if(acc>1/60)acc=0;handleEvents();
       if(G.winAt&&now>G.winAt&&!G.won&&G.state!=='aim'){G.winAt=0;levelWin()}
