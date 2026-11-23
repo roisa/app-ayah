@@ -253,7 +253,7 @@ const PW=.42,PH=1.7,PT=.42,GS=1.1,CR=.9,CB=.55;
 const PAR=[1,1,2,1,2,2,1,1,1,1,1,1,2,2,2,1,3,4,3,3,1,1,3,2,3,1,4,4,3,4,2,1,2,3,2,3,5,4,2,4,1,1,1,2,3,1,6,2,2,4,1,2,3,1,2,3,2,4,3,4];
 const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 /* special arrows the bot needed in each level (f fire, h heavy, t triple, d diamond, w firework) */
-const USE=["","","","","","","f1","","f1","f1","","h1","f1","f1","","","t1","","h1","f1","","","","h1","t1","t1","","t1","h1","d1","","","t1","","","d1","w1","","","h1t1","","","","t1","t1","t1","t1w1","","","w1","","t1","","t1","w1","h2","","t1","t1d1","h2"];
+const USE=["","","","","","","f1","","f1","f1","","h1","f1","f1","","","t1","","h1","f1","","","","h1","t1","t1","","t1","h1","t1d1","","","t1","","","d1","w1","","","h1t1","","","","t1","t1","t1","t1w1","","","w1","","t1","","t1","w1","h2","","t1","t1d1","h2"];
 const LVC={};
 function genLevel(n){if(LVC[n])return LVC[n];let lv;const k0=LVK[n-1]||0;for(let k=k0;k<k0+12;k++){lv=genRaw(n,k);if(stable(lv))break}return LVC[n]=lv}
 function stable(lv){const S=makeSim(lv);for(let i=0;i<300;i++)simStep(S);return S.goals.every(g=>!g.done)&&!S.ev.some(e=>e.e==='break'||e.e==='boom')}
@@ -278,7 +278,7 @@ function genRaw(n,k){
     box(m,x,y+PH+PT/2,L,PT);return y+PH+PT}
   function tower(x,y,floors,L,ms,inside,topK){
     let yy=y;for(let f=0;f<floors;f++)yy=frame(x,yy,L,ms[f%ms.length],inside[f]?goal:null);
-    if(topK==='goal')goal(x,yy);else if(topK==='roof')tri(ms[0],x,yy,L,1);else if(topK==='crate')box(ms[0],x,yy+CR/2,CR,CR);else if(topK==='barrel')barrel(x,yy);
+    if(topK==='goal')goal(x,yy);else if(topK==='roof'){/* roofs keep the art's shape: a wide tower gets two roofs */const rw=L>3.5?L/2:L,rh=r1(rw*.5);if(L>3.5){tri(ms[0],x-L/4,yy,rw,rh);tri(ms[0],x+L/4,yy,rw,rh)}else tri(ms[0],x,yy,rw,rh)}else if(topK==='crate')box(ms[0],x,yy+CR/2,CR,CR);else if(topK==='barrel')barrel(x,yy);
     return yy}
   /* a vault: a block wall all round a treasure, 4 x 4 small blocks with the treasure in the middle */
   function vault(x,y,m){const x0=x-CB*1.5;
@@ -619,7 +619,7 @@ function slice3(x,im,X,Y,W,H){const iw=im.naturalWidth,ih=im.naturalHeight,cs=Ma
   x.drawImage(im,0,0,cs,ih,X,Y,cd,H);x.drawImage(im,cs,0,iw-2*cs,ih,X+cd,Y,W-2*cd,H);x.drawImage(im,iw-cs,0,cs,ih,X+W-cd,Y,cd,H)}
 const ROOF={wood:'wood',glass:'glass',ice:'glass',stone:'stone',iron:'stone',brick:'brick'};
 function drawBlock(x,u,s){
-  if(u.k==='tri'){const im=AI('roof-'+(ROOF[u.mat]||'wood'));if(im){const W=u.w*s*1.06,H=u.h*s*1.12;x.drawImage(im,-W/2,-H+s*.04,W,H);cracks(x,u,-W/4,-H*.6,W/2,H*.5,s);return}}
+  if(u.k==='tri'){const im=AI('roof-'+(ROOF[u.mat]||'wood'));if(im){const W=u.w*s*1.08,H=W*im.naturalHeight/im.naturalWidth;x.drawImage(im,-W/2,-H+s*.06,W,H);cracks(x,u,-W/4,-H*.6,W/2,H*.5,s);return}}
   if(u.k!=='box'){drawBlockC(x,u,s);return}
   const W=u.w*s,H=u.h*s,long=Math.max(W,H)/Math.min(W,H)>1.6,im=AI(u.mat+(long?'-pl':'-sq'));if(!im){drawBlockC(x,u,s);return}
   if(!long)x.drawImage(im,-W/2,-H/2,W,H);
@@ -840,7 +840,10 @@ $('#bismBtn').onclick=()=>{ov('bism',false);sfx.bism();say(t('sayBism'));if(!G)r
   tips.slice(0,2).forEach(m=>{setTimeout(()=>{if(G&&cur==='game'&&G.state!=='end'&&!G.winAt){toast(m==='wind'?t('wind'):t('tipM')[m]);store.set('tip:'+m,1)}},d);d+=2600})};
 function renderHud(){
   const el=$('#goals');el.innerHTML='';
-  goalKeys(G.sim).forEach(e=>{const d=document.createElement('div');d.className='goal'+(e.left?'':' done');d.append(keyIcon(e.key,76));d.insertAdjacentHTML('beforeend',`<b>${e.left?e.left:'✓'}</b>`);el.appendChild(d)});
+  /* one icon per treasure: grey until it is collected, then full colour */
+  G.gotShown=G.gotShown||new Set();
+  [...G.sim.goals].sort((a,b)=>(a.u.x||0)-(b.u.x||0)).forEach(g=>{const c=keyIcon(g.key+(g.key==='g:cage'||g.key==='g:gift'||g.key==='g:gem'?':'+(g.u.v||''):''),76);c.className='gi'+(g.done?' on':'');
+    if(g.done&&!G.gotShown.has(g)){G.gotShown.add(g);c.classList.add('got')}el.appendChild(c)});
   $('#coinHud b').textContent=G.coinShown;
   document.querySelectorAll('#picker button[data-at]').forEach(b=>{const n=G.ammo[b.dataset.at]||0,c=b.querySelector('.cnt');b.classList.toggle('empty',!n);
     if(c&&c.textContent!==String(n)){c.textContent=n;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}})}

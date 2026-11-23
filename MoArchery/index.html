@@ -143,8 +143,8 @@ img{-webkit-user-drag:none}
 .goal.done{background:#d6f7ea;color:#0e9a6f}
 #shots{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.9);border-radius:22px;padding:3px 10px 3px 6px;box-shadow:0 4px 0 rgba(0,60,120,.25);font:400 clamp(18px,4.4vw,22px) "Lilita One",sans-serif;color:#c2367a;align-self:center}
 #coinHud{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.9);border-radius:22px;padding:3px 10px 3px 4px;box-shadow:0 4px 0 rgba(0,60,120,.25);font:400 clamp(18px,4.4vw,22px) "Lilita One",sans-serif;color:#d07a00;align-self:center;transition:transform .15s}
-#game:not(.land) #coinHud{position:absolute;right:calc(12px + var(--safeR));top:calc(72px + var(--safeT))}
-#game:not(.land) #goals{padding:0 86px}
+#game:not(.land) #gbar .sp{display:none}
+#game:not(.land) #coinHud{margin:0 auto}
 #coinHud canvas{width:clamp(26px,6.6vw,32px);height:clamp(26px,6.6vw,32px)}#coinHud.bump{transform:scale(1.22)}
 .flycoin{position:fixed;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px;z-index:30;pointer-events:none}
 #shots canvas{width:clamp(28px,7vw,34px);height:clamp(28px,7vw,34px)}
@@ -315,6 +315,11 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 .lv .st i.on,.stars3 i.on{background-image:url(art/star.webp)!important}
 #game:not(.land) #picker{right:calc(10px + var(--safeR));gap:8px}
 #game:not(.land) #picker button{flex:1 1 0;width:auto;height:auto;aspect-ratio:1;max-width:74px;min-width:0}
+#goals{gap:2px;align-items:center}
+#goals .gi{width:clamp(30px,8vw,40px);height:clamp(30px,8vw,40px);filter:grayscale(1) brightness(1.1) opacity(.75) drop-shadow(0 2px 0 rgba(0,0,0,.15));transition:filter .3s}
+#goals .gi.on{filter:drop-shadow(0 2px 0 rgba(0,0,0,.2)) drop-shadow(0 0 6px rgba(255,230,120,.9))}
+#goals .gi.got{animation:giPop .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes giPop{0%{transform:scale(.4)}60%{transform:scale(1.5)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
