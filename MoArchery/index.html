@@ -320,6 +320,25 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 #goals .gi.on{filter:drop-shadow(0 2px 0 rgba(0,0,0,.2)) drop-shadow(0 0 6px rgba(255,230,120,.9))}
 #goals .gi.got{animation:giPop .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes giPop{0%{transform:scale(.4)}60%{transform:scale(1.5)}100%{transform:scale(1)}}
+
+.sdq div{display:flex;flex-direction:column;align-items:center}
+.sdq img.sdi{width:84px;height:72px;object-fit:contain;display:block;margin:2px auto}
+.sdq div.done{background:#d6f7ea}.sdq div.done small{color:#0e6a4f}
+.deedimg img{width:150px;height:120px;object-fit:contain;display:block;margin:0 auto;animation:bounce 1.2s ease-in-out infinite}
+.badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:8px}
+.bdg{display:flex;flex-direction:column;align-items:center;width:96px;text-align:center;opacity:.45;filter:grayscale(1)}
+.bdg.on{opacity:1;filter:none}.bdg.new i{animation:giPop .7s cubic-bezier(.3,1.6,.5,1) both;box-shadow:0 0 0 4px #fff7a0,0 0 16px 6px rgba(255,220,80,.8)}
+.bdg i{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3a0,#ffc928 60%,#e8a400);border:3px solid #4a2c14;display:grid;place-items:center}
+.bdg i img{width:70%;height:70%;object-fit:contain}
+.bdg b{font:400 13px/1.1 "Lilita One",sans-serif;color:var(--ink);margin-top:3px}.bdg small{font-size:10px;line-height:1.1;color:var(--ink2);font-weight:700}
+.badges em{width:100%;font:400 15px "Lilita One",sans-serif;color:#d07a00;font-style:normal}
+.lv .bd{display:flex;gap:2px;margin-top:1px}.lv .bd i{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.18)}.lv .bd i.on{background:#ffd23f;box-shadow:0 0 0 1.5px #4a2c14}
+#dailyBadge{background:#ff5fa8}#dailyBadge.ok{background:#22c08d}
+
+.buy canvas{width:24px!important;height:24px!important;margin:0!important}
+.pills{gap:8px}.pill{font-size:clamp(14px,3.8vw,18px);padding:4px 14px 4px 4px}.pill canvas{width:34px;height:34px}
+@media (orientation:landscape) and (max-height:560px){.pills{gap:6px;display:grid;grid-template-columns:auto auto;justify-content:center}.pill{font-size:14px;padding:3px 12px 3px 3px;box-shadow:0 3px 0 rgba(0,60,120,.25)}.pill canvas{width:28px;height:28px}.legal{margin-top:4px;font-size:11px}.htop .hmo{height:min(22vh,100px)}.logo{font-size:min(9vh,40px)}}
+@media (orientation:portrait){.htop .hmo{height:min(18vh,170px)}.logo{font-size:clamp(40px,10vw,78px)}.mode{width:min(40vw,280px)}.modes{padding-top:clamp(8px,1.6vh,20px)}}
 </style>
 </head>
 <body>
@@ -355,7 +374,7 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
       <button data-a="little"><span data-t="little">Little</span><small data-t="littleS">Ages 3+</small></button>
       <button data-a="big"><span data-t="big">Big Kid</span><small data-t="bigS">Ages 6+</small></button>
     </div>
-    <div class="homeFoot"><div class="pills"><button class="pill" id="goLau"><canvas id="pLau" width="96" height="96"></canvas><span data-t="workshop">Bow Workshop</span><i id="coinBadge" class="cb"></i></button><button class="pill" id="goStk"><canvas id="pStk" width="96" height="96"></canvas><span data-t="birds">Birds I Freed</span><i id="stkBadge"></i></button></div><p class="legal" data-t="legal">No ads · No data collected · Works offline</p></div>
+    <div class="homeFoot"><div class="pills"><button class="pill" id="goLau"><canvas id="pLau" width="96" height="96"></canvas><span data-t="workshop">Bow Workshop</span><i id="coinBadge" class="cb"></i></button><button class="pill" id="goStk"><canvas id="pStk" width="96" height="96"></canvas><span data-t="birds">Birds I Freed</span><i id="stkBadge"></i></button><button class="pill" id="goSdq"><canvas id="pSdq" width="96" height="96"></canvas><span data-t="sadaqah">Sadaqah Jar</span></button><button class="pill" id="goDaily"><canvas id="pDaily" width="96" height="96"></canvas><span data-t="daily">Daily Challenge</span><i id="dailyBadge"></i></button></div><p class="legal" data-t="legal">No ads · No data collected · Works offline</p></div>
   </div>
 </section>
 
@@ -447,6 +466,26 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
   <div class="lnch ups" id="lauList"></div>
   <h4 class="arh" data-t="arrowsT">Arrows</h4>
   <div class="lnch ars" id="arList"></div>
+  <h4 class="arh" data-t="trailsT">Arrow trails</h4>
+  <div class="lnch ars" id="trList"></div>
+</div></div>
+
+<!-- SADAQAH JAR -->
+<div class="ov" id="sdqOv"><div class="box stkbox">
+  <button class="x" id="sdqClose" aria-label="Close"><img src="art/b-close.webp" alt=""></button>
+  <h3 data-t="sadaqah">Sadaqah Jar</h3>
+  <p data-t="sdqS">Give your coins to help others.</p>
+  <div class="wsc" id="sdqCoins"></div>
+  <div class="stk sdq" id="sdqList"></div>
+</div></div>
+
+<!-- GOOD DEED -->
+<div class="ov" id="deedOv"><div class="box">
+  <div id="deedImg" class="deedimg"></div>
+  <h3 data-t="deedT">Alhamdulillah! You gave sadaqah</h3>
+  <p id="deedName"></p>
+  <div class="fact"><b data-t="dyk">Did you know?</b><p id="deedFact"></p></div>
+  <button class="bigbtn" id="deedOk"><span data-t="deedOk">Alhamdulillah</span></button>
 </div></div>
 
 <!-- ANIMAL FRIENDS -->

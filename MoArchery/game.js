@@ -25,6 +25,22 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
  AR:{normal:'Arrow',flame:'Fire arrow',heavy:'Heavy arrow',triple:'Triple arrow',diamond:'Diamond arrow',firework:'Firework arrow'},
  ARD:{normal:'Breaks glass, ice and wood. Too weak for brick and stone',flame:'Sets wood on fire and melts ice',heavy:'Strong and heavy. Breaks bricks',triple:'Three arrows at once',diamond:'Sharp diamond tip. The only arrow that breaks stone',firework:'Bursts into fireworks and breaks things nearby'},
+
+ sadaqah:'Sadaqah Jar',sdqS:'Give your coins to help others. Charity does not make wealth less. (Sahih Muslim 2588)',give:'Give',given:'Given',deedT:'Alhamdulillah! You gave sadaqah',deedOk:'Alhamdulillah',
+ SD:{iftar:'Dates for iftar',water:'A water well',food:'Food for the hungry',orphan:'Gifts for orphans',trees:'Trees for the village',books:'Qur\'an books for the school',wudu:'Wudu taps for the masjid',lights:'Lights for the masjid',clothes:'New clothes for Eid',village:'Help the whole village'},
+ SDF:{iftar:'Whoever gives food to a fasting person to break the fast gets a reward like his, and the fasting person\'s reward does not get smaller. (Jami\' at-Tirmidhi 807)',
+  water:'Sa\'d asked the Prophet ﷺ which charity is best. He said: "Water." So Sa\'d dug a well for the people. (Sunan Abi Dawud 1681)',
+  food:'The Prophet ﷺ said: "Feed the hungry, visit the sick and free the captive." (Sahih al-Bukhari 5649)',
+  orphan:'The Prophet ﷺ said that he and the one who looks after an orphan will be together in Paradise, close like two fingers. (Sahih al-Bukhari 6005)',
+  trees:'If a Muslim plants a tree and a bird, a person or an animal eats from it, it is a charity for him. (Sahih al-Bukhari 2320)',
+  books:'When a person dies, his deeds end except three: ongoing charity, useful knowledge, and a good child who prays for him. (Sahih Muslim 1631)',
+  wudu:'Spending in Allah\'s way is like one seed that grows seven ears, with a hundred grains in each ear. (Surah Al-Baqarah 2:261)',
+  lights:'Those who spend their wealth by night and by day, secretly and openly, will have their reward with their Lord. (Surah Al-Baqarah 2:274)',
+  clothes:'Charity does not make wealth less. (Sahih Muslim 2588)',
+  village:'You will never reach true goodness until you spend from what you love. (Surah Ali \'Imran 3:92)'},
+ trailsT:'Arrow trails',use:'Use',using:'Using',TR:{none:'No trail',rainbow:'Rainbow',stars:'Stars',hearts:'Hearts',lantern:'Lantern glow',gold:'Gold sparkle'},
+ BG:{sharp:'Sharp shooter',simple:'Simple archer',coins:'Coin catcher'},BGD:{sharp:'Finish with few arrows',simple:'Use only normal arrows',coins:'Catch every coin in the air'},newBadge:'+{n} coins for new badges!',
+ daily:'Daily Challenge',dailyS:'A new level every day',dailyDone:'Daily challenge done! +{n} coins · day {d} in a row',dailyChip:'Daily',dailyAgain:'Done today. Come back tomorrow for a new one!',
  newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',lookTip:'Drag on the right side to look around!',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',noA:'No more: {a}!',overTL:'Let\'s try again!',overPL:'All the arrows are used up. Think about which arrow breaks which barrier, and try again!',bonusA:'+1 arrow!',
  IT:{chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
  tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the firework barrel to break everything around it!'},
@@ -63,6 +79,22 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
  AR:{normal:'Anak panah',flame:'Panah api',heavy:'Panah berat',triple:'Panah tiga',diamond:'Panah berlian',firework:'Panah kembang api'},
  ARD:{normal:'Memecahkan kaca, es, dan kayu. Tidak kuat untuk bata dan batu',flame:'Membakar kayu dan mencairkan es',heavy:'Kuat dan berat. Bisa memecah bata',triple:'Tiga anak panah sekaligus',diamond:'Ujung berlian yang tajam. Satu-satunya panah yang memecah batu',firework:'Meletus jadi kembang api dan memecahkan yang di dekatnya'},
+
+ sadaqah:'Celengan Sedekah',sdqS:'Berikan koinmu untuk menolong orang lain. Sedekah tidak mengurangi harta. (HR. Muslim 2588)',give:'Beri',given:'Sudah',deedT:'Alhamdulillah! Kamu sudah bersedekah',deedOk:'Alhamdulillah',
+ SD:{iftar:'Kurma untuk berbuka',water:'Sumur air',food:'Makanan untuk yang lapar',orphan:'Hadiah untuk anak yatim',trees:'Pohon untuk desa',books:'Mushaf untuk TPA',wudu:'Keran wudu untuk masjid',lights:'Lampu untuk masjid',clothes:'Baju baru untuk Idul Fitri',village:'Bantu seluruh desa'},
+ SDF:{iftar:'Siapa yang memberi makan orang yang berpuasa untuk berbuka, ia mendapat pahala seperti pahalanya, tanpa mengurangi pahala orang yang berpuasa. (HR. Tirmidzi 807)',
+  water:'Sa\'ad bertanya kepada Nabi ﷺ sedekah apa yang paling utama. Beliau menjawab: "Air." Maka Sa\'ad menggali sumur untuk orang-orang. (HR. Abu Dawud 1681)',
+  food:'Nabi ﷺ bersabda: "Berilah makan orang yang lapar, jenguklah orang yang sakit, dan bebaskan tawanan." (HR. Bukhari 5649)',
+  orphan:'Nabi ﷺ bersabda bahwa beliau dan orang yang mengasuh anak yatim akan bersama di surga, dekat seperti dua jari. (HR. Bukhari 6005)',
+  trees:'Jika seorang muslim menanam pohon lalu burung, manusia, atau hewan memakannya, itu menjadi sedekah baginya. (HR. Bukhari 2320)',
+  books:'Jika seseorang meninggal, amalnya terputus kecuali tiga: sedekah jariyah, ilmu yang bermanfaat, dan anak saleh yang mendoakannya. (HR. Muslim 1631)',
+  wudu:'Berinfak di jalan Allah seperti sebutir benih yang menumbuhkan tujuh tangkai, pada tiap tangkai ada seratus biji. (QS Al-Baqarah: 261)',
+  lights:'Orang-orang yang berinfak malam dan siang, diam-diam maupun terang-terangan, mendapat pahala di sisi Tuhan mereka. (QS Al-Baqarah: 274)',
+  clothes:'Sedekah tidak mengurangi harta. (HR. Muslim 2588)',
+  village:'Kamu tidak akan sampai kepada kebajikan sebelum kamu menginfakkan sebagian harta yang kamu cintai. (QS Ali \'Imran: 92)'},
+ trailsT:'Jejak panah',use:'Pakai',using:'Dipakai',TR:{none:'Tanpa jejak',rainbow:'Pelangi',stars:'Bintang',hearts:'Hati',lantern:'Cahaya lentera',gold:'Kilau emas'},
+ BG:{sharp:'Pemanah jitu',simple:'Pemanah sederhana',coins:'Penangkap koin'},BGD:{sharp:'Selesai dengan sedikit panah',simple:'Hanya pakai panah biasa',coins:'Ambil semua koin di udara'},newBadge:'+{n} koin untuk lencana baru!',
+ daily:'Tantangan Harian',dailyS:'Level baru setiap hari',dailyDone:'Tantangan harian selesai! +{n} koin · hari ke-{d} berturut-turut',dailyChip:'Harian',dailyAgain:'Sudah selesai hari ini. Datang lagi besok!',
  newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',lookTip:'Geser di sisi kanan untuk melihat sekeliling!',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',noA:'Habis: {a}!',overTL:'Ayo coba lagi!',overPL:'Anak panahnya sudah habis. Pikirkan panah mana yang bisa memecahkan penghalangnya, lalu coba lagi!',bonusA:'+1 anak panah!',
  IT:{chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
  tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak tong kembang api untuk memecahkan semua di sekitarnya!'},
@@ -822,7 +854,9 @@ function drawGame(now){
   const ready=G.state==='ready'||G.state==='aim',ang=aim?clampAng(aim.a):.55;
   if(puppet){if(!G.won){let hop=G.shotT&&now-G.shotT<250?Math.sin((now-G.shotT)/250*Math.PI)*s*.05:0;x.save();x.translate(0,-hop);drawMo(x,s,aim?ang:(G.lastA??.45),aim?aim.p:0,ready&&G.shots>0?at:null,false,now);x.restore()}}
   else drawBow(x,upLv('bow'),sx(LX),sy(0),sx(LX),sy(OY),s,ang,aim?aim.p:0,ready&&G.shots>0?at:null);
-  for(const p of S.proj){const q=p.b.getPosition();x.save();x.translate(sx(q.x),sy(q.y));drawArrow(x,p.at,s,p.b.getAngle(),1);x.restore()}
+  for(const p of S.proj){const q=p.b.getPosition();p.tr=p.tr||[];const l=p.tr[p.tr.length-1];if(!l||Math.hypot(l.x-q.x,l.y-q.y)>.12){p.tr.push({x:q.x,y:q.y});if(p.tr.length>30)p.tr.shift()}
+    if(prog.trail&&prog.trail!=='none'&&!p.touched)drawTrail(x,p.tr.map(o=>[sx(o.x),sy(o.y)]),prog.trail,s,now);
+    x.save();x.translate(sx(q.x),sy(q.y));drawArrow(x,p.at,s,p.b.getAngle(),1);x.restore()}
   drawParts(x,now,s)}
 /* particles in world units */
 function drawParts(x,now,s){
@@ -865,14 +899,14 @@ function ammoFor(lv){const n=lv.n,av=arrowsAt(n),lit=age==='little',need={};
   for(const k of av)if(k!=='normal')a[k]=need[k]?need[k]+(lit?2:1):1;
   return a}
 const sumA=a=>Object.values(a).reduce((x,y)=>x+y,0);
-function startGame(n){
-  const lv=genLevel(n);G={n,lv,sim:makeSim(lv,{dmgK:BOWK[upLv('bow')]}),state:'bism',shots:0,used:0,aim:null,won:false,shotT:0,idle:0,newB:[],coins:0,av:arrowsAt(n)};
-  G.ammo=ammoFor(lv);G.shots=sumA(G.ammo);
+function startGame(n,lvo){
+  const lv=lvo||genLevel(n);if(lvo)n=lv.n;G={daily:!!lvo,n,lv,sim:makeSim(lv,{dmgK:BOWK[upLv('bow')]}),state:'bism',shots:0,used:0,aim:null,won:false,shotT:0,idle:0,newB:[],coins:0,av:arrowsAt(n)};
+  G.ammo=G.daily?dailyAmmo(lv):ammoFor(lv);G.shots=sumA(G.ammo);
   const pref=store.get('asel','normal');G.asel=G.av.includes(pref)&&G.ammo[pref]>0?pref:'normal';
-  const nw=store.get('newA',null);if(nw&&G.av.includes(nw)){G.asel=nw;store.set('newA',null);G.newA=nw}
+  const nw=G.daily?null:store.get('newA',null);if(nw&&G.av.includes(nw)){G.asel=nw;store.set('newA',null);G.newA=nw}
   parts=[];flyers=[];texts=[];
   show('game');cam.x=null;layout();cam.x=cam.max;G.camT=cam.max;setCam();G.coinShown=prog.coins;renderHud();renderPicker();
-  $('#lvlChip').textContent=tf('level',{n});
+  $('#lvlChip').textContent=G.daily?t('dailyChip'):tf('level',{n});
   $('#bismGoal').textContent=t('mGoal');
   $('#bismGoals').innerHTML='';goalKeys(G.sim).forEach(e=>{const sp=document.createElement('span');sp.append(keyIcon(e.key,88),document.createTextNode('× '+e.total));$('#bismGoals').appendChild(sp)});
   ov('bism',true);
@@ -920,7 +954,7 @@ function release(e){if(G&&G.panning&&e.pointerId===G.panning.id){G.panning=null;
   if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const A=aimFrom(e);aimStart=null;
   if(A.p<.12||window.praying){G.state='ready';G.aim=null;return}shoot(A.a,A.p)}
 cv.addEventListener('pointerup',release);cv.addEventListener('pointercancel',e=>{if(G)G.panning=null;if(G&&G.state==='aim'){G.state='ready';G.aim=null;aimStart=null}});
-function shoot(a,p){const at=G.asel;G.lastA=clampAng(a);if(!(G.ammo[at]>0))return;fire(G.sim,at,a,p);G.state='fly';G.ammo[at]--;G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);
+function shoot(a,p){const at=G.asel;G.lastA=clampAng(a);if(at!=='normal')G.special=1;if(!(G.ammo[at]>0))return;fire(G.sim,at,a,p);G.state='fly';G.ammo[at]--;G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);
   if(!G.ammo[at]){const nx=G.av.find(k=>G.ammo[k]>0);if(nx){G.asel=nx;setTimeout(()=>{if(G)toast(tf('noA',{a:t('AR')[at]}))},400)}renderPicker()}renderHud()}
 
 let cheerN=0;
@@ -958,7 +992,12 @@ function handleEvents(){
   if(goalsNow){renderHud();bumpGoal();if(goalsNow>=2||S.goalsLeft===0)cheer()}
   if(S.goalsLeft<=0&&!G.won&&!G.winAt)G.winAt=performance.now()+1300}
 function levelWin(){
+  if(G.daily){dailyWin();return}
   const n=G.n,par=G.lv.par,st=G.used<=par?3:G.used<=par+2?2:1;G.won=true;G.state='end';
+  /* badges: sharp shooter (par arrows or fewer), simple archer (normal arrows only), coin catcher (every coin in the air) */
+  const coinsAll=G.sim.bonus.filter(o=>o.k==='coin').every(o=>o.got),bits=(G.used<=par?1:0)|(G.special?0:2)|(coinsAll?4:0);
+  prog.badges=prog.badges||{};const oldb=prog.badges[n]||0,nb=bits&~oldb;prog.badges[n]=oldb|bits;const nbc=[1,2,4].filter(b=>nb&b).length;
+  if(nbc){prog.coins+=nbc*10;G.coins+=nbc*10}
   const before=prog.open,old=prog.stars[n]||0;prog.stars[n]=Math.max(old,st);prog.open=Math.max(prog.open,Math.min(LEVELS,n+1));
   const bonus=Math.max(0,st-old)*5;prog.coins+=bonus;G.coins+=bonus;store.set('prog',prog);G.coinShown+=bonus;$('#coinHud b').textContent=G.coinShown;
   sfx.win();say(t('sayAlh'));confetti();
@@ -969,6 +1008,7 @@ function levelWin(){
     const u=$('#winUnl');u.innerHTML='';
     const cn=document.createElement('div');cn.className='unl coins';const cpic=G.coins>=60?'coin-chest':G.coins>=30?'coin-heap':G.coins>=12?'coin-pile':G.coins>=4?'coin-stack':'coin',cim=AI(cpic);let cc;
     if(cim){cc=document.createElement('img');cc.src=cim.src;cc.className='cpic'}else{cc=document.createElement('canvas');cc.width=cc.height=96;coinDraw(cc.getContext('2d'),48,48,40)}cn.append(cc,document.createTextNode(tf('coinsWon',{n:G.coins})));u.appendChild(cn);
+    u.appendChild(badgeRow(bits,nb));
     const na=AORDER.find(a=>ARROWS[a].unlock===n+1),vb=VILLAGE.filter(b=>b.cost>totalStars()-(prog.stars[n]-old)&&b.cost<=totalStars()&&b.cost>0);
     const row=(node,txt)=>{const d=document.createElement('div');d.className='unl';if(node)d.append(node);d.append(document.createTextNode(txt));u.appendChild(d)};
     if(na&&before<n+1){store.set('newA',na);setTimeout(sfx.unlock,1300);row(arrowIcon(na,128),tf('newA',{a:t('AR')[na]})+' '+t('ARD')[na])}
@@ -977,9 +1017,10 @@ function levelWin(){
     else if(n%WN===0&&n<LEVELS&&before<=n){row(null,tf('worldOpen',{w:t('W')[n/WN]}))}
     $('#winNext').style.display=n>=LEVELS?'none':'';ov('win',true)},1100)}
 $('#winNext').onclick=()=>{ov('win',false);startGame(G.n+1)};
-$('#winAgain').onclick=()=>{ov('win',false);startGame(G.n)};
+const replay=()=>{if(G&&G.daily)startDaily();else startGame(G.n)};
+$('#winAgain').onclick=()=>{ov('win',false);replay()};
 $('#winMap').onclick=()=>{ov('win',false);G=null;openMap()};
-$('#overAgain').onclick=()=>{ov('over',false);startGame(G.n)};
+$('#overAgain').onclick=()=>{ov('over',false);replay()};
 $('#overMap').onclick=()=>{ov('over',false);G=null;openMap()};
 function outOfShots(){
   G.state='end';sfx.over();setTimeout(()=>{if(!G||cur!=='game')return;const L=age==='little';
@@ -1029,7 +1070,7 @@ try{history.replaceState({s:'home',i:0},'')}catch(e){}
 let btnNav=false;
 window.addEventListener('popstate',e=>{
   if(!btnNav&&cur!=='home'){try{history.pushState({s:cur,i:((e.state&&e.state.i)||0)+1},'')}catch(_){}return}
-  btnNav=false;['bism','win','over','lauOv','stkOv','gate'].forEach(id=>ov(id,false));
+  btnNav=false;['bism','win','over','lauOv','stkOv','sdqOv','deedOv','gate'].forEach(id=>ov(id,false));
   const s=(e.state&&e.state.s)||'home';if(s==='game'&&!G){show('home',false);renderHome();return}
   show(s,false);if(s==='home'){G=null;renderHome()}if(s==='map'){G=null;renderMap()}if(s==='village')renderVillage()});
 function goBack(){if(history.state&&history.state.s!=='home'){btnNav=true;history.back()}else{show('home');renderHome()}}
@@ -1044,7 +1085,7 @@ function holdable(el,ms,done,onTap){
   el.addEventListener('pointerdown',e=>{e.preventDefault();start=performance.now();tm=1;
     const step=now=>{if(!tm)return;const p=Math.min(1,(now-start)/ms);ring&&ring.style.setProperty('--p',(p*100)+'%');if(p>=1){stop();done();return}raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)});
   ['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>{if(tm&&performance.now()-start<300){onTap&&onTap();if(tip){tip.classList.add('on');setTimeout(()=>tip.classList.remove('on'),1500)}}stop()}))}
-holdable($('#restartBtn'),1000,()=>{sfx.tap();if(!G)return;['win','over','bism'].forEach(id=>ov(id,false));startGame(G.n)});
+holdable($('#restartBtn'),1000,()=>{sfx.tap();if(!G)return;['win','over','bism'].forEach(id=>ov(id,false));replay()});
 
 /* ---------- My Village: every star helps build it ---------- */
 const VILLAGE=[{id:'house',cost:0,x:.06},{id:'garden',cost:4,x:.15},{id:'well',cost:10,x:.235},{id:'palms',cost:18,x:.32},{id:'swing',cost:28,x:.41},{id:'school',cost:40,x:.5},
@@ -1137,10 +1178,67 @@ function renderLau(){
     b.onclick=()=>{if(cost==null)return;if(cost>prog.coins){sfx.bad();toast(t('needC'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}
       prog.coins-=cost;prog.up[k]=lvl+1;store.set('prog',prog);sfx.unlock();confetti();fxDirty=true;toast(tf('upDone',{u:k==='bow'?t('BOWT')[lvl+1]:t('UP')[k]}));renderLau();renderHomeArt()};
     d.append(b);el.appendChild(d)}
+  const tl=$('#trList');tl.innerHTML='';prog.trails=prog.trails||{none:1};
+  TRAILS.forEach(tr=>{const own=!!prog.trails[tr.id],on=(prog.trail||'none')===tr.id,d=document.createElement('div');d.append(trailIcon(tr.id,120));d.insertAdjacentHTML('beforeend',`<b>${t('TR')[tr.id]}</b>`);
+    const b=document.createElement('button');b.className='buy'+(on?' max':!own&&tr.cost>prog.coins?' poor':'');
+    if(on)b.textContent=t('using');else if(own)b.textContent=t('use');else{const ic=document.createElement('canvas');ic.width=ic.height=48;coinDraw(ic.getContext('2d'),24,24,20);b.append(ic,document.createTextNode(tr.cost))}
+    b.onclick=()=>{if(on)return;if(!own){if(tr.cost>prog.coins){sfx.bad();toast(t('needC'));return}prog.coins-=tr.cost;prog.trails[tr.id]=1;sfx.unlock();confetti();fxDirty=true}
+      prog.trail=tr.id;store.set('prog',prog);sfx.tap();renderLau()};d.append(b);tl.appendChild(d)});
   const al=$('#arList');al.innerHTML='';
   AORDER.forEach(a=>{const open=ARROWS[a].unlock<=openTo()||ARROWS[a].unlock<=prog.open,d=document.createElement('div');d.className=open?'':'lock';
     d.append(arrowIcon(a,120));d.insertAdjacentHTML('beforeend',`<b>${t('AR')[a]}</b><small>${open?t('ARD')[a]:tf('unlockAt',{n:ARROWS[a].unlock})}</small>`);al.appendChild(d)})}
 
+
+/* ---------- Sadaqah Jar: coins become good deeds, each with a verified verse or hadith ---------- */
+const SDQ=[{id:'iftar',cost:60,img:'v-palms'},{id:'water',cost:150,img:'v-well'},{id:'food',cost:250,img:'v-market'},{id:'orphan',cost:400,img:'gift-pink'},{id:'trees',cost:550,img:'v-garden'},
+ {id:'books',cost:750,img:'v-school'},{id:'wudu',cost:950,img:'v-fountain'},{id:'lights',cost:1200,img:'lantern'},{id:'clothes',cost:1500,img:'gift-blue'},{id:'village',cost:2000,img:'coin-chest'}];
+function imgEl(n,cls){const im=AI(n),e=document.createElement('img');if(im)e.src=im.src;e.className=cls||'';e.alt='';return e}
+function renderSdq(){$('#sdqCoins').innerHTML='';const cc=document.createElement('canvas');cc.width=cc.height=64;coinDraw(cc.getContext('2d'),32,32,27);$('#sdqCoins').append(cc,document.createTextNode(prog.coins));
+  const el=$('#sdqList');el.innerHTML='';prog.sdq=prog.sdq||{};
+  SDQ.forEach(d=>{const done=!!prog.sdq[d.id],c=document.createElement('div');c.className=done?'done':'';c.append(imgEl(d.img,'sdi'));c.insertAdjacentHTML('beforeend',`<b>${t('SD')[d.id]}</b>`);
+    if(done){c.insertAdjacentHTML('beforeend',`<small>${t('SDF')[d.id]}</small>`)}
+    else{const b=document.createElement('button');b.className='buy'+(d.cost>prog.coins?' poor':'');const ic=document.createElement('canvas');ic.width=ic.height=48;coinDraw(ic.getContext('2d'),24,24,20);b.append(ic,document.createTextNode(d.cost));
+      b.onclick=()=>giveSdq(d);c.append(b)}
+    el.appendChild(c)})}
+function giveSdq(d){if(prog.coins<d.cost){sfx.bad();toast(t('needC'));return}
+  prog.coins-=d.cost;prog.sdq[d.id]=1;store.set('prog',prog);sfx.win();confetti();fxDirty=true;say(t('deedOk'));renderSdq();
+  const w=$('#deedImg');w.innerHTML='';w.append(imgEl(d.img));$('#deedName').textContent=t('SD')[d.id];$('#deedFact').textContent=t('SDF')[d.id];ov('deedOv',true)}
+/* ---------- arrow trails (bought in the workshop, looks only) ---------- */
+const TRAILS=[{id:'none',cost:0},{id:'rainbow',cost:300},{id:'stars',cost:500},{id:'hearts',cost:700},{id:'lantern',cost:900},{id:'gold',cost:1200}];
+function heartPath(x,cx,cy,z){x.beginPath();x.moveTo(cx,cy+z*.3);x.bezierCurveTo(cx-z*.6,cy-z*.1,cx-z*.3,cy-z*.6,cx,cy-z*.25);x.bezierCurveTo(cx+z*.3,cy-z*.6,cx+z*.6,cy-z*.1,cx,cy+z*.3)}
+function drawTrail(x,P,id,s,now){const n=P.length;if(n<2)return;x.save();x.lineCap='round';
+  for(let i=1;i<n;i++){const k=i/n,[X,Y]=P[i];
+    if(id==='rainbow'){x.strokeStyle=`hsla(${(i*28+now/6)%360},95%,60%,${k})`;x.lineWidth=Math.max(2,s*.16*k);x.beginPath();x.moveTo(P[i-1][0],P[i-1][1]);x.lineTo(X,Y);x.stroke()}
+    else if(id==='stars'&&i%2===0){x.globalAlpha=k;star5(x,X,Y,s*.16*k+2,s*.07*k+1);x.fillStyle='#ffd23f';x.fill();x.lineWidth=1;x.strokeStyle=OUT;x.stroke()}
+    else if(id==='hearts'&&i%3===0){x.globalAlpha=k;heartPath(x,X,Y,s*.3*k+3);x.fillStyle='#ff5f8a';x.fill();x.lineWidth=1;x.strokeStyle=OUT;x.stroke()}
+    else if(id==='lantern'){x.globalAlpha=k*.8;const g=x.createRadialGradient(X,Y,0,X,Y,s*.25*k+2);g.addColorStop(0,'rgba(255,236,150,1)');g.addColorStop(1,'rgba(255,190,60,0)');x.fillStyle=g;x.beginPath();x.arc(X,Y,s*.25*k+2,0,7);x.fill()}
+    else if(id==='gold'){x.globalAlpha=k;const j=Math.sin(i*12.9+now/90)*s*.08;x.fillStyle=i%2?'#ffd23f':'#fff3a0';x.beginPath();x.arc(X+j,Y-j,s*.06*k+1.5,0,7);x.fill()}}
+  x.restore()}
+function trailIcon(id,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),P=[];for(let i=0;i<16;i++){const t2=i/15;P.push([px*(.08+t2*.7),px*(.75-Math.sin(t2*2.4)*.45)])}
+  if(id!=='none')drawTrail(x,P,id,px/4,0);x.save();x.translate(P[15][0],P[15][1]);drawArrow(x,'normal',px*.4,.2);x.restore();return c}
+/* ---------- badges ---------- */
+function badgeRow(bits,nb){const d=document.createElement('div');d.className='badges';
+  [['sharp',1,'target'],['simple',2,'ar-normal'],['coins',4,'coin']].forEach(([k,b,img])=>{const e=document.createElement('span');e.className='bdg'+(bits&b?' on':'')+(nb&b?' new':'');
+    const m=document.createElement('i');m.append(imgEl(img));e.append(m);e.insertAdjacentHTML('beforeend',`<b>${t('BG')[k]}</b><small>${t('BGD')[k]}</small>`);d.appendChild(e)});
+  if(nb){const nbc=[1,2,4].filter(b=>nb&b).length;d.insertAdjacentHTML('beforeend',`<em>${tf('newBadge',{n:nbc*10})}</em>`)}
+  return d}
+/* ---------- daily challenge: the same new level for everyone each day ---------- */
+const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+const dayNum=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
+function dailyLevel(){const dn=dayNum(),n=11+dn%50;let lv;for(let k=100+dn%997,j=0;j<20;j++,k++){lv=genRaw(n,k);if(stable(lv))break}
+  lv.daily=1;lv.par=Math.max(1,Math.ceil(lv.goals/2))+1;return lv}
+function dailyAmmo(lv){const av=arrowsAt(lv.n),m=lv.mats,a={normal:lv.par+(age==='little'?6:4)+upLv('quiver')};
+  for(const k of av)if(k!=='normal')a[k]=(k==='heavy'&&m.includes('brick'))||(k==='diamond'&&m.includes('stone'))?3:(k==='flame'&&m.includes('wood'))?2:1;return a}
+function startDaily(){startGame(0,dailyLevel())}
+function dailyWin(){G.won=true;G.state='end';const first=!(prog.daily&&prog.daily.key===todayKey());let streak=prog.daily?prog.daily.streak||0:0;
+  if(first){const y=new Date(Date.now()-864e5),yk=y.getFullYear()+'-'+(y.getMonth()+1)+'-'+y.getDate();streak=prog.daily&&prog.daily.key===yk?streak+1:1;
+    const rw=40+Math.min(6,streak)*10;prog.coins+=rw;G.coins+=rw;G.coinShown+=rw;$('#coinHud b').textContent=G.coinShown;prog.daily={key:todayKey(),streak}}
+  store.set('prog',prog);sfx.win();say(t('sayAlh'));confetti();
+  setTimeout(()=>{if(!G||cur!=='game')return;$('#winSub').textContent=t('daily');
+    const st=G.used<=G.lv.par?3:G.used<=G.lv.par+2?2:1;[...$('#winStars').children].forEach((i,k)=>{i.className='';if(k<st)setTimeout(()=>{i.className='on';tone(880+k*220,.25,'triangle',.12)},400+k*300)});
+    $('#winFact').textContent=fact(dayNum());const u=$('#winUnl');u.innerHTML='';
+    const d=document.createElement('div');d.className='unl coins';d.append(imgEl('coin-pile','cpic'),document.createTextNode(first?tf('dailyDone',{n:G.coins,d:streak}):t('dailyAgain')));u.appendChild(d);
+    $('#winNext').style.display='none';ov('win',true)},1100)}
 /* ---------- home ---------- */
 function paintBg(){const c=$('#bg'),d=DPR(),W=innerWidth,H=innerHeight;c.width=Math.round(W*d);c.height=Math.round(H*d);const x=c.getContext('2d');x.scale(d,d);
   paintWorld(x,0,W,H,H*.88,Math.min(W,H)/12,false,true)}
@@ -1156,6 +1254,8 @@ function renderHomeArt(){
     drawBow(x,upLv('bow'),W*.3,gy,W*.3,gy-s*1.5,s*.9,.45,.6,'normal');
     x.setLineDash([4,7]);x.strokeStyle='#fff';x.lineWidth=3;x.beginPath();x.moveTo(W*.38,gy-s*1.9);x.quadraticCurveTo(W*.5,gy-s*3.6,W*.6,gy-s*2.9);x.stroke();x.setLineDash([])}
   const v=$('#cvVil');if(v){const x=v.getContext('2d');x.save();rr(x,0,0,v.width,v.height,0);x.clip();drawVillage(x,v.width,v.height,Math.max(totalStars(),18),true);x.restore()}
+  const pq=$('#pSdq');if(pq){const x=pq.getContext('2d');x.clearRect(0,0,96,96);const im=AI('coin-sack');if(im)fitImg(x,im,48,50,84,84)}
+  const pd=$('#pDaily');if(pd){const x=pd.getContext('2d');x.clearRect(0,0,96,96);const im=AI('target');if(im)fitImg(x,im,48,48,84,84)}
   const pl=$('#pLau');if(pl){const x=pl.getContext('2d');x.clearRect(0,0,96,96);x.drawImage(bowIcon(upLv('bow'),96),0,0)}
   const ps=$('#pStk');if(ps){const x=ps.getContext('2d');x.clearRect(0,0,96,96);drawBird(x,'hoopoe',50,58,28,true,.4)}}
 let idleT=0,idleI=0,idleN=0;
@@ -1165,7 +1265,7 @@ function armNudge(){stopNudge();if(cur!=='home')return;idleT=setTimeout(()=>{con
 ['pointerdown','keydown','wheel'].forEach(ev=>document.addEventListener(ev,()=>{if(cur==='home')armNudge();else stopNudge()},true));
 function renderHome(){armNudge();paintBg();renderHomeArt();
   $('#advBadge').innerHTML=`<img src="art/star.webp" alt=""> ${totalStars()}`;
-  $('#vilBadge').innerHTML=`<img src="art/star.webp" alt=""> ${totalStars()}`;const nk=BIRDS.filter(b=>prog.birds[b]).length;$('#stkBadge').textContent=nk?nk+'/'+BIRDS.length:'';
+  $('#vilBadge').innerHTML=`<img src="art/star.webp" alt=""> ${totalStars()}`;const nk=BIRDS.filter(b=>prog.birds[b]).length;{const db=$('#dailyBadge');if(db){const dn=prog.daily&&prog.daily.key===todayKey();db.textContent=dn?'✓':'!';db.classList.toggle('ok',!!dn)}}$('#stkBadge').textContent=nk?nk+'/'+BIRDS.length:'';
   $('#coinBadge').textContent=prog.coins||'';
   document.querySelectorAll('#age button').forEach(b=>b.classList.toggle('on',b.dataset.a===age))}
 $('#age').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;age=b.dataset.a;store.set('age',age);sfx.tap();renderHome()});
@@ -1175,6 +1275,9 @@ $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
 $('#goLau').onclick=()=>{sfx.tap();renderLau();ov('lauOv',true)};
 $('#goVil').onclick=e=>pickMode(e.currentTarget,openVillage);
 $('#goStk').onclick=()=>{sfx.tap();renderStk();ov('stkOv',true)};
+$('#goSdq').onclick=()=>{sfx.tap();renderSdq();ov('sdqOv',true)};$('#sdqClose').onclick=()=>{ov('sdqOv',false);renderHome()};
+$('#goDaily').onclick=()=>{sfx.tap();if(prog.daily&&prog.daily.key===todayKey())toast(t('dailyAgain'));startDaily()};
+$('#deedOk').onclick=()=>{ov('deedOv',false);sfx.tap()};
 $('#stkClose').onclick=()=>ov('stkOv',false);
 $('#lauClose').onclick=()=>{ov('lauOv',false);renderHome()};
 function openMap(){renderMap();show('map');const c=$('#worlds .lv.cur')||[...document.querySelectorAll('#worlds .lv:not(.lock)')].pop();if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),60)}
@@ -1188,7 +1291,7 @@ function renderMap(){
     sec.querySelector('.thc').replaceWith(th);
     const g=sec.querySelector('.lvls');
     for(let n=first;n<=last;n++){const lk=n>openTo(),sn=prog.stars[n]||0,cu=n===prog.open&&!sn,b=document.createElement('button');b.className='lv'+(lk?' lock':cu?' cur':sn?' done':'');b.dataset.n=n;b.setAttribute('aria-label',tf('level',{n}));
-      b.innerHTML=lk?'<img src="art/lock.webp" alt="">':`${n}<span class="st">${[0,1,2].map(k=>`<i class="${k<sn?'on':''}"></i>`).join('')}</span>`;
+      const bd=(prog.badges||{})[n]||0;b.innerHTML=lk?'<img src="art/lock.webp" alt="">':`${n}<span class="st">${[0,1,2].map(k=>`<i class="${k<sn?'on':''}"></i>`).join('')}</span>`+(bd?`<span class="bd">${[1,2,4].map(k=>`<i class="${bd&k?'on':''}"></i>`).join('')}</span>`:'');
       const na=AORDER.find(a=>ARROWS[a].unlock===n&&n>1);if(na){const s=document.createElement('span');s.className='ln';s.append(arrowIcon(na,80));b.appendChild(s)}
       g.appendChild(b)}
     if(lockW)sec.insertAdjacentHTML('beforeend',`<div class="wlock"><img src="art/lock.webp" alt="">${tf('lockedW',{w:t('W')[w-1]})}</div>`);
