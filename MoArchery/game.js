@@ -956,7 +956,7 @@ let aimStart=null,padC=null;
 const maxPull=()=>Math.max(90,Math.min(220,Math.min(cam.W,cam.H)*.32));
 function padGeo(){const now=performance.now();if(padC&&now-padC.t<500&&padC.W===cam.W&&padC.H===cam.H)return padC;
   const W=cam.W,H=cam.H,land=W>H,sl=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safeL'))||0;
-  let R=Math.max(50,Math.min(96,Math.min(W,H)*.21));
+  let R=Math.max(44,Math.min(70,Math.min(W,H)*.15));
   const pr=$('#picker').getBoundingClientRect(),gb=$('#gbar').getBoundingClientRect(),gl=$('#goals')?$('#goals').getBoundingClientRect():gb;
   const top=Math.max(gb.bottom,gl.bottom)+8,moTop=sy(OY)-cam.s*1.6-10;
   R=Math.max(42,Math.min(R,(moTop-top)/2));const cy=Math.max(top+R,moTop-R),left=land&&pr.width&&pr.bottom>cy-R-10?pr.right+14:16+sl;
