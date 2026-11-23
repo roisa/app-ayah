@@ -817,27 +817,6 @@ function drawGame(now){
   if(aim&&aim.p>.08){const [vx,vy]=launchVel(at,aim.a,aim.p),[px,py]=launchPos(aim.a),T=age==='little'?2.4:SIGHT[upLv('sight')];
     for(let tt=.05,i=0;tt<T;tt+=.07,i++){const X=px+vx*tt+.5*wind*tt*tt,Y=py+vy*tt-5*tt*tt;if(Y<0)break;const r=Math.max(2,s*(.13-i*.002));
       x.beginPath();x.arc(sx(X),sy(Y),r,0,7);x.fillStyle='#fff';x.globalAlpha=Math.max(.35,1-tt/T*.6);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke();x.globalAlpha=1}}
-  /* aim gauge for small children: a quarter pie (flat to straight up) and a power bar, no numbers */
-  if(aim&&aim.p>.02){const A=Math.max(0,Math.min(Math.PI/2,clampAng(aim.a))),pw=Math.min(1,aim.p),P=padGeo(),R=Math.max(40,Math.min(s*1.5,P.R*.8)),cx0=P.cx+P.R+16,cy0=P.cy+R*.25,lw2=Math.max(2,R*.06);
-    x.save();x.lineJoin='round';x.lineCap='round';
-    // quarter disc background
-    x.beginPath();x.moveTo(cx0,cy0);x.arc(cx0,cy0,R,-Math.PI/2,0);x.closePath();x.fillStyle='rgba(255,255,255,.9)';x.fill();x.lineWidth=lw2;x.strokeStyle=OUT;x.stroke();
-    // guide ticks at 30 and 60 degrees
-    x.strokeStyle='rgba(74,44,20,.25)';x.lineWidth=lw2*.7;for(const t of [Math.PI/6,Math.PI/3]){x.beginPath();x.moveTo(cx0,cy0);x.lineTo(cx0+Math.cos(t)*R*.92,cy0-Math.sin(t)*R*.92);x.stroke()}
-    // the slice: from flat up to the aim
-    if(A>.01){x.beginPath();x.moveTo(cx0,cy0);x.arc(cx0,cy0,R*.92,-A,0);x.closePath();const g=x.createLinearGradient(cx0,cy0,cx0,cy0-R);g.addColorStop(0,'#ffd23f');g.addColorStop(1,'#ff8a1f');x.fillStyle=g;x.fill()}
-    // arrow pointing like the shot
-    const ex=cx0+Math.cos(A)*R*.95,ey=cy0-Math.sin(A)*R*.95;x.strokeStyle=OUT;x.lineWidth=lw2*1.6;x.beginPath();x.moveTo(cx0,cy0);x.lineTo(ex,ey);x.stroke();
-    x.save();x.translate(ex,ey);x.rotate(-A);x.beginPath();x.moveTo(lw2*2.2,0);x.lineTo(-lw2*2.4,-lw2*2);x.lineTo(-lw2*2.4,lw2*2);x.closePath();x.fillStyle=OUT;x.fill();x.restore();
-    x.beginPath();x.arc(cx0,cy0,lw2*1.6,0,7);x.fillStyle=OUT;x.fill();
-    // power bar under the pie
-    const bw=R*1.25,bh=Math.max(8,R*.2),b0=cx0-bw*.12,b1=cy0+bh*.9;rr(x,b0,b1,bw,bh,bh/2);x.fillStyle='rgba(255,255,255,.9)';x.fill();
-    const gg=x.createLinearGradient(b0,0,b0+bw,0);gg.addColorStop(0,'#3fcf5a');gg.addColorStop(.6,'#ffd23f');gg.addColorStop(1,'#ff4f5e');rr(x,b0,b1,Math.max(bh,bw*pw),bh,bh/2);x.fillStyle=gg;x.fill();
-    x.lineWidth=lw2*.8;x.strokeStyle=OUT;rr(x,b0,b1,bw,bh,bh/2);x.stroke();
-    // small numbers for grown-ups and bigger kids
-    const fs=Math.max(11,R*.26);x.font=`400 ${fs}px "Lilita One",sans-serif`;x.textBaseline='middle';x.lineWidth=3;x.strokeStyle='#fff';x.fillStyle=OUT;
-    const dt=Math.round(A*180/Math.PI)+'°';x.textAlign='left';x.strokeText(dt,cx0+R*.62,cy0-R*.95);x.fillText(dt,cx0+R*.62,cy0-R*.95);
-    const pt=Math.round(pw*100)+'%';x.strokeText(pt,b0+bw+4,b1+bh/2);x.fillText(pt,b0+bw+4,b1+bh/2);x.restore()}
   // bodies
   for(const u of S.list){const k=u.k;if(!u.b||k==='rock')continue;const q=u.b.getPosition(),a=u.b.getAngle();x.save();x.translate(sx(q.x),sy(q.y));
     if(u.shakeT&&now-u.shakeT<450){const kk=1-(now-u.shakeT)/450;x.translate(Math.sin(now/22)*s*.07*kk,Math.cos(now/31)*s*.03*kk)}x.rotate(-a);
@@ -865,23 +844,35 @@ function drawPad(x,now){if(G.won||G.state==='bism'||G.shots<=0)return;const P=pa
   x.beginPath();x.arc(cx,cy,R,0,7);x.fillStyle='rgba(255,255,255,.3)';x.fill();x.lineWidth=Math.max(4,R*.07);x.strokeStyle='rgba(255,255,255,.95)';x.stroke();
   x.lineWidth=2;x.strokeStyle='rgba(74,44,20,.55)';x.beginPath();x.arc(cx,cy,R+Math.max(2,R*.035),0,7);x.stroke();
   x.setLineDash([R*.07,R*.09]);x.strokeStyle='rgba(255,255,255,.8)';x.lineWidth=2;x.beginPath();x.arc(cx,cy,R*.6,0,7);x.stroke();x.setLineDash([]);
-  const kr=R*.34;let kx=cx,ky=cy,A=.6;
+  const kr=R*.34;let kx=cx,ky=cy,A=.6,knobDone=false;
+  // the yellow button with the chosen arrow on it
+  const knob=()=>{const pulse=live&&!aim?1+Math.sin(now/260)*.05:1,r=kr*pulse;
+    x.beginPath();x.arc(kx,ky+r*.12,r,0,7);x.fillStyle='rgba(120,60,0,.35)';x.fill();
+    const g=x.createRadialGradient(kx-r*.3,ky-r*.35,r*.1,kx,ky,r);g.addColorStop(0,'#fff6b0');g.addColorStop(.55,'#ffd23f');g.addColorStop(1,'#f0a000');
+    x.beginPath();x.arc(kx,ky,r,0,7);x.fillStyle=g;x.fill();x.lineWidth=Math.max(2.5,r*.1);x.strokeStyle=OUT;x.stroke();
+    x.save();x.translate(kx,ky);x.scale(.92,.92);drawArrow(x,G.asel,r*1.25,A,1);x.restore();knobDone=true};
   if(aim&&aim.p>.01){A=clampAng(aim.a);const d=Math.min(R-kr*.35,aim.p*R*1.1);kx=cx-Math.cos(A)*d;ky=cy+Math.sin(A)*d;
-    // the shot direction from the centre, longer with more power
-    const L=R*(.35+.6*aim.p),ex=cx+Math.cos(A)*L,ey=cy-Math.sin(A)*L,col=aim.p<.5?'#3fcf5a':aim.p<.8?'#ffb020':'#ff4f5e';
-    x.strokeStyle=OUT;x.lineWidth=R*.13;x.beginPath();x.moveTo(cx,cy);x.lineTo(ex,ey);x.stroke();x.strokeStyle=col;x.lineWidth=R*.08;x.stroke();
-    x.save();x.translate(ex,ey);x.rotate(-A);x.beginPath();x.moveTo(R*.16,0);x.lineTo(-R*.08,-R*.13);x.lineTo(-R*.08,R*.13);x.closePath();x.fillStyle=col;x.fill();x.lineWidth=2.5;x.strokeStyle=OUT;x.stroke();x.restore();
-    // a stretchy band from the centre to the button
-    x.strokeStyle='rgba(255,255,255,.95)';x.lineWidth=R*.05;x.beginPath();x.moveTo(cx,cy);x.lineTo(kx,ky);x.stroke()}
+    const pr=R*.9,A2=Math.max(0,Math.min(Math.PI/2,A)),pw=Math.min(1,aim.p);
+    // angle pie: a quarter from flat to straight up, filled up to the aim
+    x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,pr,-Math.PI/2,0);x.closePath();x.fillStyle='rgba(255,255,255,.55)';x.fill();
+    x.strokeStyle='rgba(74,44,20,.22)';x.lineWidth=2;for(const t of [Math.PI/6,Math.PI/3]){x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+Math.cos(t)*pr,cy-Math.sin(t)*pr);x.stroke()}
+    if(A2>.01){x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,pr,-A2,0);x.closePath();x.fillStyle='rgba(255,170,30,.7)';x.fill();x.lineWidth=2;x.strokeStyle='rgba(200,110,0,.8)';x.beginPath();x.arc(cx,cy,pr,-A2,0);x.stroke()}
+    x.strokeStyle='rgba(255,255,255,.95)';x.lineWidth=R*.05;x.beginPath();x.moveTo(cx,cy);x.lineTo(kx,ky);x.stroke();knob();
+    // the arrow is the power bar: green at the centre, red at full power
+    const L=pr*.97,hx=Math.cos(A),hy=-Math.sin(A),w=R*.15,gr=x.createLinearGradient(cx,cy,cx+hx*L,cy+hy*L);gr.addColorStop(0,'#3fcf5a');gr.addColorStop(.55,'#ffd23f');gr.addColorStop(1,'#ff4f5e');
+    x.strokeStyle=OUT;x.lineWidth=w+5;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+hx*L*.86,cy+hy*L*.86);x.stroke();
+    x.strokeStyle='rgba(255,255,255,.95)';x.lineWidth=w;x.stroke();
+    const fl=Math.max(.05,pw)*L*.86;x.strokeStyle=gr;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+hx*fl,cy+hy*fl);x.stroke();
+    const hc=pw<.5?'#3fcf5a':pw<.8?'#ffd23f':'#ff4f5e';x.save();x.translate(cx+hx*L*.86,cy+hy*L*.86);x.rotate(-A);x.beginPath();x.moveTo(R*.2,0);x.lineTo(-R*.05,-R*.15);x.lineTo(-R*.05,R*.15);x.closePath();x.fillStyle=hc;x.fill();x.lineWidth=2.5;x.strokeStyle=OUT;x.stroke();x.restore();
+    // numbers: the angle on the rim, the power beside the arrow head
+    const fs=Math.max(14,R*.22);x.font=`400 ${fs}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.lineJoin='round';
+    const tag=(str,X,Y,c)=>{x.lineWidth=5;x.strokeStyle='#fff';x.strokeText(str,X,Y);x.fillStyle=c;x.fillText(str,X,Y)};
+    const da=Math.max(.12,Math.min(Math.PI/2-.12,A2)),dr=R+fs*1.05;tag(Math.round(A2*180/Math.PI)+'°',cx+Math.cos(da)*dr,cy-Math.sin(da)*dr,OUT);
+    const pa=A+(A>.9?-.5:.5),prr=L*.62;tag(Math.round(pw*100)+'%',cx+Math.cos(pa)*prr,cy-Math.sin(pa)*prr,hc==='#ffd23f'?'#c98a00':hc)}
   else if(live){// chevrons: "pull this way" (down and back)
     const k=(now%1400)/1400;for(let i=0;i<2;i++){const t2=(k+i*.5)%1,d=R*(.45+t2*.4);x.save();x.globalAlpha=(live?1:.35)*Math.sin(t2*Math.PI);x.translate(cx-Math.cos(A)*d,cy+Math.sin(A)*d);x.rotate(-A+Math.PI);
       x.beginPath();x.moveTo(-R*.07,-R*.12);x.lineTo(R*.07,0);x.lineTo(-R*.07,R*.12);x.lineWidth=R*.07;x.strokeStyle='#fff';x.stroke();x.restore()}}
-  // the yellow button with the chosen arrow on it
-  const pulse=live&&!aim?1+Math.sin(now/260)*.05:1,r=kr*pulse;
-  x.beginPath();x.arc(kx,ky+r*.12,r,0,7);x.fillStyle='rgba(120,60,0,.35)';x.fill();
-  const g=x.createRadialGradient(kx-r*.3,ky-r*.35,r*.1,kx,ky,r);g.addColorStop(0,'#fff6b0');g.addColorStop(.55,'#ffd23f');g.addColorStop(1,'#f0a000');
-  x.beginPath();x.arc(kx,ky,r,0,7);x.fillStyle=g;x.fill();x.lineWidth=Math.max(2.5,r*.1);x.strokeStyle=OUT;x.stroke();
-  x.save();x.translate(kx,ky);x.scale(.92,.92);drawArrow(x,G.asel,r*1.25,A,1);x.restore();
+  if(!knobDone)knob();
   x.restore()}
 /* particles in world units */
 function drawParts(x,now,s){
