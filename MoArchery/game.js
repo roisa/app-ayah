@@ -218,7 +218,7 @@ const WORLDS=[
 const BIRDS=['hoopoe','sparrow','finch','dove','swallow','parrot','owl','redbird','robin'];
 const LEVELS=60,WN=10;
 const worldOf=n=>Math.min(5,Math.floor((n-1)/WN));
-const LX=2.75,OY=1.5,BOWV=17.5;   // where the bow stands, its height and how fast a full pull shoots
+const LX=2.3,OY=1.0,BOWV=17.5,LR=1.2;   // Mo's front shoulder (x, height), how fast a full pull shoots, and how far from the shoulder the arrow leaves
 /* arrows: v = speed factor, d = density */
 const ARROWS={normal:{unlock:1,d:6,v:1},flame:{unlock:6,d:6,v:1},heavy:{unlock:11,d:15,v:.9},triple:{unlock:16,d:6,v:1},diamond:{unlock:21,d:8,v:1},firework:{unlock:34,d:6,v:1}};
 const AORDER=['normal','flame','heavy','triple','diamond','firework'];
@@ -250,10 +250,10 @@ const upLv=k=>(prog.up&&prog.up[k])||0;
 const PW=.42,PH=1.7,PT=.42,GS=1.1,CR=.9,CB=.55;
 /* from the test bot: arrows a good player needs (PAR) and which seed makes each level (LVK).
    Re-run the bot whenever the level maker changes. */
-const PAR=[1,1,2,1,2,2,1,1,1,1,1,1,2,2,2,1,3,4,3,3,1,1,3,2,3,1,4,4,3,4,2,1,2,3,2,3,5,4,2,4,1,1,1,2,3,1,6,2,2,4,1,2,3,1,2,3,2,4,3,4];
+const PAR=[1,1,2,1,2,2,1,1,1,1,1,2,2,2,2,1,3,4,2,2,1,1,3,4,3,1,3,4,3,4,2,1,1,2,2,3,4,4,2,4,1,1,1,2,3,1,6,2,2,3,1,2,3,2,3,3,2,4,3,4];
 const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 /* special arrows the bot needed in each level (f fire, h heavy, t triple, d diamond, w firework) */
-const USE=["","","","","","","f1","","f1","f1","","h1","f1","f1","","","t1","","h1","f1","","","","h1","t1","t1","","t1","h1","t1d1","","","t1","","","d1","w1","","","h1t1","","","","t1","t1","t1","t1w1","","","w1","","t1","","t1","w1","h2","","t1","t1d1","h2"];
+const USE=["","","","","","","f1","f1","f1","f1","","","","","","t1","f1","t1h1","h1","t2","","","f1","","t1","","t1","t1h1","f1h1","t1h1","t1","","h1","f1","","","t1","w1","","h1t1","","","d1","d1","t1","","d1t2","","","h1","","f1","t1d1","","t1","","","t1","t1","t1d1"];
 const LVC={};
 function genLevel(n){if(LVC[n])return LVC[n];let lv;const k0=LVK[n-1]||0;for(let k=k0;k<k0+12;k++){lv=genRaw(n,k);if(stable(lv))break}return LVC[n]=lv}
 function stable(lv){const S=makeSim(lv);for(let i=0;i<300;i++)simStep(S);return S.goals.every(g=>!g.done)&&!S.ev.some(e=>e.e==='break'||e.e==='boom')}
@@ -412,7 +412,7 @@ function spawnArrow(S,at,x,y,vx,vy){
   b.setLinearVelocity(V(vx,vy));const u={k:'proj',at,b,born:S.steps};b.setUserData(u);S.proj.push(u);return u}
 const clampAng=a=>Math.max(-.35,Math.min(1.45,a));
 function launchVel(at,ang,pow){const sp=BOWV*ARROWS[at].v*Math.max(.15,Math.min(1,pow));return[Math.cos(ang)*sp,Math.sin(ang)*sp]}
-function launchPos(ang){return[LX+Math.cos(ang)*.7,OY+Math.sin(ang)*.7]}
+function launchPos(ang){return[LX+Math.cos(ang)*LR,OY+Math.sin(ang)*LR]}
 function fire(S,at,ang,pow){ang=clampAng(ang);const [x,y]=launchPos(ang);
   S.turn={t:0,quiet:0};
   const angs=at==='triple'?[ang-.09,ang,ang+.09]:[ang];
@@ -608,7 +608,8 @@ const ARTN=['wood-sq','wood-pl','glass-sq','glass-pl','ice-sq','ice-pl','brick-s
  'coin','coin-stack','coin-pile','coin-heap','coin-sack','coin-chest','fx-firework','fx-dust','fx-wood','fx-glass','fx-brick','fx-stone','fx-flame','fx-hearts',
  ...BIRDS.flatMap(b=>['bird-'+b,'fly-'+b]),'bg-home','bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night',
  'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick',
- ...['house','garden','well','palms','swing','school','market','pond','fountain','masjid','minaret','sign','lights'].map(n=>'v-'+n)];
+ ...['house','garden','well','palms','swing','school','market','pond','fountain','masjid','minaret','sign','lights'].map(n=>'v-'+n),
+ 'mo-body','mo-head','mo-head-happy','mo-arm','mo-uarm','mo-farm','mo-win'];
 let artLeft=ARTN.length;
 ARTN.forEach(n=>{const i=new Image();i.onload=()=>{i.ok=1;if(--artLeft<=0){try{bgCache=null;if(cur!=='game')paintBg();if(cur==='village')renderVillage();renderHomeArt();if(G){renderPicker();renderHud()}}catch(e){}}};i.onerror=()=>{artLeft--};i.src='art/'+n+'.webp';ART[n]=i});
 const AI=n=>{const i=ART[n];return i&&i.ok?i:null};
@@ -660,6 +661,39 @@ const PEDN=['ped-grass','ped-sand','ped-grass','ped-sand','ped-snow','ped-night'
 function rockDraw(x,u,s,w){const im=AI(PEDN[w]);if(!im){rockDrawC(x,u,s,w);return}
   const W=u.w*s*1.04,H=u.h*s+s*.25,iw=im.naturalWidth,ih=im.naturalHeight,top=-u.h*s/2-s*.12,ct=ih*.55,cb=ih*.22,dt=Math.min(H*.7,W*ct/iw),db=Math.min(H*.25,W*cb/iw);
   x.drawImage(im,0,0,iw,ct,-W/2,top,W,dt);x.drawImage(im,0,ct,iw,ih-ct-cb,-W/2,top+dt-1,W,Math.max(0,H-dt-db)+2);x.drawImage(im,0,ih-cb,iw,cb,-W/2,top+H-db,W,db)}
+
+/* =================================================================
+   Baby Mo as a puppet: body, head and three arm pieces (art/mo-*.webp).
+   Positions are in the art's pixels; MK turns them into metres.
+   The front arm turns with the aim and holds the bow; the back arm (upper arm + forearm)
+   reaches the string with simple two-bone IK, so it bends back as the pull grows.
+   ================================================================= */
+const MK=.0041,MO={body:{sh:[169,46],bsh:[74,41],neck:[128,17]},head:[168,274],arm:{p:[29,46.5],len:232},uarm:{p:[24,43],len:153},farm:{el:[234,50],len:208}};
+const moReady=()=>['mo-body','mo-head','mo-arm','mo-uarm','mo-farm'].every(AI);
+function drawBowHeld(x,tier,px,py,s,ang,pull,ammo){
+  const im=AI('bow'+tier),H=s*1.55,W=H*im.naturalWidth/im.naturalHeight,gripX=.78*W,tx=-.63*W,ty=.46*H,nx=tx-s*(.05+pull*.6);
+  x.save();x.translate(px,py);x.rotate(-ang);
+  x.beginPath();x.moveTo(tx,-ty);x.lineTo(nx,0);x.lineTo(tx,ty);x.lineWidth=Math.max(1.4,s*.04);x.strokeStyle=OUT;x.stroke();x.lineWidth=Math.max(.8,s*.022);x.strokeStyle='#fff6e0';x.stroke();
+  x.drawImage(im,-gripX,-H/2,W,H);
+  if(ammo){x.save();x.translate(nx+s*.55,0);drawArrow(x,ammo,s*1.05,0);x.restore()}
+  x.restore();const c=Math.cos(ang),sn=Math.sin(ang);return[px+nx*c,py-nx*sn]}
+function drawMo(x,s,ang,pull,ammo,happy,now){
+  const sc=MK*s,SX=sx(LX),SY=sy(OY),B=MO.body,bx=SX-B.sh[0]*sc,by=SY-B.sh[1]*sc;
+  const body=AI('mo-body'),head=AI(happy&&AI('mo-head-happy')?'mo-head-happy':'mo-head'),arm=AI('mo-arm'),ua=AI('mo-uarm'),fa=AI('mo-farm');
+  const dimg=(im,X,Y)=>x.drawImage(im,X,Y,im.naturalWidth*sc,im.naturalHeight*sc);
+  dimg(body,bx,by);
+  // front arm + bow
+  x.save();x.translate(SX,SY);x.rotate(-ang);dimg(arm,-MO.arm.p[0]*sc,-MO.arm.p[1]*sc);x.restore();
+  const fx=SX+Math.cos(ang)*MO.arm.len*sc,fy=SY-Math.sin(ang)*MO.arm.len*sc;
+  const [nx,ny]=drawBowHeld(x,upLv('bow'),fx,fy,s,ang,pull,ammo);
+  // head looks a little up along the arrow
+  const hx=bx+B.neck[0]*sc,hy=by+B.neck[1]*sc+sc*6;x.save();x.translate(hx,hy);x.rotate(-ang*.18);dimg(head,-MO.head[0]*sc,-MO.head[1]*sc);x.restore();
+  // back arm, like a real archer: the forearm lies along the arrow with the hand on the string,
+  // the upper arm reaches from the shoulder to the elbow (it gets longer as the pull grows)
+  const ax=bx+B.bsh[0]*sc,ay=by+B.bsh[1]*sc,L2=MO.farm.len*sc*.9,c=Math.cos(ang),sn=Math.sin(ang);
+  const ex=nx-c*L2,ey=ny+sn*L2,ud=Math.hypot(ex-ax,ey-ay),uk=Math.max(.35,Math.min(1.25,ud/(MO.uarm.len*sc)));
+  x.save();x.translate(ax,ay);x.rotate(Math.atan2(ey-ay,ex-ax));x.scale(uk,1);dimg(ua,-MO.uarm.p[0]*sc,-MO.uarm.p[1]*sc);x.restore();
+  x.save();x.translate(nx,ny);x.rotate(-ang);x.scale(-.9,.9);dimg(fa,-26*sc,-46*sc);x.restore()}
 /* =================================================================
    Backgrounds (drawn in code until the owner's art arrives). gy = ground line in pixels.
    ================================================================= */
@@ -734,7 +768,9 @@ function drawGame(now){
   const d=DPR(),x=cx,s=cam.s,S=G.sim,w=G.lv.w;x.setTransform(1,0,0,1,0,0);drawBg();x.setTransform(d,0,0,d,0,0);
   for(const u of S.list)if(u.k==='rock'){x.save();x.translate(sx(u.x),sy(u.y));rockDraw(x,u,s,w);x.restore()}
   // Mo
-  const mo=G.won&&IMG.jump.ok?IMG.jump:IMG.mo;if(mo.ok){const h=2.05*s*(mo===IMG.jump?1.12:1),mw=h*mo.naturalWidth/mo.naturalHeight;let hop=0;
+  const puppet=moReady();
+  if(puppet&&G.won&&AI('mo-win')){const im=AI('mo-win'),h=2.3*s,w=h*im.naturalWidth/im.naturalHeight,hop=Math.abs(Math.sin(now/180))*s*.3;x.drawImage(im,sx(LX-.2)-w/2,sy(0)-h-hop,w,h)}
+  const mo=G.won&&IMG.jump.ok?IMG.jump:IMG.mo;if(!puppet&&mo.ok){const h=2.05*s*(mo===IMG.jump?1.12:1),mw=h*mo.naturalWidth/mo.naturalHeight;let hop=0;
     if(G.won)hop=Math.abs(Math.sin(now/180))*s*.3;else if(G.shotT&&now-G.shotT<350)hop=Math.sin((now-G.shotT)/350*Math.PI)*s*.12;
     x.drawImage(mo,sx(1.05)-mw/2,sy(0)-h-hop,mw,h)}
   // wind flag
@@ -750,7 +786,7 @@ function drawGame(now){
     for(let tt=.05,i=0;tt<T;tt+=.07,i++){const X=px+vx*tt+.5*wind*tt*tt,Y=py+vy*tt-5*tt*tt;if(Y<0)break;const r=Math.max(2,s*(.13-i*.002));
       x.beginPath();x.arc(sx(X),sy(Y),r,0,7);x.fillStyle='#fff';x.globalAlpha=Math.max(.35,1-tt/T*.6);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke();x.globalAlpha=1}}
   /* aim gauge for small children: a quarter pie (flat to straight up) and a power bar, no numbers */
-  if(aim&&aim.p>.02){const A=Math.max(0,Math.min(Math.PI/2,clampAng(aim.a))),pw=Math.min(1,aim.p),R=Math.max(46,s*1.5),cx0=sx(LX)-R*.5,cy0=sy(OY)-s*1.5,lw2=Math.max(2,R*.06);
+  if(aim&&aim.p>.02){const A=Math.max(0,Math.min(Math.PI/2,clampAng(aim.a))),pw=Math.min(1,aim.p),R=Math.max(46,s*1.5),cx0=sx(LX)-R*.9,cy0=sy(OY)-s*1.75,lw2=Math.max(2,R*.06);
     x.save();x.lineJoin='round';x.lineCap='round';
     // quarter disc background
     x.beginPath();x.moveTo(cx0,cy0);x.arc(cx0,cy0,R,-Math.PI/2,0);x.closePath();x.fillStyle='rgba(255,255,255,.9)';x.fill();x.lineWidth=lw2;x.strokeStyle=OUT;x.stroke();
@@ -784,7 +820,8 @@ function drawGame(now){
       for(const [k2,c] of [[1,'rgba(255,110,30,.9)'],[.6,'rgba(255,220,80,.95)']]){x.beginPath();x.moveTo(fx-s*.14*k2,fy);x.quadraticCurveTo(fx-s*.12*k2,fy-h*k2*.6,fx,fy-h*k2);x.quadraticCurveTo(fx+s*.12*k2,fy-h*k2*.6,fx+s*.14*k2,fy);x.closePath();x.fillStyle=c;x.fill()}}}
   // the bow
   const ready=G.state==='ready'||G.state==='aim',ang=aim?clampAng(aim.a):.55;
-  drawBow(x,upLv('bow'),sx(LX),sy(0),sx(LX),sy(OY),s,ang,aim?aim.p:0,ready&&G.shots>0?at:null);
+  if(puppet){if(!G.won){let hop=G.shotT&&now-G.shotT<250?Math.sin((now-G.shotT)/250*Math.PI)*s*.05:0;x.save();x.translate(0,-hop);drawMo(x,s,aim?ang:(G.lastA??.45),aim?aim.p:0,ready&&G.shots>0?at:null,false,now);x.restore()}}
+  else drawBow(x,upLv('bow'),sx(LX),sy(0),sx(LX),sy(OY),s,ang,aim?aim.p:0,ready&&G.shots>0?at:null);
   for(const p of S.proj){const q=p.b.getPosition();x.save();x.translate(sx(q.x),sy(q.y));drawArrow(x,p.at,s,p.b.getAngle(),1);x.restore()}
   drawParts(x,now,s)}
 /* particles in world units */
@@ -883,7 +920,7 @@ function release(e){if(G&&G.panning&&e.pointerId===G.panning.id){G.panning=null;
   if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const A=aimFrom(e);aimStart=null;
   if(A.p<.12||window.praying){G.state='ready';G.aim=null;return}shoot(A.a,A.p)}
 cv.addEventListener('pointerup',release);cv.addEventListener('pointercancel',e=>{if(G)G.panning=null;if(G&&G.state==='aim'){G.state='ready';G.aim=null;aimStart=null}});
-function shoot(a,p){const at=G.asel;if(!(G.ammo[at]>0))return;fire(G.sim,at,a,p);G.state='fly';G.ammo[at]--;G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);
+function shoot(a,p){const at=G.asel;G.lastA=clampAng(a);if(!(G.ammo[at]>0))return;fire(G.sim,at,a,p);G.state='fly';G.ammo[at]--;G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);
   if(!G.ammo[at]){const nx=G.av.find(k=>G.ammo[k]>0);if(nx){G.asel=nx;setTimeout(()=>{if(G)toast(tf('noA',{a:t('AR')[at]}))},400)}renderPicker()}renderHud()}
 
 let cheerN=0;
