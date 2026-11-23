@@ -749,12 +749,23 @@ function drawGame(now){
   if(aim&&aim.p>.08){const [vx,vy]=launchVel(at,aim.a,aim.p),[px,py]=launchPos(aim.a),T=age==='little'?2.4:SIGHT[upLv('sight')];
     for(let tt=.05,i=0;tt<T;tt+=.07,i++){const X=px+vx*tt+.5*wind*tt*tt,Y=py+vy*tt-5*tt*tt;if(Y<0)break;const r=Math.max(2,s*(.13-i*.002));
       x.beginPath();x.arc(sx(X),sy(Y),r,0,7);x.fillStyle='#fff';x.globalAlpha=Math.max(.35,1-tt/T*.6);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke();x.globalAlpha=1}}
-  if(aim&&aim.p>.02){const deg=Math.round(clampAng(aim.a)*180/Math.PI),pw=Math.round(Math.min(1,aim.p)*100),bx=sx(LX)-s*.2,by=sy(OY)-s*2.3,W=Math.max(110,s*3),H=Math.max(34,s*.95);
-    x.save();rr(x,bx-W/2,by-H/2,W,H,H/2);x.fillStyle='rgba(255,255,255,.92)';x.fill();x.lineWidth=2;x.strokeStyle=OUT;x.stroke();
-    x.font=`400 ${H*.42}px "Lilita One",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillStyle='#d07a00';x.fillText(deg+'°  '+pw+'%',bx,by-H*.18);
-    const bw=W*.78,bh=H*.2,b0=bx-bw/2,b1=by+H*.22;rr(x,b0,b1-bh/2,bw,bh,bh/2);x.fillStyle='#eadfcf';x.fill();
-    const gg=x.createLinearGradient(b0,0,b0+bw,0);gg.addColorStop(0,'#3fcf5a');gg.addColorStop(.6,'#ffd23f');gg.addColorStop(1,'#ff4f5e');rr(x,b0,b1-bh/2,Math.max(bh,bw*pw/100),bh,bh/2);x.fillStyle=gg;x.fill();
-    x.lineWidth=1.5;rr(x,b0,b1-bh/2,bw,bh,bh/2);x.stroke();x.restore()}
+  /* aim gauge for small children: a quarter pie (flat to straight up) and a power bar, no numbers */
+  if(aim&&aim.p>.02){const A=Math.max(0,Math.min(Math.PI/2,clampAng(aim.a))),pw=Math.min(1,aim.p),R=Math.max(46,s*1.5),cx0=sx(LX)-R*.5,cy0=sy(OY)-s*1.5,lw2=Math.max(2,R*.06);
+    x.save();x.lineJoin='round';x.lineCap='round';
+    // quarter disc background
+    x.beginPath();x.moveTo(cx0,cy0);x.arc(cx0,cy0,R,-Math.PI/2,0);x.closePath();x.fillStyle='rgba(255,255,255,.9)';x.fill();x.lineWidth=lw2;x.strokeStyle=OUT;x.stroke();
+    // guide ticks at 30 and 60 degrees
+    x.strokeStyle='rgba(74,44,20,.25)';x.lineWidth=lw2*.7;for(const t of [Math.PI/6,Math.PI/3]){x.beginPath();x.moveTo(cx0,cy0);x.lineTo(cx0+Math.cos(t)*R*.92,cy0-Math.sin(t)*R*.92);x.stroke()}
+    // the slice: from flat up to the aim
+    if(A>.01){x.beginPath();x.moveTo(cx0,cy0);x.arc(cx0,cy0,R*.92,-A,0);x.closePath();const g=x.createLinearGradient(cx0,cy0,cx0,cy0-R);g.addColorStop(0,'#ffd23f');g.addColorStop(1,'#ff8a1f');x.fillStyle=g;x.fill()}
+    // arrow pointing like the shot
+    const ex=cx0+Math.cos(A)*R*.95,ey=cy0-Math.sin(A)*R*.95;x.strokeStyle=OUT;x.lineWidth=lw2*1.6;x.beginPath();x.moveTo(cx0,cy0);x.lineTo(ex,ey);x.stroke();
+    x.save();x.translate(ex,ey);x.rotate(-A);x.beginPath();x.moveTo(lw2*2.2,0);x.lineTo(-lw2*2.4,-lw2*2);x.lineTo(-lw2*2.4,lw2*2);x.closePath();x.fillStyle=OUT;x.fill();x.restore();
+    x.beginPath();x.arc(cx0,cy0,lw2*1.6,0,7);x.fillStyle=OUT;x.fill();
+    // power bar under the pie
+    const bw=R*1.25,bh=Math.max(8,R*.2),b0=cx0-bw*.12,b1=cy0+bh*.9;rr(x,b0,b1,bw,bh,bh/2);x.fillStyle='rgba(255,255,255,.9)';x.fill();
+    const gg=x.createLinearGradient(b0,0,b0+bw,0);gg.addColorStop(0,'#3fcf5a');gg.addColorStop(.6,'#ffd23f');gg.addColorStop(1,'#ff4f5e');rr(x,b0,b1,Math.max(bh,bw*pw),bh,bh/2);x.fillStyle=gg;x.fill();
+    x.lineWidth=lw2*.8;x.strokeStyle=OUT;rr(x,b0,b1,bw,bh,bh/2);x.stroke();x.restore()}
   // bodies
   for(const u of S.list){const k=u.k;if(!u.b||k==='rock')continue;const q=u.b.getPosition(),a=u.b.getAngle();x.save();x.translate(sx(q.x),sy(q.y));
     if(u.shakeT&&now-u.shakeT<450){const kk=1-(now-u.shakeT)/450;x.translate(Math.sin(now/22)*s*.07*kk,Math.cos(now/31)*s*.03*kk)}x.rotate(-a);

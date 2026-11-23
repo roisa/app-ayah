@@ -1,5 +1,5 @@
 // Mo Archery: offline support. Bump VERSION when files change.
-const VERSION='moar-v14';
+const VERSION='moar-v15';
 const ASSETS=['./','index.html','game.js','lib/planck.min.js','manifest.webmanifest','icons/icon-192.png','icons/favicon-32.png','icons/cursor-hand.png','icons/cursor-hand@2x.png',
   'ui/back.webp','ui/close.webp','ui/games.webp','ui/gear.webp','ui/gift.webp','ui/hand.webp','ui/help.webp','ui/home.webp','ui/lang-en.webp','ui/lang-id.webp','ui/lock.webp','ui/masjid.webp','ui/music-off.webp','ui/music-on.webp','ui/ok.webp','ui/play.webp','ui/sound-off.webp','ui/sound-on.webp','ui/star.webp',
   'art/bg-beach.webp','art/bg-desert.webp','art/bg-forest.webp','art/bg-garden.webp','art/bg-home.webp','art/bg-night.webp','art/bg-snow.webp','art/ped-grass.webp','art/ped-night.webp','art/ped-sand.webp','art/ped-snow.webp','art/roof-brick.webp','art/roof-glass.webp','art/roof-stone.webp','art/roof-wood.webp',
