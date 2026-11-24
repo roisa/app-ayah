@@ -1482,7 +1482,7 @@ function renderMap(){
   $('#mapSum').innerHTML=`<img src="art/star.webp" alt=""><span>${totalStars()}/${LEVELS*3}</span>`;
   const el=$('#worlds');el.innerHTML='';
   WORLDS.forEach((WD,w)=>{const first=w*WN+1,last=first+WN-1,lockW=first>openTo();let st=0;for(let n=first;n<=last;n++)st+=prog.stars[n]||0;
-    const sec=document.createElement('div');sec.className='world w'+w+(lockW?' lock':'');
+    const sec=document.createElement('div');sec.className='world w'+w+(lockW?' lock':'');sec.dataset.w=w;
     /* a big picture of the world: its background, three of its treasures and Baby Mo cheering */
     const th=document.createElement('canvas');th.width=640;th.height=280;th.className='wpic';{const x=th.getContext('2d'),W=640,H=280,gy=H*.86;paintWorld(x,w,W,H,gy,H/9);
       const its=WD.items.filter(g=>g!=='cage').slice(0,2).concat(['cage']);its.forEach((g,i)=>{const z=[86,74,80][i];x.save();x.translate(W*[.14,.33,.52][i],gy-z*.55);
@@ -1498,6 +1498,12 @@ function renderMap(){
       g.appendChild(b)}
     if(lockW)sec.insertAdjacentHTML('beforeend',`<div class="wlock"><img src="art/lock.webp" alt="">${tf('lockedW',{w:t('W')[w-1]})}</div>`);
     el.appendChild(sec)})}
+/* tapping a world's picture plays its first unfinished level (all finished: the first one without 3 stars, else level 1 of that world) */
+$('#worlds').addEventListener('click',e=>{const wb=e.target.closest('.wb');if(!wb)return;const w=+wb.closest('.world').dataset.w,first=w*WN+1,last=first+WN-1;
+  if(first>openTo()){sfx.bad();toast(tf('lockedW',{w:t('W')[w-1]}));wb.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}
+  let n=null;for(let k=first;k<=Math.min(last,openTo());k++)if(!prog.stars[k]){n=k;break}
+  if(n==null)for(let k=first;k<=last;k++)if((prog.stars[k]||0)<3){n=k;break}
+  sfx.tap();wb.animate([{transform:'scale(.97)'},{transform:'none'}],{duration:200});startGame(n||first)});
 $('#worlds').addEventListener('click',e=>{const b=e.target.closest('.lv');if(!b)return;const n=+b.dataset.n;if(n>openTo()){sfx.bad();toast(t('lockedLv'));b.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:300});return}sfx.tap();startGame(n)});
 
 /* ---------- language, sound ---------- */
