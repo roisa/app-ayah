@@ -17,7 +17,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  lvlDone:'Level {n} complete!',allDone:'You finished every level, MasyaAllah!',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
  thanks:['Thank you!','Jazakallah khair!','Yay, free!'],got:['Got it!','Yay!','Treasure!','MasyaAllah!'],
- W:['Green Garden','Sunny Beach','Shady Forest','Desert Oasis','Snowy Peaks','Lantern Night'],
+ W:['Green Garden','Sunny Beach','Shady Forest','Desert Oasis','Snowy Peaks','Lantern Night','Sunset Bay','Autumn Woods','Starry Desert','Northern Lights'],
  lockedW:'Finish {w} first',lockedLv:'Finish the level before to open this one',levelsR:'Levels {a}–{b}',worldOpen:'{w} is now open!',
  sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Pull the yellow button back, then let go!',rot:'Turn sideways for a bigger view',
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your game will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
@@ -71,7 +71,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  lvlDone:'Level {n} selesai!',allDone:'Semua level sudah selesai, MasyaAllah!',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
  thanks:['Terima kasih!','Jazakallah khair!','Hore, bebas!'],got:['Dapat!','Hore!','Harta karun!','MasyaAllah!'],
- W:['Taman Hijau','Pantai Cerah','Hutan Rindang','Oasis Gurun','Puncak Salju','Malam Lentera'],
+ W:['Taman Hijau','Pantai Cerah','Hutan Rindang','Oasis Gurun','Puncak Salju','Malam Lentera','Teluk Senja','Hutan Musim Gugur','Gurun Berbintang','Cahaya Utara'],
  lockedW:'Selesaikan {w} dulu',lockedLv:'Selesaikan level sebelumnya untuk membuka level ini',levelsR:'Level {a}–{b}',worldOpen:'{w} sekarang terbuka!',
  sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Tarik tombol kuning ke belakang, lalu lepaskan!',rot:'Miringkan HP agar lebih besar',
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Permainanmu akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
@@ -259,10 +259,15 @@ const WORLDS=[
  {id:'forest',items:['gem','cage','star','chest'],mats:['wood','brick','stone'],sky:['#7fd8c0','#e0fff0'],hill:['#3e9e5a','#2a7a44'],gr:['#5cbf4a','#8a5a30'],cap:'#5cbf4a',birds:['parrot','owl','hoopoe']},
  {id:'desert',items:['gold','ring','chest','cage'],mats:['brick','stone','wood'],sky:['#ffb86a','#fff0c0'],hill:['#f0c070','#d89a48'],gr:['#f6cf84','#d89a48'],cap:'#f6cf84',birds:['hoopoe','swallow','redbird']},
  {id:'snow',items:['crystal','gift','cage','star'],mats:['ice','ice','wood','stone'],sky:['#9ccfff','#f0f8ff'],hill:['#ffffff','#cfe4f5'],gr:['#ffffff','#b9d6ee'],cap:'#ffffff',birds:['robin','owl','sparrow']},
- {id:'night',items:['lantern','crown','gem','cage','chest'],mats:['stone','brick','glass','wood'],sky:['#1a1650','#4b3a9a'],hill:['#2e2a6e','#201c52'],gr:['#2f7a52','#5a3a2a'],cap:'#3d9a66',birds:['owl','redbird','finch','dove']}];
+ {id:'night',items:['lantern','crown','gem','cage','chest'],mats:['stone','brick','glass','wood'],sky:['#1a1650','#4b3a9a'],hill:['#2e2a6e','#201c52'],gr:['#2f7a52','#5a3a2a'],cap:'#3d9a66',birds:['owl','redbird','finch','dove']},
+ /* worlds 7-10 reuse a background (base) with a colour wash (tint: top and bottom colours, multiplied) */
+ {id:'sunset',base:1,tint:['#ff9a6a','#ffd9b0'],items:['pearl','crown','chest','gem','cage'],mats:['wood','brick','glass','stone'],sky:['#ff9a6a','#ffd9b0'],hill:['#2fb8e0','#1590c8'],gr:['#ffe2a0','#e8b866'],cap:'#ffe2a0',birds:['dove','swallow','parrot']},
+ {id:'autumn',base:2,tint:['#ff9a3c','#ffc56a'],items:['gem','gold','cage','chest','star'],mats:['wood','brick','stone','wood'],sky:['#ffc27a','#fff0d0'],hill:['#c0702a','#8a4a20'],gr:['#c98a3a','#8a5a30'],cap:'#c98a3a',birds:['robin','owl','hoopoe']},
+ {id:'starry',base:3,tint:['#4a52b8','#b0a8e8'],stars:1,items:['lantern','gold','ring','crown','cage'],mats:['brick','stone','wood','glass'],sky:['#2a2a7a','#7a6ac0'],hill:['#6a5a9a','#4a3a7a'],gr:['#b89a70','#7a5a40'],cap:'#b89a70',birds:['owl','hoopoe','redbird']},
+ {id:'aurora',base:4,tint:['#8f8cff','#d8ecff'],stars:1,items:['crystal','crown','gem','lantern','cage'],mats:['ice','stone','brick','ice'],sky:['#3a3a9a','#9ab8f0'],hill:['#e8f0ff','#b0c8ee'],gr:['#ffffff','#b9d6ee'],cap:'#ffffff',birds:['robin','owl','dove']}];
 const BIRDS=['hoopoe','sparrow','finch','dove','swallow','parrot','owl','redbird','robin'];
-const LEVELS=60,WN=10;
-const worldOf=n=>Math.min(5,Math.floor((n-1)/WN));
+const LEVELS=100,WN=10;
+const worldOf=n=>Math.min(9,Math.floor((n-1)/WN));
 const LX=2.3,OY=1.0,BOWV=17.5,LR=1.2;   // Mo's front shoulder (x, height), how fast a full pull shoots, and how far from the shoulder the arrow leaves
 /* arrows: v = speed factor, d = density */
 const ARROWS={normal:{unlock:1,d:6,v:1},flame:{unlock:6,d:6,v:1},heavy:{unlock:11,d:15,v:.9},triple:{unlock:16,d:6,v:1},diamond:{unlock:21,d:8,v:1},firework:{unlock:34,d:6,v:1}};
@@ -295,12 +300,12 @@ const upLv=k=>(prog.up&&prog.up[k])||0;
 const PW=.42,PH=1.7,PT=.42,GS=1.1,CR=.9,CB=.55;
 /* from the test bot: arrows a good player needs (PAR) and which seed makes each level (LVK).
    Re-run the bot whenever the level maker changes. */
-const PAR=[1,1,2,1,2,4,2,2,2,2,1,4,2,2,3,2,3,2,2,5,1,1,1,3,8,2,4,5,2,7,4,3,2,4,3,4,3,5,6,5,3,3,2,5,2,3,6,3,4,3,2,2,5,1,3,4,4,5,4,7];
-const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,0,1,1,0,1,2,4,7,0,1,2,1,4,0,0,3,1,6,0,9,2];
+const PAR=[1,1,2,1,2,4,2,2,2,2,1,4,2,2,3,2,3,2,2,5,1,1,1,3,8,2,4,5,2,7,4,3,2,4,3,4,3,5,6,5,3,3,2,5,2,3,6,3,4,3,2,2,5,1,3,4,4,5,4,7,6,5,6,6,5,6,5,5,8,6,4,4,4,6,4,4,4,8,7,12,3,4,4,5,7,5,6,6,8,6,5,6,6,8,6,6,4,5,8,7];
+const LVK=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,0,1,1,0,1,2,4,7,0,1,2,1,4,0,0,3,1,6,0,9,2,0,0,3,8,2,3,10,5,10,10,6,1,1,0,5,11,12,1,1,14,3,1,3,3,4,6,0,15,19,10,9,0,0,1,1,0,4,1,0,7];
 /* special arrows the bot needed in each level (f fire, h heavy, t triple, d diamond, w firework) */
-const USE=["","","","","","","f1","f1","f1","","h1","h1","","f1","","t1","","","h1","h1","t1","t1","h1","t1","t1f1","h1","t2","h1t1","","d2","d1","t1","h1","t1d1","t1","f1","t1","h1d1","d1t1","t1","","","","t1","","t1h1","","","t1","t1h1","w1","","h1d1","","h2","h1","","t1","w1","d1t1"];
+const USE=["","","","","","","f1","f1","f1","","h1","h1","","f1","","t1","","","h1","h1","t1","t1","h1","t1","t1f1","h1","t2","h1t1","","d2","d1","t1","h1","t1d1","t1","f1","t1","h1d1","d1t1","t1","","","","t1","","t1h1","","","t1","t1h1","w1","","h1d1","","h2","h1","","t1","w1","d1t1","h1","d1t1","d1t1h1","t2","","t2w1","t1","t2h2","t3","t2","t1h1","","d1","d2","h1f1","h1","t1h1","w1d1t1","t1w1","f1h2d1","t2","h1t1","d1","t2","h1t1","t1d1w1","d1","t1w2","f1t3","t2","d1","d1w1t1","t2","h1","w1","d1t1","t1d1","h1f1","d1t1w1","h1w1"];
 const LVC={};
-function genLevel(n){if(LVC[n])return LVC[n];let lv;const k0=LVK[n-1]||0;for(let k=k0;k<k0+12;k++){lv=genRaw(n,k);if(stable(lv))break}return LVC[n]=lv}
+function genLevel(n){if(LVC[n])return LVC[n];let lv;const k0=LVK[n-1]||0;for(let k=k0;k<k0+(n>60?40:12);k++){lv=genRaw(n,k);if(stable(lv))break}return LVC[n]=lv}
 function stable(lv){const S=makeSim(lv);for(let i=0;i<300;i++)simStep(S);return S.goals.every(g=>!g.done)&&!S.ev.some(e=>e.e==='break'||e.e==='boom')}
 const arrowsAt=n=>AORDER.filter(a=>ARROWS[a].unlock<=n);
 function genRaw(n,k){
@@ -340,23 +345,24 @@ function genRaw(n,k){
   else{
     /* some later levels put the forts far away, so the camera has to travel to them */
     /* from level 6: more forts, and every other level they stand further away */
-    const nS=n<6?(i<2?1:2):2+(i>=4?1:0)+(n>=31&&i>=7?1:0);
-    const far=nS>=4?0:n>=6?(i%2===1?r1(3+w*.9):0):n>=4&&i%3===1?r1(3+w*.6):0;lv.far=far;let x=9.4+far;
-    for(let s=0;s<nS;s++){
-      const ped=(w>=1&&R()<.3)?r1(rnd(.8,1.8)):0;
+    const H=w>=6;   // worlds 7-10: more forts, taller towers on higher rocks, more treasures, further away
+    const nS=H?3+(i>=3?1:0)+(i>=7?1:0):n<6?(i<2?1:2):2+(i>=4?1:0)+(n>=31&&i>=7?1:0);
+    const far=H?(nS>=4?r1(i%2):r1(3+i%3*1.5)):nS>=4?0:n>=6?(i%2===1?r1(3+w*.9):0):n>=4&&i%3===1?r1(3+w*.6):0;lv.far=far;let x=9.4+far;
+    for(let s=0;s<nS;s++){if(H&&x>29)break;
+      const ped=(w>=1&&R()<(H?.45:.3))?r1(rnd(.8,H?2.6:1.8)):0;
       const kind=n>=5&&R()<.3?'vault':n>5&&R()<.2?'pile':'tower';
       const L=kind==='tower'&&n>10&&R()<.3?4.3:2.3,span=kind==='pile'?CR*3+.2:kind==='vault'?CB*4:L;
       if(s>0)x+=span/2+1.6;else x+=span/2;
       let base=0;if(ped){rock(x,span+.8,ped);base=ped}
       if(kind==='vault')vault(x,base,mat());
       else if(kind==='pile')pile(x,base,n>15&&R()<.4?3:R()<.5?1:2,mat());
-      else{const floors=Math.max(1,maxF-2)+Math.floor(R()*Math.min(3,maxF)),ms=[...Array(floors)].map(mat);
-        const inside=[...Array(floors)].map((_,f)=>f===0?R()<.7:R()<.5);
+      else{const floors=H?3+Math.floor(R()*4):Math.max(1,maxF-2)+Math.floor(R()*Math.min(3,maxF)),ms=[...Array(floors)].map(mat);
+        const inside=[...Array(floors)].map((_,f)=>f===0?R()<(H?.8:.7):R()<(H?.65:.5));
         let topK=pick(['goal','goal','roof','crate',null]);if(n>=5&&R()<.25)topK='barrel';
         if(!inside.some(Boolean)&&topK!=='goal')inside[floors-1]=1;
         tower(x,base,floors,L,ms,inside,topK)}
       // an iron shield in front sometimes (forest and later)
-      if(w>=2&&R()<.3)box('iron',x-span/2-.45,PH/2,PW,PH);
+      if(w>=2&&R()<(H?.4:.3))box('iron',x-span/2-.45,PH/2,PW,PH);
       // a firework barrel on the ground next to it
       if(n>=7&&R()<.3)barrel(x+span/2+.6,base?0:0);
       x+=span/2+(ped?.4:0)+.4}}
@@ -364,7 +370,8 @@ function genRaw(n,k){
   const nc=n<3?1:2+Math.floor(R()*3);for(let c=0;c<nc;c++)items.push({k:'coin',x:r1(rnd(5.5,9)),y:r1(rnd(2,5.2))});
   if(n>=4&&i%4===3)items.push({k:'bundle',x:r1(rnd(6,8.5)),y:r1(rnd(3.5,5.5))});
   if(w===3&&i>=2)lv.wind=r1(pick([-1,1])*rnd(.8,1.8));
-  if(w===4)lv.slip=1;
+  if((w===6||w===8)&&i>=1)lv.wind=r1(pick([-1,1])*rnd(.8,2));
+  if(w===4||w===9)lv.slip=1;
   const right=Math.max(...items.map(it=>(it.x||0)+(it.w||0)/2));
   lv.width=Math.max(17,right+2.4);lv.top=Math.max(top,5.6);
   lv.goals=items.filter(it=>it.k==='goal').length;
@@ -717,12 +724,19 @@ function drawBow(x,tier,gx,gy,px,py,s,ang,pull,ammo){
 
 /* world backgrounds: the image's ground row (BGY, 0..1 from the top) lines up with the game's ground line */
 const BGN=['bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night'],BGY=[.79,.79,.785,.79,.77,.79];
-function paintWorld(x,w,W,H,gy,s,noSun,home){const im=AI(home?'bg-home':BGN[w]);if(!im){paintWorldC(x,w,W,H,gy,s,noSun);return}
+function paintWorld(x,w,W,H,gy,s,noSun,home){const WD=WORLDS[w];
+  if(!home&&WD&&WD.base!=null){paintWorld(x,WD.base,W,H,gy,s,noSun);
+    x.save();x.globalCompositeOperation='multiply';const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,WD.tint[0]);g.addColorStop(1,WD.tint[1]);x.fillStyle=g;x.fillRect(0,0,W,H);x.restore();
+    if(WD.stars){const R=seeded(w*77+3);x.save();x.fillStyle='#fff';for(let i=0;i<70;i++){x.globalAlpha=.35+R()*.65;x.beginPath();x.arc(R()*W,R()*gy*.55,R()*1.6+.5,0,7);x.fill()}x.restore()}
+    if(WD.id==='aurora'){x.save();x.globalCompositeOperation='screen';for(let k=0;k<2;k++){const g2=x.createLinearGradient(0,gy*.05,0,gy*.45);g2.addColorStop(0,'rgba(80,255,180,0)');g2.addColorStop(.5,k?'rgba(160,110,255,.35)':'rgba(80,255,170,.35)');g2.addColorStop(1,'rgba(80,255,180,0)');
+      x.fillStyle=g2;x.beginPath();x.moveTo(0,gy*(.15+k*.08));for(let X=0;X<=W;X+=W/12)x.lineTo(X,gy*(.12+k*.08)+Math.sin(X/W*7+k)*gy*.06);x.lineTo(W,gy*.5);x.lineTo(0,gy*.5);x.closePath();x.fill()}x.restore()}
+    return}
+  const im=AI(home?'bg-home':BGN[w]);if(!im){paintWorldC(x,w,W,H,gy,s,noSun);return}
   const G=home?.79:BGY[w],iw=im.naturalWidth,ih=im.naturalHeight,k=Math.max(W/iw,gy/(G*ih),(H-gy)/((1-G)*ih)),dw=iw*k,dh=ih*k;
   x.drawImage(im,(W-dw)/2,gy-G*dh,dw,dh)}
 /* rock pedestals: the grassy (sandy, snowy) top stays the same, the stone body stretches */
 const PEDN=['ped-grass','ped-sand','ped-grass','ped-sand','ped-snow','ped-night'];
-function rockDraw(x,u,s,w){const im=AI(PEDN[w]);if(!im){rockDrawC(x,u,s,w);return}
+function rockDraw(x,u,s,w){w=WORLDS[w]&&WORLDS[w].base!=null?WORLDS[w].base:w;const im=AI(PEDN[w]);if(!im){rockDrawC(x,u,s,w);return}
   const W=u.w*s*1.04,H=u.h*s+s*.25,iw=im.naturalWidth,ih=im.naturalHeight,top=-u.h*s/2-s*.12,ct=ih*.55,cb=ih*.22,dt=Math.min(H*.7,W*ct/iw),db=Math.min(H*.25,W*cb/iw);
   x.drawImage(im,0,0,iw,ct,-W/2,top,W,dt);x.drawImage(im,0,ct,iw,ih-ct-cb,-W/2,top+dt-1,W,Math.max(0,H-dt-db)+2);x.drawImage(im,0,ih-cb,iw,cb,-W/2,top+H-db,W,db)}
 
@@ -863,6 +877,12 @@ function camStep(now){if(!G)return;
 function drawBg(){const d=DPR();if(!bgCache||bgCache.w!==cv.width||bgCache.h!==cv.height||bgCache.world!==G.lv.w){const c=document.createElement('canvas');c.width=cv.width;c.height=cv.height;const x=c.getContext('2d');x.scale(d,d);paintWorld(x,G.lv.w,cam.W,cam.H,cam.oy,cam.s);bgCache={c,w:cv.width,h:cv.height,world:G.lv.w}}
   cx.drawImage(bgCache.c,0,0)}
 let shakeA=0;
+/* glow images, made once per treasure: only the blurred golden shadow of the treasure (the treasure itself is drawn off the canvas) */
+const glowC={};
+function goalGlow(g,v){const key=g+':'+v;if(glowC[key])return glowC[key];const S=96,c=document.createElement('canvas');c.width=c.height=S*2;const x=c.getContext('2d');
+  x.shadowColor='rgba(255,226,90,1)';x.shadowBlur=26;x.shadowOffsetX=2000;
+  for(let i=0;i<4;i++){x.save();x.translate(S-2000,S);drawGoal(x,g,v,S);x.restore()}
+  if(artLeft<=0)glowC[key]=c;return c}
 function drawGame(now){
   const d=DPR(),x=cx,s=cam.s,S=G.sim,w=G.lv.w;x.setTransform(1,0,0,1,0,0);drawBg();x.setTransform(d,0,0,d,0,0);
   /* a little screen shake when big things break */
@@ -890,7 +910,8 @@ function drawGame(now){
   // bodies
   for(const u of S.list){const k=u.k;if(!u.b||k==='rock')continue;const q=u.b.getPosition(),a=u.b.getAngle();x.save();x.translate(sx(q.x),sy(q.y));
     if(u.shakeT&&now-u.shakeT<450){const kk=1-(now-u.shakeT)/450;x.translate(Math.sin(now/22)*s*.07*kk,Math.cos(now/31)*s*.03*kk)}x.rotate(-a);
-    if(k==='goal'){if(u.g!=='cage'&&u.g!=='gift'&&u.g!=='chest'){x.save();x.globalAlpha=.25+.15*Math.sin(now/300+u.x);x.beginPath();x.arc(0,0,u.w*s*.62,0,7);x.fillStyle='#fff6c0';x.fill();x.restore()}
+    if(k==='goal'){/* a soft golden glow that follows the treasure's own outline, gently pulsing */
+      const gl=goalGlow(u.g,u.v),z=u.w*s*2.25;x.save();x.globalAlpha=.75+.25*Math.sin(now/300+u.x);x.drawImage(gl,-z/2,-z/2,z,z);x.restore();
       drawGoal(x,u.g,u.v,u.w*s);if(u.dmg>.25*u.hp)cracks(x,u,-u.w*s/2,-u.h*s/2,u.w*s,u.h*s,s)}
     else if(k==='barrel'){drawBarrel(x,s);cracks(x,u,-.4*s,-.45*s,.8*s,.9*s,s)}
     else{drawBlock(x,u,s);if(u.burn){const kk=Math.min(1,u.burn/110);rr(x,-u.w*s/2,-u.h*s/2,u.w*s,u.h*s,Math.min(u.w,u.h)*s*.2);x.fillStyle=`rgba(40,20,10,${kk*.55})`;x.fill()}}x.restore()}
