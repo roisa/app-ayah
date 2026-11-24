@@ -668,7 +668,8 @@ const ARTN=['wood-sq','wood-pl','glass-sq','glass-pl','ice-sq','ice-pl','brick-s
  'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick','bg-lava','bg-dino','bg-cloud','bg-crystal','ped-lava','ped-dino','ped-cloud','ped-crystal','opal','nugget','egg','amber','orb','feather','heart','diamond','st-1','st-2','st-3','st-4','st-5','st-6','st-7','st-8','st-9','st-10',
  ...['house','garden','well','palms','swing','school','market','pond','fountain','masjid','minaret','sign','lights'].map(n=>'v-'+n),
  'mo-body','mo-head','mo-head-happy','mo-arm','mo-uarm','mo-farm','mo-win',
- ...['w1','w2','w3','w4','w5','w6','r1','r2','r3','r4','a1','a2','a3','a4','a5','a6','f2','f3','f4','f5','f6'].map(n=>'mf-'+n)];
+ ...['w1','w2','w3','w4','w5','w6','r1','r2','r3','r4','a1','a2','a3','a4','a5','a6','f2','f3','f4','f5','f6'].map(n=>'mf-'+n),
+ 'bomb','tnt','flag-0','flag-1','flag-2','flag-3',...[0,1,2,3,4,5].flatMap(i=>['xb-'+i,'xt-'+i])];
 let artLeft=ARTN.length;
 ARTN.forEach(n=>{const i=new Image();i.onload=()=>{i.ok=1;if(--artLeft<=0){try{bgCache=null;if(cur!=='game')paintBg();if(cur==='village')renderVillage();renderHomeArt();if(G){renderPicker();renderHud()}}catch(e){}}};i.onerror=()=>{artLeft--};i.src='art/'+n+'.webp';ART[n]=i});
 const AI=n=>{const i=ART[n];return i&&i.ok?i:null};
@@ -692,7 +693,7 @@ function drawGoal(x,g,v,s){
   const im=AI(GOALIMG(g,v));if(!im){drawGoalC(x,g,v,s);return}fitImg(x,im,0,0,s*1.05,s*1.05)}
 function drawBird(x,v,cx,cy,r,happy,flap){const im=AI((happy?'fly-':'bird-')+v);if(!im){drawBirdC(x,v,cx,cy,r,happy,flap);return}
   fitImg(x,im,cx,cy,r*2.6,r*2.6)}
-function drawBarrel(x,s){const im=AI('bomb');if(im){fitImg(x,im,0,-s*.08,s*1.05,s*1.2);return}drawBomb(x,s)}
+function drawBarrel(x,s,u){if(u&&!u.look)u.look=Math.random()<.5?'bomb':'tnt';const im=AI(u&&u.look||'bomb');if(im){fitImg(x,im,0,-s*.08,s*1.05,s*1.2);return}drawBomb(x,s)}
 /* round black bomb with a fuse and a flickering spark; sits in the same 0.8 x 0.9 box as the old barrel */
 function drawBomb(x,s){const r=s*.4,cy=s*.05,now=performance.now(),l=Math.max(1.5,s*.05);x.save();x.lineJoin='round';x.lineCap='round';
   const g=x.createRadialGradient(-r*.35,cy-r*.4,r*.1,0,cy,r);g.addColorStop(0,'#6b6f86');g.addColorStop(.6,'#2c2f40');g.addColorStop(1,'#15161f');
@@ -915,7 +916,9 @@ function drawGame(now){
     if(G.won)hop=Math.abs(Math.sin(now/180))*s*.3;else if(G.shotT&&now-G.shotT<350)hop=Math.sin((now-G.shotT)/350*Math.PI)*s*.12;
     x.drawImage(mo,sx(1.05)-mw/2,sy(0)-h-hop,mw,h)}
   // wind flag
-  if(G.lv.wind){const fx=sx(LX+1.6),fy=sy(0),wv=G.lv.wind,ph=now/120;x.strokeStyle=OUT;x.lineWidth=3;x.beginPath();x.moveTo(fx,fy);x.lineTo(fx,fy-s*2.4);x.stroke();
+  if(G.lv.wind&&AI('flag-1')){const wv=G.lv.wind,a=Math.abs(wv),im=AI('flag-'+(a<1.2?1:a<1.6?2:3)),h=s*2.5,w=h*im.naturalWidth/im.naturalHeight,fx=sx(LX+3.4),fy=sy(0);
+    x.save();x.translate(fx,fy);x.scale(Math.sign(wv)*(1+Math.sin(now/(a>1.5?90:160))*.035),1);x.drawImage(im,-w*.165,-h,w,h);x.restore()}
+  else if(G.lv.wind){const fx=sx(LX+1.6),fy=sy(0),wv=G.lv.wind,ph=now/120;x.strokeStyle=OUT;x.lineWidth=3;x.beginPath();x.moveTo(fx,fy);x.lineTo(fx,fy-s*2.4);x.stroke();
     x.beginPath();x.moveTo(fx,fy-s*2.4);for(let i=0;i<=8;i++){const t2=i/8;x.lineTo(fx+Math.sign(wv)*s*(.3+Math.abs(wv)*.35)*t2,fy-s*2.4+Math.sin(ph+t2*4)*s*.08*t2)}
     for(let i=8;i>=0;i--){const t2=i/8;x.lineTo(fx+Math.sign(wv)*s*(.3+Math.abs(wv)*.35)*t2,fy-s*1.95+Math.sin(ph+t2*4)*s*.08*t2)}x.closePath();x.fillStyle='#ff4f5e';x.fill();x.lineWidth=2;x.stroke()}
   // coins and arrow bundles in the air
@@ -933,7 +936,7 @@ function drawGame(now){
     if(k==='goal'){/* a soft golden glow that follows the treasure's own outline, gently pulsing */
       const gl=goalGlow(u.g,u.v),z=u.w*s*2.25;x.save();x.globalAlpha=.75+.25*Math.sin(now/300+u.x);x.drawImage(gl,-z/2,-z/2,z,z);x.restore();
       drawGoal(x,u.g,u.v,u.w*s);if(u.dmg>.25*u.hp)cracks(x,u,-u.w*s/2,-u.h*s/2,u.w*s,u.h*s,s)}
-    else if(k==='barrel'){drawBarrel(x,s);cracks(x,u,-.4*s,-.45*s,.8*s,.9*s,s)}
+    else if(k==='barrel'){drawBarrel(x,s,u);cracks(x,u,-.4*s,-.45*s,.8*s,.9*s,s)}
     else{drawBlock(x,u,s);if(u.burn){const kk=Math.min(1,u.burn/110);rr(x,-u.w*s/2,-u.h*s/2,u.w*s,u.h*s,Math.min(u.w,u.h)*s*.2);x.fillStyle=`rgba(40,20,10,${kk*.55})`;x.fill()}}x.restore()}
   // flames on burning wood (drawn upright)
   for(const u of S.list)if(u.burn&&u.b){const q=u.b.getPosition(),n2=Math.max(2,Math.round(u.w*2.2));
@@ -1002,6 +1005,7 @@ function drawParts(x,now,s){
   parts=parts.filter(p=>{p.t+=dt;if(p.t>p.life)return false;p.vy-=p.g*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.r+=p.vr*dt;const k=1-p.t/p.life;
     x.save();x.translate(sx(p.x),sy(p.y));x.rotate(p.r);x.globalAlpha=Math.min(1,k*2);
     if(p.k==='img'){const im=AI(p.im);if(im){const z=p.z*s*(1+(p.grow||0)*p.t/p.life);x.globalAlpha=Math.min(1,k*1.6);x.drawImage(im,-z/2,-z/2*im.naturalHeight/im.naturalWidth,z,z*im.naturalHeight/im.naturalWidth)}}
+    else if(p.k==='seq'){const f=Math.min(p.n-1,Math.floor(p.t/p.life*p.n)),im=AI(p.pre+f);if(im){const z=p.z*s;x.globalAlpha=f<p.n-1?1:Math.min(1,k*p.n);x.drawImage(im,-z/2,-z/2,z,z)}}
     else if(p.k==='star'&&IMG.star.ok){const z=p.z*s;x.drawImage(IMG.star,-z/2,-z/2,z,z)}
     else if(p.k==='coin')coinDraw(x,0,0,p.z*s);
     else if(p.k==='heart'){const z=p.z*s;x.fillStyle='#ff5f8a';x.beginPath();x.moveTo(0,z*.3);x.bezierCurveTo(-z*.6,-z*.1,-z*.3,-z*.6,0,-z*.25);x.bezierCurveTo(z*.3,-z*.6,z*.6,-z*.1,0,z*.3);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke()}
@@ -1140,7 +1144,9 @@ function handleEvents(){
     else if(ev.e==='break'){sfx.brk(ev.u.mat);shakeA=Math.max(shakeA,ev.u.w>1.5||ev.u.h>1.5?7:3);if(!ev.lost){debris(ev.x,ev.y,ev.u.mat,5,ev.u.w>1.5);const ch={wood:'fx-wood',glass:'fx-glass',ice:'fx-glass',brick:'fx-brick',stone:'fx-stone'}[ev.u.mat];
       if(ch)parts.push({k:'img',im:ch,x:ev.x,y:ev.y,vx:(Math.random()-.5)*3,vy:3+Math.random()*2,g:12,t:0,life:.8,r:0,vr:(Math.random()-.5)*6,z:.9});
       parts.push({k:'img',im:'fx-dust',x:ev.x,y:ev.y,vx:0,vy:.6,g:0,t:0,life:.55,r:0,vr:0,z:.9,grow:.7})}}
-    else if(ev.e==='boom'){sfx.boom();shakeA=Math.max(shakeA,ev.small?6:13);firework(X,Y,!ev.small);parts.push({k:'img',im:'fx-firework',x:X,y:Y,vx:0,vy:0,g:0,t:0,life:.7,r:0,vr:0,z:ev.small?1.8:3,grow:.5});if(!ev.small)debris(X,Y,'goal',8,true)}
+    else if(ev.e==='boom'){sfx.boom();shakeA=Math.max(shakeA,ev.small?6:13);firework(X,Y,!ev.small);
+      if(!ev.small&&AI('xb-0')){const tnt=ev.u&&ev.u.look==='tnt';if(tnt)sfx.boom();parts.push({k:'seq',pre:tnt?'xt-':'xb-',n:6,x:X,y:Y,vx:0,vy:0,g:0,t:0,life:tnt?.85:.7,r:0,vr:0,z:tnt?5:4})}
+      else parts.push({k:'img',im:'fx-firework',x:X,y:Y,vx:0,vy:0,g:0,t:0,life:.7,r:0,vr:0,z:ev.small?1.8:3,grow:.5});if(!ev.small)debris(X,Y,'goal',8,true)}
     else if(ev.e==='goal'){goalsNow++;const u=ev.u,c=ITEM[u.g].c;
       if(u.g==='cage'){sfx.free();debris(X,Y,'wood',8);flyers.push({v:u.v,x:X,y:Y,vx:(Math.random()<.5?-1:1)*(1.4+Math.random()),t:0});sparkle(X,Y,'heart',5);parts.push({k:'img',im:'fx-hearts',x:X,y:Y+.4,vx:0,vy:1.2,g:0,t:0,life:1.1,r:0,vr:0,z:1.1,grow:.4});say2(X,Y+.7,pickT('thanks'),'#ff9ad5');freeBird(u.v)}
       else{sfx.gift();sparkle(X,Y,'star',6);for(let j=0;j<3;j++)parts.push({k:'img',im:'sparkle',x:X+(Math.random()-.5)*1.2,y:Y+(Math.random()-.2)*1.2,vx:0,vy:.5,g:0,t:-j*.12,life:.7,r:0,vr:0,z:.45,grow:.6});debris(X,Y,'goal',8);say2(X,Y+.6,pickT('got'),'#ffe14a')}
