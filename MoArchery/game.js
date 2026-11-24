@@ -464,7 +464,7 @@ function simStep(S){
   if(S.turn)S.turn.t++}
 function spawnArrow(S,at,x,y,vx,vy){
   const b=S.W.createDynamicBody({position:V(x,y),angle:Math.atan2(vy,vx),bullet:true});
-  b.createFixture(planck.Box(.5,.07),{density:ARROWS[at].d,friction:.4,restitution:.05});
+  b.createFixture(planck.Box(.5,.07),{density:ARROWS[at].d,friction:.4,restitution:.05,filterGroupIndex:-1});   // arrows never hit each other (the triple arrows start side by side)
   b.setLinearVelocity(V(vx,vy));const u={k:'proj',at,b,born:S.steps};b.setUserData(u);S.proj.push(u);return u}
 const clampAng=a=>Math.max(-.35,Math.min(1.45,a));
 function launchVel(at,ang,pow){const sp=BOWV*ARROWS[at].v*Math.max(.15,Math.min(1,pow));return[Math.cos(ang)*sp,Math.sin(ang)*sp]}
