@@ -271,7 +271,8 @@ const worldOf=n=>Math.min(9,Math.floor((n-1)/WN));
 const LX=2.3,OY=1.0,BOWV=17.5,LR=1.2;   // Mo's front shoulder (x, height), how fast a full pull shoots, and how far from the shoulder the arrow leaves
 /* arrows: v = speed factor, d = density */
 const ARROWS={normal:{unlock:1,d:6,v:1},flame:{unlock:6,d:6,v:1},heavy:{unlock:11,d:15,v:.9},triple:{unlock:16,d:6,v:1},diamond:{unlock:21,d:8,v:1},firework:{unlock:34,d:6,v:1}};
-const AORDER=['normal','flame','heavy','triple','diamond','firework'];
+/* picker order: normal and triple side by side (same arrow, more of them), the diamond arrow last (it breaks everything) */
+const AORDER=['normal','triple','flame','heavy','firework','diamond'];
 const MAT={glass:{d:.8,f:.4,r:.05,hp:1.6},ice:{d:.9,f:.3,r:.05,hp:2.6},wood:{d:1,f:.7,r:.05,hp:6},brick:{d:1.8,f:.8,r:.02,hp:10},stone:{d:2.4,f:.8,r:.02,hp:16},iron:{d:3.4,f:.6,r:.02,hp:0}};
 /* damage = impulse x this, by what was hit (iron has no hp, so it never breaks) */
 /* each arrow only breaks the materials it is made for (0 = too strong: the block just shakes) */
