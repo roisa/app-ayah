@@ -9,7 +9,7 @@ function seeded(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let q=Math.imul(s^s>>>15,1|s
    Text (EN / ID)
    ================================================================= */
 const TXT={
-en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
+en:{tag:'Play Games the Islamic Way',play:'Play',playS:'100 levels in 10 worlds',stickers:'My Stickers',stickersS:'Collect Baby Mo',stickersP:'Finish a world to get its Baby Mo sticker',moSt:'Baby Mo stickers',stFor:'Finish {w}',stGot:'You got it!',newSt:'New sticker: {w} Mo!',marketS:'Bows, arrows and more',
  little:'Little',littleS:'Ages 3+',big:'Big Kid',bigS:'Ages 6+',legal:'No ads · No data collected · Works offline',
  level:'Level {n}',holdR:'Hold to start again',bismS:'Say Bismillah before we start',bismB:'Bismillah!',
  mGoal:'Break the barriers and collect every treasure!',
@@ -63,7 +63,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
   owl:'Birds fly high in the sky, and only Allah holds them up there. (Surah An-Nahl 16:79)',
   redbird:'A little red bird was upset because her chicks were taken. The Prophet ﷺ said: "Who has upset this bird by taking her young? Give them back to her." (Sunan Abi Dawud 2675)',
   robin:'If we truly trust Allah, He provides for us as He provides for the birds: they fly out hungry in the morning and come back full in the evening. (Jami\' at-Tirmidhi 2344)'}},
-id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
+id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'100 level di 10 dunia',stickers:'Stiker Saya',stickersS:'Kumpulkan Baby Mo',stickersP:'Selesaikan sebuah dunia untuk mendapat stiker Baby Mo',moSt:'Stiker Baby Mo',stFor:'Selesaikan {w}',stGot:'Sudah dapat!',newSt:'Stiker baru: Mo {w}!',marketS:'Busur, panah dan lainnya',
  little:'Kecil',littleS:'Usia 3+',big:'Besar',bigS:'Usia 6+',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
  level:'Level {n}',holdR:'Tahan untuk mulai lagi',bismS:'Ucapkan Bismillah sebelum mulai',bismB:'Bismillah!',
  mGoal:'Hancurkan penghalangnya dan kumpulkan semua hartanya!',
@@ -864,6 +864,7 @@ function rockDrawC(x,u,s,w){const W=u.w*s,H=u.h*s;rr(x,-W/2,-H/2,W,H+s*.2,s*.35)
 const cv=$('#cv'),cx=cv.getContext('2d'),fxc=$('#fx'),fxx=fxc.getContext('2d');
 let G=null,cam={s:30,ox:0,oy:0,W:0,H:0},bgCache=null,parts=[],flyers=[],texts=[],conf=[];
 let prog=store.get('prog',{open:1,stars:{}});if(!prog.eco2){prog.coins=Math.ceil((prog.coins||0)/20);prog.eco2=1;store.set('prog',prog)}
+prog.stk=prog.stk||{};for(let w=0;w<10;w++){let ok=true;for(let n=w*10+1;n<=w*10+10;n++)if(!(prog.stars||{})[n])ok=false;if(ok)prog.stk[w]=1}
 let newWorldMsg=null;{let hi=0;for(const k in prog.stars||{})if(prog.stars[k])hi=Math.max(hi,+k);if((prog.open||1)<=hi&&hi<LEVELS){prog.open=hi+1;if(hi%WN===0)newWorldMsg=hi/WN;store.set('prog',prog)}}
 if(prog.coins==null)prog.coins=0;if(!prog.up)prog.up={bow:0,quiver:0,sight:0};if(!prog.birds)prog.birds={};
 /* Little (3+): every level is open, so young children can play any stage. Big Kid unlocks them one by one. */
@@ -1154,9 +1155,9 @@ function levelWin(){
     u.appendChild(badgeRow(bits,nb));
     const na=AORDER.find(a=>ARROWS[a].unlock===n+1),vb=VILLAGE.filter(b=>b.cost>totalStars()-(prog.stars[n]-old)&&b.cost<=totalStars()&&b.cost>0);
     const row=(node,txt)=>{const d=document.createElement('div');d.className='unl';if(node)d.append(node);d.append(document.createTextNode(txt));u.appendChild(d)};
-    if(na&&before<n+1){store.set('newA',na);setTimeout(sfx.unlock,1300);row(arrowIcon(na,128),tf('newA',{a:t('AR')[na]})+' '+t('ARD')[na])}
+    const sw=worldOf(n);if(worldDone(sw)&&!(prog.stk||{})[sw]){prog.stk=prog.stk||{};prog.stk[sw]=1;store.set('prog',prog);setTimeout(sfx.unlock,1300);row(stickerCanvas(sw,160,false),tf('newSt',{w:t('W')[sw]}));u.prepend(u.lastChild)}
+    else if(na&&before<n+1){store.set('newA',na);setTimeout(sfx.unlock,1300);row(arrowIcon(na,128),tf('newA',{a:t('AR')[na]})+' '+t('ARD')[na])}
     else if(G.newB.length){const b=G.newB[0],c=document.createElement('canvas');c.width=c.height=128;drawBird(c.getContext('2d'),b,64,70,40,true,.5);row(c,tf('newB',{b:t('BD')[b]}))}
-    else if(vb.length){row(null,'🏡 '+tf('vBuilt',{b:t('B')[vb[0].id]}))}
     else if(n%WN===0&&n<LEVELS&&before<=n){row(null,tf('worldOpen',{w:t('W')[n/WN]}))}
     $('#winNext').style.display=n>=LEVELS?'none':'';ov('win',true)},1100)}
 $('#winNext').onclick=()=>{ov('win',false);startGame(G.n+1)};
@@ -1296,6 +1297,24 @@ function renderVillage(){const st=totalStars(),c=$('#vilCv'),wrap=$('#vilWrap'),
   const nb=nx&&nx.id!=='lights'?nx:VILLAGE[VILLAGE.length-2];
   setTimeout(()=>{const uu=art?Math.min(H/6.2,W/L.total):0,fx=art?((W-L.total*uu)/2+L.pos[nb.id]*uu)/W:nb.x;wrap.scrollLeft=Math.max(0,fx*W-wrap.clientWidth/2)},30)}
 function openVillage(){show('village');renderVillage()}
+/* ---------- Baby Mo stickers: one for finishing each world (all 10 levels) ----------
+   The owner's art goes in art/st-1.webp ... st-10.webp; until then Baby Mo poses stand in. */
+const STPH=['mf-f5','mf-r4','mf-a4','mf-f2','mf-w3','mf-f3','mf-r2','mf-f4','mf-f6','mo-win'];
+const stImg=w=>AI('st-'+(w+1))||AI(STPH[w])||AI('mo-win');
+const worldDone=w=>{for(let n=w*WN+1;n<=w*WN+WN;n++)if(!(prog.stars||{})[n])return false;return true};
+const stCache={};
+/* a sticker: the picture with a thick white border; sil = dark silhouette (not earned yet) */
+function stickerCanvas(w,px,sil,im){im=im||stImg(w);const key=w+':'+px+':'+(sil?1:0)+':'+(im&&im.src);if(stCache[key])return stCache[key];
+  const c=document.createElement('canvas');c.width=c.height=px;if(!im)return c;const x=c.getContext('2d'),pad=px*.08,iw=im.naturalWidth,ih=im.naturalHeight,k=Math.min((px-pad*2)/iw,(px-pad*2)/ih),dw=iw*k,dh=ih*k,X=(px-dw)/2,Y=(px-dh)/2;
+  const tint=col=>{const t2=document.createElement('canvas');t2.width=t2.height=px;const y=t2.getContext('2d');y.drawImage(im,X,Y,dw,dh);y.globalCompositeOperation='source-in';y.fillStyle=col;y.fillRect(0,0,px,px);return t2};
+  const wh=tint('#fff'),o=px*.035;x.save();x.shadowColor='rgba(0,30,60,.3)';x.shadowBlur=px*.03;x.shadowOffsetY=px*.015;
+  for(let i=0;i<16;i++){const a=i*Math.PI/8;x.drawImage(wh,Math.cos(a)*o,Math.sin(a)*o)}x.restore();
+  if(sil)x.drawImage(tint('#3d3560'),0,0);else x.drawImage(im,X,Y,dw,dh);
+  if(artLeft<=0)stCache[key]=c;return c}
+function renderStickers(){const el=$('#moStList');el.innerHTML='';prog.stk=prog.stk||{};
+  WORLDS.forEach((WD,w)=>{const got=!!prog.stk[w],d=document.createElement('div');d.className=got?'':'lock';d.append(stickerCanvas(w,208,!got));
+    d.insertAdjacentHTML('beforeend',`<b>${got?t('W')[w]:'?'}</b><small>${got?t('stGot'):tf('stFor',{w:t('W')[w]})}</small>`);el.appendChild(d)});
+  renderStk()}
 /* ---------- Birds I Freed ---------- */
 function renderStk(){const el=$('#stkList');el.innerHTML='';
   BIRDS.forEach(b=>{const d=document.createElement('div'),on=!!prog.birds[b];d.className=on?'':'lock';const c=document.createElement('canvas');c.width=c.height=192;const x=c.getContext('2d');
@@ -1418,30 +1437,39 @@ function renderHomeArt(){
     if(IMG.mo.ok){const h=s*2.2,w=h*IMG.mo.naturalWidth/IMG.mo.naturalHeight;x.drawImage(IMG.mo,W*.04,gy-h,w,h)}
     drawBow(x,bowLook(),W*.3,gy,W*.3,gy-s*1.5,s*.9,.45,.6,'normal');
     x.setLineDash([4,7]);x.strokeStyle='#fff';x.lineWidth=3;x.beginPath();x.moveTo(W*.38,gy-s*1.9);x.quadraticCurveTo(W*.5,gy-s*3.6,W*.6,gy-s*2.9);x.stroke();x.setLineDash([])}
-  const v=$('#cvVil');if(v){const x=v.getContext('2d');x.save();rr(x,0,0,v.width,v.height,0);x.clip();drawVillage(x,v.width,v.height,Math.max(totalStars(),18),true);x.restore()}
+  const v=$('#cvVil');if(v&&0){const x=v.getContext('2d');x.save();rr(x,0,0,v.width,v.height,0);x.clip();drawVillage(x,v.width,v.height,Math.max(totalStars(),18),true);x.restore()}
   const pq=$('#pSdq');if(pq){const x=pq.getContext('2d');x.clearRect(0,0,96,96);const im=AI('coin-sack');if(im)fitImg(x,im,48,50,84,84)}
   const pd=$('#pDaily');if(pd){const x=pd.getContext('2d');x.clearRect(0,0,96,96);const im=AI('target');if(im)fitImg(x,im,48,48,84,84)}
+  /* My Stickers card: a Baby Mo sticker and a bird sticker */
+  if(v){const x=v.getContext('2d'),W=v.width,H=v.height;x.clearRect(0,0,W,H);const ew=WORLDS.findIndex((_,w)=>prog.stk&&prog.stk[w]);
+    x.save();x.translate(W*.62,H*.5);x.rotate(.08);x.drawImage(stickerCanvas(ew<0?-1:ew,220,false,ew<0?AI('mo-point'):null),-110,-110);x.restore();
+    const bc=document.createElement('canvas');bc.width=bc.height=150;drawBird(bc.getContext('2d'),'hoopoe',75,84,48,true,.4);
+    x.save();x.translate(W*.24,H*.62);x.rotate(-.12);x.drawImage(stickerCanvas(-2,130,false,bc),-65,-65);x.restore()}
+  /* Market card: the bow you hold, arrows and a pile of coins */
+  const mk=$('#cvMkt');if(mk){const x=mk.getContext('2d'),W=mk.width,H=mk.height;x.clearRect(0,0,W,H);x.drawImage(bowIcon(bowLook(),190),W*.04,H*.08);
+    const cp=AI('coin-pile');if(cp){const h=H*.42,w2=h*cp.naturalWidth/cp.naturalHeight;x.drawImage(cp,W*.58,H*.5,w2,h)}
+    x.drawImage(arrowIcon('flame',110),W*.55,H*.06);x.drawImage(arrowIcon('diamond',100),W*.7,H*.22)}
   const pl=$('#pLau');if(pl){const x=pl.getContext('2d');x.clearRect(0,0,96,96);x.drawImage(bowIcon(bowLook(),96),0,0)}
   const ps=$('#pStk');if(ps){const x=ps.getContext('2d');x.clearRect(0,0,96,96);drawBird(x,'hoopoe',50,58,28,true,.4)}}
 let idleT=0,idleI=0,idleN=0;
 function stopNudge(){clearTimeout(idleT);clearInterval(idleI);document.querySelectorAll('.mode.nudge').forEach(m=>m.classList.remove('nudge'))}
 function armNudge(){stopNudge();if(cur!=='home')return;idleT=setTimeout(()=>{const step=()=>{if(cur!=='home'||document.querySelector('.ov.on')){stopNudge();return}
-  const ms=[$('#goAdv'),$('#goAdv'),$('#goVil')];ms.forEach(m=>m.classList.remove('nudge'));ms[idleN%3].classList.add('nudge');idleN++};step();idleI=setInterval(step,3200)},4000)}
+  const ms=[$('#goAdv'),$('#goVil'),$('#goAdv'),$('#goLau')];ms.forEach(m=>m.classList.remove('nudge'));ms[idleN%4].classList.add('nudge');idleN++};step();idleI=setInterval(step,3200)},4000)}
 ['pointerdown','keydown','wheel'].forEach(ev=>document.addEventListener(ev,()=>{if(cur==='home')armNudge();else stopNudge()},true));
 function renderHome(){armNudge();paintBg();renderHomeArt();
   $('#advBadge').innerHTML=`<img src="art/star.webp" alt=""> ${totalStars()}`;
-  $('#vilBadge').innerHTML=`<img src="art/star.webp" alt=""> ${totalStars()}`;const nk=BIRDS.filter(b=>prog.birds[b]).length;{const db=$('#dailyBadge');if(db){const dn=prog.daily&&prog.daily.key===todayKey();db.textContent=dn?'✓':'!';db.classList.toggle('ok',!!dn)}}$('#stkBadge').textContent=nk?nk+'/'+BIRDS.length:'';
-  $('#coinBadge').textContent=prog.coins||'';
+  {const ns=Object.keys(prog.stk||{}).length;$('#vilBadge').textContent=ns+'/10'}const nk=BIRDS.filter(b=>prog.birds[b]).length;{const db=$('#dailyBadge');if(db){const dn=prog.daily&&prog.daily.key===todayKey();db.textContent=dn?'✓':'!';db.classList.toggle('ok',!!dn)}}
+  $('#coinBadge').innerHTML=`<img src="art/coin.webp" alt=""> ${prog.coins||0}`;
   document.querySelectorAll('#age button').forEach(b=>b.classList.toggle('on',b.dataset.a===age))}
 $('#age').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;age=b.dataset.a;store.set('age',age);sfx.tap();renderHome()});
 let picking=false;
 function pickMode(btn,go){if(picking)return;picking=true;btn.classList.add('pick');sfx.tap();setTimeout(()=>{btn.classList.remove('pick');picking=false;go()},420)}
 $('#goAdv').onclick=e=>pickMode(e.currentTarget,openMap);
-$('#goLau').onclick=()=>{sfx.tap();renderLau();ov('lauOv',true)};
+$('#goLau').onclick=e=>pickMode(e.currentTarget,()=>{renderLau();ov('lauOv',true)});
 function mkTab(k){document.querySelectorAll('#mkTabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));document.querySelectorAll('#lauOv .mk').forEach(m=>m.hidden=m.dataset.k!==k);store.set('mkTab',k)}
 $('#mkTabs').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;sfx.tap();mkTab(b.dataset.k)});mkTab(store.get('mkTab','bow'));
-$('#goVil').onclick=e=>pickMode(e.currentTarget,openVillage);
-$('#goStk').onclick=()=>{sfx.tap();renderStk();ov('stkOv',true)};
+$('#goVil').onclick=e=>pickMode(e.currentTarget,()=>{renderStickers();ov('stkOv',true)});
+
 $('#goSdq').onclick=()=>{sfx.tap();renderSdq();ov('sdqOv',true)};$('#sdqClose').onclick=()=>{ov('sdqOv',false);renderHome()};
 $('#goDaily').onclick=()=>{sfx.tap();if(prog.daily&&prog.daily.key===todayKey())toast(t('dailyAgain'));startDaily()};
 $('#deedOk').onclick=()=>{ov('deedOv',false);sfx.tap()};
@@ -1457,7 +1485,7 @@ function renderMap(){
     const th=document.createElement('canvas');th.width=640;th.height=280;th.className='wpic';{const x=th.getContext('2d'),W=640,H=280,gy=H*.86;paintWorld(x,w,W,H,gy,H/9);
       const its=WD.items.filter(g=>g!=='cage').slice(0,2).concat(['cage']);its.forEach((g,i)=>{const z=[86,74,80][i];x.save();x.translate(W*[.14,.33,.52][i],gy-z*.55);
         const gl=goalGlow(g,g==='gift'?'pink':g==='gem'?'ruby':'');x.drawImage(gl,-z,-z,z*2,z*2);drawGoal(x,g,g==='cage'?WD.birds[0]:g==='gift'?'pink':g==='gem'?'ruby':'',z);x.restore()});
-      const mo=AI('mf-f5')||AI('mo-win');if(mo){const h=H*.62,mw=h*mo.naturalWidth/mo.naturalHeight;x.drawImage(mo,W*.95-mw,gy-h+H*.03,mw,h)}
+      {const got=prog.stk&&prog.stk[w],sc=stickerCanvas(w,230,!got);x.save();x.translate(W*.83,H*.52);x.rotate(got?.06:0);x.drawImage(sc,-115,-115);x.restore()}
       if(lockW){x.fillStyle='rgba(30,20,60,.45)';x.fillRect(0,0,W,H)}}
     sec.innerHTML=`<div class="wb"><span class="thc"></span><div class="wt"><b>${t('W')[w]}</b><small>${tf('levelsR',{a:first,b:last})}</small></div><span class="ws"><img src="art/star.webp" alt=""> ${st}/${WN*3}</span></div><div class="lvls"></div>`;
     sec.querySelector('.thc').replaceWith(th);

@@ -75,6 +75,7 @@ img{-webkit-user-drag:none}
 .mode .in{flex:1;border-radius:36px;position:relative;overflow:hidden;display:grid;place-items:center}
 .mode.a .in{background:linear-gradient(160deg,#ffcf5a,#ff8a1f)}
 .mode.e .in{background:linear-gradient(160deg,#5fd0ff,#2f7bff)}
+.mode.m .in{background:linear-gradient(160deg,#7ee8a8,#18b07a)}.mode.m{animation-delay:-.7s}
 .mode canvas{position:absolute;inset:4%;width:92%;height:92%;display:block;object-fit:contain}
 .mode .lbl{font:400 clamp(22px,4.4vw,34px)/1 "Lilita One",sans-serif;color:var(--ink);padding:10px 6px 4px;text-align:center}
 .mode .lbl small{display:block;font:800 clamp(12px,2vw,15px) "Baloo 2",sans-serif;color:var(--ink2);margin-top:2px}
@@ -362,6 +363,23 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 .lv .ln{width:18px!important;height:18px!important;right:-5px!important;top:-7px!important;padding:1px!important}
 @media (orientation:landscape){#worlds{max-width:1100px!important;display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.world{margin-bottom:16px!important}.wb .wt b{font-size:22px}}
 .wlock{top:42%!important;font-size:15px!important;padding:6px 14px!important}.wlock img{width:30px!important;height:30px!important}
+
+/* home: three big cards */
+.mode .lbl small{white-space:normal;line-height:1.15}
+@media (orientation:portrait){.modes{gap:8px;padding-left:6px;padding-right:6px;flex-wrap:nowrap}.mode{width:min(29vw,230px)!important;border-radius:30px;padding:6px}.mode .in{border-radius:24px}.mode .lbl{font-size:clamp(17px,5vw,28px);padding:7px 2px 3px}.mode .lbl small{font-size:clamp(9px,2.6vw,13px)}.mode .badge{font-size:12px;padding:1px 7px;left:6px;top:6px}.mode .badge img{width:14px;height:14px}}
+@media (orientation:landscape) and (max-height:560px){.mode{width:min(19vw,26vh + 40px,170px)!important}.modes{gap:10px}.mode .lbl{font-size:20px}}
+/* stickers */
+.mostk{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))!important}
+.mostk canvas{width:104px!important;height:104px!important}
+.mostk div.lock b{color:#9a8f84}
+#stkOv .stkbox{max-width:min(900px,96vw)}
+/* a big Market */
+#lauOv .box{width:min(1000px,96vw);max-width:none!important;height:94vh;max-height:94vh}
+#lauOv .lnch>div>canvas{width:96px!important;height:96px!important}
+#lauOv .lnch.ars{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))!important}
+#lauOv .lnch.bws{grid-template-columns:repeat(4,1fr)!important}
+@media (orientation:portrait){#lauOv .lnch.bws{grid-template-columns:repeat(2,1fr)!important}#lauOv .lnch.ars{grid-template-columns:repeat(3,1fr)!important}#lauOv .lnch>div>canvas{width:80px!important;height:80px!important}}
+#lauOv .lnch b{font-size:18px}#lauOv h3{font-size:clamp(28px,6vw,40px)}#lauOv .mktabs button{font-size:20px;padding:9px 10px}
 </style>
 </head>
 <body>
@@ -390,14 +408,18 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
       </button>
       <button class="mode e" id="goVil"><img class="tapHand" src="ui/hand.webp" alt="">
         <span class="in"><canvas id="cvVil" width="300" height="280"></canvas><span class="badge" id="vilBadge"></span></span>
-        <span class="lbl"><span data-t="village">My Village</span><small data-t="villageS">Build it with your stars</small></span>
+        <span class="lbl"><span data-t="stickers">My Stickers</span><small data-t="stickersS">Collect Baby Mo</small></span>
+      </button>
+      <button class="mode m" id="goLau"><img class="tapHand" src="ui/hand.webp" alt="">
+        <span class="in"><canvas id="cvMkt" width="300" height="280"></canvas><span class="badge" id="coinBadge"></span></span>
+        <span class="lbl"><span data-t="workshop">Market</span><small data-t="marketS">Bows, arrows and more</small></span>
       </button>
     </div>
     <div class="age" id="age">
       <button data-a="little"><span data-t="little">Little</span><small data-t="littleS">Ages 3+</small></button>
       <button data-a="big"><span data-t="big">Big Kid</span><small data-t="bigS">Ages 6+</small></button>
     </div>
-    <div class="homeFoot"><div class="pills"><button class="pill" id="goLau"><canvas id="pLau" width="96" height="96"></canvas><span data-t="workshop">Bow Workshop</span><i id="coinBadge" class="cb"></i></button><button class="pill" id="goStk"><canvas id="pStk" width="96" height="96"></canvas><span data-t="birds">Birds I Freed</span><i id="stkBadge"></i></button><button class="pill" id="goSdq"><canvas id="pSdq" width="96" height="96"></canvas><span data-t="sadaqah">Sadaqah Jar</span></button><button class="pill" id="goDaily"><canvas id="pDaily" width="96" height="96"></canvas><span data-t="daily">Daily Challenge</span><i id="dailyBadge"></i></button></div><p class="legal" data-t="legal">No ads · No data collected · Works offline</p></div>
+    <div class="homeFoot"><div class="pills"><button class="pill" id="goSdq"><canvas id="pSdq" width="96" height="96"></canvas><span data-t="sadaqah">Sadaqah Jar</span></button><button class="pill" id="goDaily"><canvas id="pDaily" width="96" height="96"></canvas><span data-t="daily">Daily Challenge</span><i id="dailyBadge"></i></button></div><p class="legal" data-t="legal">No ads · No data collected · Works offline</p></div>
   </div>
 </section>
 
@@ -530,7 +552,11 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 <!-- ANIMAL FRIENDS -->
 <div class="ov" id="stkOv"><div class="box stkbox">
   <button class="x" id="stkClose" aria-label="Close"><img src="art/b-close.webp" alt=""></button>
-  <h3 data-t="birds">Birds I Freed</h3>
+  <h3 data-t="stickers">My Stickers</h3>
+  <p data-t="stickersP">Finish a world to get its Baby Mo sticker</p>
+  <h4 class="arh" data-t="moSt">Baby Mo stickers</h4>
+  <div class="stk mostk" id="moStList"></div>
+  <h4 class="arh" data-t="birds">Birds I Freed</h4>
   <p data-t="birdsS">Birds in the Qur'an and hadith</p>
   <div class="stk" id="stkList"></div>
 </div></div>
