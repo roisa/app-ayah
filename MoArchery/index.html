@@ -198,6 +198,16 @@ body.ing:not(.land) #toast{top:calc(132px + var(--safeT))}
 @media (prefers-reduced-motion:reduce){.tapfx{display:none}.mode{animation:none}}
 
 /* ---------- overlays ---------- */
+#lvSp{position:fixed;inset:0;z-index:21;display:none;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 50%,#ffe38a 0,#ffb43c 38%,#f07a1e 100%);cursor:pointer}
+#lvSp.on{display:grid;animation:lvIn .25s ease-out}#lvSp.out{animation:lvOut .35s ease-in forwards}
+#lvSp .rays{position:absolute;left:50%;top:50%;width:260vmax;height:260vmax;margin:-130vmax 0 0 -130vmax;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.32) 0 7.5deg,rgba(255,255,255,0) 7.5deg 15deg);animation:lvSpin 9s linear infinite;-webkit-mask:radial-gradient(circle,#000 0,#000 30%,transparent 62%);mask:radial-gradient(circle,#000 0,#000 30%,transparent 62%)}
+#lvSp .c{position:relative;text-align:center;color:#fff;text-shadow:0 4px 0 #b4540c,0 8px 18px rgba(120,50,0,.35)}
+#lvSp .l{font-size:clamp(30px,8vmin,56px);font-weight:900;letter-spacing:1px;animation:lvPop .45s cubic-bezier(.3,1.6,.5,1) both}
+#lvSp .n{font-size:clamp(96px,30vmin,220px);font-weight:900;line-height:.95;animation:lvPop .55s .15s cubic-bezier(.3,1.6,.5,1) both}
+#lvSp .w{display:inline-block;margin-top:10px;font-size:clamp(20px,5.2vmin,34px);font-weight:800;background:rgba(255,255,255,.92);color:#b4540c;text-shadow:none;border-radius:999px;padding:4px 20px;animation:lvPop .45s .5s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes lvSpin{to{transform:rotate(360deg)}}@keyframes lvPop{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
+@keyframes lvIn{from{opacity:0}to{opacity:1}}@keyframes lvOut{to{opacity:0;transform:scale(1.15)}}
+@media (prefers-reduced-motion:reduce){#lvSp .rays{animation:none}}
 .ov{position:fixed;inset:0;z-index:20;display:none;place-items:center;padding:16px;background:rgba(58,36,16,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 .ov.on{display:grid}
 .box{background:#fff;border-radius:40px;padding:22px 20px 20px;max-width:440px;width:100%;text-align:center;box-shadow:var(--shadow);position:relative;animation:pop .35s cubic-bezier(.3,1.6,.5,1);max-height:calc(100dvh - 32px);overflow-y:auto;border:6px solid #ffe2a8}
@@ -463,6 +473,9 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 
 <canvas id="fx"></canvas>
 <img id="hint" src="ui/hand.webp" alt="">
+
+<!-- LEVEL SPLASH: sunburst, the number is read aloud -->
+<div id="lvSp"><div class="rays"></div><div class="c"><div class="l"></div><div class="n"></div><div class="w"></div></div></div>
 
 <!-- BISMILLAH -->
 <div class="ov" id="bism"><div class="box">

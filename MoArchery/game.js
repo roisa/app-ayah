@@ -11,7 +11,7 @@ function seeded(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let q=Math.imul(s^s>>>15,1|s
 const TXT={
 en:{tag:'Play Games the Islamic Way',play:'Play',playS:'100 levels in 10 worlds',stickers:'My Stickers',stickersS:'Collect Baby Mo',stickersP:'Finish a world to get its Baby Mo sticker',moSt:'Baby Mo stickers',stFor:'Finish {w}',stGot:'You got it!',newSt:'New sticker: {w} Mo!',marketS:'Bows, arrows and more',
  little:'Little',littleS:'Ages 3+',big:'Big Kid',bigS:'Ages 6+',legal:'No ads · No data collected · Works offline',
- level:'Level {n}',holdR:'Hold to start again',bismS:'Say Bismillah before we start',bismB:'Bismillah!',
+ lvWord:'Level',level:'Level {n}',holdR:'Hold to start again',bismS:'Say Bismillah before we start',bismB:'Bismillah!',
  mGoal:'Break the barriers and collect every treasure!',
  alh:'Alhamdulillah!',dyk:'Did you know?',next:'Next',retry:'Try again',overT:'So close!',overP:"No more arrows. Let's try again!",
  lvlDone:'Level {n} complete!',allDone:'You finished every level, MasyaAllah!',
@@ -65,7 +65,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'100 levels in 10 worlds'
   robin:'If we truly trust Allah, He provides for us as He provides for the birds: they fly out hungry in the morning and come back full in the evening. (Jami\' at-Tirmidhi 2344)'}},
 id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'100 level di 10 dunia',stickers:'Stiker Saya',stickersS:'Kumpulkan Baby Mo',stickersP:'Selesaikan sebuah dunia untuk mendapat stiker Baby Mo',moSt:'Stiker Baby Mo',stFor:'Selesaikan {w}',stGot:'Sudah dapat!',newSt:'Stiker baru: Mo {w}!',marketS:'Busur, panah dan lainnya',
  little:'Kecil',littleS:'Usia 3+',big:'Besar',bigS:'Usia 6+',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
- level:'Level {n}',holdR:'Tahan untuk mulai lagi',bismS:'Ucapkan Bismillah sebelum mulai',bismB:'Bismillah!',
+ lvWord:'Level',level:'Level {n}',holdR:'Tahan untuk mulai lagi',bismS:'Ucapkan Bismillah sebelum mulai',bismB:'Bismillah!',
  mGoal:'Hancurkan penghalangnya dan kumpulkan semua hartanya!',
  alh:'Alhamdulillah!',dyk:'Tahukah kamu?',next:'Lanjut',retry:'Coba lagi',overT:'Hampir!',overP:'Anak panahnya habis. Ayo coba lagi!',
  lvlDone:'Level {n} selesai!',allDone:'Semua level sudah selesai, MasyaAllah!',
@@ -1047,8 +1047,22 @@ function startGame(n,lvo){
   $('#lvlChip').textContent=G.daily?t('dailyChip'):tf('level',{n});
   $('#bismGoal').textContent=t('mGoal');
   $('#bismGoals').innerHTML='';goalKeys(G.sim).forEach(e=>{const sp=document.createElement('span');sp.append(keyIcon(e.key,88),document.createTextNode('× '+e.total));$('#bismGoals').appendChild(sp)});
-  ov('bism',true);
+  if(G.daily)ov('bism',true);else lvSplash(n);
   if(innerHeight>innerWidth*1.15){const r=$('#rot');r.classList.remove('on');void r.offsetWidth;r.classList.add('on')}}
+/* Level splash: a spinning sunburst with the level number, read aloud so kids learn to say numbers. Tap to skip. */
+function numWords(n){if(lang==='id'){const u=['','satu','dua','tiga','empat','lima','enam','tujuh','delapan','sembilan'];
+    if(n>=100)return 'seratus';if(n<10)return u[n];if(n===10)return 'sepuluh';if(n===11)return 'sebelas';if(n<20)return u[n-10]+' belas';
+    return (n<20?'':u[Math.floor(n/10)]+' puluh')+(n%10?' '+u[n%10]:'')}
+  const o=['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'],
+    d=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  if(n>=100)return 'one hundred';if(n<20)return o[n];return d[Math.floor(n/10)]+(n%10?'-'+o[n%10]:'')}
+let lvSpT=0;
+function lvSplash(n){const el=$('#lvSp');el.querySelector('.l').textContent=t('lvWord');el.querySelector('.n').textContent=n;el.querySelector('.w').textContent=numWords(n);
+  el.classList.remove('out');el.classList.add('on');sfx.unlock();setTimeout(()=>say(t('lvWord')+' '+n),250);
+  clearTimeout(lvSpT);lvSpT=setTimeout(lvSplashEnd,2300)}
+function lvSplashEnd(){clearTimeout(lvSpT);const el=$('#lvSp');if(!el.classList.contains('on')||el.classList.contains('out'))return;
+  el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');if(G&&G.state==='bism'&&cur==='game')ov('bism',true)},350)}
+$('#lvSp').addEventListener('pointerdown',e=>{e.preventDefault();lvSplashEnd()});
 function goalKeys(S){const m=new Map();for(const g of S.goals){const e=m.get(g.key)||{key:g.key,total:0,left:0};e.total++;if(!g.done)e.left++;m.set(g.key,e)}return[...m.values()]}
 function keyIcon(key,px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d');x.translate(px/2,px/2+px*.04);const [,g,v]=key.split(':');
   drawGoal(x,g,v||(g==='gift'?'pink':g==='gem'?'ruby':g==='cage'?'sparrow':''),px*.72);return c}
@@ -1219,13 +1233,13 @@ try{history.replaceState({s:'home',i:0},'')}catch(e){}
 let btnNav=false;
 window.addEventListener('popstate',e=>{
   if(!btnNav&&cur!=='home'){try{history.pushState({s:cur,i:((e.state&&e.state.i)||0)+1},'')}catch(_){}return}
-  btnNav=false;['bism','win','over','lauOv','stkOv','sdqOv','deedOv','gate'].forEach(id=>ov(id,false));
+  btnNav=false;clearTimeout(lvSpT);$('#lvSp').classList.remove('on','out');['bism','win','over','lauOv','stkOv','sdqOv','deedOv','gate'].forEach(id=>ov(id,false));
   const s=(e.state&&e.state.s)||'home';if(s==='game'&&!G){show('home',false);renderHome();return}
   show(s,false);if(s==='home'){G=null;renderHome()}if(s==='map'){G=null;renderMap()}if(s==='village')renderVillage()});
 function goBack(){if(history.state&&history.state.s!=='home'){btnNav=true;history.back()}else{show('home');renderHome()}}
 function goHome(){const i=(history.state&&history.state.i)||0;G=null;if(i>0&&history.state.s!=='home'){btnNav=true;history.go(-i)}else{show('home',false);renderHome()}}
 document.querySelectorAll('.back').forEach(b=>b.addEventListener('click',()=>{sfx.tap();goBack()}));
-$('#gHome').onclick=()=>{sfx.tap();['bism','win','over'].forEach(id=>ov(id,false));goHome()};
+$('#gHome').onclick=()=>{sfx.tap();clearTimeout(lvSpT);$('#lvSp').classList.remove('on','out');['bism','win','over'].forEach(id=>ov(id,false));goHome()};
 document.addEventListener('touchstart',e=>{if(cur!=='game'||!e.touches.length)return;const x=e.touches[0].clientX;if((x<28||x>innerWidth-28)&&!e.target.closest('button'))e.preventDefault()},{passive:false});
 document.addEventListener('contextmenu',e=>e.preventDefault());
 function holdable(el,ms,done,onTap){
