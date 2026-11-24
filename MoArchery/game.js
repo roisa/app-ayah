@@ -1446,16 +1446,16 @@ function dailyWin(){G.won=true;G.state='end';const first=!(prog.daily&&prog.dail
 function paintBg(){const c=$('#bg'),d=DPR(),W=innerWidth,H=innerHeight;c.width=Math.round(W*d);c.height=Math.round(H*d);const x=c.getContext('2d');x.scale(d,d);
   paintWorld(x,0,W,H,H*.88,Math.min(W,H)/12,false,true)}
 function renderHomeArt(){
-  const a=$('#cvAdv');if(a){const x=a.getContext('2d'),W=a.width,H=a.height,s=W/7.2;x.clearRect(0,0,W,H);
+  const a=$('#cvAdv');if(a){const x=a.getContext('2d'),W=a.width,H=a.height,s=Math.min(W/7.2,H/3.9);x.clearRect(0,0,W,H);
     const gy=H*.9;x.fillStyle='#7ad35a';x.fillRect(0,gy,W,H-gy);x.strokeStyle=OUT;x.lineWidth=2;x.beginPath();x.moveTo(0,gy);x.lineTo(W,gy);x.stroke();
-    const bx=W*.7;const blk=(X,Y,w,h,m)=>{x.save();x.translate(X,Y);drawBlock(x,{w,h,mat:m,dmg:0,hp:1,x:X,y:Y,k:'box'},s);x.restore()};
+    x.save();const V=7.2*s;x.translate((W-V)/2,0);const bx=V*.7;const blk=(X,Y,w,h,m)=>{x.save();x.translate(X,Y);drawBlock(x,{w,h,mat:m,dmg:0,hp:1,x:X,y:Y,k:'box'},s);x.restore()};
     blk(bx-s*.95,gy-s*.85,PW,PH,'brick');blk(bx+s*.95,gy-s*.85,PW,PH,'wood');blk(bx,gy-s*1.9,2.3,PT,'glass');
     x.save();x.translate(bx,gy-s*.55);drawGoal(x,'chest','',s*1.1);x.restore();
     x.save();x.translate(bx,gy-s*2.66);drawGoal(x,'cage','hoopoe',s*1.1);x.restore();
-    x.save();x.translate(W*.5,gy-s*3.4);coinDraw(x,0,0,s*.3);x.restore();
-    if(IMG.mo.ok){const h=s*2.2,w=h*IMG.mo.naturalWidth/IMG.mo.naturalHeight;x.drawImage(IMG.mo,W*.04,gy-h,w,h)}
-    drawBow(x,bowLook(),W*.3,gy,W*.3,gy-s*1.5,s*.9,.45,.6,'normal');
-    x.setLineDash([4,7]);x.strokeStyle='#fff';x.lineWidth=3;x.beginPath();x.moveTo(W*.38,gy-s*1.9);x.quadraticCurveTo(W*.5,gy-s*3.6,W*.6,gy-s*2.9);x.stroke();x.setLineDash([])}
+    x.save();x.translate(V*.5,gy-s*3.4);coinDraw(x,0,0,s*.3);x.restore();
+    if(IMG.mo.ok){const h=s*2.2,w=h*IMG.mo.naturalWidth/IMG.mo.naturalHeight;x.drawImage(IMG.mo,V*.04,gy-h,w,h)}
+    drawBow(x,bowLook(),V*.3,gy,V*.3,gy-s*1.5,s*.9,.45,.6,'normal');
+    x.setLineDash([4,7]);x.strokeStyle='#fff';x.lineWidth=3;x.beginPath();x.moveTo(V*.38,gy-s*1.9);x.quadraticCurveTo(V*.5,gy-s*3.6,V*.6,gy-s*2.9);x.stroke();x.setLineDash([]);x.restore()}
   const v=$('#cvVil');if(v&&0){const x=v.getContext('2d');x.save();rr(x,0,0,v.width,v.height,0);x.clip();drawVillage(x,v.width,v.height,Math.max(totalStars(),18),true);x.restore()}
   const pq=$('#pSdq');if(pq){const x=pq.getContext('2d');x.clearRect(0,0,96,96);const im=AI('coin-sack');if(im)fitImg(x,im,48,50,84,84)}
   const pd=$('#pDaily');if(pd){const x=pd.getContext('2d');x.clearRect(0,0,96,96);const im=AI('target');if(im)fitImg(x,im,48,48,84,84)}

@@ -380,6 +380,19 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 .mode .lbl small{white-space:normal;line-height:1.15}
 @media (orientation:portrait){.modes{gap:8px;padding-left:6px;padding-right:6px;flex-wrap:nowrap}.mode{width:min(29vw,230px)!important;border-radius:30px;padding:6px}.mode .in{border-radius:24px}.mode .lbl{font-size:clamp(17px,5vw,28px);padding:7px 2px 3px}.mode .lbl small{font-size:clamp(9px,2.6vw,13px)}.mode .badge{font-size:12px;padding:1px 7px;left:6px;top:6px}.mode .badge img{width:14px;height:14px}}
 @media (orientation:landscape) and (max-height:560px){.mode{width:min(19vw,26vh + 40px,170px)!important}.modes{gap:10px}.mode .lbl{font-size:20px}}
+/* home: Play is the big card on top, My Stickers and Market sit below it in two columns */
+.modes{display:grid!important;grid-template-columns:1fr 1fr;gap:12px!important;width:min(92vw,500px);margin:0 auto;padding:clamp(8px,1.6vh,20px) 0 8px!important;flex-wrap:nowrap}
+.modes .mode{width:auto!important}
+.modes .mode.a{grid-column:1/-1;aspect-ratio:auto;border-radius:40px;padding:8px}.modes .mode.a .in{aspect-ratio:2/1;flex:none;border-radius:32px}
+.modes .mode.a .lbl{font-size:clamp(30px,8vw,46px);padding:8px 6px 4px}.modes .mode.a .lbl small{font-size:clamp(12px,3vw,16px)}
+.modes .mode.e,.modes .mode.m{aspect-ratio:auto}.modes .mode.e .in,.modes .mode.m .in{aspect-ratio:1.35/1;flex:none}
+@media (orientation:landscape){
+ #home .scroll{display:grid;grid-template-columns:1fr auto;grid-template-areas:"hero modes" "age modes" "foot modes";align-items:center;align-content:center;column-gap:12px;padding:0 calc(16px + var(--safeR)) 0 calc(12px + var(--safeL))}
+ #home .hero{grid-area:hero}.age{grid-area:age}.homeFoot{grid-area:foot}
+ .modes{grid-area:modes;width:min(46vw,calc((100vh - 165px)*1.25),520px);gap:8px!important;padding:0 0 8px!important}
+ .modes .mode.a .lbl{font-size:clamp(22px,4.6vh,40px);padding:4px 4px 2px}.modes .mode.a .lbl small{font-size:12px}
+ .modes .mode.e .lbl,.modes .mode.m .lbl{font-size:clamp(15px,2.8vh,24px);padding:3px 2px 1px}.modes .mode.e .lbl small,.modes .mode.m .lbl small{display:none}
+ .modes .mode.e .in,.modes .mode.m .in{aspect-ratio:1.7/1}}
 /* stickers */
 .mostk{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))!important}
 .mostk canvas{width:104px!important;height:104px!important}
@@ -415,7 +428,7 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
     </div>
     <div class="modes">
       <button class="mode a" id="goAdv"><img class="tapHand" src="ui/hand.webp" alt="">
-        <span class="in"><canvas id="cvAdv" width="300" height="280"></canvas><span class="badge" id="advBadge"></span></span>
+        <span class="in"><canvas id="cvAdv" width="600" height="300"></canvas><span class="badge" id="advBadge"></span></span>
         <span class="lbl"><span data-t="play">Play</span><small data-t="playS">60 levels in 6 worlds</small></span>
       </button>
       <button class="mode e" id="goVil"><img class="tapHand" src="ui/hand.webp" alt="">
