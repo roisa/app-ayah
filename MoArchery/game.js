@@ -904,11 +904,22 @@ function goalGlow(g,v){const key=g+':'+v;if(glowC[key])return glowC[key];const S
   x.shadowColor='rgba(255,226,90,1)';x.shadowBlur=26;x.shadowOffsetX=2000;
   for(let i=0;i<4;i++){x.save();x.translate(S-2000,S);drawGoal(x,g,v,S);x.restore()}
   if(artLeft<=0)glowC[key]=c;return c}
+/* wind: soft white lines drifting across the sky in the wind's direction; more, longer and faster when the wind is strong */
+function drawWindLines(x,now,wv){const W=innerWidth,H=innerHeight,a=Math.abs(wv),dir=Math.sign(wv),n=Math.round(4+a*3),sp=110+a*120,L=90+a*50,span=W+L*2;
+  x.save();x.lineCap='round';x.lineJoin='round';
+  for(let i=0;i<n;i++){const r1=((i*7919)%997)/997,r2=((i*104729)%991)/991,per=span/sp*1000,t0=(now+r1*per)%per/per;
+    const px=dir>0?-L+t0*span:W+L-t0*span,py=H*(.12+r2*.58)+Math.sin(now/500+i)*6,fade=Math.sin(t0*Math.PI);
+    const pts=[];for(let k=0;k<=10;k++){const u=k/10;pts.push([px-dir*u*L,py+Math.sin(u*Math.PI*2+now/220+i)*5*(1-u)])}
+    const tail=i%3===0;x.globalAlpha=Math.min(1,fade*1.6)*.9;
+    for(const [lw,c] of [[7,'rgba(40,95,140,.3)'],[3.6,'#fff']]){x.lineWidth=lw;x.strokeStyle=c;x.beginPath();x.moveTo(pts[0][0],pts[0][1]);for(const q of pts)x.lineTo(q[0],q[1]);
+      if(tail){/* a little curl at the front */const [hx,hy]=pts[0];x.moveTo(hx,hy);x.quadraticCurveTo(hx+dir*14,hy-3,hx+dir*10,hy-13);x.quadraticCurveTo(hx+dir*4,hy-17,hx,hy-10)}x.stroke()}}
+  x.restore()}
 function drawGame(now){
   const d=DPR(),x=cx,s=cam.s,S=G.sim,w=G.lv.w;x.setTransform(1,0,0,1,0,0);drawBg();x.setTransform(d,0,0,d,0,0);
   /* a little screen shake when big things break */
   if(shakeA>.3){x.translate((Math.random()-.5)*shakeA,(Math.random()-.5)*shakeA);shakeA*=.86}else shakeA=0;
   for(const u of S.list)if(u.k==='rock'){x.save();x.translate(sx(u.x),sy(u.y));rockDraw(x,u,s,w);x.restore()}
+  if(G.lv.wind)drawWindLines(x,now,G.lv.wind);
   // Mo
   const puppet=moReady();
   if(puppet&&G.won&&AI('mo-win')&&!mfReady()){const im=AI('mo-win'),h=2.3*s,w=h*im.naturalWidth/im.naturalHeight,hop=Math.abs(Math.sin(now/180))*s*.3;x.drawImage(im,sx(LX-.2)-w/2,sy(0)-h-hop,w,h)}
