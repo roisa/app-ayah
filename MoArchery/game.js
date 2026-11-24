@@ -949,7 +949,9 @@ function drawGame(now){
 /* the aiming pad: a wide ring with a yellow button. The button moves opposite to the shot, like pulling a bowstring. */
 function drawPad(x,now){if(G.won||G.state==='bism'||G.shots<=0)return;const P=padGeo(),{cx,cy,R}=P,aim=G.aim,live=G.state==='ready'||G.state==='aim';
   /* minimal: a thin ring, a white button, a thin angle arc and a growing power arrow */
-  const away=Math.abs(cam.x-cam.min)>1&&!aim;x.save();x.globalAlpha=live&&!away?1:.3;x.lineCap='round';x.lineJoin='round';
+  /* hidden while the arrow flies; fades back in when Mo is ready to aim again */
+  if(!live)return;const fin=G.readyT&&now-G.readyT<450?Math.max(0,(now-G.readyT)/450):1;
+  const away=Math.abs(cam.x-cam.min)>1&&!aim;x.save();x.globalAlpha=(away?.3:1)*fin;x.lineCap='round';x.lineJoin='round';
   const shade=b=>{x.shadowColor='rgba(0,40,80,.28)';x.shadowBlur=b;x.shadowOffsetY=b/4};
   const canc=aim&&aim.p<CANCEL&&G.state==='aim';
   /* entering the cancel spot: a little click and a short buzz on phones */
