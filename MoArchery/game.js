@@ -43,7 +43,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  daily:'Daily Challenge',dailyS:'A new level every day',dailyDone:'Daily challenge done! +{n} coins · day {d} in a row',dailyChip:'Daily',dailyAgain:'Done today. Come back tomorrow for a new one!',
  newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',lookTip:'Drag on the right side to look around!',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',noA:'No more: {a}!',overTL:'Let\'s try again!',overPL:'All the arrows are used up. Think about which arrow breaks which barrier, and try again!',bonusA:'+1 arrow!',
  IT:{chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
- tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the firework barrel to break everything around it!'},
+ tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the bomb to break everything around it!'},
  wind:'Wind! It pushes your arrows.',
  workshop:'Market',workshopS:'Buy bows, looks and more with your coins',tabBow:'Bows',tabArrow:'Arrows',tabMo:'Baby Mo',upT:'More arrows, longer aim line',bowsT:'Bows',power:'Power {n}',needPrev:'Buy the {b} first!',bowLook:'Bow colour',bowSize:'Bow size',BSK:{classic:'Wood',leaf:'Leaf',pink:'Pink',ice:'Ice',night:'Night',rainbow:'Rainbow',gold:'Gold'},BSZ:{small:'Small',normal:'Normal',big:'Big'},moSoon:'Hats, pets and a horse for Baby Mo are coming soon, in sha Allah!',coinsWon:'+{n} coins',buy:'Buy',maxed:'Best!',needC:'Open more treasures to get coins!',upDone:'Upgraded: {u}!',arrowsT:'Arrows',
  UP:{bow:'Bow',quiver:'Quiver',sight:'Aim sight'},
@@ -97,7 +97,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  daily:'Tantangan Harian',dailyS:'Level baru setiap hari',dailyDone:'Tantangan harian selesai! +{n} koin · hari ke-{d} berturut-turut',dailyChip:'Harian',dailyAgain:'Sudah selesai hari ini. Datang lagi besok!',
  newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',lookTip:'Geser di sisi kanan untuk melihat sekeliling!',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',noA:'Habis: {a}!',overTL:'Ayo coba lagi!',overPL:'Anak panahnya sudah habis. Pikirkan panah mana yang bisa memecahkan penghalangnya, lalu coba lagi!',bonusA:'+1 anak panah!',
  IT:{chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
- tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak tong kembang api untuk memecahkan semua di sekitarnya!'},
+ tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak bomnya untuk memecahkan semua di sekitarnya!'},
  wind:'Ada angin! Anak panahmu akan terdorong.',
  workshop:'Pasar',workshopS:'Beli busur, hiasan dan lainnya dengan koinmu',tabBow:'Busur',tabArrow:'Panah',tabMo:'Baby Mo',upT:'Lebih banyak panah, garis bidik lebih panjang',bowsT:'Busur',power:'Kekuatan {n}',needPrev:'Beli {b} dulu!',bowLook:'Warna busur',bowSize:'Ukuran busur',BSK:{classic:'Kayu',leaf:'Daun',pink:'Merah muda',ice:'Es',night:'Malam',rainbow:'Pelangi',gold:'Emas'},BSZ:{small:'Kecil',normal:'Biasa',big:'Besar'},moSoon:'Topi, hewan peliharaan dan kuda untuk Baby Mo segera hadir, in sya Allah!',coinsWon:'+{n} koin',buy:'Beli',maxed:'Terbaik!',needC:'Buka lebih banyak harta untuk mendapat koin!',upDone:'Ditingkatkan: {u}!',arrowsT:'Anak panah',
  UP:{bow:'Busur',quiver:'Tabung panah',sight:'Bidikan'},
@@ -689,7 +689,22 @@ function drawGoal(x,g,v,s){
   const im=AI(GOALIMG(g,v));if(!im){drawGoalC(x,g,v,s);return}fitImg(x,im,0,0,s*1.05,s*1.05)}
 function drawBird(x,v,cx,cy,r,happy,flap){const im=AI((happy?'fly-':'bird-')+v);if(!im){drawBirdC(x,v,cx,cy,r,happy,flap);return}
   fitImg(x,im,cx,cy,r*2.6,r*2.6)}
-function drawBarrel(x,s){const im=AI('barrel');if(!im){drawBarrelC(x,s);return}fitImg(x,im,0,-s*.08,s*1.05,s*1.2)}
+function drawBarrel(x,s){const im=AI('bomb');if(im){fitImg(x,im,0,-s*.08,s*1.05,s*1.2);return}drawBomb(x,s)}
+/* round black bomb with a fuse and a flickering spark; sits in the same 0.8 x 0.9 box as the old barrel */
+function drawBomb(x,s){const r=s*.4,cy=s*.05,now=performance.now(),l=Math.max(1.5,s*.05);x.save();x.lineJoin='round';x.lineCap='round';
+  const g=x.createRadialGradient(-r*.35,cy-r*.4,r*.1,0,cy,r);g.addColorStop(0,'#6b6f86');g.addColorStop(.6,'#2c2f40');g.addColorStop(1,'#15161f');
+  x.beginPath();x.arc(0,cy,r,0,7);x.fillStyle=g;x.fill();x.lineWidth=l;x.strokeStyle=OUT;x.stroke();
+  x.beginPath();x.ellipse(-r*.38,cy-r*.42,r*.22,r*.12,-.6,0,7);x.fillStyle='rgba(255,255,255,.55)';x.fill();
+  // cap
+  x.save();x.translate(r*.42,cy-r*.78);x.rotate(.6);rr(x,-r*.2,-r*.16,r*.4,r*.3,r*.06);x.fillStyle='#9aa0b4';x.fill();x.lineWidth=l*.8;x.strokeStyle=OUT;x.stroke();x.restore();
+  // fuse
+  const fx=r*.62,fy=cy-r*1.02,ex=r*1.05,ey=cy-r*1.5;x.beginPath();x.moveTo(fx,fy);x.quadraticCurveTo(r*.95,cy-r*1.05,ex,ey);x.lineWidth=l*1.6;x.strokeStyle=OUT;x.stroke();x.lineWidth=l*.9;x.strokeStyle='#e8c690';x.stroke();
+  // spark
+  const k=.8+.3*Math.sin(now/60)+.15*Math.sin(now/23);x.save();x.translate(ex,ey);x.rotate(now/400);
+  const gw=x.createRadialGradient(0,0,0,0,0,r*.75*k);gw.addColorStop(0,'rgba(255,220,80,.9)');gw.addColorStop(1,'rgba(255,140,0,0)');x.fillStyle=gw;x.beginPath();x.arc(0,0,r*.75*k,0,7);x.fill();
+  x.beginPath();for(let i=0;i<16;i++){const a=i*Math.PI/8,rr2=(i%2?r*.2:r*.52)*k;x.lineTo(Math.cos(a)*rr2,Math.sin(a)*rr2)}x.closePath();x.fillStyle='#ffb020';x.fill();x.lineWidth=l*.6;x.strokeStyle='#ff6a00';x.stroke();
+  x.beginPath();x.arc(0,0,r*.16*k,0,7);x.fillStyle='#fff8c0';x.fill();x.restore();
+  x.restore()}
 function drawBundle(x,s){const im=AI('bundle');if(!im){drawBundleC(x,s);return}fitImg(x,im,0,0,s*.95,s*.95)}
 function coinDraw(x,cx,cy,r){const im=AI('coin');if(!im){coinDrawC(x,cx,cy,r);return}x.drawImage(im,cx-r,cy-r,r*2,r*2)}
 /* arrow images point up-right at 45 degrees; one=true draws a single arrow for the triple kind (each flying arrow is one) */
@@ -849,6 +864,7 @@ function rockDrawC(x,u,s,w){const W=u.w*s,H=u.h*s;rr(x,-W/2,-H/2,W,H+s*.2,s*.35)
 const cv=$('#cv'),cx=cv.getContext('2d'),fxc=$('#fx'),fxx=fxc.getContext('2d');
 let G=null,cam={s:30,ox:0,oy:0,W:0,H:0},bgCache=null,parts=[],flyers=[],texts=[],conf=[];
 let prog=store.get('prog',{open:1,stars:{}});if(!prog.eco2){prog.coins=Math.ceil((prog.coins||0)/20);prog.eco2=1;store.set('prog',prog)}
+let newWorldMsg=null;{let hi=0;for(const k in prog.stars||{})if(prog.stars[k])hi=Math.max(hi,+k);if((prog.open||1)<=hi&&hi<LEVELS){prog.open=hi+1;if(hi%WN===0)newWorldMsg=hi/WN;store.set('prog',prog)}}
 if(prog.coins==null)prog.coins=0;if(!prog.up)prog.up={bow:0,quiver:0,sight:0};if(!prog.birds)prog.birds={};
 /* Little (3+): every level is open, so young children can play any stage. Big Kid unlocks them one by one. */
 const openTo=()=>age==='little'?LEVELS:prog.open;
@@ -1419,7 +1435,7 @@ $('#goDaily').onclick=()=>{sfx.tap();if(prog.daily&&prog.daily.key===todayKey())
 $('#deedOk').onclick=()=>{ov('deedOv',false);sfx.tap()};
 $('#stkClose').onclick=()=>ov('stkOv',false);
 $('#lauClose').onclick=()=>{ov('lauOv',false);renderHome()};
-function openMap(){renderMap();show('map');const c=$('#worlds .lv.cur')||[...document.querySelectorAll('#worlds .lv:not(.lock)')].pop();if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),60)}
+function openMap(){renderMap();show('map');if(newWorldMsg!=null){const w=newWorldMsg;newWorldMsg=null;setTimeout(()=>{toast(tf('worldOpen',{w:t('W')[w]}));sfx.unlock()},500)}const c=$('#worlds .lv.cur')||[...document.querySelectorAll('#worlds .lv:not(.lock)')].pop();if(c)setTimeout(()=>c.scrollIntoView({block:'center'}),60)}
 function renderMap(){
   $('#mapSum').innerHTML=`<img src="art/star.webp" alt=""><span>${totalStars()}/${LEVELS*3}</span>`;
   const el=$('#worlds');el.innerHTML='';
