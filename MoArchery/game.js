@@ -40,6 +40,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'100 levels in 10 worlds'
   village:'You will never reach true goodness until you spend from what you love. (Surah Ali \'Imran 3:92)'},
  trailsT:'Arrow trails',use:'Use',using:'Using',TR:{none:'No trail',rainbow:'Rainbow',stars:'Stars',hearts:'Hearts',lantern:'Lantern glow',gold:'Gold sparkle'},
  BG:{sharp:'Sharp shooter',simple:'Simple archer',coins:'Coin catcher'},BGD:{sharp:'Finish with few arrows',simple:'Use only normal arrows',coins:'Catch every coin in the air'},newBadge:'+{n} coins for new badges!',
+ inst:'Add to Home Screen',instT:'Add Mo Archery to your Home Screen',instS:'It opens full screen like an app, and works offline.',iosA:'Tap the Share button in Safari',iosB:'Choose “Add to Home Screen”',iosC:'Tap “Add”, then open Mo Archery from your Home Screen',anA:'Tap the menu button of your browser',anB:'Choose “Add to Home screen” or “Install app”',anC:'Confirm, then open Mo Archery from your Home Screen',instOk:'Mo Archery is on your Home Screen!',
  daily:'Daily Challenge',dailyS:'A new level every day',dailyDone:'Daily challenge done! +{n} coins · day {d} in a row',dailyChip:'Daily',dailyAgain:'Done today. Come back tomorrow for a new one!',
  newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',lookTip:'Drag on the right side to look around!',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',noA:'No more: {a}!',overTL:'Let\'s try again!',overPL:'All the arrows are used up. Think about which arrow breaks which barrier, and try again!',bonusA:'+1 arrow!',
  IT:{opal:'Fire opal',nugget:'Golden stone',egg:'Dinosaur egg',amber:'Amber',orb:'Rainbow orb',feather:'Golden feather',heart:'Crystal heart',diamond:'Blue diamond',chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
@@ -94,6 +95,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'100 level di 10 dunia',s
   village:'Kamu tidak akan sampai kepada kebajikan sebelum kamu menginfakkan sebagian harta yang kamu cintai. (QS Ali \'Imran: 92)'},
  trailsT:'Jejak panah',use:'Pakai',using:'Dipakai',TR:{none:'Tanpa jejak',rainbow:'Pelangi',stars:'Bintang',hearts:'Hati',lantern:'Cahaya lentera',gold:'Kilau emas'},
  BG:{sharp:'Pemanah jitu',simple:'Pemanah sederhana',coins:'Penangkap koin'},BGD:{sharp:'Selesai dengan sedikit panah',simple:'Hanya pakai panah biasa',coins:'Ambil semua koin di udara'},newBadge:'+{n} koin untuk lencana baru!',
+ inst:'Tambah ke Layar Utama',instT:'Tambahkan Mo Archery ke Layar Utama',instS:'Terbuka layar penuh seperti aplikasi, dan bisa dimainkan tanpa internet.',iosA:'Ketuk tombol Bagikan di Safari',iosB:'Pilih “Tambah ke Layar Utama”',iosC:'Ketuk “Tambah”, lalu buka Mo Archery dari Layar Utama',anA:'Ketuk tombol menu di browser',anB:'Pilih “Tambahkan ke Layar utama” atau “Instal aplikasi”',anC:'Konfirmasi, lalu buka Mo Archery dari Layar Utama',instOk:'Mo Archery sudah ada di Layar Utama!',
  daily:'Tantangan Harian',dailyS:'Level baru setiap hari',dailyDone:'Tantangan harian selesai! +{n} koin · hari ke-{d} berturut-turut',dailyChip:'Harian',dailyAgain:'Sudah selesai hari ini. Datang lagi besok!',
  newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',lookTip:'Geser di sisi kanan untuk melihat sekeliling!',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',noA:'Habis: {a}!',overTL:'Ayo coba lagi!',overPL:'Anak panahnya sudah habis. Pikirkan panah mana yang bisa memecahkan penghalangnya, lalu coba lagi!',bonusA:'+1 anak panah!',
  IT:{opal:'Opal api',nugget:'Batu emas',egg:'Telur dinosaurus',amber:'Ambar',orb:'Bola pelangi',feather:'Bulu emas',heart:'Hati kristal',diamond:'Berlian biru',chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
@@ -1250,7 +1252,7 @@ try{history.replaceState({s:'home',i:0},'')}catch(e){}
 let btnNav=false;
 window.addEventListener('popstate',e=>{
   if(!btnNav&&cur!=='home'){try{history.pushState({s:cur,i:((e.state&&e.state.i)||0)+1},'')}catch(_){}return}
-  btnNav=false;clearTimeout(lvSpT);$('#lvSp').classList.remove('on','out');['bism','win','over','lauOv','stkOv','sdqOv','deedOv','gate'].forEach(id=>ov(id,false));
+  btnNav=false;clearTimeout(lvSpT);$('#lvSp').classList.remove('on','out');['bism','win','over','lauOv','stkOv','sdqOv','deedOv','gate','instOv'].forEach(id=>ov(id,false));
   const s=(e.state&&e.state.s)||'home';if(s==='game'&&!G){show('home',false);renderHome();return}
   show(s,false);if(s==='home'){G=null;renderHome()}if(s==='map'){G=null;renderMap()}if(s==='village')renderVillage()});
 function goBack(){if(history.state&&history.state.s!=='home'){btnNav=true;history.back()}else{show('home');renderHome()}}
@@ -1506,6 +1508,21 @@ function mkTab(k){document.querySelectorAll('#mkTabs button').forEach(b=>b.class
 $('#mkTabs').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;sfx.tap();mkTab(b.dataset.k)});mkTab(store.get('mkTab','bow'));
 $('#goVil').onclick=e=>pickMode(e.currentTarget,()=>{renderStickers();ov('stkOv',true)});
 
+/* ---------- add to home screen + full screen ---------- */
+const isApp=()=>matchMedia('(display-mode: fullscreen)').matches||matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+let instEv=null;
+function showInst(){const b=$('#goInst');if(b)b.hidden=isApp()}
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();instEv=e;showInst()});
+addEventListener('appinstalled',()=>{instEv=null;showInst();toast(t('instOk'))});
+showInst();
+$('#goInst').onclick=async()=>{sfx.tap();if(instEv){const e=instEv;instEv=null;try{e.prompt();const r=await e.userChoice;if(r&&r.outcome==='accepted')toast(t('instOk'))}catch(_){}showInst();return}
+  $('#stIOS').hidden=!isIOS;$('#stAnd').hidden=isIOS;ov('instOv',true)};
+$('#instClose').onclick=()=>{sfx.tap();ov('instOv',false)};
+/* on phones and tablets the browser bars are hidden while playing (the page asks for full screen on a tap) */
+function goFull(){if(isApp()||!matchMedia('(pointer:coarse)').matches)return;const el=document.documentElement,d=document;
+  if(d.fullscreenElement||d.webkitFullscreenElement)return;try{const f=el.requestFullscreen||el.webkitRequestFullscreen;if(f){const r=f.call(el,{navigationUI:'hide'});if(r&&r.catch)r.catch(()=>{})}}catch(e){}}
+document.addEventListener('click',e=>{if(e.target.closest('#goAdv,.wb,.lv,#goDaily,#winNext,#bismBtn'))goFull()},true);
 $('#goSdq').onclick=()=>{sfx.tap();renderSdq();ov('sdqOv',true)};$('#sdqClose').onclick=()=>{ov('sdqOv',false);renderHome()};
 $('#goDaily').onclick=()=>{sfx.tap();if(prog.daily&&prog.daily.key===todayKey())toast(t('dailyAgain'));startDaily()};
 $('#deedOk').onclick=()=>{ov('deedOv',false);sfx.tap()};

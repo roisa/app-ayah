@@ -18,6 +18,8 @@
 <link rel="icon" href="icons/favicon-32.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mo Archery">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="../NurConnect/fonts/fonts.css">
 <script type="application/ld+json">
@@ -393,6 +395,15 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
  .modes .mode.a .lbl{font-size:clamp(22px,4.6vh,40px);padding:4px 4px 2px}.modes .mode.a .lbl small{font-size:12px}
  .modes .mode.e .lbl,.modes .mode.m .lbl{font-size:clamp(15px,2.8vh,24px);padding:3px 2px 1px}.modes .mode.e .lbl small,.modes .mode.m .lbl small{display:none}
  .modes .mode.e .in,.modes .mode.m .in{aspect-ratio:1.7/1}}
+/* add to home screen */
+.pill.inst{color:#00870a}.pill.inst img{width:40px;height:40px;border-radius:12px}
+.instbox{max-width:420px;text-align:center}.instbox .appic{width:76px;height:76px;border-radius:20px;box-shadow:0 4px 10px rgba(0,0,0,.2);margin:4px auto 6px;display:block}
+.instbox h3{margin:0 0 4px}.instbox p{margin:0 0 10px}
+.steps[hidden]{display:none!important}.instbox{max-height:calc(100vh - 16px);overflow:auto}
+.steps{list-style:none;margin:0;padding:0;text-align:left;display:grid;gap:8px}
+.steps li{display:flex;align-items:center;gap:12px;background:var(--moW);border-radius:16px;padding:8px 12px;font-weight:700;color:var(--ink);font-size:15px;counter-increment:st}
+.steps .si{flex:none;width:44px;height:44px;border-radius:12px;background:#fff;display:grid;place-items:center;box-shadow:0 2px 0 rgba(0,0,0,.12);font:400 16px "Lilita One",sans-serif;color:#1a7cff}
+@media (orientation:landscape) and (max-height:560px){.pill.inst img{width:28px;height:28px;border-radius:8px}.instbox .appic{display:none}.instbox h3{font-size:22px!important}.instbox p{margin-bottom:6px;font-size:13px}.steps li{padding:5px 10px;font-size:13px}.steps .si{width:36px;height:36px}}
 /* stickers */
 .mostk{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))!important}
 .mostk canvas{width:104px!important;height:104px!important}
@@ -444,7 +455,7 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
       <button data-a="little"><span data-t="little">Little</span><small data-t="littleS">Ages 3+</small></button>
       <button data-a="big"><span data-t="big">Big Kid</span><small data-t="bigS">Ages 6+</small></button>
     </div>
-    <div class="homeFoot"><div class="pills"><button class="pill" id="goSdq"><canvas id="pSdq" width="96" height="96"></canvas><span data-t="sadaqah">Sadaqah Jar</span></button><button class="pill" id="goDaily"><canvas id="pDaily" width="96" height="96"></canvas><span data-t="daily">Daily Challenge</span><i id="dailyBadge"></i></button></div><p class="legal" data-t="legal">No ads · No data collected · Works offline</p></div>
+    <div class="homeFoot"><div class="pills"><button class="pill" id="goSdq"><canvas id="pSdq" width="96" height="96"></canvas><span data-t="sadaqah">Sadaqah Jar</span></button><button class="pill" id="goDaily"><canvas id="pDaily" width="96" height="96"></canvas><span data-t="daily">Daily Challenge</span><i id="dailyBadge"></i></button><button class="pill inst" id="goInst" hidden><img src="icons/icon-192.png" alt=""><span data-t="inst">Add to Home Screen</span></button></div><p class="legal" data-t="legal">No ads · No data collected · Works offline</p></div>
   </div>
 </section>
 
@@ -601,6 +612,24 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 </div></div>
 
 <!-- SETTINGS (parents) -->
+<!-- ADD TO HOME SCREEN -->
+<div class="ov" id="instOv"><div class="box instbox">
+  <button class="x" id="instClose" aria-label="Close"><img src="art/b-close.webp" alt=""></button>
+  <img class="appic" src="icons/icon-192.png" alt="">
+  <h3 data-t="instT">Add Mo Archery to your Home Screen</h3>
+  <p data-t="instS">It opens full screen like an app, and works offline.</p>
+  <ol class="steps" id="stIOS">
+    <li><span class="si"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#1a7cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg></span><span data-t="iosA">Tap the Share button in Safari</span></li>
+    <li><span class="si"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span><span data-t="iosB">Choose “Add to Home Screen”</span></li>
+    <li><span class="si"><b>Add</b></span><span data-t="iosC">Tap “Add”, then open Mo Archery from your Home Screen</span></li>
+  </ol>
+  <ol class="steps" id="stAnd">
+    <li><span class="si"><svg viewBox="0 0 24 24" width="26" height="26" fill="#333"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></span><span data-t="anA">Tap the menu button of your browser</span></li>
+    <li><span class="si"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span><span data-t="anB">Choose “Add to Home screen” or “Install app”</span></li>
+    <li><span class="si"><b>OK</b></span><span data-t="anC">Confirm, then open Mo Archery from your Home Screen</span></li>
+  </ol>
+</div></div>
+
 <div class="ov" id="settings"><div class="box setbox">
   <button class="x" id="sClose" aria-label="Close"><img src="art/b-close.webp" alt=""></button>
   <h3 data-t="setT">For parents</h3>
