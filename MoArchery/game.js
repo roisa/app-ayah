@@ -19,7 +19,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'60 levels in 6 worlds',
  thanks:['Thank you!','Jazakallah khair!','Yay, free!'],got:['Got it!','Yay!','Treasure!','MasyaAllah!'],
  W:['Green Garden','Sunny Beach','Shady Forest','Desert Oasis','Snowy Peaks','Lantern Night','Sunset Bay','Autumn Woods','Starry Desert','Northern Lights'],
  lockedW:'Finish {w} first',lockedLv:'Finish the level before to open this one',levelsR:'Levels {a}–{b}',worldOpen:'{w} is now open!',
- sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Pull the yellow button back, then let go!',rot:'Turn sideways for a bigger view',
+ sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Pull the yellow button back, then let go!',cancelTip:'Changed your mind? Move the button back to the middle and let go.',rot:'Turn sideways for a bigger view',
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your game will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
@@ -73,7 +73,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'60 level di 6 dunia',
  thanks:['Terima kasih!','Jazakallah khair!','Hore, bebas!'],got:['Dapat!','Hore!','Harta karun!','MasyaAllah!'],
  W:['Taman Hijau','Pantai Cerah','Hutan Rindang','Oasis Gurun','Puncak Salju','Malam Lentera','Teluk Senja','Hutan Musim Gugur','Gurun Berbintang','Cahaya Utara'],
  lockedW:'Selesaikan {w} dulu',lockedLv:'Selesaikan level sebelumnya untuk membuka level ini',levelsR:'Level {a}–{b}',worldOpen:'{w} sekarang terbuka!',
- sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Tarik tombol kuning ke belakang, lalu lepaskan!',rot:'Miringkan HP agar lebih besar',
+ sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Tarik tombol kuning ke belakang, lalu lepaskan!',cancelTip:'Tidak jadi? Kembalikan tombol ke tengah, lalu lepaskan.',rot:'Miringkan HP agar lebih besar',
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Permainanmu akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
  setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
@@ -919,7 +919,7 @@ function drawGame(now){
     if(o.k==='coin'){const sq=Math.abs(Math.cos(now/400+o.x));x.scale(.35+.65*sq,1);coinDraw(x,0,0,s*.32)}else drawBundle(x,s);x.restore()}
   // aim dots (the wind bends them too)
   const at=G.asel,aim=G.aim,wind=G.lv.wind||0;
-  if(aim&&aim.p>.08){const [vx,vy]=launchVel(at,aim.a,aim.p),[px,py]=launchPos(aim.a),T=age==='little'?2.4:SIGHT[upLv('sight')];
+  if(aim&&aim.p>=CANCEL){const [vx,vy]=launchVel(at,aim.a,aim.p),[px,py]=launchPos(aim.a),T=age==='little'?2.4:SIGHT[upLv('sight')];
     const bw=G.moM&&G.moM.F.d?moBowW(G.moM):null,ox=bw?bw[0]-px:0,oy=bw?bw[1]-py:0;
     for(let tt=.05,i=0;tt<T;tt+=.07,i++){const ok=Math.max(0,1-tt/.4),X=px+vx*tt+.5*wind*tt*tt+ox*ok,Y=py+vy*tt-5*tt*tt+oy*ok;if(Y<0)break;const r=Math.max(2,s*(.13-i*.002));
       x.beginPath();x.arc(sx(X),sy(Y),r,0,7);x.fillStyle='#fff';x.globalAlpha=Math.max(.35,1-tt/T*.6);x.fill();x.lineWidth=1.5;x.strokeStyle=OUT;x.stroke();x.globalAlpha=1}}
@@ -953,7 +953,8 @@ function drawPad(x,now){if(G.won||G.state==='bism'||G.shots<=0)return;const P=pa
   x.beginPath();x.arc(cx,cy,R,0,7);x.fillStyle='rgba(255,255,255,.16)';x.fill();
   x.lineWidth=1;x.strokeStyle='rgba(0,40,80,.3)';x.beginPath();x.arc(cx,cy,R+2,0,7);x.stroke();x.beginPath();x.arc(cx,cy,R,0,7);x.save();shade(6);x.lineWidth=2.5;x.strokeStyle='rgba(255,255,255,.95)';x.stroke();x.restore();
   const kr=R*.25;let kx=cx,ky=cy,A=.6;
-  if(aim&&aim.p>.01){A=clampAng(aim.a);const pw=Math.min(1,aim.p),d=Math.min(R-kr*.6,pw*R*1.1);kx=cx-Math.cos(A)*d;ky=cy+Math.sin(A)*d;
+  const canc=aim&&aim.p<CANCEL&&G.state==='aim';
+  if(aim&&aim.p>=CANCEL){A=clampAng(aim.a);const pw=Math.min(1,aim.p),d=Math.min(R-kr*.6,pw*R*1.1);kx=cx-Math.cos(A)*d;ky=cy+Math.sin(A)*d;
     const A2=Math.max(0,Math.min(Math.PI/2,A)),hx=Math.cos(A),hy=-Math.sin(A);
     // angle: a faint quarter guide on the ring, the aimed part bright
     x.lineWidth=4;x.strokeStyle='rgba(255,255,255,.35)';x.beginPath();x.arc(cx,cy,R,-Math.PI/2,0);x.stroke();
@@ -977,6 +978,11 @@ function drawPad(x,now){if(G.won||G.state==='bism'||G.shots<=0)return;const P=pa
   x.save();shade(8);x.beginPath();x.arc(kx,ky,kr,0,7);x.fillStyle='#fff';x.fill();x.restore();
   x.lineWidth=3;x.strokeStyle='#ffc531';x.beginPath();x.arc(kx,ky,kr-1.5,0,7);x.stroke();
   x.beginPath();x.arc(kx,ky,kr*.22,0,7);x.fillStyle='#ffc531';x.fill();
+  /* cancel: while aiming a small X waits in the middle; bring the button back onto it and it turns red */
+  if(G.state==='aim'&&aim){const xr=canc?kr*1.05:kr*.42,xx=canc?kx:cx,xy=canc?ky:cy;
+    if(canc){x.beginPath();x.arc(xx,xy,xr,0,7);x.fillStyle='#ff5a5a';x.fill();x.lineWidth=3;x.strokeStyle='#fff';x.stroke()}
+    else{x.save();x.globalAlpha=.85;x.beginPath();x.arc(xx,xy,xr,0,7);x.fillStyle='rgba(255,90,90,.85)';x.fill();x.restore()}
+    const q=xr*.45;x.lineWidth=Math.max(2.5,xr*.22);x.strokeStyle='#fff';x.beginPath();x.moveTo(xx-q,xy-q);x.lineTo(xx+q,xy+q);x.moveTo(xx+q,xy-q);x.lineTo(xx-q,xy+q);x.stroke()}
   x.restore()}
 /* particles in world units */
 function drawParts(x,now,s){
@@ -1060,7 +1066,7 @@ function renderPicker(){const p=$('#picker');p.innerHTML='';p.classList.remove('
 
 /* aiming: a big round pad on the left. Grab the yellow button, pull it back, let go.
    Pressing anywhere else on the left half still works too. */
-let aimStart=null,padC=null;
+let aimStart=null,padC=null;const CANCEL=.16;   // pull less than this (button back in the middle) and letting go cancels the shot
 const maxPull=()=>Math.max(90,Math.min(220,Math.min(cam.W,cam.H)*.32));
 function padGeo(){const now=performance.now();if(padC&&now-padC.t<500&&padC.W===cam.W&&padC.H===cam.H)return padC;
   const W=cam.W,H=cam.H,land=W>H,sl=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safeL'))||0;
@@ -1075,7 +1081,7 @@ function aimFrom(e){const dx=aimStart.x-e.clientX,dy=aimStart.y-e.clientY,dist=M
   return{a:clampAng(a),p:Math.min(1,dist/(aimStart.r||maxPull()))}}
 cv.addEventListener('pointerdown',e=>{if(!G||window.praying)return;hideHint();G.idle=performance.now();
   const pad=G.state==='ready'&&G.shots>0&&inPad(e);
-  if(pad){if(G.camT!==cam.min){G.camT=cam.min;G.camSp=.15}G.looked=0;const P=padGeo();aimStart={x:P.cx,y:P.cy,id:e.pointerId,r:P.R*1.1};G.state='aim';G.aim=aimFrom(e);try{cv.setPointerCapture(e.pointerId)}catch(_){}sfx.pull();return}
+  if(pad){if(G.camT!==cam.min){G.camT=cam.min;G.camSp=.15}G.looked=0;const P=padGeo();aimStart={x:P.cx,y:P.cy,id:e.pointerId,r:P.R*1.1};G.state='aim';G.aim=aimFrom(e);if(!store.get('cancelTip',0)){store.set('cancelTip',1);setTimeout(()=>{if(G&&G.state==='aim')toast(t('cancelTip'))},700)}try{cv.setPointerCapture(e.pointerId)}catch(_){}sfx.pull();return}
   if(G.state==='ready'&&canPan()&&e.clientX>cam.W*.5){G.panning={x:e.clientX,cx:cam.x,id:e.pointerId};G.looked=1;try{cv.setPointerCapture(e.pointerId)}catch(_){}return}
   if(G.camT!==cam.min){G.camT=cam.min;G.camSp=.15}G.looked=0;
   if(G.state!=='ready'||G.shots<=0)return;aimStart={x:e.clientX,y:e.clientY,id:e.pointerId};G.state='aim';G.aim={a:.55,p:0};try{cv.setPointerCapture(e.pointerId)}catch(_){}sfx.pull()});
@@ -1083,7 +1089,7 @@ cv.addEventListener('pointermove',e=>{if(G&&G.panning&&e.pointerId===G.panning.i
   if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const o=G.aim.p;G.aim=aimFrom(e);if(Math.floor(G.aim.p*5)!==Math.floor(o*5)&&G.aim.p>o)tone(200+G.aim.p*300,.05,'triangle',.05)});
 function release(e){if(G&&G.panning&&e.pointerId===G.panning.id){G.panning=null;return}
   if(!G||G.state!=='aim'||!aimStart||e.pointerId!==aimStart.id)return;const A=aimFrom(e);aimStart=null;
-  if(A.p<.12||window.praying){G.state='ready';G.aim=null;return}shoot(A.a,A.p)}
+  if(A.p<CANCEL||window.praying){G.state='ready';G.aim=null;if(!window.praying){tone(520,.08,'sine',.08,0,330);noise(1800,.05,.04)}return}shoot(A.a,A.p)}
 cv.addEventListener('pointerup',release);cv.addEventListener('pointercancel',e=>{if(G)G.panning=null;if(G&&G.state==='aim'){G.state='ready';G.aim=null;aimStart=null}});
 function shoot(a,p){const at=G.asel;G.lastA=clampAng(a);{const lp=launchPos(clampAng(a)),bw=G.moM&&G.moM.F.d?moBowW(G.moM):null;G.relOff=bw?[bw[0]-lp[0],bw[1]-lp[1]]:null}if(at!=='normal')G.special=1;if(!(G.ammo[at]>0))return;fire(G.sim,at,a,p);G.state='fly';G.ammo[at]--;G.shots--;G.used++;G.aim=null;G.shotT=performance.now();sfx.shoot(at);
   if(!G.ammo[at]){const nx=G.av.find(k=>G.ammo[k]>0);if(nx){G.asel=nx;setTimeout(()=>{if(G)toast(tf('noA',{a:t('AR')[at]}))},400)}renderPicker()}renderHud()}
