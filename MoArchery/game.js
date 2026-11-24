@@ -17,7 +17,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'100 levels in 10 worlds'
  lvlDone:'Level {n} complete!',allDone:'You finished every level, MasyaAllah!',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
  thanks:['Thank you!','Jazakallah khair!','Yay, free!'],got:['Got it!','Yay!','Treasure!','MasyaAllah!'],
- W:['Green Garden','Sunny Beach','Shady Forest','Desert Oasis','Snowy Peaks','Lantern Night','Sunset Bay','Autumn Woods','Starry Desert','Northern Lights'],
+ W:['Green Garden','Sunny Beach','Shady Forest','Desert Oasis','Snowy Peaks','Lantern Night','Lava Mountain','Dino Valley','Cloud Kingdom','Crystal Kingdom'],
  lockedW:'Finish {w} first',lockedLv:'Finish the level before to open this one',levelsR:'Levels {a}–{b}',worldOpen:'{w} is now open!',
  sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Pull the yellow button back, then let go!',cancelTip:'Changed your mind? Move the button back to the middle and let go.',cancel:'Cancel',rot:'Turn sideways for a bigger view',
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your game will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
@@ -42,7 +42,7 @@ en:{tag:'Play Games the Islamic Way',play:'Play',playS:'100 levels in 10 worlds'
  BG:{sharp:'Sharp shooter',simple:'Simple archer',coins:'Coin catcher'},BGD:{sharp:'Finish with few arrows',simple:'Use only normal arrows',coins:'Catch every coin in the air'},newBadge:'+{n} coins for new badges!',
  daily:'Daily Challenge',dailyS:'A new level every day',dailyDone:'Daily challenge done! +{n} coins · day {d} in a row',dailyChip:'Daily',dailyAgain:'Done today. Come back tomorrow for a new one!',
  newA:'New arrow: {a}!',tough:'Too strong!',toughT:'Too strong for this arrow! Try the {a}.',toughL:'Too strong for this arrow! You will get the {a} at level {n}.',lookTip:'Drag on the right side to look around!',coinTip:'Coins buy upgrades in the Bow Workshop on the home screen!',unlockAt:'Opens at level {n}',noA:'No more: {a}!',overTL:'Let\'s try again!',overPL:'All the arrows are used up. Think about which arrow breaks which barrier, and try again!',bonusA:'+1 arrow!',
- IT:{chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
+ IT:{opal:'Fire opal',nugget:'Golden stone',egg:'Dinosaur egg',amber:'Amber',orb:'Rainbow orb',feather:'Golden feather',heart:'Crystal heart',diamond:'Blue diamond',chest:'Treasure chest',gift:'Gift box',star:'Star',cage:'Bird cage',gem:'Jewel',gold:'Gold bars',pearl:'Pearl',crown:'Crown',ring:'Jewellery box',lantern:'Lantern',crystal:'Ice crystal'},
  tipM:{wood:'Wood breaks with arrows, and the fire arrow burns it!',glass:'Glass breaks with just one arrow!',brick:'Bricks are strong. Try the heavy arrow!',stone:'Stone is very strong. The diamond arrow breaks it!',iron:'Iron never breaks. Knock it over instead!',ice:'Ice is slippery. Things slide on it!',barrel:'Hit the bomb to break everything around it!'},
  wind:'Wind! It pushes your arrows.',
  workshop:'Market',workshopS:'Buy bows, looks and more with your coins',tabBow:'Bows',tabArrow:'Arrows',tabMo:'Baby Mo',upT:'More arrows, longer aim line',bowsT:'Bows',power:'Power {n}',needPrev:'Buy the {b} first!',bowLook:'Bow colour',bowSize:'Bow size',BSK:{classic:'Wood',leaf:'Leaf',pink:'Pink',ice:'Ice',night:'Night',rainbow:'Rainbow',gold:'Gold'},BSZ:{small:'Small',normal:'Normal',big:'Big'},moSoon:'Hats, pets and a horse for Baby Mo are coming soon, in sha Allah!',coinsWon:'+{n} coins',buy:'Buy',maxed:'Best!',needC:'Open more treasures to get coins!',upDone:'Upgraded: {u}!',arrowsT:'Arrows',
@@ -71,7 +71,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'100 level di 10 dunia',s
  lvlDone:'Level {n} selesai!',allDone:'Semua level sudah selesai, MasyaAllah!',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
  thanks:['Terima kasih!','Jazakallah khair!','Hore, bebas!'],got:['Dapat!','Hore!','Harta karun!','MasyaAllah!'],
- W:['Taman Hijau','Pantai Cerah','Hutan Rindang','Oasis Gurun','Puncak Salju','Malam Lentera','Teluk Senja','Hutan Musim Gugur','Gurun Berbintang','Cahaya Utara'],
+ W:['Taman Hijau','Pantai Cerah','Hutan Rindang','Oasis Gurun','Puncak Salju','Malam Lentera','Gunung Lava','Lembah Dino','Kerajaan Awan','Kerajaan Kristal'],
  lockedW:'Selesaikan {w} dulu',lockedLv:'Selesaikan level sebelumnya untuk membuka level ini',levelsR:'Level {a}–{b}',worldOpen:'{w} sekarang terbuka!',
  sayBism:'Bismillah',sayAlh:'Alhamdulillah!',aimHint:'Tarik tombol kuning ke belakang, lalu lepaskan!',cancelTip:'Tidak jadi? Kembalikan tombol ke tengah, lalu lepaskan.',cancel:'Batal',rot:'Miringkan HP agar lebih besar',
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Permainanmu akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
@@ -96,7 +96,7 @@ id:{tag:'Bermain dengan Cara Islami',play:'Main',playS:'100 level di 10 dunia',s
  BG:{sharp:'Pemanah jitu',simple:'Pemanah sederhana',coins:'Penangkap koin'},BGD:{sharp:'Selesai dengan sedikit panah',simple:'Hanya pakai panah biasa',coins:'Ambil semua koin di udara'},newBadge:'+{n} koin untuk lencana baru!',
  daily:'Tantangan Harian',dailyS:'Level baru setiap hari',dailyDone:'Tantangan harian selesai! +{n} koin · hari ke-{d} berturut-turut',dailyChip:'Harian',dailyAgain:'Sudah selesai hari ini. Datang lagi besok!',
  newA:'Panah baru: {a}!',tough:'Terlalu kuat!',toughT:'Terlalu kuat untuk panah ini! Coba {a}.',toughL:'Terlalu kuat untuk panah ini! Kamu akan mendapat {a} di level {n}.',lookTip:'Geser di sisi kanan untuk melihat sekeliling!',coinTip:'Koin bisa dipakai untuk meningkatkan busur di Bengkel Busur di layar utama!',unlockAt:'Terbuka di level {n}',noA:'Habis: {a}!',overTL:'Ayo coba lagi!',overPL:'Anak panahnya sudah habis. Pikirkan panah mana yang bisa memecahkan penghalangnya, lalu coba lagi!',bonusA:'+1 anak panah!',
- IT:{chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
+ IT:{opal:'Opal api',nugget:'Batu emas',egg:'Telur dinosaurus',amber:'Ambar',orb:'Bola pelangi',feather:'Bulu emas',heart:'Hati kristal',diamond:'Berlian biru',chest:'Peti harta',gift:'Kotak hadiah',star:'Bintang',cage:'Sangkar burung',gem:'Permata',gold:'Emas batangan',pearl:'Mutiara',crown:'Mahkota',ring:'Kotak perhiasan',lantern:'Lentera',crystal:'Kristal es'},
  tipM:{wood:'Kayu bisa dipecah dengan panah, dan panah api bisa membakarnya!',glass:'Kaca pecah hanya dengan satu anak panah!',brick:'Bata itu kuat. Coba panah berat!',stone:'Batu sangat kuat. Panah berlian bisa memecahkannya!',iron:'Besi tidak bisa pecah. Jatuhkan saja!',ice:'Es itu licin. Benda bisa meluncur!',barrel:'Tembak bomnya untuk memecahkan semua di sekitarnya!'},
  wind:'Ada angin! Anak panahmu akan terdorong.',
  workshop:'Pasar',workshopS:'Beli busur, hiasan dan lainnya dengan koinmu',tabBow:'Busur',tabArrow:'Panah',tabMo:'Baby Mo',upT:'Lebih banyak panah, garis bidik lebih panjang',bowsT:'Busur',power:'Kekuatan {n}',needPrev:'Beli {b} dulu!',bowLook:'Warna busur',bowSize:'Ukuran busur',BSK:{classic:'Kayu',leaf:'Daun',pink:'Merah muda',ice:'Es',night:'Malam',rainbow:'Pelangi',gold:'Emas'},BSZ:{small:'Kecil',normal:'Biasa',big:'Besar'},moSoon:'Topi, hewan peliharaan dan kuda untuk Baby Mo segera hadir, in sya Allah!',coinsWon:'+{n} koin',buy:'Beli',maxed:'Terbaik!',needC:'Buka lebih banyak harta untuk mendapat koin!',upDone:'Ditingkatkan: {u}!',arrowsT:'Anak panah',
@@ -260,11 +260,12 @@ const WORLDS=[
  {id:'desert',items:['gold','ring','chest','cage'],mats:['brick','stone','wood'],sky:['#ffb86a','#fff0c0'],hill:['#f0c070','#d89a48'],gr:['#f6cf84','#d89a48'],cap:'#f6cf84',birds:['hoopoe','swallow','redbird']},
  {id:'snow',items:['crystal','gift','cage','star'],mats:['ice','ice','wood','stone'],sky:['#9ccfff','#f0f8ff'],hill:['#ffffff','#cfe4f5'],gr:['#ffffff','#b9d6ee'],cap:'#ffffff',birds:['robin','owl','sparrow']},
  {id:'night',items:['lantern','crown','gem','cage','chest'],mats:['stone','brick','glass','wood'],sky:['#1a1650','#4b3a9a'],hill:['#2e2a6e','#201c52'],gr:['#2f7a52','#5a3a2a'],cap:'#3d9a66',birds:['owl','redbird','finch','dove']},
- /* worlds 7-10 reuse a background (base) with a colour wash (tint: top and bottom colours, multiplied) */
- {id:'sunset',base:1,tint:['#ff9a6a','#ffd9b0'],items:['pearl','crown','chest','gem','cage'],mats:['wood','brick','glass','stone'],sky:['#ff9a6a','#ffd9b0'],hill:['#2fb8e0','#1590c8'],gr:['#ffe2a0','#e8b866'],cap:'#ffe2a0',birds:['dove','swallow','parrot']},
- {id:'autumn',base:2,tint:['#ff9a3c','#ffc56a'],items:['gem','gold','cage','chest','star'],mats:['wood','brick','stone','wood'],sky:['#ffc27a','#fff0d0'],hill:['#c0702a','#8a4a20'],gr:['#c98a3a','#8a5a30'],cap:'#c98a3a',birds:['robin','owl','hoopoe']},
- {id:'starry',base:3,tint:['#4a52b8','#b0a8e8'],stars:1,items:['lantern','gold','ring','crown','cage'],mats:['brick','stone','wood','glass'],sky:['#2a2a7a','#7a6ac0'],hill:['#6a5a9a','#4a3a7a'],gr:['#b89a70','#7a5a40'],cap:'#b89a70',birds:['owl','hoopoe','redbird']},
- {id:'aurora',base:4,tint:['#8f8cff','#d8ecff'],stars:1,items:['crystal','crown','gem','lantern','cage'],mats:['ice','stone','brick','ice'],sky:['#3a3a9a','#9ab8f0'],hill:['#e8f0ff','#b0c8ee'],gr:['#ffffff','#b9d6ee'],cap:'#ffffff',birds:['robin','owl','dove']}];
+ /* worlds 7-10: same materials, wind and ice as before (levels stay the same); new art and treasures.
+    Each new treasure replaces one at the same place in the list with the same strength, so every level plays the same. */
+ {id:'lava',items:['opal','nugget','chest','gem','cage'],mats:['wood','brick','glass','stone'],sky:['#ff8a5c','#ffd0a0'],hill:['#7a3a2a','#5a2a1a'],gr:['#6a4030','#4a2a20'],cap:'#6a4030',birds:['dove','swallow','parrot']},
+ {id:'dino',items:['egg','amber','cage','chest','star'],mats:['wood','brick','stone','wood'],sky:['#6cc8ff','#d8f4ff'],hill:['#5fbf4a','#3e9e3a'],gr:['#7ad35a','#8a5a30'],cap:'#7ad35a',birds:['robin','owl','hoopoe']},
+ {id:'cloud',items:['orb','feather','ring','crown','cage'],mats:['brick','stone','wood','glass'],sky:['#8fd4ff','#f4f8ff'],hill:['#ffffff','#f0e0ff'],gr:['#ffffff','#f0dcff'],cap:'#ffffff',birds:['owl','hoopoe','redbird']},
+ {id:'crystal',items:['heart','crown','diamond','lantern','cage'],mats:['ice','stone','brick','ice'],sky:['#8a6ad0','#d8c8ff'],hill:['#9a7ad8','#6a4ab0'],gr:['#b8a0e8','#8a70c8'],cap:'#b8a0e8',birds:['robin','owl','dove']}];
 const BIRDS=['hoopoe','sparrow','finch','dove','swallow','parrot','owl','redbird','robin'];
 const LEVELS=100,WN=10;
 const worldOf=n=>Math.min(9,Math.floor((n-1)/WN));
@@ -288,7 +289,8 @@ const NEEDS={brick:'heavy',stone:'diamond'};
 const FALLK={glass:1.6,ice:1,wood:1,brick:0,stone:0,goal:1,barrel:1};
 const BLAST={glass:2,ice:2,wood:1.3,brick:1,stone:0,goal:1.2,barrel:3};
 /* the treasures: hp to break them open and how many coins they give */
-const ITEM={chest:{hp:3.4,c:2},gift:{hp:2.4,c:1},star:{hp:2,c:1},cage:{hp:3.4,c:1},gem:{hp:2.6,c:1},gold:{hp:3,c:1},pearl:{hp:2.6,c:1},crown:{hp:3,c:2},ring:{hp:2.6,c:1},lantern:{hp:2,c:1},crystal:{hp:2.4,c:1}};
+const ITEM={chest:{hp:3.4,c:2},gift:{hp:2.4,c:1},star:{hp:2,c:1},cage:{hp:3.4,c:1},gem:{hp:2.6,c:1},gold:{hp:3,c:1},pearl:{hp:2.6,c:1},crown:{hp:3,c:2},ring:{hp:2.6,c:1},lantern:{hp:2,c:1},crystal:{hp:2.4,c:1},
+  opal:{hp:2.6,c:1},nugget:{hp:3,c:2},egg:{hp:2.6,c:1},amber:{hp:3,c:1},orb:{hp:2,c:1},feather:{hp:3,c:1},heart:{hp:2.4,c:1},diamond:{hp:2.6,c:2}};
 /* workshop upgrades (bought with coins) */
 const UPS={bow:{cost:[15,30,50]},quiver:{cost:[10,20,35]},sight:{cost:[8,18,30]}};
 const BOWK=[1,1.2,1.4,1.65],SIGHT=[.45,.8,1.3,2.4];
@@ -663,7 +665,7 @@ const ARTN=['wood-sq','wood-pl','glass-sq','glass-pl','ice-sq','ice-pl','brick-s
  'ar-normal','ar-flame','ar-heavy','ar-triple','ar-diamond','ar-firework','bow0','bow1','bow2','bow3','stand0','stand2','stand3','up',
  'coin','coin-stack','coin-pile','coin-heap','coin-sack','coin-chest','fx-firework','fx-dust','fx-wood','fx-glass','fx-brick','fx-stone','fx-flame','fx-hearts',
  ...BIRDS.flatMap(b=>['bird-'+b,'fly-'+b]),'bg-home','bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night',
- 'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick',
+ 'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick','bg-lava','bg-dino','bg-cloud','bg-crystal','ped-lava','ped-dino','ped-cloud','ped-crystal','opal','nugget','egg','amber','orb','feather','heart','diamond','st-7','st-8','st-9','st-10',
  ...['house','garden','well','palms','swing','school','market','pond','fountain','masjid','minaret','sign','lights'].map(n=>'v-'+n),
  'mo-body','mo-head','mo-head-happy','mo-arm','mo-uarm','mo-farm','mo-win',
  ...['w1','w2','w3','w4','w5','w6','r1','r2','r3','r4','a1','a2','a3','a4','a5','a6','f2','f3','f4','f5','f6'].map(n=>'mf-'+n)];
@@ -739,7 +741,7 @@ function drawBow(x,tier,gx,gy,px,py,s,ang,pull,ammo){
 
 
 /* world backgrounds: the image's ground row (BGY, 0..1 from the top) lines up with the game's ground line */
-const BGN=['bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night'],BGY=[.79,.79,.785,.79,.77,.79];
+const BGN=['bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night','bg-lava','bg-dino','bg-cloud','bg-crystal'],BGY=[.79,.79,.785,.79,.77,.79,.78,.78,.79,.78];
 function paintWorld(x,w,W,H,gy,s,noSun,home){const WD=WORLDS[w];
   if(!home&&WD&&WD.base!=null){paintWorld(x,WD.base,W,H,gy,s,noSun);
     x.save();x.globalCompositeOperation='multiply';const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,WD.tint[0]);g.addColorStop(1,WD.tint[1]);x.fillStyle=g;x.fillRect(0,0,W,H);x.restore();
@@ -751,7 +753,7 @@ function paintWorld(x,w,W,H,gy,s,noSun,home){const WD=WORLDS[w];
   const G=home?.79:BGY[w],iw=im.naturalWidth,ih=im.naturalHeight,k=Math.max(W/iw,gy/(G*ih),(H-gy)/((1-G)*ih)),dw=iw*k,dh=ih*k;
   x.drawImage(im,(W-dw)/2,gy-G*dh,dw,dh)}
 /* rock pedestals: the grassy (sandy, snowy) top stays the same, the stone body stretches */
-const PEDN=['ped-grass','ped-sand','ped-grass','ped-sand','ped-snow','ped-night'];
+const PEDN=['ped-grass','ped-sand','ped-grass','ped-sand','ped-snow','ped-night','ped-lava','ped-dino','ped-cloud','ped-crystal'];
 function rockDraw(x,u,s,w){w=WORLDS[w]&&WORLDS[w].base!=null?WORLDS[w].base:w;const im=AI(PEDN[w]);if(!im){rockDrawC(x,u,s,w);return}
   const W=u.w*s*1.04,H=u.h*s+s*.25,iw=im.naturalWidth,ih=im.naturalHeight,top=-u.h*s/2-s*.12,ct=ih*.55,cb=ih*.22,dt=Math.min(H*.7,W*ct/iw),db=Math.min(H*.25,W*cb/iw);
   x.drawImage(im,0,0,iw,ct,-W/2,top,W,dt);x.drawImage(im,0,ct,iw,ih-ct-cb,-W/2,top+dt-1,W,Math.max(0,H-dt-db)+2);x.drawImage(im,0,ih-cb,iw,cb,-W/2,top+H-db,W,db)}
