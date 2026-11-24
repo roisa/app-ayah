@@ -345,6 +345,23 @@ body.ing #toast{bottom:auto;top:calc(76px + var(--safeT))}
 .pills{gap:8px}.pill{font-size:clamp(14px,3.8vw,18px);padding:4px 14px 4px 4px}.pill canvas{width:34px;height:34px}
 @media (orientation:landscape) and (max-height:560px){.pills{gap:6px;display:grid;grid-template-columns:auto auto;justify-content:center}.pill{font-size:14px;padding:3px 12px 3px 3px;box-shadow:0 3px 0 rgba(0,60,120,.25)}.pill canvas{width:28px;height:28px}.legal{margin-top:4px;font-size:11px}.htop .hmo{height:min(22vh,100px)}.logo{font-size:min(9vh,40px)}}
 @media (orientation:portrait){.htop .hmo{height:min(18vh,170px)}.logo{font-size:clamp(40px,10vw,78px)}.mode{width:min(40vw,280px)}.modes{padding-top:clamp(8px,1.6vh,20px)}}
+
+/* world cards: a big picture of the world, the 10 levels in one small row */
+.world{padding:8px 8px 10px!important}
+.wb{position:relative;border-radius:28px;overflow:hidden;box-shadow:0 4px 0 rgba(0,0,0,.15)}
+.wb .wpic{display:block;width:100%;height:auto;aspect-ratio:640/280}
+.wb .wt{position:absolute;left:14px;top:10px;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.wb .wt b{display:block;font:400 clamp(22px,6vw,30px)/1.05 "Lilita One",sans-serif;-webkit-text-stroke:5px #4a2c14;paint-order:stroke fill}
+.wb .wt small{display:inline-block;margin-top:3px;font-weight:800;font-size:12px;background:rgba(0,0,0,.35);border-radius:999px;padding:1px 8px}
+.wb .ws{position:absolute;right:10px;top:10px;background:rgba(255,255,255,.92);border-radius:999px;padding:3px 10px 3px 6px;font:400 17px "Lilita One",sans-serif;color:#d07a00;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.wb .ws img{width:20px;height:20px;vertical-align:-4px}
+.lvls{grid-template-columns:repeat(10,1fr)!important;gap:4px!important;padding:10px 2px 2px!important}
+.lv{border-radius:10px!important;font-size:clamp(12px,3.6vw,20px)!important;-webkit-text-stroke-width:2px}
+.lv .st{margin-top:0!important}.lv .st i{width:clamp(5px,1.6vw,9px)!important}
+.lv .bd{display:none!important}
+.lv .ln{width:18px!important;height:18px!important;right:-5px!important;top:-7px!important;padding:1px!important}
+@media (orientation:landscape){#worlds{max-width:1100px!important;display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.world{margin-bottom:16px!important}.wb .wt b{font-size:22px}}
+.wlock{top:42%!important;font-size:15px!important;padding:6px 14px!important}.wlock img{width:30px!important;height:30px!important}
 </style>
 </head>
 <body>

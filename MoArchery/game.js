@@ -1441,8 +1441,13 @@ function renderMap(){
   const el=$('#worlds');el.innerHTML='';
   WORLDS.forEach((WD,w)=>{const first=w*WN+1,last=first+WN-1,lockW=first>openTo();let st=0;for(let n=first;n<=last;n++)st+=prog.stars[n]||0;
     const sec=document.createElement('div');sec.className='world w'+w+(lockW?' lock':'');
-    const th=document.createElement('canvas');th.width=th.height=132;{const x=th.getContext('2d');paintWorld(x,w,132,132,104,14);x.save();x.translate(66,80);drawGoal(x,WD.items[0],WD.items[0]==='gift'?'pink':'',52);x.restore()}
-    sec.innerHTML=`<div class="wh"><span class="thc"></span><div><b>${t('W')[w]}</b><small>${tf('levelsR',{a:first,b:last})}</small></div><span class="ws"><img src="art/star.webp" alt=""> ${st}/${WN*3}</span></div><div class="lvls"></div>`;
+    /* a big picture of the world: its background, three of its treasures and Baby Mo cheering */
+    const th=document.createElement('canvas');th.width=640;th.height=280;th.className='wpic';{const x=th.getContext('2d'),W=640,H=280,gy=H*.86;paintWorld(x,w,W,H,gy,H/9);
+      const its=WD.items.filter(g=>g!=='cage').slice(0,2).concat(['cage']);its.forEach((g,i)=>{const z=[86,74,80][i];x.save();x.translate(W*[.14,.33,.52][i],gy-z*.55);
+        const gl=goalGlow(g,g==='gift'?'pink':g==='gem'?'ruby':'');x.drawImage(gl,-z,-z,z*2,z*2);drawGoal(x,g,g==='cage'?WD.birds[0]:g==='gift'?'pink':g==='gem'?'ruby':'',z);x.restore()});
+      const mo=AI('mf-f5')||AI('mo-win');if(mo){const h=H*.62,mw=h*mo.naturalWidth/mo.naturalHeight;x.drawImage(mo,W*.95-mw,gy-h+H*.03,mw,h)}
+      if(lockW){x.fillStyle='rgba(30,20,60,.45)';x.fillRect(0,0,W,H)}}
+    sec.innerHTML=`<div class="wb"><span class="thc"></span><div class="wt"><b>${t('W')[w]}</b><small>${tf('levelsR',{a:first,b:last})}</small></div><span class="ws"><img src="art/star.webp" alt=""> ${st}/${WN*3}</span></div><div class="lvls"></div>`;
     sec.querySelector('.thc').replaceWith(th);
     const g=sec.querySelector('.lvls');
     for(let n=first;n<=last;n++){const lk=n>openTo(),sn=prog.stars[n]||0,cu=n===prog.open&&!sn,b=document.createElement('button');b.className='lv'+(lk?' lock':cu?' cur':sn?' done':'');b.dataset.n=n;b.setAttribute('aria-label',tf('level',{n}));
