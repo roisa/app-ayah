@@ -665,7 +665,7 @@ const ARTN=['wood-sq','wood-pl','glass-sq','glass-pl','ice-sq','ice-pl','brick-s
  'ar-normal','ar-flame','ar-heavy','ar-triple','ar-diamond','ar-firework','bow0','bow1','bow2','bow3','stand0','stand2','stand3','up',
  'coin','coin-stack','coin-pile','coin-heap','coin-sack','coin-chest','fx-firework','fx-dust','fx-wood','fx-glass','fx-brick','fx-stone','fx-flame','fx-hearts',
  ...BIRDS.flatMap(b=>['bird-'+b,'fly-'+b]),'bg-home','bg-garden','bg-beach','bg-forest','bg-desert','bg-snow','bg-night',
- 'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick','bg-lava','bg-dino','bg-cloud','bg-crystal','ped-lava','ped-dino','ped-cloud','ped-crystal','opal','nugget','egg','amber','orb','feather','heart','diamond','st-7','st-8','st-9','st-10',
+ 'ped-grass','ped-sand','ped-snow','ped-night','roof-wood','roof-glass','roof-stone','roof-brick','bg-lava','bg-dino','bg-cloud','bg-crystal','ped-lava','ped-dino','ped-cloud','ped-crystal','opal','nugget','egg','amber','orb','feather','heart','diamond','st-1','st-2','st-3','st-4','st-5','st-6','st-7','st-8','st-9','st-10',
  ...['house','garden','well','palms','swing','school','market','pond','fountain','masjid','minaret','sign','lights'].map(n=>'v-'+n),
  'mo-body','mo-head','mo-head-happy','mo-arm','mo-uarm','mo-farm','mo-win',
  ...['w1','w2','w3','w4','w5','w6','r1','r2','r3','r4','a1','a2','a3','a4','a5','a6','f2','f3','f4','f5','f6'].map(n=>'mf-'+n)];
