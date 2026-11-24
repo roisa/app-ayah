@@ -24,7 +24,7 @@
 {"@context":"https://schema.org","@type":"WebApplication","name":"Mo Archery","alternateName":"Mo Archery – Game Memanah Islami","url":"https://roisa.github.io/app-ayah/MoArchery/","applicationCategory":"GameApplication","operatingSystem":"Any (web browser)","inLanguage":["en","id"],"description":"Islamic physics shooting game for kids aged 3+. No ads, no data collected.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"IBRAZ Group (Mo Games)"}}
 </script>
 <style>
-:root{--or:#ffa51f;--ink:#3a2410;--ink2:#7a5a3a;--yel:#ffc928;--yel2:#f5a800;--grn:#22c08d;--brown:#4a2c14;
+:root{--moG:#00aa0c;--moO:#ff6a00;--moY:#ffff01;--moW:#fff8ee;--or:#ffa51f;--ink:#3a2410;--ink2:#7a5a3a;--yel:#ffc928;--yel2:#f5a800;--grn:#22c08d;--brown:#4a2c14;
   --shadow:0 6px 0 rgba(176,92,0,.25),0 14px 30px rgba(140,70,0,.18);--safeB:env(safe-area-inset-bottom,0px);--safeT:env(safe-area-inset-top,0px);--safeL:env(safe-area-inset-left,0px);--safeR:env(safe-area-inset-right,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overscroll-behavior:none}
@@ -201,12 +201,12 @@ body.ing:not(.land) #toast{top:calc(132px + var(--safeT))}
 #lvSp{position:fixed;inset:0;z-index:21;display:none;place-items:center;overflow:hidden;background:rgba(40,24,8,.18);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);cursor:pointer}
 #lvSp.on{display:grid;animation:lvIn .25s ease-out}#lvSp.out{animation:lvOut .35s ease-in forwards}
 #lvSp .burst{position:absolute;left:50%;top:50%;width:min(96vmin,560px);height:min(96vmin,560px);margin:calc(min(96vmin,560px)/-2) 0 0 calc(min(96vmin,560px)/-2);animation:lvPop .4s cubic-bezier(.3,1.5,.5,1) both}
-#lvSp .rays{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(34,192,141,.95) 0 9deg,rgba(255,201,40,.9) 9deg 18deg);animation:lvSpin 9s linear infinite;-webkit-mask:radial-gradient(circle,#000 0,#000 34%,transparent 70%);mask:radial-gradient(circle,#000 0,#000 34%,transparent 70%)}
-#lvSp .disc{position:absolute;left:50%;top:50%;width:52%;height:52%;margin:-26% 0 0 -26%;border-radius:50%;background:radial-gradient(circle,#5ee0b2 0,#22c08d 60%,#14946b 100%);box-shadow:0 0 0 6px #ffc928,0 0 0 10px rgba(255,255,255,.9),0 10px 30px rgba(10,70,50,.35)}
-#lvSp .c{position:relative;text-align:center;color:#fff;text-shadow:0 4px 0 #0e7a57,0 8px 18px rgba(10,70,50,.35)}
+#lvSp .rays{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,var(--moG) 0 9deg,var(--moY) 9deg 18deg);animation:lvSpin 9s linear infinite;-webkit-mask:radial-gradient(circle,#000 0,#000 34%,transparent 70%);mask:radial-gradient(circle,#000 0,#000 34%,transparent 70%)}
+#lvSp .disc{position:absolute;left:50%;top:50%;width:52%;height:52%;margin:-26% 0 0 -26%;border-radius:50%;background:radial-gradient(circle,#2fcf3a 0,var(--moG) 62%,#008a0a 100%);box-shadow:0 0 0 6px var(--moO),0 0 0 10px var(--moW),0 10px 30px rgba(0,60,5,.35)}
+#lvSp .c{position:relative;text-align:center;color:var(--moW);text-shadow:0 4px 0 #006b08,0 8px 18px rgba(0,60,5,.35)}
 #lvSp .l{font-size:clamp(22px,5.5vmin,40px);font-weight:900;letter-spacing:1px;animation:lvPop .45s cubic-bezier(.3,1.6,.5,1) both}
 #lvSp .n{font-size:clamp(64px,19vmin,130px);font-weight:900;line-height:.95;animation:lvPop .55s .15s cubic-bezier(.3,1.6,.5,1) both}
-#lvSp .w{display:inline-block;margin-top:6px;font-size:clamp(16px,4.2vmin,28px);font-weight:800;background:rgba(255,255,255,.92);color:#14946b;text-shadow:none;border-radius:999px;padding:4px 20px;animation:lvPop .45s .5s cubic-bezier(.3,1.6,.5,1) both}
+#lvSp .w{display:inline-block;margin-top:6px;font-size:clamp(16px,4.2vmin,28px);font-weight:800;background:var(--moW);color:var(--moG);text-shadow:none;border-radius:999px;padding:4px 20px;animation:lvPop .45s .5s cubic-bezier(.3,1.6,.5,1) both}
 @keyframes lvSpin{to{transform:rotate(360deg)}}@keyframes lvPop{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
 @keyframes lvIn{from{opacity:0}to{opacity:1}}@keyframes lvOut{to{opacity:0;transform:scale(1.15)}}
 @media (prefers-reduced-motion:reduce){#lvSp .rays{animation:none}}
