@@ -1,0 +1,17 @@
+{
+  "name": "Baby Mo Music",
+  "short_name": "Baby Mo Music",
+  "description": "Musical instruments for little Muslims aged 1 to 5. No ads, no data collected.",
+  "start_url": "./",
+  "scope": "./",
+  "id": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#7ccdff",
+  "theme_color": "#00aa0c",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
