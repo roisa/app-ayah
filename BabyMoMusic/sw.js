@@ -1,7 +1,7 @@
 // Baby Mo Music: offline support. Bump VERSION when files change.
-const VERSION='bmm-v6';
+const VERSION='bmm-v7';
 const ASSETS=[
-  './','index.html','game.js','manifest.webmanifest','art/a-1.webp','art/a-2.webp','art/a-3.webp','art/a-4.webp','art/a-5.webp','art/a-6.webp','art/a-7.webp',
+  './','index.html','game.js','game.js?v=7','manifest.webmanifest','art/a-1.webp','art/a-2.webp','art/a-3.webp','art/a-4.webp','art/a-5.webp','art/a-6.webp','art/a-7.webp',
   'art/a-8.webp','art/b-1.webp','art/b-2.webp','art/b-3.webp','art/b-4.webp','art/b-5.webp','art/b-6.webp','art/b-7.webp','art/b-8.webp','art/b-close.webp',
   'art/b-play.webp','art/b-star.webp','art/bg-land.webp','art/bg-port.webp','art/btn-green.webp','art/btn-yellow.webp','art/d-blue.webp','art/d-cymbal.webp',
   'art/d-green.webp','art/d-marawis.webp','art/d-orange.webp','art/d-purple.webp','art/d-rebana.webp','art/d-red.webp','art/i-glock.webp','art/i-guitar.webp',
@@ -23,5 +23,6 @@ self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.
 // Network first (so updates show up), cache as fallback when offline.
 self.addEventListener('fetch',e=>{
   const r=e.request;if(r.method!=='GET'||new URL(r.url).origin!==location.origin)return;
-  e.respondWith(fetch(r).then(res=>{if(res.ok){const c=res.clone();caches.open(VERSION).then(ca=>ca.put(r,c))}return res}).catch(()=>caches.match(r,{ignoreSearch:true})));
+  // cache:'no-cache' asks the server every time (a quick 304 when nothing changed), so a new version shows on the next open
+  e.respondWith(fetch(r,{cache:'no-cache'}).then(res=>{if(res.ok){const c=res.clone();caches.open(VERSION).then(ca=>ca.put(r,c))}return res}).catch(()=>caches.match(r,{ignoreSearch:true})));
 });

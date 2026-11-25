@@ -574,6 +574,9 @@ setInterval(()=>tickPrayer(Date.now()),1000);
 
 /* start */
 applyLang();ov('bism',true);setTimeout(()=>tickPrayer(Date.now()),300);
-if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
+  /* a new version was installed: reload once, when the child is not in the middle of playing */
+  const had=!!navigator.serviceWorker.controller;let reloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!had||reloaded)return;const go=()=>{if(reloaded)return;if(scr==='home'&&!document.querySelector('.ov.on')){reloaded=true;location.reload()}else setTimeout(go,3000)};go()})}
 /* for automated tests only */
 window.__bmm={INST,SONGS,parseSong,openInst,startSong,startFall,fall,get song(){return song},bal,goHome};
