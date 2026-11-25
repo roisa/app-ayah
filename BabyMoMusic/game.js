@@ -192,10 +192,11 @@ const INST={
   hit(el){SND.glock(+el.dataset.m)}},
  guitar:{c:['#ffb36b','#ff6a00'],glide:true,
   build(st,W,H){const port=H>W*1.05;let cb,cols,rows,ar;
-   if(port){cols=8;cb=Math.min(58,(W-7*6)/8);if(cb<40){cols=4;cb=Math.min(58,(W-3*8)/4)}rows=8/cols;const ph=rows*cb+(rows-1)*8+12;ar=[0,ph,W,H-ph]}
-   else{rows=8;cb=Math.min(58,(H-7*6)/8);if(cb<40){rows=4;cb=Math.min(58,(H-3*8)/4)}cols=8/rows;const pw=cols*cb+(cols-1)*8+14;ar=[pw,0,W-pw,H]}
+   const n=chordList().length+1;
+   if(port){cols=allCh?(W>=8*38+42?8:6):n;rows=Math.ceil(n/cols);cb=Math.min(58,(W-(cols-1)*6)/cols);const ph=rows*cb+(rows-1)*8+12;ar=[0,ph,W,H-ph]}
+   else{cols=allCh?4:1;rows=Math.ceil(n/cols);cb=Math.min(58,(H-(rows-1)*8)/rows);const pw=cols*cb+(cols-1)*6+14;ar=[pw,0,W-pw,H]}
    const pan=box(mk('div','chords',st),0,0,port?W:ar[0]-14,port?ar[1]-12:H);pan.style.gridTemplateColumns=`repeat(${cols},${cb}px)`;pan.style.setProperty('--cb',cb+'px');renderChords(pan);
-   pan.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();const b=e.target.closest('button');if(!b)return;ac();if(b.dataset.mn!=null)minor=!minor;else chord=+b.dataset.c;renderChords(pan);strumAll()});
+   pan.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();const b=e.target.closest('button');if(!b)return;ac();if(b.dataset.more!=null){allCh=!allCh;store.set('allCh',allCh);SND.tap();releaseAll();build();return}chord={r:+b.dataset.r,mn:b.dataset.mn==='1'};renderChords(pan);strumAll()});
    const area=box(mk('div','',st),ar[0],ar[1],ar[2],ar[3]);area.style.position='absolute';st=area;W=ar[2];H=ar[3];
    const {el,L,S}=canon(st,W,H,true);let gl=Math.min(L-6,(S-6)/.42),gh=gl*.42;const g=box(mk('div','gtr',el),(L-gl)/2,(S-gh)/2,gl,gh);
    g.innerHTML=`<svg viewBox="0 0 1000 420"><g stroke="${OUT}" stroke-width="10" stroke-linejoin="round">
@@ -212,7 +213,7 @@ const INST={
      <g transform="translate(160 330) scale(.5)">${star8('#ffff01',OUT).replace(/<\/?svg[^>]*>/g,'')}</g></svg>`;
    const ys=[128,160,193,227,260,292],th=[9,8,7,6,5,4.5];
    ys.forEach((y,k)=>{const top=k===0?0:(y+ys[k-1])/2,bot=k===5?420:(y+ys[k+1])/2,s=mk('div','str',g,'<i></i>');box(s,gl*.137,top/420*gh,gl*(.9-.137),(bot-top)/420*gh);
-     s.firstChild.style.top=((y-top)/420*gh)+'px';s.firstChild.style.setProperty('--th',Math.max(2,th[k]*gh/420*1.5)+'px');s.dataset.h=1;s.dataset.s=k;s.dataset.c=RAINBOW[chord]});
+     s.firstChild.style.top=((y-top)/420*gh)+'px';s.firstChild.style.setProperty('--th',Math.max(2,th[k]*gh/420*1.5)+'px');s.dataset.h=1;s.dataset.s=k;s.dataset.c=RAINBOW[chord.r]});
    ksWarm()},
   hit(el){const m=chordNotes()[+el.dataset.s];SND.guitar(m);restart(el,'vib',500)}},
  drums:{c:['#7fd3ff','#2f7bff'],
@@ -259,13 +260,17 @@ function angSvg(col,n){return`<svg viewBox="0 0 100 156"><g stroke="${OUT}" stro
  <text x="50" y="${n<7?15:17}" text-anchor="middle" font-family="Lilita One,sans-serif" font-size="17" fill="#fff" stroke="${OUT}" stroke-width="3" paint-order="stroke">${n<7?n+1:1}</text>${n<7?'':`<circle cx="50" cy="1.5" r="2.4" fill="#fff" stroke="${OUT}" stroke-width="1.5"/>`}</svg>`}
 
 /* guitar chords: strings low to high. A chord button tunes all six strings, so any strum sounds nice.
-   Seven chords, one for each note C D E F G A B (same colours as the piano keys), and the m button makes them minor. */
+   The main chords are C, F, G and Am (the chords of most simple songs). The + button shows all 14 chords:
+   C Cm D Dm E Em F Fm G Gm A Am B Bm, in the same colours as the piano keys. */
 const ROOTS=[['C',0,[48,55,60,64,67,72]],['D',2,[50,57,62,66,69,74]],['E',4,[40,47,52,56,59,64]],['F',5,[53,57,60,65,69,72]],['G',7,[43,50,55,59,62,67]],['A',9,[45,52,57,61,64,69]],['B',11,[47,54,59,63,66,71]]];
-let chord=0,minor=false;
-function chordNotes(i=chord,mn=minor){const [,r,ms]=ROOTS[i];return mn?ms.map(m=>((m-r)%12+12)%12===4?m-1:m):ms}
+const MAINCH=[{r:0,mn:false},{r:3,mn:false},{r:4,mn:false},{r:5,mn:true}];
+let chord={r:0,mn:false},allCh=store.get('allCh',false);
+const chordList=()=>allCh?ROOTS.flatMap((_,r)=>[{r,mn:false},{r,mn:true}]):MAINCH;
+function chordNotes(i=chord.r,mn=chord.mn){const [,r,ms]=ROOTS[i];return mn?ms.map(m=>((m-r)%12+12)%12===4?m-1:m):ms}
 function ksWarm(){if(!AC)return;let i=0;const all=[...new Set(ROOTS.flatMap((_,k)=>[...chordNotes(k,false),...chordNotes(k,true)]))];const step=()=>{if(i>=all.length)return;ksBuf(all[i++]);setTimeout(step,25)};step()}
-function renderChords(pan){pan.innerHTML=ROOTS.map((r,i)=>`<button data-c="${i}" class="${i===chord?'on':''}" style="background:${RAINBOW[i]}">${r[0]}${minor?'m':''}</button>`).join('')+`<button data-mn class="mn${minor?' on':''}">m</button>`}
-function strumAll(){const n=chordNotes();document.querySelectorAll('.str').forEach((s,k)=>{s.dataset.c=RAINBOW[chord];setTimeout(()=>{SND.guitar(n[k]);restart(s,'vib',500)},k*35)})}
+function renderChords(pan){pan.innerHTML=chordList().map(c=>`<button data-r="${c.r}" data-mn="${c.mn?1:0}" class="${c.mn?'mi':''}${c.r===chord.r&&c.mn===chord.mn?' on':''}" style="background-color:${RAINBOW[c.r]}">${ROOTS[c.r][0]}${c.mn?'m':''}</button>`).join('')
+  +`<button data-more class="more" aria-label="${allCh?'Main chords':'All chords'}">${allCh?'−':'+'}</button>`}
+function strumAll(){const n=chordNotes();document.querySelectorAll('.str').forEach((s,k)=>{s.dataset.c=RAINBOW[chord.r];setTimeout(()=>{SND.guitar(n[k]);restart(s,'vib',500)},k*35)})}
 
 function restart(el,cls,ms){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);clearTimeout(el['_'+cls]);el['_'+cls]=setTimeout(()=>el.classList.remove(cls),ms)}
 
