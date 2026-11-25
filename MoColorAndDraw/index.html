@@ -265,8 +265,10 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 #ed .rb{width:clamp(44px,11vw,60px);height:clamp(44px,11vw,60px);background:#fff;box-shadow:0 4px 0 rgba(0,90,160,.2),0 8px 16px rgba(0,60,120,.16)}
 #ed .rb svg{width:52%;height:52%}
 #ed .rb[disabled]{opacity:.55}
-#ed #magicBtn{background:radial-gradient(circle at 35% 28%,#d9b3ff,#9b4bf0 60%,#7a2fd0);box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 4px 0 rgba(80,30,150,.35),0 8px 16px rgba(80,30,150,.2)}
-#magicBtn .wand{font-size:calc(clamp(44px,11vw,60px)*.5);line-height:1;pointer-events:none;filter:drop-shadow(0 2px 1px rgba(0,0,0,.25))}
+#ed #magicBtn{width:auto;height:clamp(52px,12.5vw,72px);border-radius:999px;display:flex;align-items:center;gap:clamp(4px,1vw,8px);padding:0 clamp(12px,2.6vw,24px) 0 clamp(9px,2vw,18px);background:linear-gradient(180deg,#c58bff,#9b4bf0 55%,#7a2fd0);box-shadow:inset 0 -5px 0 rgba(0,0,0,.16),inset 0 3px 0 rgba(255,255,255,.35),0 5px 0 rgba(80,30,150,.4),0 9px 18px rgba(80,30,150,.25);animation:magicB 2.4s ease-in-out infinite}
+@keyframes magicB{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+#magicBtn .wand{font-size:clamp(22px,5.4vw,36px);line-height:1;pointer-events:none;filter:drop-shadow(0 2px 1px rgba(0,0,0,.25))}
+#magicBtn .mt{font:400 clamp(16px,3.8vw,28px) "Lilita One",sans-serif;color:#fff;letter-spacing:.5px;text-shadow:0 2px 0 rgba(60,20,120,.55);white-space:nowrap;pointer-events:none}
 #magicBtn.go .wand{animation:wandW .5s ease-in-out infinite}
 @keyframes wandW{0%,100%{transform:rotate(-18deg)}50%{transform:rotate(22deg) scale(1.15)}}
 #undoBtn.hintU{animation:undoH .7s ease-in-out infinite;box-shadow:0 0 0 5px #ffd60a,0 0 18px 6px rgba(255,214,10,.8)!important}
@@ -282,8 +284,10 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 @keyframes mRing{from{transform:scale(.2);opacity:1}to{transform:scale(7);opacity:0}}
 .board.mg{animation:mGlow 1s ease-out}
 @keyframes mGlow{0%,100%{filter:none}35%{filter:brightness(1.18) drop-shadow(0 0 26px #ffe066)}}
-@media (max-width:430px){#ed.cm .rb{width:40px;height:40px}#ed.cm .bar{gap:5px;padding-left:10px;padding-right:10px}#ed.cm .rb.save{width:56px;height:44px}#ed.cm #magicBtn .wand{font-size:20px}}
-@media (max-width:350px){#ed.cm .rb{width:34px;height:34px}#ed.cm .rb.save{width:46px;height:38px}}
+@media (max-width:430px){#ed.cm .rb{width:36px;height:36px}#ed.cm .bar{gap:5px;padding-left:9px;padding-right:9px}#ed.cm .rb.save{width:50px;height:40px;border-radius:14px}
+  #ed.cm #magicBtn{width:auto;height:44px;padding:0 10px 0 6px;gap:3px}#ed.cm #magicBtn .wand{font-size:19px}#ed.cm #magicBtn .mt{font-size:15px}}
+@media (max-width:350px){#ed.cm .rb{width:29px;height:29px}#ed.cm .bar{gap:4px;padding-left:6px;padding-right:6px}#ed.cm .rb.save{width:40px;height:34px}#ed.cm #magicBtn{height:38px;padding:0 8px 0 5px}#ed.cm #magicBtn .wand{font-size:16px}#ed.cm #magicBtn .mt{font-size:13px}}
+@media (orientation:landscape) and (max-height:520px){#ed #magicBtn{height:44px;padding:0 14px 0 9px}#magicBtn .wand{font-size:20px}#magicBtn .mt{font-size:17px}}
 #ed .rb.save{width:clamp(60px,15vw,84px);height:clamp(48px,12vw,66px);border-radius:20px;background:linear-gradient(180deg,#ffd84a,#ffb800);box-shadow:inset 0 -5px 0 rgba(176,92,0,.25),0 5px 0 rgba(176,92,0,.3),0 10px 18px rgba(0,60,120,.18)}
 #ed .rb svg.ic-home{fill:#ff8a00}#ed .rb svg.ic-undo,#ed .rb svg.ic-redo{fill:#2f8bff}#ed .rb svg.ic-trash{fill:#ff3b30}
 #ed .rb.mus svg{fill:#9b4bf0}#ed .rb.mus svg path:first-child{stroke:#9b4bf0}
@@ -565,7 +569,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
     <button class="rb" id="redoBtn" aria-label="Redo" disabled><img class="ico" src="ui/redo.webp" alt="" draggable="false"></button>
     <button class="rb mus" aria-label="Music"><img class="ico mon" src="ui/music-on.webp" alt="" draggable="false"><img class="ico moff" src="ui/music-off.webp" alt="" draggable="false"></button>
     <button class="rb hold" id="clearBtn" aria-label="Clear"><img class="ico" src="ui/trash.webp" alt="" draggable="false"><span class="ring"></span><span class="tip" data-t="hold">Hold to clear</span></button>
-    <button class="rb" id="magicBtn" aria-label="Magic"><span class="wand">🪄</span></button>
+    <button class="rb" id="magicBtn" aria-label="Magic"><span class="wand">🪄</span><span class="mt fun" data-t="magic">Magic!</span></button>
     <span class="sp"></span>
     <button class="rb save" id="saveBtn" aria-label="Save"><img class="ico" src="ui/camera.webp" alt="" draggable="false"></button>
   </div>
@@ -1403,13 +1407,18 @@ function magicFx(){let f=$('#mfx');if(!f){f=document.createElement('div');f.id='
 function magicStar(f,x,y,big){const s=document.createElement('i'),z=(big?18:9)+Math.random()*(big?26:16);s.className='st';
   s.style.cssText=`left:${x}%;top:${y}%;--s:${z}px;--c:${['#fff','#ffe066','#ffd60a','#ff9be0','#9be7ff'][(Math.random()*5)|0]};--dx:${(Math.random()-.5)*(big?260:60)}px;--dy:${(Math.random()-.6)*(big?220:60)}px`;
   s.onanimationend=()=>s.remove();f.appendChild(s)}
-/* magic sounds: harp glissando up, twinkles while it works, a bright "cling" at the end */
-function bell(f,dur,vol,when=0){tone(f,dur,'sine',vol,when);tone(f*2.01,dur*.6,'sine',vol*.35,when);tone(f*3.02,dur*.35,'sine',vol*.15,when)}
-function magicSfx(dur){const sc=[523,587,659,784,880,1047,1175,1319,1568,1760,2093,2349,2637,3136];
-  sc.forEach((f,i)=>bell(f,.45,.07,i*.045));
-  noise(2500,dur,.035,0,'bandpass',.8,9000);
-  for(let k=0;k<Math.round(dur*14);k++)bell(2200+Math.random()*2800,.18,.028,.25+Math.random()*(dur-.3))}
-function magicCling(){[2093,2637,3136,4186].forEach((f,i)=>bell(f,1.3-i*.15,.075,i*.035));noise(7000,.5,.03,0,'highpass',.7)}
+/* magic sounds: a wind-chime run (metal bars with a long ring and a little echo), then one soft bell */
+let chimeBus=null;
+function chimeOut(){const a=ac();if(!a)return null;if(chimeBus)return chimeBus;
+  const n=a.sampleRate*2.2|0,buf=a.createBuffer(2,n,a.sampleRate);for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,3.2)}
+  const inp=a.createGain(),cv=a.createConvolver(),wet=a.createGain(),lp=a.createBiquadFilter();cv.buffer=buf;wet.gain.value=.3;lp.type='lowpass';lp.frequency.value=9000;
+  inp.connect(lp);lp.connect(a.destination);lp.connect(cv);cv.connect(wet);wet.connect(a.destination);return chimeBus=inp}
+function chime(f,dur,vol,when=0){const a=ac(),out=chimeOut();if(!a||!out||!soundOn)return;const t0=a.currentTime+when;
+  [[1,1,1],[2.76,.32,.45],[5.4,.12,.22]].forEach(([m,v,dm])=>{if(f*m>15000)return;const o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=f*m;
+    g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol*v,t0+.004);g.gain.exponentialRampToValueAtTime(.0001,t0+dur*dm);o.connect(g).connect(out);o.start(t0);o.stop(t0+dur*dm+.05)})}
+function magicSfx(dur){const n=24,span=Math.min(1.5,dur*.8);        // bars from low to high, like running a finger along a chime tree
+  for(let i=0;i<n;i++)chime(1175*Math.pow(2,i/n*1.75)*(1+(Math.random()-.5)*.012),1.5,.05,i*span/n+Math.random()*.012)}
+function magicCling(){chime(2093,2.4,.11);chime(3136,2,.06,.02);chime(1047,2.2,.05)}
 function magicEnd(st){if(!st.magic)return;const m=st.magic;st.magic=null;cancelAnimationFrame(m.raf);if(st===E)pctx.putImageData(m.im,0,0);
   const f=$('#mfx');if(f&&!m.done)f.innerHTML='';
   $('#magicBtn').classList.remove('go');paper.style.pointerEvents=''}
