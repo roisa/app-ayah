@@ -265,6 +265,14 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
 #ed .rb{width:clamp(44px,11vw,60px);height:clamp(44px,11vw,60px);background:#fff;box-shadow:0 4px 0 rgba(0,90,160,.2),0 8px 16px rgba(0,60,120,.16)}
 #ed .rb svg{width:52%;height:52%}
 #ed .rb[disabled]{opacity:.55}
+#ed #magicBtn{background:radial-gradient(circle at 35% 28%,#d9b3ff,#9b4bf0 60%,#7a2fd0);box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 4px 0 rgba(80,30,150,.35),0 8px 16px rgba(80,30,150,.2)}
+#magicBtn .wand{font-size:calc(clamp(44px,11vw,60px)*.5);line-height:1;pointer-events:none;filter:drop-shadow(0 2px 1px rgba(0,0,0,.25))}
+#magicBtn.go .wand{animation:wandW .5s ease-in-out infinite}
+@keyframes wandW{0%,100%{transform:rotate(-18deg)}50%{transform:rotate(22deg) scale(1.15)}}
+#undoBtn.hintU{animation:undoH .7s ease-in-out infinite;box-shadow:0 0 0 5px #ffd60a,0 0 18px 6px rgba(255,214,10,.8)!important}
+@keyframes undoH{50%{transform:scale(1.18)}}
+@media (max-width:430px){#ed.cm .rb{width:40px;height:40px}#ed.cm .bar{gap:5px;padding-left:10px;padding-right:10px}#ed.cm .rb.save{width:56px;height:44px}#ed.cm #magicBtn .wand{font-size:20px}}
+@media (max-width:350px){#ed.cm .rb{width:34px;height:34px}#ed.cm .rb.save{width:46px;height:38px}}
 #ed .rb.save{width:clamp(60px,15vw,84px);height:clamp(48px,12vw,66px);border-radius:20px;background:linear-gradient(180deg,#ffd84a,#ffb800);box-shadow:inset 0 -5px 0 rgba(176,92,0,.25),0 5px 0 rgba(176,92,0,.3),0 10px 18px rgba(0,60,120,.18)}
 #ed .rb svg.ic-home{fill:#ff8a00}#ed .rb svg.ic-undo,#ed .rb svg.ic-redo{fill:#2f8bff}#ed .rb svg.ic-trash{fill:#ff3b30}
 #ed .rb.mus svg{fill:#9b4bf0}#ed .rb.mus svg path:first-child{stroke:#9b4bf0}
@@ -546,6 +554,7 @@ img.lmasjid{display:block;width:96px;height:96px;margin:6px auto 0}
     <button class="rb" id="redoBtn" aria-label="Redo" disabled><img class="ico" src="ui/redo.webp" alt="" draggable="false"></button>
     <button class="rb mus" aria-label="Music"><img class="ico mon" src="ui/music-on.webp" alt="" draggable="false"><img class="ico moff" src="ui/music-off.webp" alt="" draggable="false"></button>
     <button class="rb hold" id="clearBtn" aria-label="Clear"><img class="ico" src="ui/trash.webp" alt="" draggable="false"><span class="ring"></span><span class="tip" data-t="hold">Hold to clear</span></button>
+    <button class="rb" id="magicBtn" aria-label="Magic"><span class="wand">🪄</span></button>
     <span class="sp"></span>
     <button class="rb save" id="saveBtn" aria-label="Save"><img class="ico" src="ui/camera.webp" alt="" draggable="false"></button>
   </div>
@@ -654,13 +663,13 @@ const TXT={
 en:{tag:'Play Games the Islamic Way',draw:'Draw',drawS:'Blank paper',color:'Color',colorS:'Coloring pages',myArt:'My Art',legal:'No ads · No data collected · Works offline',
  choose:'Choose a picture',pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. Your picture is saved.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},chooseCat:'Choose a Category',soonCat:'Soon',soonMsg:'New pictures are coming soon, insya Allah!',empty:"No pictures yet. Let's make one!",hold:'Hold to clear',bismS:'Say Bismillah before we start',bismD:"Bismillah, let's draw!",bismC:"Bismillah, let's color!",
  alh:'Alhamdulillah!',alhS:"What a beautiful picture! It's saved in My Art.",dyk:'Did you know?',pick:'Pick a color',ok:'OK',gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
- saved:'Saved in My Art ✓',cleared:'All clean!',blank:'My drawing',deleted:'Deleted',
+ magic:'Magic!',saved:'Saved in My Art ✓',cleared:'All clean!',blank:'My drawing',deleted:'Deleted',
  tools:{crayon:'Crayon',chalk:'Chalk',marker:'Highlighter',brush:'Brush',pen:'Bold pen',oil:'Oil brush',glitter:'Glitter',stamp:'Stamps',fill:'Paint bucket',eraser:'Eraser'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! What a beautiful picture!'},
 id:{tag:'Bermain dengan Cara Islami',draw:'Menggambar',drawS:'Kertas kosong',color:'Mewarnai',colorS:'Gambar mewarnai',myArt:'Karyaku',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',
  choose:'Pilih gambar',pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Gambarmu sudah tersimpan.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},chooseCat:'Pilih Kategori',soonCat:'Segera',soonMsg:'Gambar baru segera hadir, insya Allah!',empty:'Belum ada gambar. Ayo buat!',hold:'Tahan untuk menghapus',bismS:'Ucapkan Bismillah sebelum mulai',bismD:'Bismillah, ayo menggambar!',bismC:'Bismillah, ayo mewarnai!',
  alh:'Alhamdulillah!',alhS:'Gambarnya bagus sekali! Sudah tersimpan di Karyaku.',dyk:'Tahukah kamu?',pick:'Pilih warna',ok:'OK',gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
- saved:'Tersimpan di Karyaku ✓',cleared:'Bersih lagi!',blank:'Gambarku',deleted:'Dihapus',
+ magic:'Ajaib!',saved:'Tersimpan di Karyaku ✓',cleared:'Bersih lagi!',blank:'Gambarku',deleted:'Dihapus',
  tools:{crayon:'Krayon',chalk:'Kapur',marker:'Stabilo',brush:'Kuas',pen:'Spidol',oil:'Kuas cat minyak',glitter:'Glitter',stamp:'Stempel',fill:'Ember cat',eraser:'Penghapus'},
  sayBism:'Bismillah',sayAlh:'Alhamdulillah! Gambarnya bagus sekali!'}};
 // language: saved choice here, else the one picked on the Mo Games landing page, else the device language
@@ -1262,6 +1271,7 @@ async function openEditor(mode,page,art){
   applyTheme();
   show('ed');
   $('#ed').classList.toggle('cmode',mode==='color');$('#board').style.width=$('#board').style.height='';
+  $('#magicBtn').style.display=mode==='color'?'':'none';$('#ed').classList.toggle('cm',mode==='color');$('#undoBtn').classList.remove('hintU');
   E={mode,page:page||null,undo:[],bytes:0,dirty:false,savedId:art?art.id:null,hue:0,reg:null,maskL:0,ready:false};
 
   // default tool: paint bucket for coloring pages, bold pen for drawing; no stamps on coloring pages
@@ -1374,9 +1384,35 @@ function pushUndo(x,y,w,h){
   updUndo();
 }
 function updUndo(){$('#undoBtn').disabled=!(E.undo&&E.undo.length);$('#redoBtn').disabled=!(E.redo&&E.redo.length)}
-function undo(){const u=E.undo.pop();if(!u)return;E.bytes-=u.img.width*u.img.height*4;(E.redo=E.redo||[]).push({x:u.x,y:u.y,img:pctx.getImageData(u.x,u.y,u.img.width,u.img.height)});pctx.putImageData(u.img,u.x,u.y);E.dirty=true;updUndo();sfx.undo()}
+function undo(){magicEnd(E);$('#undoBtn').classList.remove('hintU');const u=E.undo.pop();if(!u)return;E.bytes-=u.img.width*u.img.height*4;(E.redo=E.redo||[]).push({x:u.x,y:u.y,img:pctx.getImageData(u.x,u.y,u.img.width,u.img.height)});pctx.putImageData(u.img,u.x,u.y);E.dirty=true;updUndo();sfx.undo()}
 function redo(){const r=E.redo&&E.redo.pop();if(!r)return;E.undo.push({x:r.x,y:r.y,img:pctx.getImageData(r.x,r.y,r.img.width,r.img.height)});E.bytes+=r.img.width*r.img.height*4;pctx.putImageData(r.img,r.x,r.y);E.dirty=true;updUndo();tone(350,.14,'sine',.14,0,700)}
-function clearAll(){pushUndo(0,0,E.W,E.H);pctx.fillStyle='#fff';pctx.fillRect(0,0,E.W,E.H);E.dirty=true;sfx.clear();toast(t('cleared'))}
+/* magic button: colour the white parts that are left, never the child's own colouring, as ONE undo step */
+const MAGIC=['#ff3b30','#ff8a00','#ffd60a','#8bd346','#1fa64a','#3fc6f5','#2f5bea','#9b4bf0','#ff5fa8','#f6c49a','#8b5a2b'];
+function magicEnd(st){if(!st.magic)return;const m=st.magic;st.magic=null;cancelAnimationFrame(m.raf);if(st===E)pctx.putImageData(m.im,0,0);
+  $('#magicBtn').classList.remove('go');paper.style.pointerEvents=''}
+function magicFill(){
+  if(E.mode!=='color'||!E.reg||!E.ready||E.magic)return;
+  const {W,H,reg,box}=E,N=W*H,n=box.length,im=pctx.getImageData(0,0,W,H),d=im.data,tot=new Int32Array(n),used=new Int32Array(n);
+  const white=k=>d[k+3]<10||(d[k]>244&&d[k+1]>244&&d[k+2]>244);
+  for(let i=0;i<N;i++){const L=reg[i];if(L>0){tot[L]++;if(!white(i*4))used[L]++}}
+  const col=new Array(n),todo=[];let last=-1;
+  for(let L=1;L<n;L++){if(tot[L]<12||used[L]>tot[L]*.5)continue;      // areas the child has mostly coloured stay as they are; elsewhere only the white part is filled
+    let c;do{c=(Math.random()*MAGIC.length)|0}while(c===last);last=c;col[L]=hexRgb(MAGIC[c]);todo.push(L)}
+  if(!todo.length){tone(300,.15,'sine',.12,0,200);return}
+  pushUndo(0,0,W,H);
+  for(let i=0;i<N;i++){const c=col[reg[i]];if(!c)continue;const k=i*4;if(white(k)){d[k]=c[0];d[k+1]=c[1];d[k+2]=c[2];d[k+3]=255}}
+  E.dirty=true;todo.sort(()=>Math.random()-.5);
+  const st=E,m=st.magic={im,raf:0},per=Math.max(1,Math.ceil(todo.length/75));let at=0,fr=0;
+  $('#magicBtn').classList.add('go');paper.style.pointerEvents='none';
+  [523,659,784,1047,1319].forEach((f,i)=>tone(f,.3,'triangle',.12,i*.09));say(t('magic'));
+  const step=()=>{if(st.magic!==m||st!==E)return;
+    for(let j=0;j<per&&at<todo.length;j++,at++){const b=box[todo[at]];pctx.putImageData(im,0,0,b[0],b[1],b[2]-b[0],b[3]-b[1])}
+    if(++fr%6===0)tone(900+Math.random()*900,.08,'sine',.05);
+    if(at<todo.length){m.raf=requestAnimationFrame(step);return}
+    magicEnd(st);const u=$('#undoBtn');u.classList.add('hintU');clearTimeout(magicFill.h);magicFill.h=setTimeout(()=>u.classList.remove('hintU'),6000)};
+  m.raf=requestAnimationFrame(step);
+}
+function clearAll(){magicEnd(E);pushUndo(0,0,E.W,E.H);pctx.fillStyle='#fff';pctx.fillRect(0,0,E.W,E.H);E.dirty=true;sfx.clear();toast(t('cleared'))}
 
 /* fill */
 function curRGB(x){if(color==='rainbow'){E.hue=(E.hue+47)%360;return hslRgb(E.hue,95,55)}return hexRgb(color)}
@@ -1624,7 +1660,7 @@ $('#pkClose').onclick=()=>ov('picker',false);
 $('#pkOk').onclick=()=>{const c=pkHex();color=c;store.set('color',c);if(toolDef().eraser)tool='crayon';renderColors();renderTools();renderSizes();renderStamps();ov('picker',false);sfx.pop()};
 
 /* ---------- editor buttons ---------- */
-$('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;
+$('#magicBtn').onclick=magicFill;$('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;
 holdable($('#clearBtn'),900,clearAll,()=>{const tp=$('#clearBtn .tip');tp.classList.add('on');setTimeout(()=>tp.classList.remove('on'),1400)});
 $('#bismBtn').onclick=()=>{ac();sfx.bism();say(t('sayBism'));ov('bism',false);E.ready=true};
 $('#edHome').onclick=()=>goHome();
@@ -1632,6 +1668,7 @@ $('#saveBtn').onclick=async()=>{if(!E.ready)return;await saveArt();celebrate()};
 
 function toBlob(c,type,q){return new Promise(r=>c.toBlob(r,type,q))}
 async function saveArt(st=E){
+  magicEnd(st);
   const {W,H}=st,ex=document.createElement('canvas');ex.width=W;ex.height=H;const x=ex.getContext('2d');
   let pc=null;if(st.mode==='color'){pc=document.createElement('canvas');pc.width=W;pc.height=H;pc.getContext('2d').drawImage(cPaint,0,0)}
   x.drawImage(cPaint,0,0);if(st.mode==='color')x.drawImage(cLine,0,0);
@@ -1663,7 +1700,7 @@ $('#doneGal').onclick=async()=>{ov('done',false);await leaveEditor();show('gal',
 async function leaveEditor(){
   const st=E;if(!st.mode)return;
   try{document.querySelector('meta[name=theme-color]').content='#ffa51f'}catch(e){}
-  ov('bism',false);ov('done',false);st.ready=false;E={};
+  magicEnd(st);ov('bism',false);ov('done',false);st.ready=false;E={};
   if(st.dirty){await saveArt(st);toast(t('saved'))}
 }
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&E.mode&&E.dirty)saveArt()});
