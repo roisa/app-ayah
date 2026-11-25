@@ -1,9 +1,9 @@
 // Baby Mo Music: offline support. Bump VERSION when files change.
-const VERSION='bmm-v1';
+const VERSION='bmm-v2';
 const ASSETS=[
   './','index.html','game.js','manifest.webmanifest','art/b-close.webp','art/b-home.webp','art/b-play.webp','art/b-restart.webp','art/btn-green.webp','art/btn-yellow.webp',
   'art/mo-dua.webp','art/mo-head-happy.webp','art/mo-head.webp','art/mo-jump.webp','art/mo-point.webp','art/mo-win.webp','art/mo.webp','art/p-window.webp','art/star.webp',
-  'ui/back.webp','ui/close.webp','ui/gear.webp','ui/hand.webp','ui/help.webp','ui/home.webp','ui/lang-en.webp','ui/lang-id.webp','ui/lock.webp','ui/masjid.webp',
+  'ui/back.webp','ui/close.webp','ui/games.webp','ui/gear.webp','ui/hand.webp','ui/help.webp','ui/home.webp','ui/lang-en.webp','ui/lang-id.webp','ui/lock.webp','ui/masjid.webp',
   'ui/music-on.webp','ui/ok.webp','ui/play.webp','ui/star.webp','icons/apple-touch-icon.png','icons/cursor-hand.png','icons/cursor-hand@2x.png','icons/favicon-32.png',
   'icons/icon-192.png','icons/icon-512.png','voice/en/akbar.mp3','voice/en/barak.mp3','voice/en/bismillah.mp3','voice/en/masya1.mp3','voice/en/pray-asr.mp3',
   'voice/en/pray-dhuhr.mp3','voice/en/pray-fajr.mp3','voice/en/pray-isha.mp3','voice/en/pray-maghrib.mp3','voice/en/subhan.mp3','voice/en/taqabbal.mp3','voice/en/win.mp3',

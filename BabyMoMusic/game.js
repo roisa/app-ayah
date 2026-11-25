@@ -12,7 +12,7 @@ const rnd=(a,b)=>a+Math.random()*(b-a);
 const TXT={
 en:{tag:'Play Games the Islamic Way',legal:'No ads · No data collected · Works offline',inst:'Add to Home Screen',
  bismS:'Say Bismillah before we play',bismB:'Bismillah!',sayBism:'Bismillah',
- I:{piano:'Piano',xylo:'Xylophone',guitar:'Guitar',drums:'Drums',daff:'Daff',angklung:'Angklung',suling:'Flute',balloons:'Music Balloons'},
+ I:{piano:'Piano',xylo:'Xylophone',glock:'Glockenspiel',guitar:'Guitar',drums:'Drums',daff:'Daff',angklung:'Angklung',suling:'Flute',balloons:'Music Balloons'},
  songsT:'Songs',songsS:'Tap the one that shines and play the song!',free:'Free play',notesN:'{n} notes',
  alh:'Alhamdulillah!',sayAlh:'Alhamdulillah!',winSub:'You played “{s}”. MasyaAllah!',dyk:'Did you know?',again:'Again',more:'More songs',
  listenTip:'Listen to the song, then play it!',balTip:'Pop the balloons to play a song!',songDone:'MasyaAllah! You played “{s}”',
@@ -25,7 +25,7 @@ en:{tag:'Play Games the Islamic Way',legal:'No ads · No data collected · Works
  iosA:'Tap the Share button in Safari',iosB:'Choose “Add to Home Screen”',iosC:'Tap “Add”, then open Baby Mo Music from your Home Screen',anA:'Tap the menu button of your browser',anB:'Choose “Add to Home screen” or “Install app”',anC:'Confirm, then open Baby Mo Music from your Home Screen',instOk:'Baby Mo Music is on your Home Screen!'},
 id:{tag:'Bermain dengan Cara Islami',legal:'Tanpa iklan · Tanpa pengumpulan data · Bisa offline',inst:'Tambah ke Layar Utama',
  bismS:'Ucapkan Bismillah sebelum bermain',bismB:'Bismillah!',sayBism:'Bismillah',
- I:{piano:'Piano',xylo:'Xilofon',guitar:'Gitar',drums:'Drum',daff:'Rebana',angklung:'Angklung',suling:'Suling',balloons:'Balon Musik'},
+ I:{piano:'Piano',xylo:'Xilofon',glock:'Glokenspil',guitar:'Gitar',drums:'Drum',daff:'Rebana',angklung:'Angklung',suling:'Suling',balloons:'Balon Musik'},
  songsT:'Lagu',songsS:'Ketuk yang bersinar dan mainkan lagunya!',free:'Main bebas',notesN:'{n} nada',
  alh:'Alhamdulillah!',sayAlh:'Alhamdulillah!',winSub:'Kamu sudah memainkan “{s}”. MasyaAllah!',dyk:'Tahukah kamu?',again:'Lagi',more:'Lagu lain',
  listenTip:'Dengarkan lagunya, lalu mainkan!',balTip:'Letuskan balonnya untuk memainkan lagu!',songDone:'MasyaAllah! Kamu memainkan “{s}”',
@@ -83,6 +83,8 @@ const SND={
  angklung(m){const f=mf(m),t0=now(),b=bus(.32,.18);
    for(let k=0;k<11;k++){const tt=t0+k*.068+Math.random()*.008,a=Math.pow(.8,k)*(k%2?.75:1);
      part(tt,f,a,.16,b,'sine',.003);part(tt,f*2,a*.55,.13,b,'sine',.003);part(tt,f*3.02,a*.12,.06,b,'triangle',.002);nz(tt,.012,a*.22,'bandpass',f*4,2,b)}},
+ glock(m){const f=mf(m),t0=now(),b=bus(.3,.3),r=Math.min(2.6,1.5*Math.sqrt(1047/f)+.5);
+   part(t0,f,1,r,b,'sine',.001);part(t0,f*2.756,.3,r*.25,b,'sine',.001);part(t0,f*5.404,.12,r*.1,b,'sine',.001);part(t0,f*8.933,.05,.07,b,'sine',.001);nz(t0,.012,.2,'highpass',6000,.7,b)},
  kalimba(m,vol){const f=mf(m),t0=now(),b=bus(.38*(vol||1),.3);part(t0,f,1,1.3,b,'sine',.002);part(t0,f*2,.12,.4,b);part(t0,f*5.9,.15,.12,b,'sine',.001);nz(t0,.01,.15,'highpass',2500,.8,b)},
  suling(m){const f=mf(m),t0=now(),b=bus(.34,.35),g=AC.createGain();g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(1,t0+.07);g.connect(b);
    const lfo=AC.createOscillator(),ld=AC.createGain();lfo.frequency.value=5.3;ld.gain.setValueAtTime(0,t0);ld.gain.linearRampToValueAtTime(f*.007,t0+.45);lfo.connect(ld);
@@ -139,6 +141,8 @@ function voice(key,text){const id=(lang==='id'?'id':'en')+'/'+key,a=ac();
 const RAINBOW=['#ff4b4b','#ff6a00','#ffd400','#00aa0c','#19c3c0','#2f7bff','#9b4bf0','#ff5fa8'];
 const SCALE=[0,2,4,5,7,9,11,12];
 const OUT='#4a2c14';
+/* key numbers in not angka: 1 2 3 4 5 6 7, and high do is 1 with a dot above */
+const lab=i=>i<7?String(i+1):'<i class="hi">1</i>';
 function mk(tag,cls,parent,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;if(parent)parent.appendChild(e);return e}
 function box(e,x,y,w,h){e.style.left=x+'px';e.style.top=y+'px';e.style.width=w+'px';e.style.height=h+'px';return e}
 /* every instrument is laid out sideways (landscape); in portrait the whole instrument turns a quarter turn */
@@ -151,6 +155,7 @@ const ICON={
  piano:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="4.5" stroke-linejoin="round"><rect x="8" y="28" width="104" height="70" rx="16" fill="#ffd84a"/><rect x="16" y="50" width="88" height="40" rx="6" fill="#fff8ee"/>${[0,1,2,3,4,5].map(i=>`<rect x="${17+i*14.6}" y="50" width="13" height="40" rx="5" fill="${RAINBOW[i+1]}"/>`).join('')}${[0,1,3,4].map(i=>`<rect x="${27.5+i*14.6}" y="50" width="7" height="22" rx="2.5" fill="#3a2a4a"/>`).join('')}</g><g fill="${OUT}" opacity=".55"><circle cx="24" cy="39" r="3.5"/><circle cx="34" cy="39" r="3.5"/><circle cx="44" cy="39" r="3.5"/></g><circle cx="92" cy="39" r="5" fill="#ff6a00" stroke="${OUT}" stroke-width="3"/><circle cx="78" cy="39" r="5" fill="#00aa0c" stroke="${OUT}" stroke-width="3"/></svg>`,
  xylo:`<svg viewBox="0 0 120 120"><g transform="rotate(-14 60 60)" stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><path d="M12 44 L108 52 M12 84 L108 74" stroke-width="7" stroke-linecap="round"/>${[0,1,2,3,4,5].map(i=>{const h=56-i*5;return`<rect x="${14+i*16}" y="${64-h/2}" width="13" height="${h}" rx="6" fill="${RAINBOW[i]}"/>`}).join('')}</g><g stroke="${OUT}" stroke-width="4"><path d="M74 104 L104 76" stroke-linecap="round"/><circle cx="106" cy="74" r="8" fill="#ff5fa8"/></g></svg>`,
  guitar:`<svg viewBox="0 0 120 120"><g transform="rotate(-40 60 60)" stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><rect x="58" y="51" width="50" height="18" rx="4" fill="url(#gNeck)"/><rect x="104" y="46" width="14" height="28" rx="5" fill="#ff6a00"/><circle cx="30" cy="60" r="25" fill="url(#gGtr)"/><circle cx="56" cy="60" r="19" fill="url(#gGtr)"/><circle cx="48" cy="60" r="8" fill="#5a3410"/><rect x="16" y="52" width="6" height="16" rx="2" fill="#7a4a1e"/></g></svg>`,
+ glock:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><rect x="6" y="28" width="108" height="70" rx="14" fill="#ff6a00"/>${[0,1,2,3,4,5].map(i=>{const h=56-i*5;return`<rect x="${13+i*16.5}" y="${63-h/2}" width="13" height="${h}" rx="4" fill="url(#gMet)" stroke-width="3"/><circle cx="${19.5+i*16.5}" cy="63" r="4.5" fill="${RAINBOW[i]}" stroke-width="2"/>`}).join('')}</g><g stroke="${OUT}" stroke-width="4"><path d="M76 112 L104 90" stroke-linecap="round"/><circle cx="106" cy="88" r="8" fill="#ffd400"/></g></svg>`,
  drums:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="4.5" stroke-linejoin="round"><path d="M22 46 V88 A38 13 0 0 0 98 88 V46" fill="#ff6a00"/><path d="M22 60 L40 84 L60 60 L80 84 L98 60" fill="none" stroke="#ffff01" stroke-width="5"/><ellipse cx="60" cy="46" rx="38" ry="13" fill="#fff8ee"/></g><g stroke="${OUT}" stroke-width="4" stroke-linecap="round"><path d="M30 10 L58 40"/><path d="M92 10 L64 40"/></g><circle cx="30" cy="10" r="6" fill="#00aa0c" stroke="${OUT}" stroke-width="3"/><circle cx="92" cy="10" r="6" fill="#00aa0c" stroke="${OUT}" stroke-width="3"/></svg>`,
  daff:`<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="48" fill="#c07a2c" stroke="${OUT}" stroke-width="4.5"/><circle cx="60" cy="60" r="38" fill="#fff3dc" stroke="${OUT}" stroke-width="4"/><g transform="translate(60 60) scale(.5)">${star8('#00aa0c',OUT).replace(/<\/?svg[^>]*>/g,'')}</g>${[0,1,2,3,4,5].map(i=>{const a=i/6*6.283+.5;return`<circle cx="${60+Math.cos(a)*43}" cy="${60+Math.sin(a)*43}" r="6" fill="url(#gGold)" stroke="${OUT}" stroke-width="2.5"/>`}).join('')}</svg>`,
  angklung:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><rect x="20" y="96" width="80" height="12" rx="6" fill="#ff6a00"/><rect x="22" y="14" width="9" height="88" rx="4.5" fill="url(#gBam)"/><rect x="89" y="14" width="9" height="88" rx="4.5" fill="url(#gBam)"/><rect x="17" y="10" width="86" height="10" rx="5" fill="url(#gBamH)"/><path d="M38 26 L58 20 L58 92 Q58 98 52 98 L44 98 Q38 98 38 92Z" fill="url(#gBam)"/><path d="M64 44 L82 38 L82 92 Q82 98 76 98 L70 98 Q64 98 64 92Z" fill="url(#gBam)"/><rect x="24" y="60" width="72" height="7" rx="3.5" fill="url(#gBamH)"/></g></svg>`,
@@ -165,18 +170,32 @@ const INST={
   build(st,W,H){const {el,L,S}=canon(st,W,H),bw=Math.min(L-6,S*2.5),bh=Math.min(S-12,bw*.66),p=box(mk('div','piano',el),(L-bw)/2,(S-bh)/2,bw,bh),sh=bh*.19;
    const s=mk('div','strip',p,`<span class="grill"></span><span class="pn">Baby <i>Mo</i></span><span class="dots">${['#00aa0c','#ff6a00','#ff5fa8'].map(c=>`<i style="background:${c}"></i>`).join('')}</span>`);s.style.height=sh+'px';s.style.fontSize=Math.max(14,sh*.48)+'px';
    const k=mk('div','keys',p);k.style.top=sh+'px';const kw=(bw*.94)/8;
-   SCALE.forEach((d,i)=>{const w=mk('div','wk',k,`<span class="up">${i+1}</span>`);w.dataset.h=1;w.dataset.m=60+d;w.dataset.i=i;w.dataset.c=RAINBOW[i];w.style.setProperty('--k',RAINBOW[i]);w.style.setProperty('--fs',Math.min(34,Math.max(16,kw*.42))+'px')});
+   SCALE.forEach((d,i)=>{const w=mk('div','wk',k,`<span class="up">${lab(i)}</span>`);w.dataset.h=1;w.dataset.m=60+d;w.dataset.i=i;w.dataset.c=RAINBOW[i];w.style.setProperty('--k',RAINBOW[i]);w.style.setProperty('--fs',Math.min(34,Math.max(16,kw*.42))+'px')});
    [[0,61],[1,63],[3,66],[4,68],[5,70]].forEach(([j,m])=>{const b=mk('div','bk',k);b.dataset.h=1;b.dataset.m=m;b.dataset.c='#9b8ab0';b.style.left=`calc(${(j+1)*12.5}% - 3.6%)`;b.style.width='7.2%'})},
   hit(el){SND.piano(+el.dataset.m)}},
  xylo:{c:['#8be27f','#1fae3c'],melodic:true,glide:true,
   build(st,W,H){const {el,L,S}=canon(st,W,H),gw=Math.min(L-10,S*2.2),x0=(L-gw)/2,gap=gw*.02,bwid=(gw-gap*7)/8,maxH=Math.min(S*.94,gw*.55),minH=maxH*.6,cy=S/2;
    const rail=(off)=>{const xa=x0-gap,ya=cy+off*maxH,xb=x0+gw+gap,yb=cy+off*minH,len=Math.hypot(xb-xa,yb-ya),r=mk('div','rail',el);box(r,xa,ya-S*.025,len,S*.05);r.style.transformOrigin='0 50%';r.style.transform=`rotate(${Math.atan2(yb-ya,xb-xa)}rad)`};
    rail(-.3);rail(.3);
-   SCALE.forEach((d,i)=>{const h=maxH-(maxH-minH)*i/7,b=box(mk('div','bar8',el,`<span class="up">${i+1}</span>`),x0+i*(bwid+gap),cy-h/2,bwid,h);b.dataset.h=1;b.dataset.m=72+d;b.dataset.i=i;b.dataset.c=RAINBOW[i];b.style.setProperty('--k',RAINBOW[i]);b.style.setProperty('--fs',Math.min(34,Math.max(16,bwid*.4))+'px');
+   SCALE.forEach((d,i)=>{const h=maxH-(maxH-minH)*i/7,b=box(mk('div','bar8',el,`<span class="up">${lab(i)}</span>`),x0+i*(bwid+gap),cy-h/2,bwid,h);b.dataset.h=1;b.dataset.m=72+d;b.dataset.i=i;b.dataset.c=RAINBOW[i];b.style.setProperty('--k',RAINBOW[i]);b.style.setProperty('--fs',Math.min(34,Math.max(16,bwid*.4))+'px');
      const sc=bwid*.22;[.2,.8].forEach(f=>{const s=mk('span','sc',b);s.style.top=(h*f-sc/2-4)+'px'})})},
   hit(el){SND.xylo(+el.dataset.m)}},
+ glock:{c:['#9ff0e6','#19b3a6'],melodic:true,glide:true,
+  build(st,W,H){const {el,L,S}=canon(st,W,H),cw=Math.min(L-8,S*2.3),chh=Math.min(S-10,cw*.6),cs=box(mk('div','gcase',el),(L-cw)/2,(S-chh)/2,cw,chh);
+   [.24,.76].forEach(f=>box(mk('span','felt',cs),cw*.03,chh*f-chh*.03,cw*.94,chh*.06));
+   const pad=cw*.05,gw=cw-pad*2,gap=gw*.025,bw=(gw-gap*7)/8,maxH=chh*.88,minH=maxH*.62;
+   SCALE.forEach((d,i)=>{const h=maxH-(maxH-minH)*i/7,b=box(mk('div','gbar',cs,`<span class="dot" style="background:${RAINBOW[i]}"></span><span class="up">${lab(i)}</span>`),pad-5+i*(bw+gap),(chh-h)/2-5,bw,h);
+     b.dataset.h=1;b.dataset.m=84+d;b.dataset.i=i;b.dataset.c=RAINBOW[i];b.style.setProperty('--fs',Math.min(32,Math.max(15,bw*.38))+'px');
+     const rv=bw*.2;[.24,.76].forEach(f=>{const r=mk('span','rv',b);r.style.top=(h*f-rv/2-3)+'px'})})},
+  hit(el){SND.glock(+el.dataset.m)}},
  guitar:{c:['#ffb36b','#ff6a00'],glide:true,
-  build(st,W,H){const {el,L,S}=canon(st,W,H,true);let gl=Math.min(L-6,(S-6)/.42),gh=gl*.42;const g=box(mk('div','gtr',el),(L-gl)/2,(S-gh)/2,gl,gh);
+  build(st,W,H){const port=H>W*1.05;let cb,cols,rows,ar;
+   if(port){cols=8;cb=Math.min(58,(W-7*6)/8);if(cb<40){cols=4;cb=Math.min(58,(W-3*8)/4)}rows=8/cols;const ph=rows*cb+(rows-1)*8+12;ar=[0,ph,W,H-ph]}
+   else{rows=8;cb=Math.min(58,(H-7*6)/8);if(cb<40){rows=4;cb=Math.min(58,(H-3*8)/4)}cols=8/rows;const pw=cols*cb+(cols-1)*8+14;ar=[pw,0,W-pw,H]}
+   const pan=box(mk('div','chords',st),0,0,port?W:ar[0]-14,port?ar[1]-12:H);pan.style.gridTemplateColumns=`repeat(${cols},${cb}px)`;pan.style.setProperty('--cb',cb+'px');renderChords(pan);
+   pan.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();const b=e.target.closest('button');if(!b)return;ac();if(b.dataset.mn!=null)minor=!minor;else chord=+b.dataset.c;renderChords(pan);strumAll()});
+   const area=box(mk('div','',st),ar[0],ar[1],ar[2],ar[3]);area.style.position='absolute';st=area;W=ar[2];H=ar[3];
+   const {el,L,S}=canon(st,W,H,true);let gl=Math.min(L-6,(S-6)/.42),gh=gl*.42;const g=box(mk('div','gtr',el),(L-gl)/2,(S-gh)/2,gl,gh);
    g.innerHTML=`<svg viewBox="0 0 1000 420"><g stroke="${OUT}" stroke-width="10" stroke-linejoin="round">
      <circle cx="230" cy="210" r="200" fill="url(#gGtr)"/><circle cx="455" cy="210" r="158" fill="url(#gGtr)"/>
      <rect x="470" y="108" width="430" height="204" rx="22" fill="url(#gNeck)"/>
@@ -191,9 +210,9 @@ const INST={
      <g transform="translate(160 330) scale(.5)">${star8('#ffff01',OUT).replace(/<\/?svg[^>]*>/g,'')}</g></svg>`;
    const ys=[128,160,193,227,260,292],th=[9,8,7,6,5,4.5];
    ys.forEach((y,k)=>{const top=k===0?0:(y+ys[k-1])/2,bot=k===5?420:(y+ys[k+1])/2,s=mk('div','str',g,'<i></i>');box(s,gl*.137,top/420*gh,gl*(.9-.137),(bot-top)/420*gh);
-     s.firstChild.style.top=((y-top)/420*gh)+'px';s.firstChild.style.setProperty('--th',Math.max(2,th[k]*gh/420*1.5)+'px');s.dataset.h=1;s.dataset.s=k;s.dataset.c=CHORDS[chord].c});
+     s.firstChild.style.top=((y-top)/420*gh)+'px';s.firstChild.style.setProperty('--th',Math.max(2,th[k]*gh/420*1.5)+'px');s.dataset.h=1;s.dataset.s=k;s.dataset.c=RAINBOW[chord]});
    ksWarm()},
-  hit(el){const m=CHORDS[chord].m[+el.dataset.s];SND.guitar(m);restart(el,'vib',500)}},
+  hit(el){const m=chordNotes()[+el.dataset.s];SND.guitar(m);restart(el,'vib',500)}},
  drums:{c:['#7fd3ff','#2f7bff'],
   build(st,W,H){const {el,L,S}=canon(st,W,H),u=Math.min(L/4.45,S/2.4),cx=L/2,cy=S/2+u*.02;
    [['crash',-1.58,-.6,.5,'cym'],['ride',1.6,-.6,.5,'cym'],['hat',-1.64,.56,.42,'cym'],['tom1',-.5,-.66,.42,'#ff6a00'],['tom2',.5,-.66,.42,'#00aa0c'],['snare',-.74,.55,.45,'#2f7bff'],['kick',.32,.42,.6,'#ff4b4b'],['floor',1.56,.55,.46,'#9b4bf0']]
@@ -211,7 +230,7 @@ const INST={
  angklung:{c:['#ffd58a','#e8901a'],melodic:true,glide:true,
   build(st,W,H){let best=null;for(const cols of [8,4,2,1]){const rows=8/cols,cw=W/cols,ch=H/rows,h=Math.min(ch*.96,cw*.96/.64);if(!best||h>best.h)best={cols,rows,cw,ch,h}}
    const {cols,cw,ch,h}=best,w=h*.64;
-   SCALE.forEach((d,i)=>{const c=i%cols,r=Math.floor(i/cols),a=box(mk('div','ang',st),c*cw+(cw-w)/2,r*ch+(ch-h)/2,w,h);a.dataset.h=1;a.dataset.m=72+d;a.dataset.i=i;a.dataset.c=RAINBOW[i];a.innerHTML=angSvg(RAINBOW[i],i+1)})},
+   SCALE.forEach((d,i)=>{const c=i%cols,r=Math.floor(i/cols),a=box(mk('div','ang',st),c*cw+(cw-w)/2,r*ch+(ch-h)/2,w,h);a.dataset.h=1;a.dataset.m=72+d;a.dataset.i=i;a.dataset.c=RAINBOW[i];a.innerHTML=angSvg(RAINBOW[i],i)})},
   hit(el){SND.angklung(+el.dataset.m);restart(el,'shake',700)}},
  suling:{c:['#c9a7ff','#8a4dff'],melodic:true,glide:true,
   build(st,W,H){const {el,L,S}=canon(st,W,H),tl=Math.min(L-8,S*3.6),th=Math.min(S*.46,tl*.17),tb=box(mk('div','suling',el),(L-tl)/2,(S-th)/2,tl,th);
@@ -219,13 +238,13 @@ const INST={
    [.2,.985].forEach(f=>box(mk('span','node',tb),tl*f,0,6,th).style.top='6%');
    const w=box(mk('div','wind',el),(L-tl)/2-th*.9,S/2-th*.4,th*.8,th*.8);w.innerHTML=`<svg viewBox="0 0 40 40" width="100%" height="100%"><path d="M4 12 H30 M8 20 H36 M4 28 H28" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>`;
    const sp=tl*.74/8,dd=Math.min(th*.84,sp*.86);
-   SCALE.forEach((d,i)=>{const hx=tl*.235+sp*(i+.5),h=box(mk('div','hole',tb,`<span class="up">${i+1}</span>`),hx-dd/2,(th-dd)/2-5,dd,dd);h.dataset.h=1;h.dataset.m=72+d;h.dataset.i=i;h.dataset.c=RAINBOW[i];h.style.setProperty('--k',RAINBOW[i]);h.style.setProperty('--fs',Math.min(30,Math.max(15,dd*.36))+'px')})},
+   SCALE.forEach((d,i)=>{const hx=tl*.235+sp*(i+.5),h=box(mk('div','hole',tb,`<span class="up">${lab(i)}</span>`),hx-dd/2,(th-dd)/2-5,dd,dd);h.dataset.h=1;h.dataset.m=72+d;h.dataset.i=i;h.dataset.c=RAINBOW[i];h.style.setProperty('--k',RAINBOW[i]);h.style.setProperty('--fs',Math.min(30,Math.max(15,dd*.36))+'px')})},
   hit(el){const w=$('.wind');if(w)w.classList.add('on');return SND.suling(+el.dataset.m)},
   up(){if(!PT.size){const w=$('.wind');if(w)w.classList.remove('on')}}},
  balloons:{c:['#ff9ad5','#ff4fa0'],
   build(st){bal.list=[];bal.last=0;st.innerHTML=''},
   hit(el){popBalloon(el)}}};
-const ORDER=['piano','xylo','drums','guitar','daff','angklung','suling','balloons'];
+const ORDER=['piano','xylo','glock','drums','guitar','daff','angklung','suling','balloons'];
 
 function angSvg(col,n){return`<svg viewBox="0 0 100 156"><g stroke="${OUT}" stroke-width="3.5" stroke-linejoin="round">
  <rect x="10" y="22" width="10" height="120" rx="5" fill="url(#gBam)"/><rect x="80" y="22" width="10" height="120" rx="5" fill="url(#gBam)"/>
@@ -234,16 +253,17 @@ function angSvg(col,n){return`<svg viewBox="0 0 100 156"><g stroke="${OUT}" stro
  <rect x="7" y="137" width="86" height="16" rx="8" fill="${col}"/></g>
  <g stroke="rgba(140,80,10,.6)" stroke-width="2.5"><path d="M28 110 H49 M57 112 H75 M28 60 H49"/></g>
  <ellipse cx="38.5" cy="31" rx="9" ry="3" fill="#6a3e12" transform="rotate(-19 38.5 31)"/><ellipse cx="66" cy="58.5" rx="8" ry="2.6" fill="#6a3e12" transform="rotate(-19 66 58.5)"/>
- <circle cx="50" cy="9" r="12" fill="${col}" stroke="${OUT}" stroke-width="3.5"/>
- <text x="50" y="15" text-anchor="middle" font-family="Lilita One,sans-serif" font-size="17" fill="#fff" stroke="${OUT}" stroke-width="3" paint-order="stroke">${n}</text></svg>`}
+ <circle cx="50" cy="9" r="13" fill="${col}" stroke="${OUT}" stroke-width="3.5"/>
+ <text x="50" y="${n<7?15:17}" text-anchor="middle" font-family="Lilita One,sans-serif" font-size="17" fill="#fff" stroke="${OUT}" stroke-width="3" paint-order="stroke">${n<7?n+1:1}</text>${n<7?'':`<circle cx="50" cy="1.5" r="2.4" fill="#fff" stroke="${OUT}" stroke-width="1.5"/>`}</svg>`}
 
-/* guitar chords: strings low to high. Every chord sounds nice when strummed. */
-const CHORDS=[{n:'C',c:'#00aa0c',m:[48,55,60,64,67,72]},{n:'F',c:'#ff6a00',m:[53,57,60,65,69,72]},{n:'G',c:'#2f7bff',m:[43,50,55,59,62,67]},{n:'Am',c:'#9b4bf0',m:[45,52,57,60,64,69]}];
-let chord=0;
-function ksWarm(){if(!AC)return;let i=0;const all=[...new Set(CHORDS.flatMap(c=>c.m))];const step=()=>{if(i>=all.length)return;ksBuf(all[i++]);setTimeout(step,30)};step()}
-function renderChords(){const c=$('#chords');c.innerHTML=CHORDS.map((x,i)=>`<button data-c="${i}" class="${i===chord?'on':''}" style="background:${x.c}">${x.n}</button>`).join('')}
-$('#chords').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;chord=+b.dataset.c;renderChords();
-  document.querySelectorAll('.str').forEach((s,k)=>{s.dataset.c=CHORDS[chord].c;setTimeout(()=>{SND.guitar(CHORDS[chord].m[k]);restart(s,'vib',500)},k*35)})});
+/* guitar chords: strings low to high. A chord button tunes all six strings, so any strum sounds nice.
+   Seven chords, one for each note C D E F G A B (same colours as the piano keys), and the m button makes them minor. */
+const ROOTS=[['C',0,[48,55,60,64,67,72]],['D',2,[50,57,62,66,69,74]],['E',4,[40,47,52,56,59,64]],['F',5,[53,57,60,65,69,72]],['G',7,[43,50,55,59,62,67]],['A',9,[45,52,57,61,64,69]],['B',11,[47,54,59,63,66,71]]];
+let chord=0,minor=false;
+function chordNotes(i=chord,mn=minor){const [,r,ms]=ROOTS[i];return mn?ms.map(m=>((m-r)%12+12)%12===4?m-1:m):ms}
+function ksWarm(){if(!AC)return;let i=0;const all=[...new Set(ROOTS.flatMap((_,k)=>[...chordNotes(k,false),...chordNotes(k,true)]))];const step=()=>{if(i>=all.length)return;ksBuf(all[i++]);setTimeout(step,25)};step()}
+function renderChords(pan){pan.innerHTML=ROOTS.map((r,i)=>`<button data-c="${i}" class="${i===chord?'on':''}" style="background:${RAINBOW[i]}">${r[0]}${minor?'m':''}</button>`).join('')+`<button data-mn class="mn${minor?' on':''}">m</button>`}
+function strumAll(){const n=chordNotes();document.querySelectorAll('.str').forEach((s,k)=>{s.dataset.c=RAINBOW[chord];setTimeout(()=>{SND.guitar(n[k]);restart(s,'vib',500)},k*35)})}
 
 function restart(el,cls,ms){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);clearTimeout(el['_'+cls]);el['_'+cls]=setTimeout(()=>el.classList.remove(cls),ms)}
 
@@ -270,10 +290,9 @@ function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggl
 function ov(id,on){$('#'+id).classList.toggle('on',on)}
 let toastT;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2400)}
 function renderHome(){$('#tiles').innerHTML=ORDER.map(k=>`<button class="tile" data-k="${k}" style="--c1:${INST[k].c[0]};--c2:${INST[k].c[1]}"><span class="in">${ICON[k]}<span class="lbl">${t('I')[k]}</span></span></button>`).join('')}
-$('#tiles').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b||b.classList.contains('pick'))return;ac();SND.tap();goFull();b.classList.add('pick');setTimeout(()=>{b.classList.remove('pick');openInst(b.dataset.k)},330)});
+$('#tiles').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b||b.classList.contains('pick'))return;askMotion();ac();SND.tap();goFull();b.classList.add('pick');setTimeout(()=>{b.classList.remove('pick');openInst(b.dataset.k)},330)});
 function renderTitle(){$('#ttl').innerHTML=ICON[cur]+`<b>${t('I')[cur]}</b>`}
 function openInst(k){cur=k;show('play');renderTitle();stopSong();
-  $('#chords').classList.toggle('on',k==='guitar');if(k==='guitar')renderChords();
   $('#songsBtn').hidden=!INST[k].melodic;$('#dancer').src='art/mo.webp';
   build();
   if(k==='balloons'){balStart();toast(t('balTip'))}}
@@ -293,6 +312,18 @@ function press(id,el,x,y){const p=PT.get(id);if(!p)return;p.el=el;p.t=performanc
 function unpress(id){const p=PT.get(id);if(!p||!p.el)return;const el=p.el,hd=p.hd,wait=Math.max(0,90-(performance.now()-p.t));p.el=null;p.hd=null;if(hd)hd.stop();
   if(!el.classList.contains('cym'))setTimeout(()=>{if(![...PT.values()].some(q=>q.el===el))el.classList.remove('down')},wait)}
 function releaseAll(){[...PT.keys()].forEach(unpress);PT.clear();if(cur&&INST[cur].up)INST[cur].up()}
+/* no zooming: double tap and pinch do nothing */
+stage.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault()},{passive:false});
+document.addEventListener('dblclick',e=>e.preventDefault());
+['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));
+/* In portrait the instrument lies sideways. The numbers on it turn to stay upright for whoever holds the phone,
+   also when the screen rotation lock is on (read from the motion sensor; nothing is stored or sent). */
+let upAng=0,motionAsked=false;
+function scrAngle(){try{if(screen.orientation&&typeof screen.orientation.angle==='number')return screen.orientation.angle}catch(e){}return +window.orientation||0}
+function setLR(){stage.style.setProperty('--lr',(upAng-90)+'deg')}
+addEventListener('deviceorientation',e=>{if(e.beta==null||e.gamma==null||scrAngle()!==0)return;const r=Math.PI/180,b=e.beta*r,g=e.gamma*r,sx=Math.sin(g)*Math.cos(b),sy=Math.sin(b);
+  if(Math.hypot(sx,sy)<.55)return;const th=Math.atan2(-sx,sy)*180/Math.PI,d=((th-upAng+540)%360)-180;if(Math.abs(d)>60){upAng=Math.round(th/90)*90;if(upAng===-180)upAng=180;setLR()}});
+function askMotion(){if(motionAsked||innerWidth>innerHeight)return;motionAsked=true;try{const D=window.DeviceOrientationEvent;if(D&&typeof D.requestPermission==='function')D.requestPermission().catch(()=>{})}catch(e){}}
 /* keyboard (computers): 1-8 play the keys in order */
 addEventListener('keydown',e=>{if(scr!=='play'||!cur||e.repeat||document.querySelector('.ov.on'))return;const n=+e.key;if(!(n>=1&&n<=8))return;
   const els=[...stage.querySelectorAll('[data-h]')],el=stage.querySelector(`[data-i="${n-1}"]`)||els[n-1];if(!el)return;ac();const r=el.getBoundingClientRect(),id='k'+n;

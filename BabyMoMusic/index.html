@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>Baby Mo Music – Musical Instruments for Little Muslims | Mo Games</title>
-<meta name="description" content="Baby Mo Music: a free music app for little Muslims aged 1 to 5. Play the piano, xylophone, guitar, drums, rebana, angklung and suling, pop the music balloons, and learn songs by following the light. Start with Bismillah, finish with Alhamdulillah. No ads, no data collected, works offline. English and Bahasa Indonesia.">
+<meta name="description" content="Baby Mo Music: a free music app for little Muslims aged 1 to 5. Play the piano, xylophone, glockenspiel, guitar, drums, rebana, angklung and suling, pop the music balloons, and learn songs by following the light. Start with Bismillah, finish with Alhamdulillah. No ads, no data collected, works offline. English and Bahasa Indonesia.">
 <meta name="keywords" content="music app for kids, baby piano, Muslim kids app, Islamic kids game, piano anak, game musik anak, aplikasi anak islami, rebana, angklung">
 <link rel="canonical" href="https://roisa.github.io/app-ayah/BabyMoMusic/">
 <meta name="theme-color" content="#00aa0c">
@@ -27,7 +27,7 @@
 <style>
 :root{--moG:#00aa0c;--moO:#ff6a00;--moY:#ffff01;--moW:#fff8ee;--ink:#3a2410;--ink2:#7a5a3a;--brown:#4a2c14;--grn:#0e9a3a;
   --safeB:env(safe-area-inset-bottom,0px);--safeT:env(safe-area-inset-top,0px);--safeL:env(safe-area-inset-left,0px);--safeR:env(safe-area-inset-right,0px)}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{height:100%;overscroll-behavior:none}
 body{background:#8fd4ff;color:var(--ink);font:600 17px/1.4 "Baloo 2",-apple-system,system-ui,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overflow:hidden;cursor:url(icons/cursor-hand.png) 12 2,auto}
 button{font:inherit;color:inherit;border:0;background:none;cursor:inherit;touch-action:manipulation}
@@ -74,7 +74,7 @@ img{-webkit-user-drag:none}
 .tag{text-align:center;color:#fff;font-weight:800;font-size:clamp(13px,2.4vw,17px);text-shadow:0 2px 4px rgba(0,50,110,.6);flex:none}
 .pchip{display:block;width:max-content;max-width:100%;margin:4px auto 0;background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:3px 12px;font-weight:700;font-size:clamp(12px,2.2vw,14px);box-shadow:0 3px 0 rgba(0,60,120,.2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pchip:empty{display:none}.pchip b{color:var(--grn)}.pchip img{width:18px;height:18px;vertical-align:-3px}
-#tiles{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(4,1fr);gap:clamp(10px,2vw,18px);padding:clamp(8px,1.6vh,16px) 0 4px;width:100%;max-width:760px;margin:0 auto}
+#tiles{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:clamp(10px,2vw,18px);padding:clamp(8px,1.6vh,16px) 0 4px;width:100%;max-width:760px;margin:0 auto}
 .tile{min-height:0;min-width:0;background:#fff;border-radius:clamp(22px,4vw,34px);padding:6px;box-shadow:0 6px 0 rgba(0,60,120,.22),0 12px 24px rgba(0,40,90,.16);display:flex;transition:transform .2s cubic-bezier(.3,1.6,.5,1);animation:bob 3s ease-in-out infinite}
 .tile:nth-child(2n){animation-delay:-1.5s}.tile:nth-child(3n){animation-delay:-.7s}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
@@ -82,14 +82,14 @@ img{-webkit-user-drag:none}
 .tile .in{flex:1;min-height:0;border-radius:clamp(17px,3.4vw,28px);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--c1),var(--c2));padding:4px}
 .tile .in::before{content:"";position:absolute;left:-10%;right:-10%;top:-40%;height:70%;border-radius:50%;background:rgba(255,255,255,.22)}
 .tile svg{flex:1;min-height:0;width:100%;max-width:150px;position:relative;filter:drop-shadow(0 4px 2px rgba(0,0,0,.18))}
-.tile .lbl{flex:none;font:400 clamp(14px,min(4.4vw,3.4vh),28px)/1.05 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px rgba(74,44,20,.75);paint-order:stroke fill;text-shadow:0 3px 0 rgba(74,44,20,.4);padding:2px 4px 4px;text-align:center;position:relative}
+.tile .lbl{flex:none;font:400 clamp(12px,min(3.7vw,3vh),28px)/1.05 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px rgba(74,44,20,.75);paint-order:stroke fill;text-shadow:0 3px 0 rgba(74,44,20,.4);padding:2px 4px 4px;text-align:center;position:relative}
 .tile.pick{animation:picked .45s cubic-bezier(.3,1.6,.5,1) forwards}
 @keyframes picked{40%{transform:scale(1.1) rotate(-3deg)}100%{transform:scale(1.04)}}
 .foot{flex:none;text-align:center;color:#fff;font-size:12px;font-weight:700;text-shadow:0 2px 4px rgba(0,50,110,.6);padding-top:4px}
 #home .side,#home .right{display:contents}
 @media (orientation:landscape){
- #tiles{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);max-width:1100px}
- .tile .lbl{font-size:clamp(13px,min(2.1vw,4vh),28px)}}
+ #tiles{max-width:1000px}
+ .tile .lbl{font-size:clamp(12px,min(2.2vw,3.6vh),28px)}}
 @media (orientation:landscape) and (max-height:600px){
  #home .bar{position:absolute;right:0;top:0;padding-left:0}
  #home .wrap{flex-direction:row;align-items:stretch;gap:10px;padding-top:calc(6px + var(--safeT))}
@@ -114,13 +114,16 @@ img{-webkit-user-drag:none}
 #songBar .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--moG),#6be05a);border-radius:6px;transition:width .2s}
 #songBar button{flex:none;width:34px;height:34px;border-radius:50%;background:#ffe9c7;display:grid;place-items:center}
 #songBar button svg{width:20px;height:20px}
-#chords{display:none;gap:6px}
-#chords.on{display:flex}
-#chords button{width:clamp(44px,9vw,56px);height:clamp(44px,9vw,56px);border-radius:50%;font:400 clamp(16px,3.6vw,20px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:1.5px rgba(74,44,20,.6);paint-order:stroke fill;box-shadow:inset 0 -4px 0 rgba(0,0,0,.18),0 4px 0 rgba(0,60,120,.22);transition:transform .15s;opacity:.7}
-#chords button.on{opacity:1;transform:scale(1.12);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18),0 0 0 4px #fff,0 4px 0 rgba(0,60,120,.22)}
+.chords{position:absolute;display:grid;gap:8px 6px;place-content:center;z-index:2}
+.chords button{width:var(--cb);height:var(--cb);border-radius:50%;font:400 calc(var(--cb) * .38)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:1.5px rgba(74,44,20,.7);paint-order:stroke fill;border:3px solid var(--brown);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18),inset 0 4px 0 rgba(255,255,255,.35),0 4px 0 rgba(0,60,120,.22);transition:transform .15s;opacity:.75}
+.chords button.on{opacity:1;transform:scale(1.1);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18),0 0 0 4px #fff,0 4px 0 rgba(0,60,120,.22)}
+.chords button.mn{background:#fff;color:#9b4bf0;-webkit-text-stroke:0;opacity:1}
+.chords button.mn.on{background:#9b4bf0;color:#fff;-webkit-text-stroke:1.5px rgba(74,44,20,.7)}
 #stage{flex:1;min-height:0;position:relative;margin:0 calc(8px + var(--safeR)) calc(8px + var(--safeB)) calc(8px + var(--safeL));touch-action:none}
 .inst{position:absolute;transform-origin:50% 50%}
-.inst.port .up{transform:rotate(-90deg)}
+.inst.port .up{transform:rotate(var(--lr,-90deg));transition:transform .35s}
+.hi{position:relative;font-style:normal}
+.hi::before{content:"";position:absolute;left:50%;top:-.3em;width:.26em;height:.26em;margin-left:-.13em;border-radius:50%;background:#fff;border:2px solid rgba(74,44,20,.85)}
 [data-h]{touch-action:none}
 @media (max-width:520px) and (orientation:portrait){.ttl b{display:none}.ttl{padding-right:4px}#play.song .ttl,#play.song #songsBtn{display:none}}
 @media (orientation:landscape) and (max-height:430px){#play .bar{padding-top:calc(6px + var(--safeT));padding-bottom:2px}.rb{width:46px;height:46px}#dancer{height:46px}.ttl svg{width:32px;height:32px}}
@@ -145,7 +148,13 @@ img{-webkit-user-drag:none}
 .bar8{position:absolute;border-radius:22px;background:linear-gradient(90deg,rgba(255,255,255,.45),rgba(255,255,255,0) 35%,rgba(0,0,0,.1)),var(--k);border:4px solid var(--brown);box-shadow:inset 0 0 0 4px rgba(255,255,255,.25),0 7px 0 rgba(74,44,20,.45);transition:transform .08s}
 .bar8.down{transform:scale(.95);filter:brightness(1.15)}
 .bar8 .sc{position:absolute;left:50%;width:22%;aspect-ratio:1;margin-left:-11%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#d8d8d8 60%,#9a9a9a);border:2px solid var(--brown)}
-.bar8 .up{position:absolute;left:50%;top:50%;width:1.6em;height:1.6em;margin:-.8em 0 0 -.8em;display:grid;place-items:center;font:400 var(--fs,26px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px rgba(74,44,20,.8);paint-order:stroke fill}
+.gcase{position:absolute;border-radius:24px;background:linear-gradient(180deg,#ff9a3c,#ff6a00 55%,#d94f00);border:5px solid var(--brown);box-shadow:inset 0 0 0 8px rgba(255,255,255,.16),inset 0 -10px 0 rgba(0,0,0,.15),0 10px 0 rgba(74,44,20,.35)}
+.gcase .felt{position:absolute;border-radius:8px;background:linear-gradient(180deg,#3fd04a,#00870a);border:2px solid var(--brown)}
+.gbar{position:absolute;border-radius:10px;background:linear-gradient(90deg,#8d96a3 0,#eef2f7 18%,#fff 30%,#c8cfd8 55%,#eef2f7 78%,#8d96a3 100%);border:3px solid var(--brown);box-shadow:0 6px 0 rgba(74,44,20,.45);transition:transform .08s}
+.gbar.down{transform:scale(.95);filter:brightness(1.12)}
+.gbar .dot{position:absolute;left:50%;top:50%;width:72%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:3px solid var(--brown);box-shadow:inset 0 -3px 0 rgba(0,0,0,.2),inset 0 3px 0 rgba(255,255,255,.45)}
+.gbar .rv{position:absolute;left:50%;width:20%;aspect-ratio:1;margin-left:-10%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff7c0,#e2a900 60%,#a87800);border:2px solid var(--brown)}
+.bar8 .up,.gbar .up{position:absolute;left:50%;top:50%;width:1.6em;height:1.6em;margin:-.8em 0 0 -.8em;display:grid;place-items:center;font:400 var(--fs,26px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px rgba(74,44,20,.8);paint-order:stroke fill}
 .mallet{position:absolute;pointer-events:none;transform-origin:10% 50%}
 
 /* angklung */
@@ -294,6 +303,7 @@ img.lmasjid{display:block;width:auto;height:110px;margin:6px auto 0;animation:bo
   <linearGradient id="gBamH" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f9e29a"/><stop offset=".45" stop-color="#ecc160"/><stop offset="1" stop-color="#c58a2a"/></linearGradient>
   <radialGradient id="gGold" cx=".35" cy=".35"><stop offset="0" stop-color="#fff7c0"/><stop offset=".6" stop-color="#f2b705"/><stop offset="1" stop-color="#a87800"/></radialGradient>
   <linearGradient id="gGtr" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ffa64d"/><stop offset=".55" stop-color="#ff6a00"/><stop offset="1" stop-color="#d94f00"/></linearGradient>
+  <linearGradient id="gMet" x1="0" x2="1"><stop offset="0" stop-color="#8d96a3"/><stop offset=".3" stop-color="#fff"/><stop offset=".6" stop-color="#c8cfd8"/><stop offset="1" stop-color="#8d96a3"/></linearGradient>
   <linearGradient id="gNeck" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4fd84a"/><stop offset="1" stop-color="#00870a"/></linearGradient>
  </defs>
 </svg>
@@ -309,6 +319,7 @@ img.lmasjid{display:block;width:auto;height:110px;margin:6px auto 0;animation:bo
 <!-- HOME -->
 <section class="scr on" id="home">
   <div class="bar">
+    <a class="rb" href="../" aria-label="Mo Games"><img src="ui/games.webp" alt=""></a>
     <span class="sp"></span>
     <button class="pill" id="goInst" hidden><img src="icons/icon-192.png" alt=""><span data-t="inst">Get the app</span></button>
     <button class="rb" id="langBtn" aria-label="Language"><img id="langIco" src="ui/lang-en.webp" alt=""></button>
@@ -335,7 +346,6 @@ img.lmasjid{display:block;width:auto;height:110px;margin:6px auto 0;animation:bo
   <div class="bar">
     <button class="rb" id="backBtn" aria-label="Home"><img src="ui/home.webp" alt=""></button>
     <div class="ttl" id="ttl"></div>
-    <div id="chords"></div>
     <div id="songBar"><b id="songName"></b><span class="prog"><i id="songProg"></i></span>
       <button id="listenBtn" aria-label="Listen"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="#ff6a00"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="#ff6a00" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></button>
       <button id="stopSong" aria-label="Stop song"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/></svg></button>
