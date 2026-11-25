@@ -36,15 +36,8 @@ img{-webkit-user-drag:none}
 .ar{font-family:"Baloo Bhaijaan 2","Baloo 2",sans-serif;direction:rtl}
 
 /* ---------- sky background ---------- */
-#sky{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(180deg,#7ccdff 0%,#bfe8ff 55%,#e6f7ff 100%)}
-#sky .cl{position:absolute;width:180px;height:60px;border-radius:60px;background:#fff;opacity:.85;animation:drift 60s linear infinite}
-#sky .cl::before,#sky .cl::after{content:"";position:absolute;background:#fff;border-radius:50%}
-#sky .cl::before{width:80px;height:80px;left:26px;top:-38px}#sky .cl::after{width:60px;height:60px;left:88px;top:-26px}
-@keyframes drift{from{transform:translateX(-260px)}to{transform:translateX(110vw)}}
-#sky .hill{position:absolute;left:-10%;right:-10%;bottom:-62vh;height:80vh;border-radius:50%;background:radial-gradient(ellipse at 50% 8%,#5fd85a,#00aa0c 40%)}
-#sky .hill.b{left:30%;right:-40%;bottom:-66vh;background:radial-gradient(ellipse at 40% 6%,#8ee86a,#22b81a 40%)}
-#sky .nt{position:absolute;width:34px;height:34px;opacity:.55;animation:floatN 9s ease-in-out infinite}
-@keyframes floatN{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-26px) rotate(10deg)}}
+#sky{position:fixed;inset:0;z-index:-1;background:#8fd4ff url(art/bg-land.webp) center bottom/cover no-repeat}
+@media (orientation:portrait){#sky{background-image:url(art/bg-port.webp)}}
 
 .scr{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden}
 .scr.on{display:flex}
@@ -81,7 +74,7 @@ img{-webkit-user-drag:none}
 .tile:active{transform:scale(.93)}
 .tile .in{flex:1;min-height:0;border-radius:clamp(17px,3.4vw,28px);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--c1),var(--c2));padding:4px}
 .tile .in::before{content:"";position:absolute;left:-10%;right:-10%;top:-40%;height:70%;border-radius:50%;background:rgba(255,255,255,.22)}
-.tile svg{flex:1;min-height:0;width:100%;max-width:150px;position:relative;filter:drop-shadow(0 4px 2px rgba(0,0,0,.18))}
+.tile .in img{flex:1;min-height:0;width:100%;max-width:190px;object-fit:contain;position:relative;filter:drop-shadow(0 4px 3px rgba(0,0,0,.2));pointer-events:none}
 .tile .lbl{flex:none;font:400 clamp(12px,min(3.7vw,3vh),28px)/1.05 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px rgba(74,44,20,.75);paint-order:stroke fill;text-shadow:0 3px 0 rgba(74,44,20,.4);padding:2px 4px 4px;text-align:center;position:relative}
 .tile.pick{animation:picked .45s cubic-bezier(.3,1.6,.5,1) forwards}
 @keyframes picked{40%{transform:scale(1.1) rotate(-3deg)}100%{transform:scale(1.04)}}
@@ -101,7 +94,7 @@ img{-webkit-user-drag:none}
 /* ---------- play ---------- */
 #play .bar{gap:8px}
 .ttl{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);border-radius:999px;padding:3px 14px 3px 4px;box-shadow:0 4px 0 rgba(0,60,120,.2);min-width:0;flex:0 1 auto}
-.ttl svg{width:40px;height:40px;flex:none}
+.ttl img{width:40px;height:40px;flex:none;object-fit:contain}
 .ttl b{font:400 clamp(17px,4vw,24px)/1 "Lilita One",sans-serif;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #dancer{height:58px;width:auto;flex:none;transform-origin:50% 100%;filter:drop-shadow(0 3px 2px rgba(0,40,0,.25));transition:transform .12s}
 #dancer.bop{animation:bop .32s ease-out}
@@ -127,7 +120,7 @@ img{-webkit-user-drag:none}
 .hi::before{content:"";position:absolute;left:50%;top:-.3em;width:.26em;height:.26em;margin-left:-.13em;border-radius:50%;background:#fff;border:2px solid rgba(74,44,20,.85)}
 [data-h]{touch-action:none}
 @media (max-width:520px) and (orientation:portrait){.ttl b{display:none}.ttl{padding-right:4px}#play.song .ttl,#play.song #songsBtn,#play.song #fallBtn{display:none}}
-@media (orientation:landscape) and (max-height:430px){#play .bar{padding-top:calc(6px + var(--safeT));padding-bottom:2px}.rb{width:46px;height:46px}#dancer{height:46px}.ttl svg{width:32px;height:32px}}
+@media (orientation:landscape) and (max-height:430px){#play .bar{padding-top:calc(6px + var(--safeT));padding-bottom:2px}.rb{width:46px;height:46px}#dancer{height:46px}.ttl img{width:32px;height:32px}}
 
 /* piano */
 .piano{position:absolute;border-radius:28px;background:linear-gradient(180deg,#ffe95c,#ffc400 60%,#ffa800);border:5px solid var(--brown);box-shadow:inset 0 6px 0 rgba(255,255,255,.55),inset 0 -8px 0 rgba(176,92,0,.25),0 10px 0 rgba(120,60,0,.3)}
@@ -211,6 +204,29 @@ img{-webkit-user-drag:none}
 .popfx b{position:absolute;left:-30px;top:-30px;width:60px;height:60px;border-radius:50%;border:5px solid var(--k);animation:ring .45s ease-out forwards}
 @keyframes ring{from{transform:scale(.3);opacity:1}to{transform:scale(1.6);opacity:0}}
 
+/* instrument pictures */
+.piano{border-style:solid;border-image:url(art/i-piano.webp) 181 470 72 301 fill;background:none;border-radius:0;box-shadow:none;filter:drop-shadow(0 8px 0 rgba(74,44,20,.22))}
+.keys{position:absolute}
+.gcase{background:url(art/i-glock.webp) center/100% 100% no-repeat;border:0;border-radius:0;box-shadow:none;filter:drop-shadow(0 8px 0 rgba(74,44,20,.22))}
+.gtr img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(0 8px 0 rgba(74,44,20,.22))}
+.str i{background:linear-gradient(180deg,#fffbe0,#e8c34a 60%,#9a7410);box-shadow:0 1px 2px rgba(0,0,0,.45)}
+.suling{background:url(art/i-suling.webp) center/100% 100% no-repeat;border:0;border-radius:0;box-shadow:none;filter:drop-shadow(0 6px 0 rgba(74,44,20,.22))}
+.dr.drum,.dr.cym{background-color:transparent;background-position:center;background-size:100% 100%;background-repeat:no-repeat;border:0;box-shadow:none;filter:drop-shadow(0 6px 0 rgba(74,44,20,.28))}
+.dr.drum::after{display:none}
+.daff{background-color:transparent;background-position:center;background-size:100% 100%;background-repeat:no-repeat;border:0;box-shadow:none;filter:drop-shadow(0 8px 0 rgba(74,44,20,.28))}
+.daff .dum{background:none;box-shadow:none;border-radius:50%}
+.daff .dum.down{background:radial-gradient(circle,rgba(255,255,255,.45),rgba(255,255,255,0) 70%)}
+.daff.jing{animation:dwob .45s ease-out}
+@keyframes dwob{25%{transform:rotate(5deg) scale(.97)}50%{transform:rotate(-4deg)}75%{transform:rotate(2deg)}}
+.ang img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 5px 0 rgba(74,44,20,.25))}
+.ang.shake img{animation:shake .7s ease-out}
+.ang .an{position:absolute;left:0;right:0;bottom:1%;text-align:center;font:400 var(--fs,20px)/1 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px rgba(74,44,20,.85);paint-order:stroke fill;pointer-events:none}
+.bal img{width:100%;height:100%;pointer-events:none;filter:drop-shadow(0 4px 2px rgba(0,0,0,.15))}
+.slist button i.pic{background:none;width:48px;height:48px}
+.slist button i.pic img{width:100%;height:100%;object-fit:contain}
+.lvl button img{display:block;width:44px;height:44px;margin:0 auto 2px;object-fit:contain}
+#fallBtn img{width:100%;height:100%;object-fit:contain}
+
 /* falling notes */
 .lanes{position:absolute;overflow:hidden;border-radius:18px 18px 0 0;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.4))}
 .lanes::after{content:"";position:absolute;left:0;right:0;bottom:0;height:7px;background:linear-gradient(90deg,#ff4b4b,#ff6a00,#ffd400,#00aa0c,#19c3c0,#2f7bff,#9b4bf0,#ff5fa8);box-shadow:0 0 12px 2px #fff}
@@ -218,7 +234,7 @@ img{-webkit-user-drag:none}
 .fbar{position:absolute;top:0;left:0;border-radius:12px;background:linear-gradient(90deg,rgba(255,255,255,.55),rgba(255,255,255,0) 40%),var(--k);border:3px solid var(--brown);box-shadow:0 4px 0 rgba(74,44,20,.3);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;will-change:transform}
 .fbar b{font:400 var(--fs,20px)/1.25 "Lilita One",sans-serif;color:#fff;-webkit-text-stroke:2px rgba(74,44,20,.8);paint-order:stroke fill}
 .fbar.miss{opacity:.35;filter:grayscale(.7)}
-.ffb{position:absolute;bottom:16px;font:400 clamp(18px,3vw,30px)/1 "Lilita One",sans-serif;color:var(--moY);-webkit-text-stroke:2px var(--brown);paint-order:stroke fill;white-space:nowrap;pointer-events:none;animation:ffb .8s ease-out forwards}
+.ffb{position:absolute;bottom:16px;font:400 clamp(20px,3.4vw,34px)/1 "Lilita One",sans-serif;color:var(--moY);-webkit-text-stroke:4px var(--brown);paint-order:stroke fill;text-shadow:0 3px 0 var(--brown),0 0 12px rgba(255,255,255,.9);white-space:nowrap;pointer-events:none;animation:ffb .8s ease-out forwards}
 @keyframes ffb{0%{opacity:0;transform:translate(-50%,10px) scale(.6)}25%{opacity:1;transform:translate(-50%,0) scale(1.1)}100%{opacity:0;transform:translate(-50%,-44px)}}
 .lvl{margin-top:8px}.lvl button{line-height:1.1;padding:6px 4px;font:400 17px "Lilita One",sans-serif;color:var(--ink)}
 .lvl button small{display:block;font:700 11px "Baloo 2",sans-serif;color:var(--ink2)}
@@ -322,13 +338,7 @@ img.lmasjid{display:block;width:auto;height:110px;margin:6px auto 0;animation:bo
  </defs>
 </svg>
 
-<div id="sky" aria-hidden="true">
-  <div class="cl" style="top:9%;animation-duration:70s;animation-delay:-20s"></div>
-  <div class="cl" style="top:22%;transform:scale(.7);animation-duration:90s;animation-delay:-60s"></div>
-  <div class="cl" style="top:4%;animation-duration:110s;animation-delay:-85s"></div>
-  <div class="hill"></div><div class="hill b"></div>
-  <div id="skyNotes"></div>
-</div>
+<div id="sky" aria-hidden="true"></div>
 
 <!-- HOME -->
 <section class="scr on" id="home">
@@ -342,7 +352,7 @@ img.lmasjid{display:block;width:auto;height:110px;margin:6px auto 0;animation:bo
   <div class="wrap">
     <div class="side">
       <div class="hero">
-        <img class="hmo" src="art/mo.webp" alt="Baby Mo">
+        <img class="hmo" src="art/mo-dance.webp" alt="Baby Mo">
         <div class="logo"><span class="a">Baby <i>Mo</i></span><span class="b"><i>M</i><i>u</i><i>s</i><i>i</i><i>c</i></span></div>
       </div>
       <div class="tag" data-t="tag">Play Games the Islamic Way</div>
@@ -365,9 +375,9 @@ img.lmasjid{display:block;width:auto;height:110px;margin:6px auto 0;animation:bo
       <button id="stopSong" aria-label="Stop song"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/></svg></button>
     </div>
     <span class="sp"></span>
-    <button class="rb" id="fallBtn" aria-label="Falling notes" hidden><svg viewBox="0 0 60 60" width="100%" height="100%"><circle cx="30" cy="30" r="27" fill="#fff" stroke="#4a2c14" stroke-width="4"/><g stroke="#4a2c14" stroke-width="2.5"><rect x="13" y="10" width="9" height="18" rx="4" fill="#ff4b4b"/><rect x="25.5" y="18" width="9" height="14" rx="4" fill="#ffd400"/><rect x="38" y="13" width="9" height="12" rx="4" fill="#2f7bff"/></g><path d="M11 38 H49" stroke="#ff6a00" stroke-width="4" stroke-linecap="round"/><g fill="#fff8ee" stroke="#4a2c14" stroke-width="2"><rect x="12" y="41" width="11" height="10" rx="2"/><rect x="24.5" y="41" width="11" height="10" rx="2"/><rect x="37" y="41" width="11" height="10" rx="2"/></g></svg></button>
+    <button class="rb" id="fallBtn" aria-label="Falling notes" hidden><img src="art/ui-fall.webp" alt=""></button>
     <button class="rb" id="songsBtn" aria-label="Songs"><img src="ui/music-on.webp" alt=""></button>
-    <img id="dancer" src="art/mo.webp" alt="">
+    <img id="dancer" src="art/mo-dance.webp" alt="">
   </div>
   <div id="stage"></div>
 </section>
@@ -395,7 +405,7 @@ img.lmasjid{display:block;width:auto;height:110px;margin:6px auto 0;animation:bo
 
 <!-- SONG DONE -->
 <div class="ov" id="win"><div class="box">
-  <img class="mo" src="art/mo-win.webp" alt="">
+  <img class="mo" src="art/mo-cheer.webp" alt="">
   <div class="arb ar">الْحَمْدُ لِلَّهِ</div>
   <h3 data-t="alh">Alhamdulillah!</h3>
   <p id="winSub"></p>

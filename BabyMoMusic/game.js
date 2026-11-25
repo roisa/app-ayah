@@ -151,29 +151,21 @@ function box(e,x,y,w,h){e.style.left=x+'px';e.style.top=y+'px';e.style.width=w+'
 /* land: a landscape-only instrument (piano, xylophone, glockenspiel). In portrait it lies sideways as a whole,
    numbers included, so it reads right when the phone is turned. Other instruments keep their numbers upright. */
 function canon(st,W,H,ccw,land){const port=H>W*1.05,L=port?H:W,S=port?W:H,el=mk('div','inst'+(port?' port':'')+(land?' land':''),st);box(el,(W-L)/2,(H-S)/2,L,S);if(port)el.style.transform=`rotate(${ccw?-90:90}deg)`;return{el,L,S,port}}
-const star8=(fill,stroke)=>`<svg viewBox="-50 -50 100 100"><g fill="${fill}" stroke="${stroke}" stroke-width="5" stroke-linejoin="round"><rect x="-32" y="-32" width="64" height="64"/><rect x="-32" y="-32" width="64" height="64" transform="rotate(45)"/></g><circle r="14" fill="${stroke}" opacity=".35"/></svg>`;
 const noteSvg=c=>`<svg viewBox="0 0 40 40"><path d="M15 7 L33 3 L33 26 A6.5 5 0 1 1 28 21.5 L28 11 L20 12.8 L20 30 A6.5 5 0 1 1 15 25.5 Z" fill="${c}" stroke="${OUT}" stroke-width="2.6" stroke-linejoin="round"/></svg>`;
 
 /* icons for the home tiles and the title chip */
-const ICON={
- piano:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="4.5" stroke-linejoin="round"><rect x="8" y="28" width="104" height="70" rx="16" fill="#ffd84a"/><rect x="16" y="50" width="88" height="40" rx="6" fill="#fff8ee"/>${[0,1,2,3,4,5].map(i=>`<rect x="${17+i*14.6}" y="50" width="13" height="40" rx="5" fill="${RAINBOW[i+1]}"/>`).join('')}${[0,1,3,4].map(i=>`<rect x="${27.5+i*14.6}" y="50" width="7" height="22" rx="2.5" fill="#3a2a4a"/>`).join('')}</g><g fill="${OUT}" opacity=".55"><circle cx="24" cy="39" r="3.5"/><circle cx="34" cy="39" r="3.5"/><circle cx="44" cy="39" r="3.5"/></g><circle cx="92" cy="39" r="5" fill="#ff6a00" stroke="${OUT}" stroke-width="3"/><circle cx="78" cy="39" r="5" fill="#00aa0c" stroke="${OUT}" stroke-width="3"/></svg>`,
- xylo:`<svg viewBox="0 0 120 120"><g transform="rotate(-14 60 60)" stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><path d="M12 44 L108 52 M12 84 L108 74" stroke-width="7" stroke-linecap="round"/>${[0,1,2,3,4,5].map(i=>{const h=56-i*5;return`<rect x="${14+i*16}" y="${64-h/2}" width="13" height="${h}" rx="6" fill="${RAINBOW[i]}"/>`}).join('')}</g><g stroke="${OUT}" stroke-width="4"><path d="M74 104 L104 76" stroke-linecap="round"/><circle cx="106" cy="74" r="8" fill="#ff5fa8"/></g></svg>`,
- guitar:`<svg viewBox="0 0 120 120"><g transform="rotate(-40 60 60)" stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><rect x="58" y="51" width="50" height="18" rx="4" fill="url(#gNeck)"/><rect x="104" y="46" width="14" height="28" rx="5" fill="#ff6a00"/><circle cx="30" cy="60" r="25" fill="url(#gGtr)"/><circle cx="56" cy="60" r="19" fill="url(#gGtr)"/><circle cx="48" cy="60" r="8" fill="#5a3410"/><rect x="16" y="52" width="6" height="16" rx="2" fill="#7a4a1e"/></g></svg>`,
- glock:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><rect x="6" y="28" width="108" height="70" rx="14" fill="#ff6a00"/>${[0,1,2,3,4,5].map(i=>{const h=56-i*5;return`<rect x="${13+i*16.5}" y="${63-h/2}" width="13" height="${h}" rx="4" fill="url(#gMet)" stroke-width="3"/><circle cx="${19.5+i*16.5}" cy="63" r="4.5" fill="${RAINBOW[i]}" stroke-width="2"/>`}).join('')}</g><g stroke="${OUT}" stroke-width="4"><path d="M76 112 L104 90" stroke-linecap="round"/><circle cx="106" cy="88" r="8" fill="#ffd400"/></g></svg>`,
- drums:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="4.5" stroke-linejoin="round"><path d="M22 46 V88 A38 13 0 0 0 98 88 V46" fill="#ff6a00"/><path d="M22 60 L40 84 L60 60 L80 84 L98 60" fill="none" stroke="#ffff01" stroke-width="5"/><ellipse cx="60" cy="46" rx="38" ry="13" fill="#fff8ee"/></g><g stroke="${OUT}" stroke-width="4" stroke-linecap="round"><path d="M30 10 L58 40"/><path d="M92 10 L64 40"/></g><circle cx="30" cy="10" r="6" fill="#00aa0c" stroke="${OUT}" stroke-width="3"/><circle cx="92" cy="10" r="6" fill="#00aa0c" stroke="${OUT}" stroke-width="3"/></svg>`,
- daff:`<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="48" fill="#c07a2c" stroke="${OUT}" stroke-width="4.5"/><circle cx="60" cy="60" r="38" fill="#fff3dc" stroke="${OUT}" stroke-width="4"/><g transform="translate(60 60) scale(.5)">${star8('#00aa0c',OUT).replace(/<\/?svg[^>]*>/g,'')}</g>${[0,1,2,3,4,5].map(i=>{const a=i/6*6.283+.5;return`<circle cx="${60+Math.cos(a)*43}" cy="${60+Math.sin(a)*43}" r="6" fill="url(#gGold)" stroke="${OUT}" stroke-width="2.5"/>`}).join('')}</svg>`,
- angklung:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><rect x="20" y="96" width="80" height="12" rx="6" fill="#ff6a00"/><rect x="22" y="14" width="9" height="88" rx="4.5" fill="url(#gBam)"/><rect x="89" y="14" width="9" height="88" rx="4.5" fill="url(#gBam)"/><rect x="17" y="10" width="86" height="10" rx="5" fill="url(#gBamH)"/><path d="M38 26 L58 20 L58 92 Q58 98 52 98 L44 98 Q38 98 38 92Z" fill="url(#gBam)"/><path d="M64 44 L82 38 L82 92 Q82 98 76 98 L70 98 Q64 98 64 92Z" fill="url(#gBam)"/><rect x="24" y="60" width="72" height="7" rx="3.5" fill="url(#gBamH)"/></g></svg>`,
- suling:`<svg viewBox="0 0 120 120"><g transform="rotate(-35 60 60)" stroke="${OUT}" stroke-width="4" stroke-linejoin="round"><rect x="4" y="50" width="112" height="20" rx="10" fill="url(#gBamH)"/><rect x="14" y="47" width="10" height="26" rx="4" fill="#00aa0c"/>${[0,1,2,3,4].map(i=>`<circle cx="${44+i*15}" cy="60" r="5.5" fill="${RAINBOW[i*2%8]}"/>`).join('')}</g></svg>`,
- balloons:`<svg viewBox="0 0 120 120"><g stroke="${OUT}" stroke-width="2.5" fill="none"><path d="M40 76 Q34 96 56 112"/><path d="M62 70 Q66 92 56 112"/><path d="M84 78 Q80 98 56 112"/></g><g stroke="${OUT}" stroke-width="4"><ellipse cx="40" cy="50" rx="20" ry="25" fill="#ff6a00"/><ellipse cx="84" cy="52" rx="20" ry="25" fill="#00aa0c"/><ellipse cx="62" cy="42" rx="21" ry="27" fill="#ffd400"/></g><g fill="#fff" opacity=".6"><ellipse cx="33" cy="40" rx="5" ry="8"/><ellipse cx="55" cy="31" rx="5" ry="8"/><ellipse cx="77" cy="42" rx="5" ry="8"/></g></svg>`};
-
+/* instrument pictures: art/t-<instrument>.webp */
+const tileImg=k=>`<img src="art/t-${k}.webp" alt="" draggable="false">`;
 /* =================================================================
    Instruments
    ================================================================= */
 const INST={
  piano:{c:['#ffe36b','#ffb000'],melodic:true,glide:true,
-  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),F=fall.on,bw=F?L-6:Math.min(L-6,S*2.5),bh=F?Math.min(S*.46,bw*.42):Math.min(S-12,bw*.66),p=box(mk('div','piano',el),(L-bw)/2,F?S-bh-4:(S-bh)/2,bw,bh),sh=F?0:bh*.19;
-   const s=mk('div','strip',p,`<span class="grill"></span><span class="pn">Baby <i>Mo</i></span><span class="dots">${['#00aa0c','#ff6a00','#ff5fa8'].map(c=>`<i style="background:${c}"></i>`).join('')}</span>`);s.style.height=sh+'px';s.style.fontSize=Math.max(14,sh*.48)+'px';
-   if(F)s.style.display='none';const k=mk('div','keys',p);k.style.top=F?'5%':sh+'px';const kw=(bw*.94)/8;
+  /* art/i-piano.webp is 1204x516: the empty key area is 4-96% across and 35-86% down. It is drawn as a 9-slice frame
+     (top 181, right 470, bottom 72, left 301 px), so the speaker and buttons keep their shape when the piano is wider. */
+  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),F=fall.on,A=1204/516,bw=F?L-6:Math.min(L-6,(S-12)*A),bh=F?Math.min(S*.48,bw/A):bw/A,p=box(mk('div','piano',el),(L-bw)/2,F?S-bh-4:(S-bh)/2,bw,bh);
+   const z=bh/516*(F?.62:1),bT=181*z,bR=470*z,bB=72*z,bL=301*z;p.style.borderWidth=`${bT}px ${bR}px ${bB}px ${bL}px`;
+   const k=mk('div','keys',p);k.style.left=(1204*.048*z-bL)+'px';k.style.right=(1204*.048*z-bR)+'px';k.style.top=(516*.37*z-bT)+'px';k.style.bottom=(516*.16*z-bB)+'px';const kw=(bw-1204*.096*z)/8;
    SCALE.forEach((d,i)=>{const w=mk('div','wk',k,`<span class="up">${lab(i)}</span>`);w.dataset.h=1;w.dataset.m=60+d;w.dataset.i=i;w.dataset.c=RAINBOW[i];w.style.setProperty('--k',RAINBOW[i]);w.style.setProperty('--fs',Math.min(34,Math.max(16,kw*.42))+'px')});
    [[0,61],[1,63],[3,66],[4,68],[5,70]].forEach(([j,m])=>{const b=mk('div','bk',k);b.dataset.h=1;b.dataset.m=m;b.dataset.c='#9b8ab0';b.style.left=`calc(${(j+1)*12.5}% - 3.6%)`;b.style.width='7.2%'});
    if(F)fallGeo(el,p,k)},
@@ -186,12 +178,11 @@ const INST={
      const sc=bwid*.22;[.2,.8].forEach(f=>{const s=mk('span','sc',b);s.style.top=(h*f-sc/2-4)+'px'})})},
   hit(el){SND.xylo(+el.dataset.m)}},
  glock:{c:['#9ff0e6','#19b3a6'],melodic:true,glide:true,
-  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),cw=Math.min(L-8,S*2.3),chh=Math.min(S-10,cw*.6),cs=box(mk('div','gcase',el),(L-cw)/2,(S-chh)/2,cw,chh);
-   [.24,.76].forEach(f=>box(mk('span','felt',cs),cw*.03,chh*f-chh*.03,cw*.94,chh*.06));
-   const pad=cw*.05,gw=cw-pad*2,gap=gw*.025,bw=(gw-gap*7)/8,maxH=chh*.88,minH=maxH*.62;
-   SCALE.forEach((d,i)=>{const h=maxH-(maxH-minH)*i/7,b=box(mk('div','gbar',cs,`<span class="dot" style="background:${RAINBOW[i]}"></span><span class="up">${lab(i)}</span>`),pad-5+i*(bw+gap),(chh-h)/2-5,bw,h);
+  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),A=1200/638,cw=Math.min(L-8,(S-10)*A),chh=cw/A,cs=box(mk('div','gcase',el),(L-cw)/2,(S-chh)/2,cw,chh);
+   const pad=cw*.08,gw=cw-pad*2,gap=gw*.025,bw=(gw-gap*7)/8,maxH=chh*.74,minH=maxH*.66,cy=chh*.495,rails=[chh*.345,chh*.645];
+   SCALE.forEach((d,i)=>{const h=maxH-(maxH-minH)*i/7,top=cy-h/2,b=box(mk('div','gbar',cs,`<span class="dot" style="background:${RAINBOW[i]}"></span><span class="up">${lab(i)}</span>`),pad+i*(bw+gap),top,bw,h);
      b.dataset.h=1;b.dataset.m=84+d;b.dataset.i=i;b.dataset.c=RAINBOW[i];b.style.setProperty('--fs',Math.min(32,Math.max(15,bw*.38))+'px');
-     const rv=bw*.2;[.24,.76].forEach(f=>{const r=mk('span','rv',b);r.style.top=(h*f-rv/2-3)+'px'})})},
+     const rv=bw*.2;rails.forEach(y=>{const r=mk('span','rv',b);r.style.top=(y-top-rv/2-3)+'px'})})},
   hit(el){SND.glock(+el.dataset.m)}},
  guitar:{c:['#ffb36b','#ff6a00'],glide:true,
   build(st,W,H){const port=H>W*1.05;let cb,cols,rows,ar;
@@ -201,50 +192,39 @@ const INST={
    const pan=box(mk('div','chords',st),0,0,port?W:ar[0]-14,port?ar[1]-12:H);pan.style.gridTemplateColumns=`repeat(${cols},${cb}px)`;pan.style.setProperty('--cb',cb+'px');renderChords(pan);
    pan.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();const b=e.target.closest('button');if(!b)return;ac();if(b.dataset.more!=null){allCh=!allCh;store.set('allCh',allCh);SND.tap();releaseAll();build();return}chord={r:+b.dataset.r,mn:b.dataset.mn==='1'};renderChords(pan);strumAll()});
    const area=box(mk('div','',st),ar[0],ar[1],ar[2],ar[3]);area.style.position='absolute';st=area;W=ar[2];H=ar[3];
-   const {el,L,S}=canon(st,W,H,true);let gl=Math.min(L-6,(S-6)/.42),gh=gl*.42;const g=box(mk('div','gtr',el),(L-gl)/2,(S-gh)/2,gl,gh);
-   g.innerHTML=`<svg viewBox="0 0 1000 420"><g stroke="${OUT}" stroke-width="10" stroke-linejoin="round">
-     <circle cx="230" cy="210" r="200" fill="url(#gGtr)"/><circle cx="455" cy="210" r="158" fill="url(#gGtr)"/>
-     <rect x="470" y="108" width="430" height="204" rx="22" fill="url(#gNeck)"/>
-     <path d="M885 92 Q995 84 995 150 L995 270 Q995 336 885 328 Z" fill="url(#gGtr)"/></g>
-     <g fill="url(#gGtr)" stroke="none"><circle cx="230" cy="210" r="195"/><circle cx="455" cy="210" r="153"/></g>
-     <path d="M70 150 Q60 210 70 270" stroke="#ffd45a" stroke-width="10" fill="none" opacity=".7" stroke-linecap="round"/>
-     <circle cx="380" cy="210" r="86" fill="#00aa0c" stroke="${OUT}" stroke-width="10"/><circle cx="380" cy="210" r="64" fill="#3a1e08" stroke="${OUT}" stroke-width="6"/>
-     <g stroke="#e8e8e8" stroke-width="7">${[560,640,715,785,850].map(x=>`<path d="M${x} 116 V304"/>`).join('')}</g>
-     <circle cx="680" cy="210" r="13" fill="#fff8ee"/><circle cx="818" cy="210" r="13" fill="#fff8ee"/>
-     <rect x="115" y="100" width="44" height="220" rx="16" fill="#7a4a1e" stroke="${OUT}" stroke-width="8"/>
-     <g fill="url(#gGold)" stroke="${OUT}" stroke-width="6">${[915,950,980].map(x=>`<circle cx="${x}" cy="104" r="15"/><circle cx="${x}" cy="316" r="15"/>`).join('')}</g>
-     <g transform="translate(160 330) scale(.5)">${star8('#ffff01',OUT).replace(/<\/?svg[^>]*>/g,'')}</g></svg>`;
-   const ys=[128,160,193,227,260,292],th=[9,8,7,6,5,4.5];
-   ys.forEach((y,k)=>{const top=k===0?0:(y+ys[k-1])/2,bot=k===5?420:(y+ys[k+1])/2,s=mk('div','str',g,'<i></i>');box(s,gl*.137,top/420*gh,gl*(.9-.137),(bot-top)/420*gh);
-     s.firstChild.style.top=((y-top)/420*gh)+'px';s.firstChild.style.setProperty('--th',Math.max(2,th[k]*gh/420*1.5)+'px');s.dataset.h=1;s.dataset.s=k;s.dataset.c=RAINBOW[chord.r]});
+   /* art/i-guitar.webp is 1200x538 */
+   const {el,L,S}=canon(st,W,H,true),A=1200/538;let gl=Math.min(L-6,(S-6)*A),gh=gl/A;const g=box(mk('div','gtr',el),(L-gl)/2,(S-gh)/2,gl,gh);
+   g.innerHTML='<img src="art/i-guitar.webp" alt="" draggable="false">';
+   const ys=[.415,.448,.481,.514,.547,.58],th=[3.4,3.1,2.8,2.5,2.2,1.9];
+   ys.forEach((y,k)=>{const top=k===0?0:(y+ys[k-1])/2,bot=k===5?1:(y+ys[k+1])/2,s=mk('div','str',g,'<i></i>');box(s,gl*.135,top*gh,gl*(.775-.135),(bot-top)*gh);
+     s.firstChild.style.top=((y-top)*gh)+'px';s.firstChild.style.setProperty('--th',Math.max(1.5,th[k]*gh/300)+'px');s.dataset.h=1;s.dataset.s=k;s.dataset.c=RAINBOW[chord.r]});
    ksWarm()},
   hit(el){const m=chordNotes()[+el.dataset.s];SND.guitar(m);restart(el,'vib',500)}},
  drums:{c:['#7fd3ff','#2f7bff'],
   build(st,W,H){const {el,L,S}=canon(st,W,H),u=Math.min(L/4.45,S/2.4),cx=L/2,cy=S/2+u*.02;
    [['crash',-1.58,-.6,.5,'cym'],['ride',1.6,-.6,.5,'cym'],['hat',-1.64,.56,.42,'cym'],['tom1',-.5,-.66,.42,'#ff6a00'],['tom2',.5,-.66,.42,'#00aa0c'],['snare',-.74,.55,.45,'#2f7bff'],['kick',.32,.42,.6,'#ff4b4b'],['floor',1.56,.55,.46,'#9b4bf0']]
-   .forEach(([k,x,y,r,col])=>{const R=r*u,d=box(mk('div','dr '+(col==='cym'?'cym':'drum'),el),cx+x*u-R,cy+y*u-R,R*2,R*2);d.dataset.h=1;d.dataset.d=k;d.dataset.c=col==='cym'?'#ffd400':col;d.style.setProperty('--r',R+'px');if(col!=='cym')d.style.setProperty('--k',col);
-     if(k==='kick')mk('span','logo2',d,star8('#ffff01',OUT))})},
+   .forEach(([k,x,y,r,col])=>{const R=r*u,d=box(mk('div','dr '+(col==='cym'?'cym':'drum'),el),cx+x*u-R,cy+y*u-R,R*2,R*2);d.dataset.h=1;d.dataset.d=k;d.dataset.c=col==='cym'?'#ffd400':col;d.style.setProperty('--r',R+'px');
+     d.style.backgroundImage=`url(art/${{crash:'d-cymbal',ride:'d-cymbal',hat:'d-cymbal',tom1:'d-orange',tom2:'d-green',snare:'d-blue',kick:'d-red',floor:'d-purple'}[k]}.webp)`})},
   hit(el){SND.drum(el.dataset.d);if(el.classList.contains('cym'))restart(el,'down',600)}},
  daff:{c:['#b7f0a0','#00aa0c'],
   build(st,W,H){const {el,L,S}=canon(st,W,H),D=Math.min(S*.94,L*.54),R=D/2,dm=Math.min(S*.5,(L-D)/2*.88);
    const mkDaff=(cx,cy,r,cls,kind,inner)=>{const d=box(mk('div','daff'+cls,el),cx-r,cy-r,r*2,r*2);d.style.setProperty('--r',r+'px');d.dataset.h=1;d.dataset.d=kind;d.dataset.c=cls?'#ff6a00':'#c07a2c';
-     const bw=r*.13,ci=r-bw;for(let i=0;i<(cls?6:10);i++){const a=i/(cls?6:10)*6.283+.3,j=mk('i','jg',d);j.style.left=(ci+Math.cos(a)*(r-bw*.5))+'px';j.style.top=(ci+Math.sin(a)*(r-bw*.5))+'px';if(cls)j.style.display='none'}
-     if(inner){const m=mk('div','dum',d,star8('rgba(0,170,12,.85)',OUT));m.dataset.h=1;m.dataset.d='dum';m.dataset.c='#00aa0c'}return d};
+     d.style.backgroundImage=`url(art/${cls?'d-marawis':'d-rebana'}.webp)`;
+     if(inner){const m=mk('div','dum',d);m.dataset.h=1;m.dataset.d='dum';m.dataset.c='#00aa0c'}return d};
    mkDaff(L/2,S/2,R,'','tak',true);
    mkDaff((L-D)/4,S/2,dm/2,' m','mlo',false);mkDaff(L-(L-D)/4,S/2,dm/2,' m','mhi',false)},
-  hit(el){SND.daff(el.dataset.d);const f=el.closest('.daff');if(f&&el.dataset.d!=='mlo'&&el.dataset.d!=='mhi')restart(f,'jing',400)}},
+  hit(el){SND.daff(el.dataset.d);const f=el.closest('.daff');if(f&&el.dataset.d!=='mlo'&&el.dataset.d!=='mhi')restart(f,'jing',450)}},
  angklung:{c:['#ffd58a','#e8901a'],melodic:true,glide:true,
-  build(st,W,H){let best=null;for(const cols of [8,4,2,1]){const rows=8/cols,cw=W/cols,ch=H/rows,h=Math.min(ch*.96,cw*.96/.64);if(!best||h>best.h)best={cols,rows,cw,ch,h}}
-   const {cols,cw,ch,h}=best,w=h*.64;
-   SCALE.forEach((d,i)=>{const c=i%cols,r=Math.floor(i/cols),a=box(mk('div','ang',st),c*cw+(cw-w)/2,r*ch+(ch-h)/2,w,h);a.dataset.h=1;a.dataset.m=72+d;a.dataset.i=i;a.dataset.c=RAINBOW[i];a.innerHTML=angSvg(RAINBOW[i],i)})},
+  build(st,W,H){let best=null;for(const cols of [8,4,2,1]){const rows=8/cols,cw=W/cols,ch=H/rows,h=Math.min(ch*.96,cw*.96/.612);if(!best||h>best.h)best={cols,rows,cw,ch,h}}
+   const {cols,cw,ch,h}=best,w=h*.612;
+   SCALE.forEach((d,i)=>{const c=i%cols,r=Math.floor(i/cols),a=box(mk('div','ang',st),c*cw+(cw-w)/2,r*ch+(ch-h)/2,w,h);a.dataset.h=1;a.dataset.m=72+d;a.dataset.i=i;a.dataset.c=RAINBOW[i];a.innerHTML=`<img src="art/a-${i+1}.webp" alt="" draggable="false"><b class="an">${lab(i)}</b>`;a.style.setProperty('--fs',Math.max(14,Math.min(30,w*.17))+'px')})},
   hit(el){SND.angklung(+el.dataset.m);restart(el,'shake',700)}},
  suling:{c:['#c9a7ff','#8a4dff'],melodic:true,glide:true,
-  build(st,W,H){const {el,L,S}=canon(st,W,H),tl=Math.min(L-8,S*3.6),th=Math.min(S*.46,tl*.17),tb=box(mk('div','suling',el),(L-tl)/2,(S-th)/2,tl,th);
-   box(mk('span','ring',tb),th*.32,0,th*.3,th).style.top='-4%';box(mk('span','mouth',tb),th*.85,th*.3,th*.42,th*.4);
-   [.2,.985].forEach(f=>box(mk('span','node',tb),tl*f,0,6,th).style.top='6%');
+  /* art/i-suling.webp is 1200x141 */
+  build(st,W,H){const {el,L,S}=canon(st,W,H),A=1200/141,tl=Math.min(L-8,S*.5*A),th=tl/A,tb=box(mk('div','suling',el),(L-tl)/2,(S-th)/2,tl,th);
    const w=box(mk('div','wind',el),(L-tl)/2-th*.9,S/2-th*.4,th*.8,th*.8);w.innerHTML=`<svg viewBox="0 0 40 40" width="100%" height="100%"><path d="M4 12 H30 M8 20 H36 M4 28 H28" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>`;
-   const sp=tl*.74/8,dd=Math.min(th*.84,sp*.86);
-   SCALE.forEach((d,i)=>{const hx=tl*.235+sp*(i+.5),h=box(mk('div','hole',tb,`<span class="up">${lab(i)}</span>`),hx-dd/2,(th-dd)/2-5,dd,dd);h.dataset.h=1;h.dataset.m=72+d;h.dataset.i=i;h.dataset.c=RAINBOW[i];h.style.setProperty('--k',RAINBOW[i]);h.style.setProperty('--fs',Math.min(30,Math.max(15,dd*.36))+'px')})},
+   const sp=tl*.725/8,dd=Math.min(th*.92,sp*.86);
+   SCALE.forEach((d,i)=>{const hx=tl*.22+sp*(i+.5),h=box(mk('div','hole',tb,`<span class="up">${lab(i)}</span>`),hx-dd/2,(th-dd)/2-4,dd,dd);h.dataset.h=1;h.dataset.m=72+d;h.dataset.i=i;h.dataset.c=RAINBOW[i];h.style.setProperty('--k',RAINBOW[i]);h.style.setProperty('--fs',Math.min(30,Math.max(15,dd*.36))+'px')})},
   hit(el){const w=$('.wind');if(w)w.classList.add('on');return SND.suling(+el.dataset.m)},
   up(){if(!PT.size){const w=$('.wind');if(w)w.classList.remove('on')}}},
  balloons:{c:['#ff9ad5','#ff4fa0'],
@@ -252,15 +232,6 @@ const INST={
   hit(el){popBalloon(el)}}};
 const ORDER=['piano','xylo','glock','drums','guitar','daff','angklung','suling','balloons'];
 
-function angSvg(col,n){return`<svg viewBox="0 0 100 156"><g stroke="${OUT}" stroke-width="3.5" stroke-linejoin="round">
- <rect x="10" y="22" width="10" height="120" rx="5" fill="url(#gBam)"/><rect x="80" y="22" width="10" height="120" rx="5" fill="url(#gBam)"/>
- <path d="M27 34 L50 26 L50 134 Q50 141 43 141 L34 141 Q27 141 27 134 Z" fill="url(#gBam)"/><path d="M56 62 L76 55 L76 134 Q76 141 69 141 L63 141 Q56 141 56 134 Z" fill="url(#gBam)"/>
- <rect x="5" y="16" width="90" height="11" rx="5.5" fill="url(#gBamH)"/><rect x="12" y="84" width="76" height="8" rx="4" fill="url(#gBamH)"/>
- <rect x="7" y="137" width="86" height="16" rx="8" fill="${col}"/></g>
- <g stroke="rgba(140,80,10,.6)" stroke-width="2.5"><path d="M28 110 H49 M57 112 H75 M28 60 H49"/></g>
- <ellipse cx="38.5" cy="31" rx="9" ry="3" fill="#6a3e12" transform="rotate(-19 38.5 31)"/><ellipse cx="66" cy="58.5" rx="8" ry="2.6" fill="#6a3e12" transform="rotate(-19 66 58.5)"/>
- <circle cx="50" cy="9" r="13" fill="${col}" stroke="${OUT}" stroke-width="3.5"/>
- <text x="50" y="${n<7?15:17}" text-anchor="middle" font-family="Lilita One,sans-serif" font-size="17" fill="#fff" stroke="${OUT}" stroke-width="3" paint-order="stroke">${n<7?n+1:1}</text>${n<7?'':`<circle cx="50" cy="1.5" r="2.4" fill="#fff" stroke="${OUT}" stroke-width="1.5"/>`}</svg>`}
 
 /* guitar chords: strings low to high. A chord button tunes all six strings, so any strum sounds nice.
    The main chords are C, F, G and Am (the chords of most simple songs). The + button shows all 14 chords:
@@ -301,11 +272,11 @@ let scr='home',cur=null;
 function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));scr=id}
 function ov(id,on){$('#'+id).classList.toggle('on',on)}
 let toastT;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2400)}
-function renderHome(){$('#tiles').innerHTML=ORDER.map(k=>`<button class="tile" data-k="${k}" style="--c1:${INST[k].c[0]};--c2:${INST[k].c[1]}"><span class="in">${ICON[k]}<span class="lbl">${t('I')[k]}</span></span></button>`).join('')}
+function renderHome(){$('#tiles').innerHTML=ORDER.map(k=>`<button class="tile" data-k="${k}" style="--c1:${INST[k].c[0]};--c2:${INST[k].c[1]}"><span class="in">${tileImg(k)}<span class="lbl">${t('I')[k]}</span></span></button>`).join('')}
 $('#tiles').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b||b.classList.contains('pick'))return;ac();SND.tap();goFull();b.classList.add('pick');setTimeout(()=>{b.classList.remove('pick');openInst(b.dataset.k)},330)});
-function renderTitle(){$('#ttl').innerHTML=ICON[cur]+`<b>${t('I')[cur]}</b>`}
+function renderTitle(){$('#ttl').innerHTML=tileImg(cur)+`<b>${t('I')[cur]}</b>`}
 function openInst(k){fallOff();cur=k;show('play');renderTitle();stopSong();
-  $('#songsBtn').hidden=!INST[k].melodic;$('#fallBtn').hidden=k!=='piano';$('#dancer').src='art/mo.webp';
+  $('#songsBtn').hidden=!INST[k].melodic;$('#fallBtn').hidden=k!=='piano';moBase=k==='piano'?'art/mo-piano.webp':(k==='drums'||k==='daff')?'art/mo-drum.webp':'art/mo-dance.webp';$('#dancer').src=moBase;
   build();
   if(k==='balloons'){balStart();toast(t('balTip'))}}
 function build(){stage.innerHTML='';clearTarget();const W=stage.clientWidth,H=stage.clientHeight;if(!W||!H||!cur)return;INST[cur].build(stage,W,H);setTarget()}
@@ -334,13 +305,13 @@ addEventListener('keydown',e=>{if(scr!=='play'||!cur||e.repeat||document.querySe
   PT.set(id,{el:null,hd:null,t:0});press(id,el,r.left+r.width/2,r.top+r.height/2);const up=ev=>{if(ev.key!==e.key)return;removeEventListener('keyup',up);unpress(id);PT.delete(id);if(cur&&INST[cur].up)INST[cur].up()};addEventListener('keyup',up)});
 
 /* ---------- after every note: a flying note, Baby Mo dances, the song moves on ---------- */
-let noteCount=0,lastCheer=0,burst=[],moT=0;
+let noteCount=0,lastCheer=0,burst=[],moT=0,moBase='art/mo-dance.webp';
 function afterNote(el,x,y){
   flyNote(x,y,el.dataset.c||'#ffd400');
   const d=$('#dancer');d.classList.remove('bop');void d.offsetWidth;d.classList.add('bop');
   const n=performance.now();burst=burst.filter(v=>n-v<2200);burst.push(n);
-  if(burst.length>=7&&!d.src.includes('mo-jump'))d.src='art/mo-jump.webp';
-  clearTimeout(moT);moT=setTimeout(()=>{d.src='art/mo.webp'},1300);
+  if(burst.length>=7&&!d.src.includes('mo-cheer'))d.src='art/mo-cheer.webp';
+  clearTimeout(moT);moT=setTimeout(()=>{d.src=moBase},1300);
   if(fall.on){if(el.dataset.i!=null)fallHit(+el.dataset.i);return}
   if(song&&!song.demo&&el.dataset.i!=null&&+el.dataset.i===song.notes[song.pos][0])songStep();
   else if(!song&&cur!=='balloons'){noteCount++;if(noteCount>=60&&n-lastCheer>60000){noteCount=0;lastCheer=n;cheer()}}}
@@ -356,9 +327,9 @@ let song=null,idleH=0;
 const tstar=mk('img','tstar',document.body);tstar.src='art/star.webp';tstar.alt='';tstar.style.position='fixed';tstar.style.display='none';
 let songsMode='song';
 function renderSongs(mode){if(mode)songsMode=mode;const F=songsMode==='fall';$('#songsTitle').textContent=t(F?'fallT':'songsT');$('#songsSub').textContent=t(F?'fallS':'songsS');
-  $('#lvlSeg').hidden=!F;$('#lvlSeg').innerHTML=['little','big'].map(l=>`<button data-l="${l}" class="${fall.lvl===l?'on':''}">${t(l)}<small>${t(l+'S')}</small></button>`).join('');
+  $('#lvlSeg').hidden=!F;$('#lvlSeg').innerHTML=['little','big'].map(l=>`<button data-l="${l}" class="${fall.lvl===l?'on':''}"><img src="art/lv-${l}.webp" alt="">${t(l)}<small>${t(l+'S')}</small></button>`).join('');
   $('#slist').innerHTML=(F?'':`<button class="free" data-s="-1"><i style="--k:#00aa0c">${noteSvg('#ffff01')}</i>${t('free')}</button>`)+
-  SONGS.map((s,i)=>`<button data-s="${i}" class="${(F?fallStars[s.k]:done[s.k])?'done':''}"><i style="--k:${SONGCOL[i]}">${noteSvg('#fff8ee')}</i><span>${t('S')[s.k]}<small>${tf('notesN',{n:parseSong(s.n).length})}</small></span><span class="st"></span></button>`).join('')}
+  SONGS.map((s,i)=>`<button data-s="${i}" class="${(F?fallStars[s.k]:done[s.k])?'done':''}"><i class="pic"><img src="art/s-${s.k}.webp" alt=""></i><span>${t('S')[s.k]}<small>${tf('notesN',{n:parseSong(s.n).length})}</small></span><span class="st"></span></button>`).join('')}
 $('#songsBtn').onclick=()=>{SND.tap();renderSongs('song');ov('songsOv',true)};
 $('#fallBtn').onclick=()=>{SND.tap();renderSongs('fall');ov('songsOv',true)};
 $('#lvlSeg').addEventListener('click',e=>{const b=e.target.closest('[data-l]');if(!b)return;SND.tap();fall.lvl=b.dataset.l;store.set('fallLvl',fall.lvl);renderSongs()});
@@ -435,10 +406,10 @@ function fallDone(){const i=fall.si,k=SONGS[i].k,n=fall.notes.length,{perfect:p,
 /* listen: Baby Mo plays the song first */
 let demoT=[];
 $('#listenBtn').onclick=()=>{if(!song)return;ac();if(song.demo){stopDemo();return}
-  song.demo=true;clearTarget();let at=250;const ms=SONGS[song.i].ms;
+  song.demo=true;clearTarget();$('#dancer').src='art/mo-listen.webp';let at=250;const ms=SONGS[song.i].ms;
   song.notes.forEach(([i,d])=>{demoT.push(setTimeout(()=>{const el=stage.querySelector(`[data-i="${i}"]`);if(!el)return;const r=el.getBoundingClientRect(),hd=INST[cur].hit(el);el.classList.add('down');
     afterDemo(el,r);setTimeout(()=>{el.classList.remove('down');if(hd)hd.stop();if(INST[cur].up)INST[cur].up()},Math.max(120,d*ms*.8))},at));at+=d*ms});
-  demoT.push(setTimeout(()=>{if(song){song.demo=false;song.pos=0;renderSongBar();setTarget()}},at+300))};
+  demoT.push(setTimeout(()=>{$('#dancer').src=moBase;if(song){song.demo=false;song.pos=0;renderSongBar();setTarget()}},at+300))};
 function afterDemo(el,r){flyNote(r.left+r.width/2,r.top+r.height/2,el.dataset.c);const d=$('#dancer');d.classList.remove('bop');void d.offsetWidth;d.classList.add('bop')}
 function stopDemo(){demoT.forEach(clearTimeout);demoT=[];stage.querySelectorAll('.down').forEach(e=>e.classList.remove('down'));if(cur&&INST[cur]&&INST[cur].up)INST[cur].up();if(song&&song.demo){song.demo=false;setTarget()}}
 function showHint(el){const r=el.getBoundingClientRect(),h=$('#hint');h.style.left=(r.left+r.width/2-10)+'px';h.style.top=(r.top+r.height/2)+'px';h.style.display='block'}
@@ -448,16 +419,14 @@ function hideHint(){$('#hint').style.display='none'}
    Music balloons: each balloon you pop plays the next note of a song
    ================================================================= */
 const bal={list:[],on:false,last:0,raf:0,si:0,pos:0,notes:[],n:0};
-const BCOL=['#ff6a00','#00aa0c','#ffd400','#ff4b4b','#2f7bff','#9b4bf0','#ff5fa8','#19c3c0'];
-function balSvg(c,star){if(star)return`<svg viewBox="0 0 100 150"><path d="M50 4 L62 38 L98 39 L69 60 L80 95 L50 74 L20 95 L31 60 L2 39 L38 38 Z" fill="url(#gGold)" stroke="${OUT}" stroke-width="4" stroke-linejoin="round"/><path d="M50 82 Q40 104 52 122 Q60 136 50 150" stroke="${OUT}" stroke-width="2.5" fill="none"/></svg>`;
-  return`<svg viewBox="0 0 100 150"><path d="M50 4 C80 4 96 30 96 58 C96 92 70 112 54 116 L58 124 L42 124 L46 116 C30 112 4 92 4 58 C4 30 20 4 50 4Z" fill="${c}" stroke="${OUT}" stroke-width="4" stroke-linejoin="round"/><ellipse cx="31" cy="38" rx="9" ry="16" fill="#fff" opacity=".55" transform="rotate(25 31 38)"/><path d="M50 124 Q40 136 52 146 Q60 150 50 160" stroke="${OUT}" stroke-width="2.5" fill="none"/></svg>`}
+const balImg=(i,star)=>`<img src="art/${star?'b-star':'b-'+(i+1)}.webp" alt="" draggable="false">`;
 function balSong(i){bal.si=i%SONGS.length;bal.notes=parseSong(SONGS[bal.si].n);bal.pos=0;renderSongBar()}
 function balStart(){bal.on=true;bal.list=[];$('#songBar').classList.add('on');$('#listenBtn').hidden=true;$('#stopSong').hidden=true;balSong(store.get('balSong',0));cancelAnimationFrame(bal.raf);let lt=performance.now();
   const loop=n=>{if(!bal.on)return;const dt=Math.min(.05,(n-lt)/1000);lt=n;if(!window.praying&&!document.hidden)balTick(n,dt);bal.raf=requestAnimationFrame(loop)};bal.raf=requestAnimationFrame(loop)}
 function balStop(){bal.on=false;cancelAnimationFrame(bal.raf);bal.list=[];$('#songBar').classList.remove('on')}
 function balTick(n,dt){const W=stage.clientWidth,H=stage.clientHeight,sz=Math.max(70,Math.min(150,Math.min(W,H)*.24)),max=Math.max(4,Math.min(9,Math.round(W*H/(sz*sz*2.2))));
-  if(bal.list.length<max&&n-bal.last>650){bal.last=n;const star=bal.n++%9===8,s=sz*rnd(.85,1.12),c=BCOL[(Math.random()*BCOL.length)|0];
-    const el=mk('div','bal',stage,balSvg(c,star));el.dataset.h=1;el.dataset.c=star?'#ffd400':c;el.style.width=s+'px';el.style.height=s*1.5+'px';
+  if(bal.list.length<max&&n-bal.last>650){bal.last=n;const star=bal.n++%9===8,s=sz*rnd(.8,1.02),ci=(Math.random()*8)|0,c=RAINBOW[ci];
+    const el=mk('div','bal',stage,balImg(ci,star));el.dataset.h=1;el.dataset.c=star?'#ffd400':c;el.style.width=s+'px';el.style.height=s/(star?.83:.567)+'px';
     bal.list.push({el,x:rnd(0,Math.max(1,W-s)),y:H+10,vy:rnd(55,95)*(H/600+.4),ph:rnd(0,6.28),s,star})}
   bal.list=bal.list.filter(b=>{if(!b.el.isConnected)return false;b.y-=b.vy*dt;b.ph+=dt*1.6;const x=b.x+Math.sin(b.ph)*14;b.el.style.transform=`translate(${x}px,${b.y}px) rotate(${Math.sin(b.ph)*6}deg)`;
     if(b.y<-b.s*1.6){b.el.remove();return false}return true})}
@@ -481,8 +450,6 @@ function drawConf(){const d=DPR();fxx.setTransform(1,0,0,1,0,0);fxx.clearRect(0,
   conf=conf.filter(p=>{p.t+=dt;if(p.t<0)return true;if(p.t>2.6)return false;p.vy+=900*dt;p.vx*=.99;p.x+=p.vx*dt;p.y+=p.vy*dt;p.r+=dt*6;fxx.save();fxx.translate(p.x,p.y);fxx.rotate(p.r);fxx.globalAlpha=Math.min(1,(2.6-p.t)*2);fxx.fillStyle=p.c;fxx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fxx.restore();return true});
   fxRaf=requestAnimationFrame(drawConf)}
 
-/* floating notes in the sky */
-(()=>{const w=$('#skyNotes'),cols=['#00aa0c','#ff6a00','#ffff01','#fff8ee','#ff5fa8'];let h='';for(let i=0;i<9;i++)h+=`<div class="nt" style="left:${(i*11+4)%96}%;top:${8+((i*37)%60)}%;animation-delay:${-i*1.3}s;animation-duration:${7+i%4*1.5}s">${noteSvg(cols[i%cols.length])}</div>`;w.innerHTML=h})();
 
 /* ---------- hold-to-confirm buttons ---------- */
 function holdable(el,ms,fin){let tm=0,start=0,raf=0;const ring=el.querySelector('.ring');const stop=()=>{cancelAnimationFrame(raf);tm=0;ring&&ring.style.setProperty('--p','0%')};
