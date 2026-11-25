@@ -17,7 +17,8 @@ en:{tag:'Play Games the Islamic Way',legal:'No ads · No data collected · Works
  alh:'Alhamdulillah!',sayAlh:'Alhamdulillah!',winSub:'You played “{s}”. MasyaAllah!',dyk:'Did you know?',again:'Again',more:'More songs',
  listenTip:'Listen to the song, then play it!',balTip:'Pop the balloons to play a song!',songDone:'MasyaAllah! You played “{s}”',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
- S:{twinkle:'Twinkle Little Star',lamb:'Little Lamb',row:'Row Your Boat',ode:'Ode to Joy',bridge:'London Bridge',lightly:'Lightly Row'},
+ fallT:'Falling Notes',fallS:'Tap the key when its bar touches it!',little:'Little',littleS:'Ages 1–4 · bars wait for you',big:'Big Kid',bigS:'Ages 5+ · keep the beat',good:'Good!',perfect:'MasyaAllah!',fallDone:'You played “{s}”: {p} perfect, {g} good, {m} missed',
+ S:{farm:'Old MacDonald',twinkle:'Twinkle Little Star',lamb:'Little Lamb',row:'Row Your Boat',ode:'Ode to Joy',bridge:'London Bridge',lightly:'Lightly Row'},
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. The music will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
@@ -30,7 +31,8 @@ id:{tag:'Bermain dengan Cara Islami',legal:'Tanpa iklan · Tanpa pengumpulan dat
  alh:'Alhamdulillah!',sayAlh:'Alhamdulillah!',winSub:'Kamu sudah memainkan “{s}”. MasyaAllah!',dyk:'Tahukah kamu?',again:'Lagi',more:'Lagu lain',
  listenTip:'Dengarkan lagunya, lalu mainkan!',balTip:'Letuskan balonnya untuk memainkan lagu!',songDone:'MasyaAllah! Kamu memainkan “{s}”',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
- S:{twinkle:'Kelap-Kelip Bintang',lamb:'Anak Domba',row:'Dayung Perahu',ode:'Lagu Gembira',bridge:'Jembatan London',lightly:'Perahu Kecil'},
+ fallT:'Nada Jatuh',fallS:'Ketuk tutsnya saat baloknya menyentuh!',little:'Kecil',littleS:'Usia 1–4 · baloknya menunggu',big:'Anak Besar',bigS:'Usia 5+ · ikuti ketukan',good:'Bagus!',perfect:'MasyaAllah!',fallDone:'Kamu memainkan “{s}”: {p} sempurna, {g} bagus, {m} terlewat',
+ S:{farm:'Old MacDonald',twinkle:'Kelap-Kelip Bintang',lamb:'Anak Domba',row:'Dayung Perahu',ode:'Lagu Gembira',bridge:'Jembatan London',lightly:'Perahu Kecil'},
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Musiknya akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
  setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
@@ -169,11 +171,12 @@ const ICON={
    ================================================================= */
 const INST={
  piano:{c:['#ffe36b','#ffb000'],melodic:true,glide:true,
-  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),bw=Math.min(L-6,S*2.5),bh=Math.min(S-12,bw*.66),p=box(mk('div','piano',el),(L-bw)/2,(S-bh)/2,bw,bh),sh=bh*.19;
+  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),F=fall.on,bw=F?L-6:Math.min(L-6,S*2.5),bh=F?Math.min(S*.46,bw*.42):Math.min(S-12,bw*.66),p=box(mk('div','piano',el),(L-bw)/2,F?S-bh-4:(S-bh)/2,bw,bh),sh=F?0:bh*.19;
    const s=mk('div','strip',p,`<span class="grill"></span><span class="pn">Baby <i>Mo</i></span><span class="dots">${['#00aa0c','#ff6a00','#ff5fa8'].map(c=>`<i style="background:${c}"></i>`).join('')}</span>`);s.style.height=sh+'px';s.style.fontSize=Math.max(14,sh*.48)+'px';
-   const k=mk('div','keys',p);k.style.top=sh+'px';const kw=(bw*.94)/8;
+   if(F)s.style.display='none';const k=mk('div','keys',p);k.style.top=F?'5%':sh+'px';const kw=(bw*.94)/8;
    SCALE.forEach((d,i)=>{const w=mk('div','wk',k,`<span class="up">${lab(i)}</span>`);w.dataset.h=1;w.dataset.m=60+d;w.dataset.i=i;w.dataset.c=RAINBOW[i];w.style.setProperty('--k',RAINBOW[i]);w.style.setProperty('--fs',Math.min(34,Math.max(16,kw*.42))+'px')});
-   [[0,61],[1,63],[3,66],[4,68],[5,70]].forEach(([j,m])=>{const b=mk('div','bk',k);b.dataset.h=1;b.dataset.m=m;b.dataset.c='#9b8ab0';b.style.left=`calc(${(j+1)*12.5}% - 3.6%)`;b.style.width='7.2%'})},
+   [[0,61],[1,63],[3,66],[4,68],[5,70]].forEach(([j,m])=>{const b=mk('div','bk',k);b.dataset.h=1;b.dataset.m=m;b.dataset.c='#9b8ab0';b.style.left=`calc(${(j+1)*12.5}% - 3.6%)`;b.style.width='7.2%'});
+   if(F)fallGeo(el,p,k)},
   hit(el){SND.piano(+el.dataset.m)}},
  xylo:{c:['#8be27f','#1fae3c'],melodic:true,glide:true,
   build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),gw=Math.min(L-10,S*2.2),x0=(L-gw)/2,gap=gw*.02,bwid=(gw-gap*7)/8,maxH=Math.min(S*.94,gw*.55),minH=maxH*.6,cy=S/2;
@@ -283,9 +286,11 @@ const SONGS=[
  {k:'row',ms:210,n:'0:3 0:3 0:2 1:1 2:3 2:2 1:1 2:2 3:1 4:6 7:1 7:1 7:1 4:1 4:1 4:1 2:1 2:1 2:1 0:1 0:1 0:1 4:2 3:1 2:2 1:1 0:6'},
  {k:'ode',ms:400,n:'2 2 3 4 4 3 2 1 0 0 1 2 2:1.5 1:.5 1:2 2 2 3 4 4 3 2 1 0 0 1 2 1:1.5 0:.5 0:2'},
  {k:'bridge',ms:380,n:'4:1.5 5:.5 4 3 2 3 4:2 1 2 3:2 2 3 4:2 4:1.5 5:.5 4 3 2 3 4:2 1:2 4:2 2 0:2'},
- {k:'lightly',ms:400,n:'4 2 2:2 3 1 1:2 0 1 2 3 4 4 4:2 4 2 2:2 3 1 1:2 0 2 4 4 0:4'}];
+ {k:'lightly',ms:400,n:'4 2 2:2 3 1 1:2 0 1 2 3 4 4 4:2 4 2 2:2 3 1 1:2 0 2 4 4 0:4'},
+ /* Old MacDonald (traditional): played in F so the low notes fit the 8 keys (key 4 is do) */
+ {k:'farm',ms:330,n:'3 3 3 0 1 1 0:2 5 5 4 4 3:3 0 3 3 3 0 1 1 0:2 5 5 4 4 3:2 0:.5 0:.5 3 3 3:2 0:.5 0:.5 3 3 3:2 3:.5 3:.5 3 3:.5 3:.5 3 3:.5 3:.5 3:.5 3:.5 3 3 3 3 3 0 1 1 0:2 5 5 4 4 3:4'}];
 const parseSong=s=>s.split(/\s+/).map(x=>{const [i,d]=x.split(':');return[+i,d?+d:1]});
-const SONGCOL=['#ffd400','#00aa0c','#2f7bff','#ff6a00','#ff5fa8','#9b4bf0'];
+const SONGCOL=['#ffd400','#00aa0c','#2f7bff','#ff6a00','#ff5fa8','#9b4bf0','#19c3c0'];
 let done=store.get('done',{});
 
 /* =================================================================
@@ -299,12 +304,12 @@ let toastT;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add
 function renderHome(){$('#tiles').innerHTML=ORDER.map(k=>`<button class="tile" data-k="${k}" style="--c1:${INST[k].c[0]};--c2:${INST[k].c[1]}"><span class="in">${ICON[k]}<span class="lbl">${t('I')[k]}</span></span></button>`).join('')}
 $('#tiles').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b||b.classList.contains('pick'))return;ac();SND.tap();goFull();b.classList.add('pick');setTimeout(()=>{b.classList.remove('pick');openInst(b.dataset.k)},330)});
 function renderTitle(){$('#ttl').innerHTML=ICON[cur]+`<b>${t('I')[cur]}</b>`}
-function openInst(k){cur=k;show('play');renderTitle();stopSong();
-  $('#songsBtn').hidden=!INST[k].melodic;$('#dancer').src='art/mo.webp';
+function openInst(k){fallOff();cur=k;show('play');renderTitle();stopSong();
+  $('#songsBtn').hidden=!INST[k].melodic;$('#fallBtn').hidden=k!=='piano';$('#dancer').src='art/mo.webp';
   build();
   if(k==='balloons'){balStart();toast(t('balTip'))}}
 function build(){stage.innerHTML='';clearTarget();const W=stage.clientWidth,H=stage.clientHeight;if(!W||!H||!cur)return;INST[cur].build(stage,W,H);setTarget()}
-function goHome(){releaseAll();stopSong();balStop();cur=null;stage.innerHTML='';show('home');armIdle()}
+function goHome(){releaseAll();fallOff();stopSong();balStop();cur=null;stage.innerHTML='';show('home');armIdle()}
 $('#backBtn').onclick=()=>{SND.tap();goHome()};
 let rzT;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{fitFx();if(scr==='play'&&cur!=='balloons'){releaseAll();build()}if(song&&song.demo)stopDemo()},120)});
 
@@ -336,6 +341,7 @@ function afterNote(el,x,y){
   const n=performance.now();burst=burst.filter(v=>n-v<2200);burst.push(n);
   if(burst.length>=7&&!d.src.includes('mo-jump'))d.src='art/mo-jump.webp';
   clearTimeout(moT);moT=setTimeout(()=>{d.src='art/mo.webp'},1300);
+  if(fall.on){if(el.dataset.i!=null)fallHit(+el.dataset.i);return}
   if(song&&!song.demo&&el.dataset.i!=null&&+el.dataset.i===song.notes[song.pos][0])songStep();
   else if(!song&&cur!=='balloons'){noteCount++;if(noteCount>=60&&n-lastCheer>60000){noteCount=0;lastCheer=n;cheer()}}}
 function flyNote(x,y,c){const L=$('#notes');if(L.childElementCount>26)L.firstElementChild.remove();const w=mk('div','',L,noteSvg(c)),s=w.firstChild;w.remove();
@@ -348,17 +354,23 @@ function cheer(){const i=cheerN++%4,c=mk('div','cheer',document.body,`<b>${t('ch
    ================================================================= */
 let song=null,idleH=0;
 const tstar=mk('img','tstar',document.body);tstar.src='art/star.webp';tstar.alt='';tstar.style.position='fixed';tstar.style.display='none';
-function renderSongs(){$('#slist').innerHTML=`<button class="free" data-s="-1"><i style="--k:#00aa0c">${noteSvg('#ffff01')}</i>${t('free')}</button>`+
-  SONGS.map((s,i)=>`<button data-s="${i}" class="${done[s.k]?'done':''}"><i style="--k:${SONGCOL[i]}">${noteSvg('#fff8ee')}</i><span>${t('S')[s.k]}<small>${tf('notesN',{n:parseSong(s.n).length})}</small></span><span class="st"></span></button>`).join('')}
-$('#songsBtn').onclick=()=>{SND.tap();renderSongs();ov('songsOv',true)};
+let songsMode='song';
+function renderSongs(mode){if(mode)songsMode=mode;const F=songsMode==='fall';$('#songsTitle').textContent=t(F?'fallT':'songsT');$('#songsSub').textContent=t(F?'fallS':'songsS');
+  $('#lvlSeg').hidden=!F;$('#lvlSeg').innerHTML=['little','big'].map(l=>`<button data-l="${l}" class="${fall.lvl===l?'on':''}">${t(l)}<small>${t(l+'S')}</small></button>`).join('');
+  $('#slist').innerHTML=(F?'':`<button class="free" data-s="-1"><i style="--k:#00aa0c">${noteSvg('#ffff01')}</i>${t('free')}</button>`)+
+  SONGS.map((s,i)=>`<button data-s="${i}" class="${(F?fallStars[s.k]:done[s.k])?'done':''}"><i style="--k:${SONGCOL[i]}">${noteSvg('#fff8ee')}</i><span>${t('S')[s.k]}<small>${tf('notesN',{n:parseSong(s.n).length})}</small></span><span class="st"></span></button>`).join('')}
+$('#songsBtn').onclick=()=>{SND.tap();renderSongs('song');ov('songsOv',true)};
+$('#fallBtn').onclick=()=>{SND.tap();renderSongs('fall');ov('songsOv',true)};
+$('#lvlSeg').addEventListener('click',e=>{const b=e.target.closest('[data-l]');if(!b)return;SND.tap();fall.lvl=b.dataset.l;store.set('fallLvl',fall.lvl);renderSongs()});
 $('#songsClose').onclick=()=>ov('songsOv',false);
-$('#slist').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;SND.tap();ov('songsOv',false);const i=+b.dataset.s;if(i<0)stopSong();else startSong(i)});
-function startSong(i){stopSong();const s=SONGS[i];song={i,notes:parseSong(s.n),pos:0,demo:false};$('#play').classList.add('song');$('#songBar').classList.add('on');
+$('#slist').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;SND.tap();ov('songsOv',false);const i=+b.dataset.s;if(songsMode==='fall'){startFall(i);return}fallOff();if(i<0)stopSong();else startSong(i)});
+function startSong(i){fallOff();stopSong();const s=SONGS[i];song={i,notes:parseSong(s.n),pos:0,demo:false};$('#play').classList.add('song');$('#songBar').classList.add('on');
   $('#listenBtn').hidden=false;$('#stopSong').hidden=false;renderSongBar();setTarget();toast(t('listenTip'))}
-function renderSongBar(){if(cur==='balloons'){$('#songName').textContent=t('S')[SONGS[bal.si].k];$('#songProg').style.width=(bal.pos/bal.notes.length*100)+'%';return}
+function renderSongBar(){if(fall.on){$('#songName').textContent=t('S')[SONGS[fall.si].k];$('#songProg').style.width=(fall.notes.filter(o=>o.st).length/fall.notes.length*100)+'%';return}
+  if(cur==='balloons'){$('#songName').textContent=t('S')[SONGS[bal.si].k];$('#songProg').style.width=(bal.pos/bal.notes.length*100)+'%';return}
   if(!song)return;$('#songName').textContent=t('S')[SONGS[song.i].k];$('#songProg').style.width=(song.pos/song.notes.length*100)+'%'}
 function stopSong(){stopDemo();song=null;clearTarget();$('#play').classList.remove('song');$('#songBar').classList.remove('on')}
-$('#stopSong').onclick=()=>{SND.tap();stopSong()};
+$('#stopSong').onclick=()=>{SND.tap();if(fall.on)stopFall();else stopSong()};
 function clearTarget(){document.querySelectorAll('.tgt').forEach(e=>e.classList.remove('tgt'));tstar.style.display='none';hideHint();clearTimeout(idleH)}
 function targetEl(){return song&&stage.querySelector(`[data-i="${song.notes[song.pos][0]}"]`)}
 function setTarget(){clearTarget();if(!song||song.demo)return;const el=targetEl();if(!el)return;el.classList.add('tgt');
@@ -368,10 +380,58 @@ function setTarget(){clearTarget();if(!song||song.demo)return;const el=targetEl(
 function songStep(){song.pos++;renderSongBar();if(song.pos>=song.notes.length){const i=song.i;clearTarget();song.pos=song.notes.length;setTimeout(()=>songDone(i),500);song=null;return}setTarget()}
 function songDone(i){const k=SONGS[i].k;done[k]=1;store.set('done',done);$('#songBar').classList.remove('on');$('#play').classList.remove('song');
   SND.fanfare();confetti();setTimeout(()=>voice('win',t('sayAlh')),600);
-  $('#winSub').textContent=tf('winSub',{s:t('S')[k]});$('#winFact').textContent=nextFact();lastSong=i;ov('win',true)}
-let lastSong=0;
-$('#winAgain').onclick=()=>{SND.tap();ov('win',false);startSong(lastSong)};
-$('#winMore').onclick=()=>{SND.tap();ov('win',false);renderSongs();ov('songsOv',true)};
+  $('#winSub').textContent=tf('winSub',{s:t('S')[k]});$('#winFact').textContent=nextFact();lastSong=i;lastMode='song';winStars(3);ov('win',true)}
+let lastSong=0,lastMode='song';
+function winStars(n){document.querySelectorAll('.stars3 i').forEach((s,k)=>s.classList.toggle('off',k>=n))}
+$('#winAgain').onclick=()=>{SND.tap();ov('win',false);if(lastMode==='fall')startFall(lastSong);else startSong(lastSong)};
+$('#winMore').onclick=()=>{SND.tap();ov('win',false);renderSongs(lastMode);ov('songsOv',true)};
+/* =================================================================
+   Falling Notes (piano): coloured bars fall onto the keys; tap the key when its bar touches it.
+   Little: the bar stops on its key and waits, no failing. Big Kid: the bars keep the beat; perfect, good or missed.
+   ================================================================= */
+const fall={on:false,lvl:store.get('fallLvl','little'),si:0,notes:[],t:0,end:0,raf:0,last:0,geo:null,perfect:0,good:0,miss:0,waitK:-1,hintT:0};
+let fallStars=store.get('fallStars',{});
+const fallLead=()=>fall.lvl==='big'?2:2.6;
+/* where the lanes and keys are, in the piano's own (unturned) coordinates */
+function fallGeo(el,p,k){const x0=p.offsetLeft+p.clientLeft+k.offsetLeft,hitY=p.offsetTop+p.clientTop+k.offsetTop,keys=[...k.querySelectorAll('.wk')],lanes=box(mk('div','lanes',el),x0,0,k.offsetWidth,hitY);
+  const kx=keys.map(w=>({x:w.offsetLeft,w:w.offsetWidth}));kx.forEach((q,i)=>{if(i)box(mk('i','ln',lanes),q.x-3,0,2,hitY)});
+  fall.geo={lanes,hitY,kx,keyEls:keys,bars:new Map()};fall.waitK=-1}
+function startFall(i){stopSong();releaseAll();const s=SONGS[i],beat=s.ms/1000*(fall.lvl==='big'?1:1.2);let tt=0;
+  fall.notes=parseSong(s.n).map(([k,d])=>{const o={k,d,t:tt,len:d*beat,st:0};tt+=d*beat;return o});
+  Object.assign(fall,{on:true,si:i,t:-fallLead()-.5,end:tt,perfect:0,good:0,miss:0,last:performance.now(),waitK:-1});
+  $('#play').classList.add('song');$('#songBar').classList.add('on');$('#listenBtn').hidden=true;$('#stopSong').hidden=false;
+  build();renderSongBar();cancelAnimationFrame(fall.raf);fall.raf=requestAnimationFrame(fallLoop)}
+function fallOff(){if(!fall.on)return;fall.on=false;cancelAnimationFrame(fall.raf);clearTimeout(fall.hintT);hideHint();fall.geo=null;$('#play').classList.remove('song');$('#songBar').classList.remove('on')}
+function stopFall(){fallOff();if(cur==='piano'){releaseAll();build()}}
+function fallLoop(n){if(!fall.on)return;fall.raf=requestAnimationFrame(fallLoop);let dt=Math.min(.05,(n-fall.last)/1000);fall.last=n;
+  if(window.praying||document.hidden||document.querySelector('.ov.on'))dt=0;
+  const nx=fall.notes.find(o=>!o.st);
+  if(fall.lvl==='little'&&nx)fall.t=Math.min(fall.t+dt,nx.t);else fall.t+=dt;
+  if(fall.lvl==='big')fall.notes.forEach(o=>{if(!o.st&&fall.t>o.t+.22){o.st=3;fall.miss++;renderSongBar()}});
+  drawFall();
+  if(fall.lvl==='little'){const w=nx&&fall.t>=nx.t-.001?nx.k:-1;if(w!==fall.waitK)fallWait(w)}
+  if(!nx&&fall.t>fall.end+.5)fallDone()}
+function fallWait(k){const g=fall.geo;fall.waitK=k;clearTimeout(fall.hintT);hideHint();if(!g)return;g.keyEls.forEach(e=>e.classList.remove('tgt'));
+  if(k<0)return;const el=g.keyEls[k];el.classList.add('tgt');fall.hintT=setTimeout(()=>{if(fall.on&&fall.waitK===k)showHint(el)},3500)}
+function drawFall(){const g=fall.geo;if(!g)return;const v=g.hitY/fallLead();
+  fall.notes.forEach((o,i)=>{let b=g.bars.get(i);const bot=g.hitY-(o.t-fall.t)*v,h=Math.max(16,o.len*v*.86),top=bot-h,show=(o.st===0||o.st===3)&&bot>0&&top<g.hitY;
+    if(!show){if(b)b.style.display='none';return}
+    if(!b){const q=g.kx[o.k];b=mk('div','fbar',g.lanes,`<b>${lab(o.k)}</b>`);b.style.left=(q.x+q.w*.1)+'px';b.style.width=(q.w*.8)+'px';b.style.setProperty('--k',RAINBOW[o.k]);b.style.setProperty('--fs',Math.min(30,Math.max(14,q.w*.34))+'px');g.bars.set(i,b)}
+    b.style.display='';b.style.height=h+'px';b.style.transform=`translateY(${top}px)`;b.classList.toggle('miss',o.st===3)})}
+function fallHit(k){const g=fall.geo;if(!g)return;let o=null,dt=0;
+  if(fall.lvl==='little'){const nx=fall.notes.find(q=>!q.st);if(nx&&nx.k===k&&fall.t>=nx.t-.6){o=nx;o.st=1;fall.perfect++}}
+  else{for(const q of fall.notes){if(q.st||q.k!==k)continue;const d=Math.abs(q.t-fall.t);if(d<.22){o=q;dt=d;break}if(q.t>fall.t+.22)break}
+    if(o){if(dt<.1){o.st=1;fall.perfect++}else{o.st=2;fall.good++}}}
+  if(!o)return;const q=g.kx[k],cx=q.x+q.w/2;
+  const fx=mk('div','popfx',g.lanes);fx.style.left=cx+'px';fx.style.top=(g.hitY-6)+'px';fx.style.setProperty('--k',RAINBOW[k]);let h='<b></b>';for(let j=0;j<10;j++){const a=-j/9*3.14,d=rnd(30,60);h+=`<i style="--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px"></i>`}fx.innerHTML=h;setTimeout(()=>fx.remove(),700);
+  if(fall.lvl==='big'){const f=mk('div','ffb',g.lanes,t(o.st===1?'perfect':'good'));f.style.left=cx+'px';setTimeout(()=>f.remove(),800)}
+  renderSongBar();drawFall()}
+function fallDone(){const i=fall.si,k=SONGS[i].k,n=fall.notes.length,{perfect:p,good:gd,miss:m}=fall,big=fall.lvl==='big';
+  const acc=(p+gd*.6)/n,stars=big?(acc>=.85?3:acc>=.6?2:1):3;fallStars[k]=Math.max(fallStars[k]||0,stars);store.set('fallStars',fallStars);
+  fallOff();if(cur==='piano'){releaseAll();build()}
+  SND.fanfare();confetti();setTimeout(()=>voice('win',t('sayAlh')),600);
+  $('#winSub').textContent=big?tf('fallDone',{s:t('S')[k],p,g:gd,m}):tf('winSub',{s:t('S')[k]});$('#winFact').textContent=nextFact();lastSong=i;lastMode='fall';winStars(stars);ov('win',true)}
+
 /* listen: Baby Mo plays the song first */
 let demoT=[];
 $('#listenBtn').onclick=()=>{if(!song)return;ac();if(song.demo){stopDemo();return}
@@ -549,4 +609,4 @@ setInterval(()=>tickPrayer(Date.now()),1000);
 applyLang();ov('bism',true);setTimeout(()=>tickPrayer(Date.now()),300);
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* for automated tests only */
-window.__bmm={INST,SONGS,parseSong,openInst,startSong,get song(){return song},bal,goHome};
+window.__bmm={INST,SONGS,parseSong,openInst,startSong,startFall,fall,get song(){return song},bal,goHome};
