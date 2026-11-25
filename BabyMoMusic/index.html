@@ -121,7 +121,8 @@ img{-webkit-user-drag:none}
 .chords button.mn.on{background:#9b4bf0;color:#fff;-webkit-text-stroke:1.5px rgba(74,44,20,.7)}
 #stage{flex:1;min-height:0;position:relative;margin:0 calc(8px + var(--safeR)) calc(8px + var(--safeB)) calc(8px + var(--safeL));touch-action:none}
 .inst{position:absolute;transform-origin:50% 50%}
-.inst.port .up{transform:rotate(var(--lr,-90deg));transition:transform .35s}
+.inst.port .up{transform:rotate(-90deg)}
+.inst.port.land .up{transform:none}
 .hi{position:relative;font-style:normal}
 .hi::before{content:"";position:absolute;left:50%;top:-.3em;width:.26em;height:.26em;margin-left:-.13em;border-radius:50%;background:#fff;border:2px solid rgba(74,44,20,.85)}
 [data-h]{touch-action:none}

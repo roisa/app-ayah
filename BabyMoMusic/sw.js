@@ -1,5 +1,5 @@
 // Baby Mo Music: offline support. Bump VERSION when files change.
-const VERSION='bmm-v2';
+const VERSION='bmm-v3';
 const ASSETS=[
   './','index.html','game.js','manifest.webmanifest','art/b-close.webp','art/b-home.webp','art/b-play.webp','art/b-restart.webp','art/btn-green.webp','art/btn-yellow.webp',
   'art/mo-dua.webp','art/mo-head-happy.webp','art/mo-head.webp','art/mo-jump.webp','art/mo-point.webp','art/mo-win.webp','art/mo.webp','art/p-window.webp','art/star.webp',

@@ -146,7 +146,9 @@ const lab=i=>i<7?String(i+1):'<i class="hi">1</i>';
 function mk(tag,cls,parent,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;if(parent)parent.appendChild(e);return e}
 function box(e,x,y,w,h){e.style.left=x+'px';e.style.top=y+'px';e.style.width=w+'px';e.style.height=h+'px';return e}
 /* every instrument is laid out sideways (landscape); in portrait the whole instrument turns a quarter turn */
-function canon(st,W,H,ccw){const port=H>W*1.05,L=port?H:W,S=port?W:H,el=mk('div','inst'+(port?' port':''),st);box(el,(W-L)/2,(H-S)/2,L,S);if(port)el.style.transform=`rotate(${ccw?-90:90}deg)`;return{el,L,S,port}}
+/* land: a landscape-only instrument (piano, xylophone, glockenspiel). In portrait it lies sideways as a whole,
+   numbers included, so it reads right when the phone is turned. Other instruments keep their numbers upright. */
+function canon(st,W,H,ccw,land){const port=H>W*1.05,L=port?H:W,S=port?W:H,el=mk('div','inst'+(port?' port':'')+(land?' land':''),st);box(el,(W-L)/2,(H-S)/2,L,S);if(port)el.style.transform=`rotate(${ccw?-90:90}deg)`;return{el,L,S,port}}
 const star8=(fill,stroke)=>`<svg viewBox="-50 -50 100 100"><g fill="${fill}" stroke="${stroke}" stroke-width="5" stroke-linejoin="round"><rect x="-32" y="-32" width="64" height="64"/><rect x="-32" y="-32" width="64" height="64" transform="rotate(45)"/></g><circle r="14" fill="${stroke}" opacity=".35"/></svg>`;
 const noteSvg=c=>`<svg viewBox="0 0 40 40"><path d="M15 7 L33 3 L33 26 A6.5 5 0 1 1 28 21.5 L28 11 L20 12.8 L20 30 A6.5 5 0 1 1 15 25.5 Z" fill="${c}" stroke="${OUT}" stroke-width="2.6" stroke-linejoin="round"/></svg>`;
 
@@ -167,21 +169,21 @@ const ICON={
    ================================================================= */
 const INST={
  piano:{c:['#ffe36b','#ffb000'],melodic:true,glide:true,
-  build(st,W,H){const {el,L,S}=canon(st,W,H),bw=Math.min(L-6,S*2.5),bh=Math.min(S-12,bw*.66),p=box(mk('div','piano',el),(L-bw)/2,(S-bh)/2,bw,bh),sh=bh*.19;
+  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),bw=Math.min(L-6,S*2.5),bh=Math.min(S-12,bw*.66),p=box(mk('div','piano',el),(L-bw)/2,(S-bh)/2,bw,bh),sh=bh*.19;
    const s=mk('div','strip',p,`<span class="grill"></span><span class="pn">Baby <i>Mo</i></span><span class="dots">${['#00aa0c','#ff6a00','#ff5fa8'].map(c=>`<i style="background:${c}"></i>`).join('')}</span>`);s.style.height=sh+'px';s.style.fontSize=Math.max(14,sh*.48)+'px';
    const k=mk('div','keys',p);k.style.top=sh+'px';const kw=(bw*.94)/8;
    SCALE.forEach((d,i)=>{const w=mk('div','wk',k,`<span class="up">${lab(i)}</span>`);w.dataset.h=1;w.dataset.m=60+d;w.dataset.i=i;w.dataset.c=RAINBOW[i];w.style.setProperty('--k',RAINBOW[i]);w.style.setProperty('--fs',Math.min(34,Math.max(16,kw*.42))+'px')});
    [[0,61],[1,63],[3,66],[4,68],[5,70]].forEach(([j,m])=>{const b=mk('div','bk',k);b.dataset.h=1;b.dataset.m=m;b.dataset.c='#9b8ab0';b.style.left=`calc(${(j+1)*12.5}% - 3.6%)`;b.style.width='7.2%'})},
   hit(el){SND.piano(+el.dataset.m)}},
  xylo:{c:['#8be27f','#1fae3c'],melodic:true,glide:true,
-  build(st,W,H){const {el,L,S}=canon(st,W,H),gw=Math.min(L-10,S*2.2),x0=(L-gw)/2,gap=gw*.02,bwid=(gw-gap*7)/8,maxH=Math.min(S*.94,gw*.55),minH=maxH*.6,cy=S/2;
+  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),gw=Math.min(L-10,S*2.2),x0=(L-gw)/2,gap=gw*.02,bwid=(gw-gap*7)/8,maxH=Math.min(S*.94,gw*.55),minH=maxH*.6,cy=S/2;
    const rail=(off)=>{const xa=x0-gap,ya=cy+off*maxH,xb=x0+gw+gap,yb=cy+off*minH,len=Math.hypot(xb-xa,yb-ya),r=mk('div','rail',el);box(r,xa,ya-S*.025,len,S*.05);r.style.transformOrigin='0 50%';r.style.transform=`rotate(${Math.atan2(yb-ya,xb-xa)}rad)`};
    rail(-.3);rail(.3);
    SCALE.forEach((d,i)=>{const h=maxH-(maxH-minH)*i/7,b=box(mk('div','bar8',el,`<span class="up">${lab(i)}</span>`),x0+i*(bwid+gap),cy-h/2,bwid,h);b.dataset.h=1;b.dataset.m=72+d;b.dataset.i=i;b.dataset.c=RAINBOW[i];b.style.setProperty('--k',RAINBOW[i]);b.style.setProperty('--fs',Math.min(34,Math.max(16,bwid*.4))+'px');
      const sc=bwid*.22;[.2,.8].forEach(f=>{const s=mk('span','sc',b);s.style.top=(h*f-sc/2-4)+'px'})})},
   hit(el){SND.xylo(+el.dataset.m)}},
  glock:{c:['#9ff0e6','#19b3a6'],melodic:true,glide:true,
-  build(st,W,H){const {el,L,S}=canon(st,W,H),cw=Math.min(L-8,S*2.3),chh=Math.min(S-10,cw*.6),cs=box(mk('div','gcase',el),(L-cw)/2,(S-chh)/2,cw,chh);
+  build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),cw=Math.min(L-8,S*2.3),chh=Math.min(S-10,cw*.6),cs=box(mk('div','gcase',el),(L-cw)/2,(S-chh)/2,cw,chh);
    [.24,.76].forEach(f=>box(mk('span','felt',cs),cw*.03,chh*f-chh*.03,cw*.94,chh*.06));
    const pad=cw*.05,gw=cw-pad*2,gap=gw*.025,bw=(gw-gap*7)/8,maxH=chh*.88,minH=maxH*.62;
    SCALE.forEach((d,i)=>{const h=maxH-(maxH-minH)*i/7,b=box(mk('div','gbar',cs,`<span class="dot" style="background:${RAINBOW[i]}"></span><span class="up">${lab(i)}</span>`),pad-5+i*(bw+gap),(chh-h)/2-5,bw,h);
@@ -290,7 +292,7 @@ function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggl
 function ov(id,on){$('#'+id).classList.toggle('on',on)}
 let toastT;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2400)}
 function renderHome(){$('#tiles').innerHTML=ORDER.map(k=>`<button class="tile" data-k="${k}" style="--c1:${INST[k].c[0]};--c2:${INST[k].c[1]}"><span class="in">${ICON[k]}<span class="lbl">${t('I')[k]}</span></span></button>`).join('')}
-$('#tiles').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b||b.classList.contains('pick'))return;askMotion();ac();SND.tap();goFull();b.classList.add('pick');setTimeout(()=>{b.classList.remove('pick');openInst(b.dataset.k)},330)});
+$('#tiles').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b||b.classList.contains('pick'))return;ac();SND.tap();goFull();b.classList.add('pick');setTimeout(()=>{b.classList.remove('pick');openInst(b.dataset.k)},330)});
 function renderTitle(){$('#ttl').innerHTML=ICON[cur]+`<b>${t('I')[cur]}</b>`}
 function openInst(k){cur=k;show('play');renderTitle();stopSong();
   $('#songsBtn').hidden=!INST[k].melodic;$('#dancer').src='art/mo.webp';
@@ -316,14 +318,6 @@ function releaseAll(){[...PT.keys()].forEach(unpress);PT.clear();if(cur&&INST[cu
 stage.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault()},{passive:false});
 document.addEventListener('dblclick',e=>e.preventDefault());
 ['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));
-/* In portrait the instrument lies sideways. The numbers on it turn to stay upright for whoever holds the phone,
-   also when the screen rotation lock is on (read from the motion sensor; nothing is stored or sent). */
-let upAng=0,motionAsked=false;
-function scrAngle(){try{if(screen.orientation&&typeof screen.orientation.angle==='number')return screen.orientation.angle}catch(e){}return +window.orientation||0}
-function setLR(){stage.style.setProperty('--lr',(upAng-90)+'deg')}
-addEventListener('deviceorientation',e=>{if(e.beta==null||e.gamma==null||scrAngle()!==0)return;const r=Math.PI/180,b=e.beta*r,g=e.gamma*r,sx=Math.sin(g)*Math.cos(b),sy=Math.sin(b);
-  if(Math.hypot(sx,sy)<.55)return;const th=Math.atan2(-sx,sy)*180/Math.PI,d=((th-upAng+540)%360)-180;if(Math.abs(d)>60){upAng=Math.round(th/90)*90;if(upAng===-180)upAng=180;setLR()}});
-function askMotion(){if(motionAsked||innerWidth>innerHeight)return;motionAsked=true;try{const D=window.DeviceOrientationEvent;if(D&&typeof D.requestPermission==='function')D.requestPermission().catch(()=>{})}catch(e){}}
 /* keyboard (computers): 1-8 play the keys in order */
 addEventListener('keydown',e=>{if(scr!=='play'||!cur||e.repeat||document.querySelector('.ov.on'))return;const n=+e.key;if(!(n>=1&&n<=8))return;
   const els=[...stage.querySelectorAll('[data-h]')],el=stage.querySelector(`[data-i="${n-1}"]`)||els[n-1];if(!el)return;ac();const r=el.getBoundingClientRect(),id='k'+n;
