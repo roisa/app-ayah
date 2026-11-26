@@ -18,7 +18,7 @@ en:{tag:'Play Games the Islamic Way',legal:'No ads · No data collected · Works
  listenTip:'Listen to the song, then play it!',balTip:'Pop the balloons to play a song!',songDone:'MasyaAllah! You played “{s}”',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],cheerM:['How wonderful!','Glory be to Allah!','Allah is the Greatest!','May Allah bless you!'],
  fallT:'Falling Notes',fallS:'Tap the key when its bar touches it!',little:'Little',littleS:'Ages 1–4 · bars wait for you',big:'Big Kid',bigS:'Ages 5+ · keep the beat',good:'Good!',perfect:'MasyaAllah!',fallDone:'You played “{s}”: {p} perfect, {g} good, {m} missed',
- S:{farm:'Old MacDonald',twinkle:'Twinkle Little Star',lamb:'Little Lamb',row:'Row Your Boat',ode:'Ode to Joy',bridge:'London Bridge',lightly:'Lightly Row'},
+ S:{birthday:'Happy Birthday',farm:'Old MacDonald',twinkle:'Twinkle Little Star',lamb:'Little Lamb',row:'Row Your Boat',ode:'Ode to Joy',bridge:'London Bridge',lightly:'Lightly Row'},
  pray:'Time to pray',lockT:'It is time for {p}',lockB:"Let's stop for a moment and pray {p} first, at the masjid or at home. The music will wait for you.",lockWait:'The button opens in {m}',lockReady:'Done praying? Tap the button.',prayed:'I have prayed {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'It is time to pray {p}.',
  setT:'For parents',city:'City',customCity:'Custom location',wait:'Prayer pause lasts at least',today:'Prayer times today',preview:'Preview the prayer pause',method:'Kemenag RI method · Fajr 20° · Isha 18° · +2 min',nextP:'Next',
  P:{fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'},gateT:'For grown-ups',gateS:'Hold the button for 3 seconds',
@@ -32,7 +32,7 @@ id:{tag:'Bermain dengan Cara Islami',legal:'Tanpa iklan · Tanpa pengumpulan dat
  listenTip:'Dengarkan lagunya, lalu mainkan!',balTip:'Letuskan balonnya untuk memainkan lagu!',songDone:'MasyaAllah! Kamu memainkan “{s}”',
  cheer:['MasyaAllah!','SubhanAllah!','Allahu Akbar!','Barakallah!'],cheerM:['Indah sekali!','Maha Suci Allah!','Allah Maha Besar!','Semoga Allah memberkahimu!'],
  fallT:'Nada Jatuh',fallS:'Ketuk tutsnya saat baloknya menyentuh!',little:'Kecil',littleS:'Usia 1–4 · baloknya menunggu',big:'Anak Besar',bigS:'Usia 5+ · ikuti ketukan',good:'Bagus!',perfect:'MasyaAllah!',fallDone:'Kamu memainkan “{s}”: {p} sempurna, {g} bagus, {m} terlewat',
- S:{farm:'Old MacDonald',twinkle:'Kelap-Kelip Bintang',lamb:'Anak Domba',row:'Dayung Perahu',ode:'Lagu Gembira',bridge:'Jembatan London',lightly:'Perahu Kecil'},
+ S:{birthday:'Happy Birthday',farm:'Old MacDonald',twinkle:'Kelap-Kelip Bintang',lamb:'Anak Domba',row:'Dayung Perahu',ode:'Lagu Gembira',bridge:'Jembatan London',lightly:'Perahu Kecil'},
  pray:'Waktunya sholat',lockT:'Sudah masuk waktu {p}',lockB:'Berhenti sebentar, ayo sholat {p} dulu, di masjid atau di rumah. Musiknya akan menunggu.',lockWait:'Tombol terbuka dalam {m}',lockReady:'Sudah sholat? Ketuk tombolnya.',prayed:'Aku sudah sholat {p}',taq:'Taqabbalallahu minna wa minkum',sayPray:'Waktunya sholat {p}.',
  setT:'Untuk orang tua',city:'Kota',customCity:'Lokasi kustom',wait:'Jeda sholat minimal',today:'Jadwal sholat hari ini',preview:'Coba jeda sholat',method:'Metode Kemenag RI · Subuh 20° · Isya 18° · ihtiyat +2 menit',nextP:'Berikutnya',
  P:{fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya'},gateT:'Untuk orang tua',gateS:'Tahan tombol selama 3 detik',
@@ -144,7 +144,10 @@ const RAINBOW=['#ff4b4b','#ff6a00','#ffd400','#00aa0c','#19c3c0','#2f7bff','#9b4
 const SCALE=[0,2,4,5,7,9,11,12];
 const OUT='#4a2c14';
 /* key numbers in not angka: 1 2 3 4 5 6 7, and high do is 1 with a dot above */
-const lab=i=>i<7?String(i+1):'<i class="hi">1</i>';
+const lab=i=>i<0?`<i class="lo">${i+8}</i>`:i<7?String(i+1):'<i class="hi">1</i>';
+/* key index -> colour and pitch. 0-7 = do..high do; -3,-2,-1 = low sol, la, si (only on the piano, for songs that need them) */
+const colOf=i=>RAINBOW[i<0?i+7:i];
+const midiOf=(base,i)=>i<0?base-12+SCALE[i+7]:base+SCALE[i];
 function mk(tag,cls,parent,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;if(parent)parent.appendChild(e);return e}
 function box(e,x,y,w,h){e.style.left=x+'px';e.style.top=y+'px';e.style.width=w+'px';e.style.height=h+'px';return e}
 /* every instrument is laid out sideways (landscape); in portrait the whole instrument turns a quarter turn */
@@ -165,9 +168,10 @@ const INST={
      (top 181, right 470, bottom 72, left 301 px), so the speaker and buttons keep their shape when the piano is wider. */
   build(st,W,H){const {el,L,S}=canon(st,W,H,false,true),F=fall.on,A=1204/516,bw=F?L-6:Math.min(L-6,(S-12)*A),bh=F?Math.min(S*.48,bw/A):bw/A,p=box(mk('div','piano',el),(L-bw)/2,F?S-bh-4:(S-bh)/2,bw,bh);
    const z=bh/516*(F?.62:1),bT=181*z,bR=470*z,bB=72*z,bL=301*z;p.style.borderWidth=`${bT}px ${bR}px ${bB}px ${bL}px`;
-   const k=mk('div','keys',p);k.style.left=(1204*.048*z-bL)+'px';k.style.right=(1204*.048*z-bR)+'px';k.style.top=(516*.37*z-bT)+'px';k.style.bottom=(516*.16*z-bB)+'px';const kw=(bw-1204*.096*z)/8;
-   SCALE.forEach((d,i)=>{const w=mk('div','wk',k,`<span class="up">${lab(i)}</span>`);w.dataset.h=1;w.dataset.m=60+d;w.dataset.i=i;w.dataset.c=RAINBOW[i];w.style.setProperty('--k',RAINBOW[i]);w.style.setProperty('--fs',Math.min(34,Math.max(16,kw*.42))+'px')});
-   [[0,61],[1,63],[3,66],[4,68],[5,70]].forEach(([j,m])=>{const b=mk('div','bk',k);b.dataset.h=1;b.dataset.m=m;b.dataset.c='#9b8ab0';b.style.left=`calc(${(j+1)*12.5}% - 3.6%)`;b.style.width='7.2%'});
+   const k=mk('div','keys',p);k.style.left=(1204*.048*z-bL)+'px';k.style.right=(1204*.048*z-bR)+'px';k.style.top=(516*.37*z-bT)+'px';k.style.bottom=(516*.16*z-bB)+'px';const low=needLow(),ids=low?[-3,-2,-1,0,1,2,3,4,5,6,7]:[0,1,2,3,4,5,6,7],n=ids.length,kw=(bw-1204*.096*z)/n,pc=100/n;stage.dataset.low=low?1:0;
+   ids.forEach(i=>{const w=mk('div','wk'+(i<0?' low':''),k,`<span class="up">${lab(i)}</span>`);w.dataset.h=1;w.dataset.m=midiOf(60,i);w.dataset.i=i;w.dataset.c=colOf(i);w.style.setProperty('--k',colOf(i));w.style.setProperty('--fs',Math.min(34,Math.max(15,kw*.42))+'px')});
+   /* black keys sit after these white keys (positions in the row) */
+   (low?[[0,56],[1,58],[3,61],[4,63],[6,66],[7,68],[8,70]]:[[0,61],[1,63],[3,66],[4,68],[5,70]]).forEach(([j,m])=>{const b=mk('div','bk',k);b.dataset.h=1;b.dataset.m=m;b.dataset.c='#9b8ab0';b.style.left=`calc(${(j+1)*pc}% - ${pc*.29}%)`;b.style.width=(pc*.58)+'%'});
    if(F)fallGeo(el,p,k)},
   hit(el){SND.piano(+el.dataset.m)}},
  xylo:{c:['#8be27f','#1fae3c'],melodic:true,glide:true,
@@ -261,7 +265,12 @@ const SONGS=[
  /* Old MacDonald (traditional): played in F so the low notes fit the 8 keys (key 4 is do) */
  {k:'farm',ms:330,n:'3 3 3 0 1 1 0:2 5 5 4 4 3:3 0 3 3 3 0 1 1 0:2 5 5 4 4 3:2 0:.5 0:.5 3 3 3:2 0:.5 0:.5 3 3 3:2 3:.5 3:.5 3 3:.5 3:.5 3 3:.5 3:.5 3:.5 3:.5 3 3 3 3 3 0 1 1 0:2 5 5 4 4 3:4'}];
 const parseSong=s=>s.split(/\s+/).map(x=>{const [i,d]=x.split(':');return[+i,d?+d:1]});
-const SONGCOL=['#ffd400','#00aa0c','#2f7bff','#ff6a00','#ff5fa8','#9b4bf0','#19c3c0'];
+const usesLow=i=>parseSong(SONGS[i].n).some(([k])=>k<0);
+function needLow(){return !!((song&&usesLow(song.i))||(fall.on&&usesLow(fall.si)))}
+function pianoSync(){if(cur==='piano'&&(stage.dataset.low==='1')!==needLow()){releaseAll();build()}}
+/* Happy Birthday: the traditional melody (Mildred and Patty Hill, 1893), free to use; played in C with low sol, la and si (piano only) */
+SONGS.push({k:'birthday',ms:420,pic:false,n:'-3:.5 -3:.5 -2 -3 0 -1:2 -3:.5 -3:.5 -2 -3 1 0:2 -3:.5 -3:.5 4 2 0 -1 -2:2 3:.5 3:.5 2 0 1 0:3'});
+const SONGCOL=['#ffd400','#00aa0c','#2f7bff','#ff6a00','#ff5fa8','#9b4bf0','#19c3c0','#ff4b4b'];
 let done=store.get('done',{});
 
 /* =================================================================
@@ -329,18 +338,18 @@ let songsMode='song';
 function renderSongs(mode){if(mode)songsMode=mode;const F=songsMode==='fall';$('#songsTitle').textContent=t(F?'fallT':'songsT');$('#songsSub').textContent=t(F?'fallS':'songsS');
   $('#lvlSeg').hidden=!F;$('#lvlSeg').innerHTML=['little','big'].map(l=>`<button data-l="${l}" class="${fall.lvl===l?'on':''}"><img src="art/lv-${l}.webp" alt="">${t(l)}<small>${t(l+'S')}</small></button>`).join('');
   $('#slist').innerHTML=(F?'':`<button class="free" data-s="-1"><i style="--k:#00aa0c">${noteSvg('#ffff01')}</i>${t('free')}</button>`)+
-  SONGS.map((s,i)=>`<button data-s="${i}" class="${(F?fallStars[s.k]:done[s.k])?'done':''}"><i class="pic"><img src="art/s-${s.k}.webp" alt=""></i><span>${t('S')[s.k]}<small>${tf('notesN',{n:parseSong(s.n).length})}</small></span><span class="st"></span></button>`).join('')}
+  SONGS.map((s,i)=>cur!=='piano'&&usesLow(i)?'':`<button data-s="${i}" class="${(F?fallStars[s.k]:done[s.k])?'done':''}"><i class="pic">${s.pic===false?noteSvg(SONGCOL[i%SONGCOL.length]):`<img src="art/s-${s.k}.webp" alt="">`}</i><span>${t('S')[s.k]}<small>${tf('notesN',{n:parseSong(s.n).length})}</small></span><span class="st"></span></button>`).join('')}
 $('#songsBtn').onclick=()=>{SND.tap();renderSongs('song');ov('songsOv',true)};
 $('#fallBtn').onclick=()=>{SND.tap();renderSongs('fall');ov('songsOv',true)};
 $('#lvlSeg').addEventListener('click',e=>{const b=e.target.closest('[data-l]');if(!b)return;SND.tap();fall.lvl=b.dataset.l;store.set('fallLvl',fall.lvl);renderSongs()});
 $('#songsClose').onclick=()=>ov('songsOv',false);
 $('#slist').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;SND.tap();ov('songsOv',false);const i=+b.dataset.s;if(songsMode==='fall'){startFall(i);return}fallOff();if(i<0)stopSong();else startSong(i)});
-function startSong(i){fallOff();stopSong();const s=SONGS[i];song={i,notes:parseSong(s.n),pos:0,demo:false};$('#play').classList.add('song');$('#songBar').classList.add('on');
+function startSong(i){fallOff();stopSong();const s=SONGS[i];song={i,notes:parseSong(s.n),pos:0,demo:false};pianoSync();$('#play').classList.add('song');$('#songBar').classList.add('on');
   $('#listenBtn').hidden=false;$('#stopSong').hidden=false;renderSongBar();setTarget();toast(t('listenTip'))}
 function renderSongBar(){if(fall.on){$('#songName').textContent=t('S')[SONGS[fall.si].k];$('#songProg').style.width=(fall.notes.filter(o=>o.st).length/fall.notes.length*100)+'%';return}
   if(cur==='balloons'){$('#songName').textContent=t('S')[SONGS[bal.si].k];$('#songProg').style.width=(bal.pos/bal.notes.length*100)+'%';return}
   if(!song)return;$('#songName').textContent=t('S')[SONGS[song.i].k];$('#songProg').style.width=(song.pos/song.notes.length*100)+'%'}
-function stopSong(){stopDemo();song=null;clearTarget();$('#play').classList.remove('song');$('#songBar').classList.remove('on')}
+function stopSong(){stopDemo();song=null;clearTarget();$('#play').classList.remove('song');$('#songBar').classList.remove('on');pianoSync()}
 $('#stopSong').onclick=()=>{SND.tap();if(fall.on)stopFall();else stopSong()};
 function clearTarget(){document.querySelectorAll('.tgt').forEach(e=>e.classList.remove('tgt'));tstar.style.display='none';hideHint();clearTimeout(idleH)}
 function targetEl(){return song&&stage.querySelector(`[data-i="${song.notes[song.pos][0]}"]`)}
@@ -360,16 +369,16 @@ $('#winMore').onclick=()=>{SND.tap();ov('win',false);renderSongs(lastMode);ov('s
    Falling Notes (piano): coloured bars fall onto the keys; tap the key when its bar touches it.
    Little: the bar stops on its key and waits, no failing. Big Kid: the bars keep the beat; perfect, good or missed.
    ================================================================= */
-const fall={on:false,lvl:store.get('fallLvl','little'),si:0,notes:[],t:0,end:0,raf:0,last:0,geo:null,perfect:0,good:0,miss:0,waitK:-1,hintT:0};
+const fall={on:false,lvl:store.get('fallLvl','little'),si:0,notes:[],t:0,end:0,raf:0,last:0,geo:null,perfect:0,good:0,miss:0,waitK:null,hintT:0};
 let fallStars=store.get('fallStars',{});
 const fallLead=()=>fall.lvl==='big'?2:2.6;
 /* where the lanes and keys are, in the piano's own (unturned) coordinates */
 function fallGeo(el,p,k){const x0=p.offsetLeft+p.clientLeft+k.offsetLeft,hitY=p.offsetTop+p.clientTop+k.offsetTop,keys=[...k.querySelectorAll('.wk')],lanes=box(mk('div','lanes',el),x0,0,k.offsetWidth,hitY);
-  const kx=keys.map(w=>({x:w.offsetLeft,w:w.offsetWidth}));kx.forEach((q,i)=>{if(i)box(mk('i','ln',lanes),q.x-3,0,2,hitY)});
-  fall.geo={lanes,hitY,kx,keyEls:keys,bars:new Map()};fall.waitK=-1}
+  const kx={},keyEls={};keys.forEach((w,n)=>{const i=+w.dataset.i;kx[i]={x:w.offsetLeft,w:w.offsetWidth};keyEls[i]=w;if(n)box(mk('i','ln',lanes),w.offsetLeft-3,0,2,hitY)});
+  fall.geo={lanes,hitY,kx,keyEls,bars:new Map()};fall.waitK=null}
 function startFall(i){stopSong();releaseAll();const s=SONGS[i],beat=s.ms/1000*(fall.lvl==='big'?1:1.2);let tt=0;
   fall.notes=parseSong(s.n).map(([k,d])=>{const o={k,d,t:tt,len:d*beat,st:0};tt+=d*beat;return o});
-  Object.assign(fall,{on:true,si:i,t:-fallLead()-.5,end:tt,perfect:0,good:0,miss:0,last:performance.now(),waitK:-1});
+  Object.assign(fall,{on:true,si:i,t:-fallLead()-.5,end:tt,perfect:0,good:0,miss:0,last:performance.now(),waitK:null});
   $('#play').classList.add('song');$('#songBar').classList.add('on');$('#listenBtn').hidden=true;$('#stopSong').hidden=false;
   build();renderSongBar();cancelAnimationFrame(fall.raf);fall.raf=requestAnimationFrame(fallLoop)}
 function fallOff(){if(!fall.on)return;fall.on=false;cancelAnimationFrame(fall.raf);clearTimeout(fall.hintT);hideHint();fall.geo=null;$('#play').classList.remove('song');$('#songBar').classList.remove('on')}
@@ -380,21 +389,21 @@ function fallLoop(n){if(!fall.on)return;fall.raf=requestAnimationFrame(fallLoop)
   if(fall.lvl==='little'&&nx)fall.t=Math.min(fall.t+dt,nx.t);else fall.t+=dt;
   if(fall.lvl==='big')fall.notes.forEach(o=>{if(!o.st&&fall.t>o.t+.22){o.st=3;fall.miss++;renderSongBar()}});
   drawFall();
-  if(fall.lvl==='little'){const w=nx&&fall.t>=nx.t-.001?nx.k:-1;if(w!==fall.waitK)fallWait(w)}
+  if(fall.lvl==='little'){const w=nx&&fall.t>=nx.t-.001?nx.k:null;if(w!==fall.waitK)fallWait(w)}
   if(!nx&&fall.t>fall.end+.5)fallDone()}
-function fallWait(k){const g=fall.geo;fall.waitK=k;clearTimeout(fall.hintT);hideHint();if(!g)return;g.keyEls.forEach(e=>e.classList.remove('tgt'));
-  if(k<0)return;const el=g.keyEls[k];el.classList.add('tgt');fall.hintT=setTimeout(()=>{if(fall.on&&fall.waitK===k)showHint(el)},3500)}
+function fallWait(k){const g=fall.geo;fall.waitK=k;clearTimeout(fall.hintT);hideHint();if(!g)return;Object.values(g.keyEls).forEach(e=>e.classList.remove('tgt'));
+  if(k===null)return;const el=g.keyEls[k];el.classList.add('tgt');fall.hintT=setTimeout(()=>{if(fall.on&&fall.waitK===k)showHint(el)},3500)}
 function drawFall(){const g=fall.geo;if(!g)return;const v=g.hitY/fallLead();
   fall.notes.forEach((o,i)=>{let b=g.bars.get(i);const bot=g.hitY-(o.t-fall.t)*v,h=Math.max(16,o.len*v*.86),top=bot-h,show=(o.st===0||o.st===3)&&bot>0&&top<g.hitY;
     if(!show){if(b)b.style.display='none';return}
-    if(!b){const q=g.kx[o.k];b=mk('div','fbar',g.lanes,`<b>${lab(o.k)}</b>`);b.style.left=(q.x+q.w*.1)+'px';b.style.width=(q.w*.8)+'px';b.style.setProperty('--k',RAINBOW[o.k]);b.style.setProperty('--fs',Math.min(30,Math.max(14,q.w*.34))+'px');g.bars.set(i,b)}
+    if(!b){const q=g.kx[o.k];b=mk('div','fbar',g.lanes,`<b>${lab(o.k)}</b>`);b.style.left=(q.x+q.w*.1)+'px';b.style.width=(q.w*.8)+'px';b.style.setProperty('--k',colOf(o.k));b.style.setProperty('--fs',Math.min(30,Math.max(14,q.w*.34))+'px');g.bars.set(i,b)}
     b.style.display='';b.style.height=h+'px';b.style.transform=`translateY(${top}px)`;b.classList.toggle('miss',o.st===3)})}
 function fallHit(k){const g=fall.geo;if(!g)return;let o=null,dt=0;
   if(fall.lvl==='little'){const nx=fall.notes.find(q=>!q.st);if(nx&&nx.k===k&&fall.t>=nx.t-.6){o=nx;o.st=1;fall.perfect++}}
   else{for(const q of fall.notes){if(q.st||q.k!==k)continue;const d=Math.abs(q.t-fall.t);if(d<.22){o=q;dt=d;break}if(q.t>fall.t+.22)break}
     if(o){if(dt<.1){o.st=1;fall.perfect++}else{o.st=2;fall.good++}}}
   if(!o)return;const q=g.kx[k],cx=q.x+q.w/2;
-  const fx=mk('div','popfx',g.lanes);fx.style.left=cx+'px';fx.style.top=(g.hitY-6)+'px';fx.style.setProperty('--k',RAINBOW[k]);let h='<b></b>';for(let j=0;j<10;j++){const a=-j/9*3.14,d=rnd(30,60);h+=`<i style="--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px"></i>`}fx.innerHTML=h;setTimeout(()=>fx.remove(),700);
+  const fx=mk('div','popfx',g.lanes);fx.style.left=cx+'px';fx.style.top=(g.hitY-6)+'px';fx.style.setProperty('--k',colOf(k));let h='<b></b>';for(let j=0;j<10;j++){const a=-j/9*3.14,d=rnd(30,60);h+=`<i style="--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px"></i>`}fx.innerHTML=h;setTimeout(()=>fx.remove(),700);
   if(fall.lvl==='big'){const f=mk('div','ffb',g.lanes,t(o.st===1?'perfect':'good'));f.style.left=cx+'px';setTimeout(()=>f.remove(),800)}
   renderSongBar();drawFall()}
 function fallDone(){const i=fall.si,k=SONGS[i].k,n=fall.notes.length,{perfect:p,good:gd,miss:m}=fall,big=fall.lvl==='big';
@@ -434,7 +443,7 @@ function popBalloon(el){const b=bal.list.find(v=>v.el===el);if(!b)return;const r
   el.remove();SND.pop();const fx=mk('div','popfx',stage);fx.style.left=cx+'px';fx.style.top=cy+'px';fx.style.setProperty('--k',el.dataset.c);let h='<b></b>';
   for(let i=0;i<12;i++){const a=i/12*6.283,d=rnd(40,80);h+=`<i style="--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px"></i>`}fx.innerHTML=h;setTimeout(()=>fx.remove(),700);
   if(b.star){SND.sparkle();confetti(.35)}
-  const [i]=bal.notes[bal.pos];setTimeout(()=>SND.kalimba(72+SCALE[i]),30);bal.pos++;renderSongBar();
+  const [i]=bal.notes[bal.pos];setTimeout(()=>SND.kalimba(midiOf(72,i)),30);bal.pos++;renderSongBar();
   if(bal.pos>=bal.notes.length){const k=SONGS[bal.si].k;done[k]=1;store.set('done',done);setTimeout(()=>{SND.fanfare();confetti();cheer();toast(tf('songDone',{s:t('S')[k]}))},500);
     const nx=(bal.si+1)%SONGS.length;store.set('balSong',nx);setTimeout(()=>balSong(nx),900)}}
 

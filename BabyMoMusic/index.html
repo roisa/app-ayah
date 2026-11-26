@@ -117,6 +117,10 @@ img{-webkit-user-drag:none}
 .inst.port .up{transform:rotate(-90deg)}
 .inst.port.land .up{transform:none}
 .hi{position:relative;font-style:normal}
+.lo{position:relative;font-style:normal}
+.lo::after{content:"";position:absolute;left:50%;bottom:-.32em;width:.26em;height:.26em;margin-left:-.13em;border-radius:50%;background:#fff;border:2px solid rgba(74,44,20,.85)}
+.wk.low{filter:saturate(.75) brightness(.92)}
+.wk.low.down{filter:brightness(1.05)}
 .hi::before{content:"";position:absolute;left:50%;top:-.3em;width:.26em;height:.26em;margin-left:-.13em;border-radius:50%;background:#fff;border:2px solid rgba(74,44,20,.85)}
 [data-h]{touch-action:none}
 @media (max-width:520px) and (orientation:portrait){.ttl b{display:none}.ttl{padding-right:4px}#play.song .ttl,#play.song #songsBtn,#play.song #fallBtn{display:none}}
@@ -466,6 +470,6 @@ img.lmasjid{display:block;width:auto;height:110px;margin:6px auto 0;animation:bo
 </div></div>
 
 <div id="toast"></div>
-<script src="game.js?v=7"></script>
+<script src="game.js?v=8"></script>
 </body>
 </html>
